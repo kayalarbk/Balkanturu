@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dört Sınır, Beş Gün — Balkan Rotası</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap');
+
+  :root{
+    --stone:#eee7da;
+    --stone-dark:#dcd2bf;
+    --ink:#241f1a;
+    --adriatic:#1f4e5f;
+    --adriatic-deep:#12333f;
+    --terracotta:#b5502e;
+    --moss:#5c6b4f;
+    --paper:#f7f3ea;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .mono{
+    font-family:'Space Mono',monospace;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:92vh;
+    background:var(--adriatic-deep);
+    color:var(--stone);
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:2.2rem 6vw 3rem;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(ellipse at 15% 15%, rgba(181,80,46,0.35), transparent 45%),
+      radial-gradient(ellipse at 85% 75%, rgba(92,107,79,0.35), transparent 50%);
+    pointer-events:none;
+  }
+  .hero-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    position:relative;
+    z-index:2;
+  }
+  .brand{
+    font-family:'Space Mono',monospace;
+    font-size:0.78rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    opacity:0.8;
+  }
+  .countries-tag{
+    font-family:'Space Mono',monospace;
+    font-size:0.72rem;
+    text-align:right;
+    line-height:1.6;
+    opacity:0.75;
+  }
+  .hero-main{
+    position:relative;
+    z-index:2;
+    margin-top:2rem;
+  }
+  .hero-eyebrow{
+    font-family:'Space Mono',monospace;
+    font-size:0.85rem;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    margin-bottom:1.2rem;
+  }
+  .hero h1{
+    font-size:clamp(2.8rem, 8vw, 6.5rem);
+    line-height:0.95;
+    max-width:14ch;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:#d8935f;
+  }
+  .hero-sub{
+    max-width:46ch;
+    margin-top:1.6rem;
+    font-size:1.05rem;
+    line-height:1.6;
+    color:#cdd6d3;
+  }
+
+  /* route line at bottom of hero */
+  .route-strip{
+    position:relative;
+    z-index:2;
+    margin-top:3rem;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-top:1.6rem;
+    border-top:1px solid rgba(238,231,218,0.25);
+  }
+  .route-node{
+    font-family:'Space Mono',monospace;
+    font-size:0.75rem;
+    text-align:center;
+    flex:1;
+    position:relative;
+    color:#cdd6d3;
+  }
+  .route-node .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--terracotta);
+    margin:0 auto 0.5rem;
+  }
+  .route-node .country{
+    display:block;
+    font-size:0.65rem;
+    opacity:0.6;
+    margin-top:2px;
+  }
+  .route-line{
+    position:absolute;
+    top:5px;
+    left:0; right:0;
+    height:1px;
+    background:rgba(238,231,218,0.3);
+    z-index:0;
+  }
+  .route-strip{position:relative;}
+
+  /* ---------- INTRO NOTE ---------- */
+  .note{
+    max-width:900px;
+    margin:5rem auto;
+    padding:0 6vw;
+  }
+  .note p{
+    font-size:1.15rem;
+    line-height:1.75;
+    color:#4a4238;
+  }
+  .note .flag{
+    color:var(--terracotta);
+    font-family:'Space Mono',monospace;
+    font-size:0.8rem;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    display:inline-block;
+    margin-bottom:1rem;
+    border-bottom:2px solid var(--terracotta);
+    padding-bottom:0.3rem;
+  }
+
+  /* ---------- DAYS ---------- */
+  .days{
+    max-width:1100px;
+    margin:0 auto;
+    padding:2rem 6vw 6rem;
+  }
+  .day{
+    display:grid;
+    grid-template-columns:120px 1fr;
+    gap:2.5rem;
+    padding:3.5rem 0;
+    border-top:1px solid var(--stone-dark);
+    position:relative;
+  }
+  .day:last-child{border-bottom:1px solid var(--stone-dark);}
+  .day-num{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:4.5rem;
+    line-height:1;
+    color:var(--stone-dark);
+  }
+  .day-meta{
+    font-family:'Space Mono',monospace;
+    font-size:0.7rem;
+    color:var(--moss);
+    margin-top:0.8rem;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+  }
+  .day-title{
+    font-size:1.9rem;
+    margin-bottom:0.3rem;
+  }
+  .day-country{
+    display:inline-block;
+    font-family:'Space Mono',monospace;
+    font-size:0.68rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--paper);
+    background:var(--adriatic);
+    padding:0.25rem 0.6rem;
+    border-radius:2px;
+    margin-bottom:1rem;
+  }
+  .day-country.bosnia{background:#6b4a3a;}
+  .day-country.serbia{background:#8a3b3b;}
+  .day-country.montenegro{background:var(--adriatic);}
+  .day-country.albania{background:var(--moss);}
+
+  .day-body p{
+    color:#4a4238;
+    line-height:1.7;
+    margin-bottom:1rem;
+    font-size:1rem;
+  }
+  .stops{
+    list-style:none;
+    margin-top:1.2rem;
+    display:grid;
+    gap:0.7rem;
+  }
+  .stops li{
+    padding-left:1.4rem;
+    position:relative;
+    color:#3a332b;
+    font-size:0.95rem;
+    line-height:1.5;
+  }
+  .stops li::before{
+    content:"—";
+    position:absolute;
+    left:0;
+    color:var(--terracotta);
+  }
+  .drive-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:0.4rem;
+    font-family:'Space Mono',monospace;
+    font-size:0.72rem;
+    color:var(--adriatic-deep);
+    background:var(--stone);
+    padding:0.35rem 0.7rem;
+    border-radius:20px;
+    margin-top:1.3rem;
+  }
+
+  /* ---------- LOGISTICS ---------- */
+  .logistics{
+    background:var(--adriatic-deep);
+    color:var(--stone);
+    padding:5rem 6vw;
+  }
+  .logistics-inner{
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .logistics h2{
+    font-size:clamp(2rem,4vw,3rem);
+    margin-bottom:2.5rem;
+    max-width:16ch;
+  }
+  .grid-3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:2.5rem;
+  }
+  .lg-card{
+    border-top:1px solid rgba(238,231,218,0.3);
+    padding-top:1.3rem;
+  }
+  .lg-card .mono{
+    font-size:0.7rem;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--terracotta);
+    display:block;
+    margin-bottom:0.8rem;
+  }
+  .lg-card p, .lg-card li{
+    font-size:0.92rem;
+    line-height:1.65;
+    color:#cdd6d3;
+  }
+  .lg-card ul{
+    list-style:none;
+  }
+  .lg-card li{margin-bottom:0.4rem;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    text-align:center;
+    padding:3rem 6vw;
+    font-family:'Space Mono',monospace;
+    font-size:0.72rem;
+    color:#8a8072;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+  }
+
+  @media(max-width:760px){
+    .day{grid-template-columns:1fr; gap:0.8rem;}
+    .day-num{font-size:3rem;}
+    .grid-3{grid-template-columns:1fr; gap:2rem;}
+    .route-strip{flex-wrap:wrap; gap:1.2rem 0;}
+    .route-node{flex:0 0 33%;}
+    .hero-top{flex-direction:column; gap:1rem;}
+    .countries-tag{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-top">
+    <div class="brand">Balkan Rotası / Beş Gün</div>
+    <div class="countries-tag">Bosna-Hersek → Sırbistan<br>Karadağ → Arnavutluk</div>
+  </div>
+
+  <div class="hero-main">
+    <div class="hero-eyebrow">Vizesiz · İki Kişilik · Yol Rotası</div>
+    <h1>Dört sınır,<br><em>beş gün.</em></h1>
+    <p class="hero-sub">Belgrad'ın gri nehir ışığından Saraybosna'nın minare ve çan kulesi karışımına, Kotor Körfezi'nin dağ gölgelerinden Tiran'ın rengarenk sokaklarına — tek bir rotada dört ülke.</p>
+  </div>
+
+  <div class="route-strip">
+    <div class="route-line"></div>
+    <div class="route-node"><span class="dot"></span>Belgrad<span class="country">Sırbistan</span></div>
+    <div class="route-node"><span class="dot"></span>Saraybosna<span class="country">Bosna-Hersek</span></div>
+    <div class="route-node"><span class="dot"></span>Mostar<span class="country">Bosna-Hersek</span></div>
+    <div class="route-node"><span class="dot"></span>Kotor<span class="country">Karadağ</span></div>
+    <div class="route-node"><span class="dot"></span>Tiran<span class="country">Arnavutluk</span></div>
+  </div>
+</section>
+
+<div class="note">
+  <span class="flag">Rota Notu</span>
+  <p>Dört ülkeyi beş günde gezmek hızlı bir tempo demek — her durak bir "her şeyi görme" turu değil, bir kesit. Yol toplamda yaklaşık 900 km ve günün büyük bölümü araçta geçebilir. Daha rahat bir tempo istersen bu rotayı 7 güne yayıp Belgrad veya Tiran'ı çıkarabiliriz. Aşağıdaki plan araç kiralama veya özel transfer varsayımıyla kurulmuştur; tüm ülkeler Türk vatandaşları için vizesizdir.</p>
+</div>
+
+<div class="days">
+
+  <div class="day">
+    <div>
+      <div class="day-num">01</div>
+      <div class="day-meta">Gün Birinci</div>
+    </div>
+    <div class="day-body">
+      <span class="day-country serbia">Sırbistan</span>
+      <h3 class="day-title">Belgrad</h3>
+      <p>İstanbul'dan direkt uçuşla varış. Öğleden sonra Kalemegdan Kalesi'nden Sava ve Tuna nehirlerinin birleştiği manzarayı izleyerek başlangıç yapın. Akşam Skadarlija'nın taş döşeli sokaklarında, canlı müzik eşliğinde Sırp mutfağından akşam yemeği çiftler için sıcak bir giriş olur.</p>
+      <ul class="stops">
+        <li>Kalemegdan Kalesi ve Askeri Müze</li>
+        <li>Knez Mihailova yaya caddesi</li>
+        <li>Skadarlija bohem mahallesi — akşam yemeği</li>
+      </ul>
+      <span class="drive-tag">Konaklama: Belgrad merkez</span>
+    </div>
+  </div>
+
+  <div class="day">
+    <div>
+      <div class="day-num">02</div>
+      <div class="day-meta">Gün İkinci</div>
+    </div>
+    <div class="day-body">
+      <span class="day-country bosnia">Bosna-Hersek</span>
+      <h3 class="day-title">Saraybosna</h3>
+      <p>Sabah erken Saraybosna'ya hareket. Şehre varınca Başçarşı'nın Osmanlı dokusunda kaybolun, Sebilj Çeşmesi ve Latin Köprüsü'nü gezin. Gün batımında Sarı Tabya'dan (Yellow Fortress) şehrin çatılarına bakan manzara, çiftler için rotanın en akılda kalıcı anlarından biri.</p>
+      <ul class="stops">
+        <li>Başçarşı ve Sebilj Çeşmesi</li>
+        <li>Latin Köprüsü, Gazi Hüsrev Bey Camii</li>
+        <li>Sarı Tabya — gün batımı manzarası</li>
+      </ul>
+      <span class="drive-tag">Belgrad → Saraybosna, ~5 sa 30 dk</span>
+    </div>
+  </div>
+
+  <div class="day">
+    <div>
+      <div class="day-num">03</div>
+      <div class="day-meta">Gün Üçüncü</div>
+    </div>
+    <div class="day-body">
+      <span class="day-country bosnia">Bosna-Hersek</span>
+      <h3 class="day-title">Mostar → Karadağ'a Geçiş</h3>
+      <p>Sabah Mostar'a hareket. Ünlü Mostar Köprüsü'nü, köprüden atlayışları izleyin ve eski çarşıda bakırcı dükkanlarına göz atın. Öğleden sonra Kotor'a doğru dağlık ama etkileyici bir sürüşle Karadağ sınırını geçin.</p>
+      <ul class="stops">
+        <li>Stari Most (Mostar Köprüsü) ve eski çarşı</li>
+        <li>Koski Mehmed Paşa Camii'nden köprü manzarası</li>
+        <li>Neretva Nehri kıyısında öğle yemeği</li>
+      </ul>
+      <span class="drive-tag">Saraybosna → Mostar 2 sa 30 dk · Mostar → Kotor 4 sa</span>
+    </div>
+  </div>
+
+  <div class="day">
+    <div>
+      <div class="day-num">04</div>
+      <div class="day-meta">Gün Dördüncü</div>
+    </div>
+    <div class="day-body">
+      <span class="day-country montenegro">Karadağ</span>
+      <h3 class="day-title">Kotor, Perast &amp; Tiran'a Geçiş</h3>
+      <p>Sabah Kotor'un dağlarla çevrili körfezinde eski şehir surlarını gezin. Ardından küçük Perast köyüne uğrayıp Our Lady of the Rocks adacığına kısa bir tekne turu yapın — rota boyunca en romantik durak burası. Öğleden sonra Tiran'a geçiş.</p>
+      <ul class="stops">
+        <li>Kotor Eski Şehir surları ve kale tırmanışı</li>
+        <li>Perast — Our Lady of the Rocks tekne turu</li>
+        <li>Tiran'a varış, akşam Blloku bölgesinde yemek</li>
+      </ul>
+      <span class="drive-tag">Kotor → Tiran, ~3 sa 30 dk</span>
+    </div>
+  </div>
+
+  <div class="day">
+    <div>
+      <div class="day-num">05</div>
+      <div class="day-meta">Gün Beşinci</div>
+    </div>
+    <div class="day-body">
+      <span class="day-country albania">Arnavutluk</span>
+      <h3 class="day-title">Tiran &amp; Dönüş</h3>
+      <p>Son sabahı Tiran'ın rengarenk bina cepheleri, Skanderbeg Meydanı ve Piramida'nın etrafında geçirin. Öğleden sonra Tiran Uluslararası Havalimanı'ndan İstanbul'a dönüş uçuşu (direkt seferler mevcut).</p>
+      <ul class="stops">
+        <li>Skanderbeg Meydanı ve Et'hem Bey Camii</li>
+        <li>Rengarenk bina cepheleri, Blloku mahallesi</li>
+        <li>Havalimanına transfer ve dönüş uçuşu</li>
+      </ul>
+      <span class="drive-tag">Tiran (TIA) → İstanbul, direkt uçuş</span>
+    </div>
+  </div>
+
+</div>
+
+<section class="logistics">
+  <div class="logistics-inner">
+    <h2>Rotayı planlarken aklında olsun</h2>
+    <div class="grid-3">
+      <div class="lg-card">
+        <span class="mono">Vize Durumu</span>
+        <p>Sırbistan, Bosna-Hersek, Karadağ ve Arnavutluk, Türk vatandaşları için vizesizdir. Yine de pasaportun geçerlilik süresini seyahat öncesi kontrol edin.</p>
+      </div>
+      <div class="lg-card">
+        <span class="mono">Ulaşım</span>
+        <p>En pratik yöntem İstanbul'dan Belgrad'a uçup Tiran'dan dönmek, aradaki mesafeleri kiralık araç veya özel transferle kat etmek. Otobüs seçenekleri de mevcut ama süreleri uzatır.</p>
+      </div>
+      <div class="lg-card">
+        <span class="mono">Tempo</span>
+        <p>Bu plan yoğun bir yol rotasıdır. Her gün ortalama 3-5 saat araçtasınız. Daha sakin bir tatil isterseniz Belgrad'ı çıkarıp 4 ülkeyi 6-7 güne yaymanızı öneririm.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  İstanbul — Belgrad — Saraybosna — Mostar — Kotor — Tiran — İstanbul
+</footer>
+
+</body>
+</html>
