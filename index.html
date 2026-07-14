@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Derin & Barış — Bosna & Karadağ</title>
+<title>Derin & Barış — Bosna & Karadağ Rotası</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap');
 
@@ -34,7 +34,7 @@
 
   /* ---------- HERO ---------- */
   .hero{
-    min-height:88vh;
+    min-height:95vh;
     background:var(--adriatic-deep);
     color:var(--stone);
     position:relative;
@@ -58,21 +58,29 @@
   }
   .brand{ font-family:'Space Mono',monospace; font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; opacity:0.85;}
   .countries-tag{ font-family:'Space Mono',monospace; font-size:0.72rem; text-align:right; line-height:1.6; opacity:0.75;}
-  .hero-main{ position:relative; z-index:2; margin-top:2rem; }
+  .hero-main{ position:relative; z-index:2; margin-top:1rem; }
   .hero-eyebrow{
     font-family:'Space Mono',monospace; font-size:0.85rem; letter-spacing:0.15em;
     text-transform:uppercase; color:#d8935f; margin-bottom:1.2rem;
   }
-  .hero h1{ font-size:clamp(2.6rem, 7.5vw, 5.8rem); line-height:0.98; max-width:16ch; }
+  .hero h1{ font-size:clamp(2.2rem, 7vw, 5.5rem); line-height:1.05; max-width:18ch; }
   .hero h1 em{ font-style:italic; color:#d8935f; }
   .hero-sub{ max-width:50ch; margin-top:1.6rem; font-size:1.05rem; line-height:1.7; color:#cdd6d3; }
   .hero-love{
-    margin-top:1.6rem; font-family:'Fraunces',serif; font-style:italic;
+    margin-top:1.2rem; font-family:'Fraunces',serif; font-style:italic;
     font-size:1.15rem; color:#f2d9c4; max-width:44ch; line-height:1.6;
   }
 
+  /* ---------- COUNTDOWN ---------- */
+  .countdown-wrapper { margin-top: 2rem; }
+  .countdown-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(238,231,218,0.7); margin-bottom: 0.8rem; display: block; }
+  .countdown { display: flex; gap: 0.8rem; }
+  .cd-box { background: rgba(31, 78, 95, 0.4); border: 1px solid rgba(238,231,218,0.2); border-radius: 6px; padding: 0.8rem 0.5rem; min-width: 65px; text-align: center; backdrop-filter: blur(4px); }
+  .cd-num { display: block; font-family: 'Space Mono', monospace; font-size: 1.4rem; font-weight: 700; color: #fff; }
+  .cd-text { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: #cdd6d3; margin-top: 0.3rem; }
+
   .route-strip{
-    position:relative; z-index:2; margin-top:2.6rem; display:flex;
+    position:relative; z-index:2; margin-top:3rem; display:flex;
     align-items:center; justify-content:space-between; padding-top:1.6rem;
     border-top:1px solid rgba(238,231,218,0.25);
   }
@@ -82,24 +90,24 @@
   .route-line{ position:absolute; top:5px; left:0; right:0; height:1px; background:rgba(238,231,218,0.3); z-index:0; }
 
   /* ---------- INTRO NOTE ---------- */
-  .note{ max-width:900px; margin:5rem auto 4rem; padding:0 6vw; }
+  .note{ max-width:900px; margin:4rem auto 3rem; padding:0 6vw; }
   .note .flag{
     color:var(--terracotta); font-family:'Space Mono',monospace; font-size:0.8rem; text-transform:uppercase;
     letter-spacing:0.12em; display:inline-block; margin-bottom:1rem; border-bottom:2px solid var(--terracotta); padding-bottom:0.3rem;
   }
-  .note p{ font-size:1.12rem; line-height:1.8; color:#4a4238; margin-bottom:1rem; }
-  .note p.love{ font-family:'Fraunces',serif; font-style:italic; font-size:1.2rem; color:var(--terracotta); }
+  .note p{ font-size:1.05rem; line-height:1.8; color:#4a4238; margin-bottom:1rem; }
+  .note p.love{ font-family:'Fraunces',serif; font-style:italic; font-size:1.2rem; color:var(--terracotta); margin-top: 1.5rem; }
 
   /* ---------- TIMELINE / DAYS ---------- */
-  .days{ max-width:1150px; margin:0 auto; padding:2rem 6vw 6rem; }
+  .days{ max-width:1150px; margin:0 auto; padding:1rem 6vw 4rem; }
   .day{
     display:grid; grid-template-columns:110px 1fr; gap:2.5rem;
-    padding:4rem 0; border-top:1px solid var(--stone-dark); position:relative;
+    padding:3.5rem 0; border-top:1px solid var(--stone-dark); position:relative;
   }
   .day:last-child{ border-bottom:1px solid var(--stone-dark); }
-  .day-num{ font-family:'Fraunces',serif; font-weight:700; font-size:4rem; line-height:1; color:var(--stone-dark); }
+  .day-num{ font-family:'Fraunces',serif; font-weight:700; font-size:3.5rem; line-height:1; color:var(--stone-dark); }
   .day-meta{ font-family:'Space Mono',monospace; font-size:0.68rem; color:var(--moss); margin-top:0.8rem; text-transform:uppercase; letter-spacing:0.08em; }
-  .day-title{ font-size:1.85rem; margin-bottom:0.3rem; }
+  .day-title{ font-size:1.7rem; margin-bottom:0.4rem; color: var(--ink); }
   .day-country{
     display:inline-block; font-family:'Space Mono',monospace; font-size:0.66rem; letter-spacing:0.1em;
     text-transform:uppercase; color:var(--paper); padding:0.25rem 0.6rem; border-radius:2px; margin-bottom:1rem;
@@ -107,27 +115,27 @@
   .day-country.bosnia{ background:#6b4a3a; }
   .day-country.montenegro{ background:var(--adriatic); }
 
-  .day-body p{ color:#4a4238; line-height:1.75; margin-bottom:1rem; font-size:1rem; }
+  .day-body p{ color:#4a4238; line-height:1.75; margin-bottom:1.2rem; font-size:1rem; }
   .stops{ list-style:none; margin-top:1.1rem; display:grid; gap:0.65rem; }
   .stops li{ padding-left:1.4rem; position:relative; color:#3a332b; font-size:0.95rem; line-height:1.55; }
   .stops li::before{ content:"—"; position:absolute; left:0; color:var(--terracotta); }
   .drive-tag{
     display:inline-flex; align-items:center; gap:0.4rem; font-family:'Space Mono',monospace; font-size:0.7rem;
-    color:var(--adriatic-deep); background:var(--stone); padding:0.35rem 0.7rem; border-radius:20px; margin-top:1.2rem;
+    color:var(--adriatic-deep); background:var(--stone); padding:0.4rem 0.8rem; border-radius:20px; margin-top:1.5rem;
   }
 
   .day-photo{
-    width:100%; border-radius:6px; overflow:hidden; margin:1.4rem 0 1.5rem;
-    box-shadow:0 12px 30px -14px rgba(18,51,63,0.4);
+    width:100%; border-radius:6px; overflow:hidden; margin:1.5rem 0;
+    box-shadow:0 8px 24px -10px rgba(18,51,63,0.3);
   }
   .day-photo img{ width:100%; display:block; height:340px; object-fit:cover; }
   .day-photo figcaption{
     font-family:'Space Mono',monospace; font-size:0.65rem; color:#8a8072;
-    padding:0.5rem 0.1rem 0; text-transform:uppercase; letter-spacing:0.05em;
+    padding:0.6rem 0.2rem 0; text-transform:uppercase; letter-spacing:0.05em; text-align: center;
   }
 
   .note-from-baris{
-    margin-top:1.5rem; padding:1.3rem 1.5rem; background:var(--stone);
+    margin-top:1.8rem; padding:1.3rem 1.5rem; background:var(--stone);
     border-left:3px solid var(--terracotta); border-radius:2px;
   }
   .note-from-baris .signature{
@@ -135,42 +143,36 @@
     letter-spacing:0.1em; color:var(--terracotta); margin-bottom:0.5rem; display:block;
   }
   .note-from-baris p{
-    font-family:'Fraunces',serif; font-style:italic; font-size:1.08rem; color:#3a332b; line-height:1.65; margin:0;
+    font-family:'Fraunces',serif; font-style:italic; font-size:1.05rem; color:#3a332b; line-height:1.65; margin:0;
   }
-
-  /* ---------- LOGISTICS ---------- */
-  .logistics{ background:var(--adriatic-deep); color:var(--stone); padding:5rem 6vw; }
-  .logistics-inner{ max-width:1100px; margin:0 auto; }
-  .logistics h2{ font-size:clamp(2rem,4vw,3rem); margin-bottom:2.5rem; max-width:18ch; }
-  .grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:2.5rem; }
-  .lg-card{ border-top:1px solid rgba(238,231,218,0.3); padding-top:1.3rem; }
-  .lg-card .mono{ font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:#d8935f; display:block; margin-bottom:0.8rem; }
-  .lg-card p, .lg-card li{ font-size:0.92rem; line-height:1.65; color:#cdd6d3; }
-  .lg-card ul{ list-style:none; }
-  .lg-card li{ margin-bottom:0.4rem; }
 
   /* ---------- CLOSING ---------- */
   .closing{
-    max-width:700px; margin:0 auto; padding:6rem 6vw; text-align:center;
+    max-width:700px; margin:0 auto; padding:4rem 6vw 5rem; text-align:center;
   }
   .closing .mono{ font-size:0.72rem; text-transform:uppercase; letter-spacing:0.15em; color:var(--terracotta); }
   .closing h2{ font-size:clamp(1.8rem,4vw,2.6rem); margin:1.2rem 0 1.5rem; }
   .closing p{ font-family:'Fraunces',serif; font-style:italic; font-size:1.2rem; line-height:1.75; color:#4a4238; }
 
   footer{
-    text-align:center; padding:3rem 6vw; font-family:'Space Mono',monospace; font-size:0.7rem;
+    text-align:center; padding:2rem 6vw 4rem; font-family:'Space Mono',monospace; font-size:0.7rem;
     color:#8a8072; text-transform:uppercase; letter-spacing:0.1em;
   }
 
+  /* ---------- MOBILE OPTIMIZATION ---------- */
   @media(max-width:760px){
-    .day{ grid-template-columns:1fr; gap:0.8rem; }
-    .day-num{ font-size:3rem; }
-    .grid-3{ grid-template-columns:1fr; gap:2rem; }
+    .hero { min-height: 100vh; padding: 2rem 5vw; }
+    .hero h1 { font-size: 2.3rem; }
+    .day{ grid-template-columns:1fr; gap:0.5rem; padding: 3rem 0; }
+    .day-num{ font-size:2.8rem; margin-bottom: 0.5rem; }
     .route-strip{ flex-wrap:wrap; gap:1.2rem 0; }
     .route-node{ flex:0 0 33%; }
     .hero-top{ flex-direction:column; gap:1rem; }
     .countries-tag{ text-align:left; }
-    .day-photo img{ height:220px; }
+    .day-photo img{ height:240px; }
+    .countdown { justify-content: space-between; gap: 0.4rem; }
+    .cd-box { min-width: auto; flex: 1; padding: 0.6rem 0.3rem; }
+    .cd-num { font-size: 1.2rem; }
   }
 </style>
 </head>
@@ -183,10 +185,19 @@
   </div>
 
   <div class="hero-main">
-    <div class="hero-eyebrow">Cuma Uçuşu · Çarşamba Akşamı Dönüş</div>
-    <h1>Sana bir<br><em>rota hazırladım.</em></h1>
-    <p class="hero-sub">Saraybosna'nın taş sokaklarından Kotor Körfezi'nin dağlarla çevrili sularına kadar, seninle yürümek istediğim her yeri buraya koydum.</p>
-    <p class="hero-love">Bu sefer harita üstünde değil, gerçekten elini tutarak.</p>
+    <div class="hero-eyebrow">Balkanlara Kaçış</div>
+    <h1>Sana özel<br><em>bir rota.</em></h1>
+    <p class="hero-sub">Geç oldu ama senin mutluluğun için her şey çok güzel olmalı. Saraybosna'nın tarihi dokusundan Kotor'un nefes kesici fiyortlarına uzanan, ince ince işlenmiş bir Balkan masalı hazırladım bize.</p>
+    
+    <div class="countdown-wrapper">
+      <span class="countdown-label">Buluşmamıza Kalan Zaman</span>
+      <div class="countdown">
+        <div class="cd-box"><span class="cd-num" id="days">00</span><span class="cd-text">Gün</span></div>
+        <div class="cd-box"><span class="cd-num" id="hours">00</span><span class="cd-text">Saat</span></div>
+        <div class="cd-box"><span class="cd-num" id="minutes">00</span><span class="cd-text">Dakika</span></div>
+        <div class="cd-box"><span class="cd-num" id="seconds">00</span><span class="cd-text">Saniye</span></div>
+      </div>
+    </div>
   </div>
 
   <div class="route-strip">
@@ -201,8 +212,8 @@
 
 <div class="note">
   <span class="flag">Rotayı Neden Böyle Kurdum</span>
-  <p>Dört ülke yerine sadece ikisini seçtim: Bosna-Hersek ve Karadağ. Sebebi basit — birbirine yakınlar, yolda değil seninle vakit geçirmekte kalalım istedim. Cuma sabahı uçup Saraybosna'da başlıyoruz, Mostar üzerinden Karadağ'a geçiyoruz, Çarşamba akşamı da İstanbul'a döneceğiz. Toplam altı gün, acele etmeden.</p>
-  <p class="love">Her durağı senin sevdiğin şeyleri düşünerek seçtim.</p>
+  <p>Avrupa'nın en karakteristik iki coğrafyasını seçtim: Bosna-Hersek ve Karadağ. Cuma sabahı Doğu ile Batı'nın kusursuzca harmanlandığı Saraybosna'da kültürel bir keşifle başlayıp, UNESCO korumasındaki Mostar üzerinden Adriyatik'in incisi Karadağ kıyılarına uzanacağız. Çarşamba akşamı da İstanbul'a döneceğiz. Sadece altı gün ama her saati özenle planlandı.</p>
+  <p class="love">Daha önce defalarca hayalini kurduğumuz o sokakları, şimdi el ele gezme vakti.</p>
 </div>
 
 <div class="days">
@@ -214,18 +225,18 @@
     </div>
     <div class="day-body">
       <span class="day-country bosnia">Bosna-Hersek</span>
-      <h3 class="day-title">Varış & Başçarşı</h3>
-      <p>Sabah uçuşuyla Saraybosna'ya iniyoruz. Otele bırakıp hemen Başçarşı'ya, Sebilj Çeşmesi'nin etrafındaki güvercinlere karışıyoruz. Akşam da Sarı Tabya'dan şehrin ışıklarını izleyeceğiz.</p>
+      <h3 class="day-title">Kesişim Noktası: Başçarşı</h3>
+      <p>Sabah uçuşumuzun ardından şehre iniyoruz. Saraybosna, Osmanlı'nın zarif mimarisiyle Avusturya-Macaristan İmparatorluğu'nun heybetli yapılarının aynı sokakta buluştuğu nadir şehirlerden. İlk işimiz Başçarşı'nın otantik atmosferine karışmak ve tarihi Sebilj Çeşmesi etrafında bu ruhu hissetmek olacak. Akşam ise tüm şehri altın rengi ışıklar altında izlemek için Sarı Tabya'ya çıkıyoruz.</p>
       <figure class="day-photo">
         <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sarajevo-bascarsija%20at%20night1.JPG" alt="Saraybosna Başçarşı gece">
-        <figcaption>Başçarşı, Saraybosna</figcaption>
+        <figcaption>Başçarşı'nın Akşam Işıkları</figcaption>
       </figure>
       <ul class="stops">
-        <li>Sebilj Çeşmesi ve Başçarşı sokakları</li>
-        <li>Gazi Hüsrev Bey Camii çevresi</li>
-        <li>Sarı Tabya — akşam, şehir manzarası</li>
+        <li>Tarihi Sebilj Çeşmesi ve Başçarşı Meydanı</li>
+        <li>16. Yüzyıl eseri Gazi Hüsrev Bey Camii ve Külliyesi</li>
+        <li>Sarı Tabya'dan panoramik gün batımı ve şehir manzarası</li>
       </ul>
-      <span class="drive-tag">Konaklama: Başçarşı çevresi</span>
+      <span class="drive-tag">Konaklama: Başçarşı çevresi, Tarihi Yarımada</span>
       <div class="note-from-baris">
         <span class="signature">Barış'tan</span>
         <p>İlk akşamı özellikle Sarı Tabya'da bitirmek istedim. Yorgun olacağız biliyorum ama o manzarayı ilk gece görmemiz gerekiyordu.</p>
@@ -240,17 +251,17 @@
     </div>
     <div class="day-body">
       <span class="day-country bosnia">Bosna-Hersek</span>
-      <h3 class="day-title">Saraybosna'yı Yavaşça Gezmek</h3>
-      <p>Bugün acelemiz yok. Latin Köprüsü'nden başlayıp şehir müzesine, sonra da bakırcı dükkanlarının olduğu sokaklara. Öğleden sonra bir kahve molası — Bosna kahvesi seni de bulaştıracak eminim.</p>
+      <h3 class="day-title">Saraybosna'nın Saklı Yüzü</h3>
+      <p>Bugün tarihin akışını değiştiren sokaklarda ağır adımlarla yürüyoruz. Birinci Dünya Savaşı'nın başladığı yer olan Latin Köprüsü'nü ziyaret ettikten sonra Bakırcılar Çarşısı'nın çekiç sesleri eşliğinde el yapımı eserleri inceleyeceğiz. Şehrin dokusunu tam anlamıyla yaşamak için otantik bir avluda közde pişen geleneksel Bosna kahvesi molası vereceğiz.</p>
       <ul class="stops">
-        <li>Latin Köprüsü ve Saraybosna Müzesi</li>
-        <li>Bakırcılar Çarşısı, el yapımı hediyelikler</li>
-        <li>Geleneksel Bosna kahvesi molası</li>
+        <li>Tarihi Latin Köprüsü ve Saraybosna Müzesi</li>
+        <li>Kazandžiluk (Bakırcılar Çarşısı) sokak keşfi</li>
+        <li>Geleneksel Bosna kahvesi ve yerel lezzetler molası</li>
       </ul>
-      <span class="drive-tag">Tüm gün Saraybosna içinde, yürüyerek</span>
+      <span class="drive-tag">Tüm gün Saraybosna içinde, yürüyerek keşif</span>
       <div class="note-from-baris">
         <span class="signature">Barış'tan</span>
-        <p>Bu günü boş bıraktım demeliyim aslında — nereye canımız isterse oraya gideceğiz. Programsız bir gün de bazen en güzelidir.</p>
+        <p>Bu günü bilerek biraz boş bıraktım. Bir yerlere yetişme telaşı olmadan, sadece o an nereye canımız isterse oraya gitmek için. Programsız bir gün de bazen en güzelidir.</p>
       </div>
     </div>
   </div>
@@ -262,21 +273,21 @@
     </div>
     <div class="day-body">
       <span class="day-country bosnia">Bosna-Hersek</span>
-      <h3 class="day-title">Mostar & Kotor'a Hareket</h3>
-      <p>Sabah erken Mostar'a hareket. Stari Most'un üzerinde durup köprüden atlayışları izleyeceğiz, sonra Neretva kıyısında öğle yemeği. Öğleden sonra dağlık ama muhteşem manzaralı bir sürüşle Karadağ sınırını geçip Kotor'a varıyoruz.</p>
+      <h3 class="day-title">Neretva'dan Adriyatik'e Geçiş</h3>
+      <p>Sabah erken saatlerde rotamızı Mostar'a çeviriyoruz. Zümrüt yeşili Neretva Nehri'nin iki yakasını birleştiren, Mimar Sinan'ın öğrencisi Hayreddin tarafından inşa edilen efsanevi Stari Most (Mostar Köprüsü) bizi bekliyor. Köprünün taş sokaklarında kaybolup nehri izledikten sonra, dağların arasından kıvrılan büyüleyici bir kara yolu yolculuğuyla sınır değiştiriyor ve Karadağ'ın fiyortları andıran Kotor Körfezi'ne giriş yapıyoruz.</p>
       <figure class="day-photo">
         <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Stari%20most%20panorama.jpg" alt="Mostar Stari Most köprüsü">
-        <figcaption>Stari Most, Mostar</figcaption>
+        <figcaption>Neretva Nehri ve Stari Most</figcaption>
       </figure>
       <ul class="stops">
-        <li>Stari Most ve eski çarşı</li>
-        <li>Neretva Nehri kıyısında öğle yemeği</li>
-        <li>Kotor'a akşamüzeri varış</li>
+        <li>UNESCO Dünya Mirası Stari Most ve eski çarşı</li>
+        <li>Neretva Nehri kıyısında dinlence ve öğle yemeği</li>
+        <li>Büyüleyici manzaralar eşliğinde Karadağ hududunu geçiş</li>
       </ul>
-      <span class="drive-tag">Saraybosna → Mostar 2 sa 30 dk · Mostar → Kotor 4 sa</span>
+      <span class="drive-tag">Saraybosna → Mostar (2.5 Saat) · Mostar → Kotor (4 Saat)</span>
       <div class="note-from-baris">
         <span class="signature">Barış'tan</span>
-        <p>O köprünün üzerinde elini tutup durmak istiyorum, sadece bir dakikalığına bile olsa. Uzun bir yol günü olacak ama söz, değecek.</p>
+        <p>O tarihi köprünün üzerinde elini tutup durmak istiyorum, sadece bir dakikalığına bile olsa. Uzun bir yol günü olacak ama söz veriyorum, manzaralar buna değecek.</p>
       </div>
     </div>
   </div>
@@ -288,21 +299,21 @@
     </div>
     <div class="day-body">
       <span class="day-country montenegro">Karadağ</span>
-      <h3 class="day-title">Kotor Eski Şehri</h3>
-      <p>Bugün tamamen Kotor'a ayrılıyor. Sabah eski şehir surlarının arasında kaybolalım, öğleden sonra da kale tırmanışına çıkalım — yorucu ama tepeden görünen körfez manzarası buna değer.</p>
+      <h3 class="day-title">Kotor: Zamanın Durduğu Körfez</h3>
+      <p>Günün tamamı Avrupa'nın en iyi korunmuş Orta Çağ şehirlerinden biri olan Kotor'a ait. Venedik mimarisinin hakim olduğu labirent gibi dar sokaklarda, eski taş evlerin ve palazzoların arasında gezeceğiz. Öğleden sonra ise San Giovanni Kalesi'ne tırmanışımız başlıyor; yukarıdan tüm körfezin dağlarla kucaklaşmasını izlemek, nefes kesici bir doğa olayı.</p>
       <figure class="day-photo">
         <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kotor%20and%20Boka%20kotorska%20-%20view%20from%20city%20wall.jpg" alt="Kotor Körfezi surlardan manzara">
-        <figcaption>Kotor Körfezi, sur duvarlarından</figcaption>
+        <figcaption>Kotor Körfezi, San Giovanni Surlarından</figcaption>
       </figure>
       <ul class="stops">
-        <li>Kotor Eski Şehir sokakları ve meydanı</li>
-        <li>Kale surlarına tırmanış</li>
-        <li>Gün batımında körfez manzarası</li>
+        <li>St. Tryphon Katedrali ve Kotor Eski Şehir Meydanları</li>
+        <li>San Giovanni Kalesi surlarına panoramik tırmanış</li>
+        <li>Körfeze karşı romantik gün batımı</li>
       </ul>
-      <span class="drive-tag">Tüm gün Kotor içinde, yürüyerek</span>
+      <span class="drive-tag">Tüm gün Kotor, yürüyerek</span>
       <div class="note-from-baris">
         <span class="signature">Barış'tan</span>
-        <p>Tırmanış biraz zor olabilir ama en tepede oturup nefeslenirken sana bakınca, bütün yorgunluğun boşa gitmediğini anlayacaksın.</p>
+        <p>Kaleye çıkarken biraz yorulacağız biliyorum ama en tepede oturup nefeslenirken rüzgarı hissedip sana baktığımda, bütün yorgunluğun boşa gitmediğini anlayacaksın.</p>
       </div>
     </div>
   </div>
@@ -314,25 +325,21 @@
     </div>
     <div class="day-body">
       <span class="day-country montenegro">Karadağ</span>
-      <h3 class="day-title">Perast & Budva</h3>
-      <p>Sabah küçük Perast köyüne gidip Our Lady of the Rocks adacığına kısa bir tekne turu yapıyoruz — bu rotanın en özel durağı olacak. Öğleden sonra Budva'ya geçip eski şehri ve sahili gezelim.</p>
+      <h3 class="day-title">Barok Zarafeti Perast ve Hareketli Budva</h3>
+      <p>Sabah denizcilerin ve kaptanların tarihi köyü Perast'a geçiyoruz. Buradan küçük bir tekneye atlayıp denizin ortasına insan eliyle inşa edilmiş mistik Our Lady of the Rocks adacığına ulaşıyoruz. Öğleden sonra ise rotamız Karadağ'ın Riviera'sı sayılan Budva. 2500 yıllık geçmişiyle Adriyatik'in en eski yerleşimlerinden olan Budva Stari Grad'ı (Eski Şehir) keşfedip akşam sahil şeridinde deniz kokusuyla yemeğimizi yiyeceğiz.</p>
       <figure class="day-photo">
         <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kotor%20area%20Our%20Lady%20of%20the%20Rocks.JPG" alt="Perast Our Lady of the Rocks adası">
-        <figcaption>Our Lady of the Rocks, Perast</figcaption>
-      </figure>
-      <figure class="day-photo">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/View%20over%20the%20Old%20Town%20of%20Budva%20from%20the%20Citadel.jpg" alt="Budva eski şehir kaleden manzara">
-        <figcaption>Budva Eski Şehir, kaleden</figcaption>
+        <figcaption>Our Lady of the Rocks Adacığı, Perast</figcaption>
       </figure>
       <ul class="stops">
-        <li>Perast — Our Lady of the Rocks tekne turu</li>
-        <li>Budva Eski Şehir ve kale</li>
-        <li>Sahilde akşam yemeği</li>
+        <li>Tarihi Perast köyü sokakları ve Barok mimarisi</li>
+        <li>Our Lady of the Rocks (Kayaların Leydisi) tekne ziyareti</li>
+        <li>Budva Eski Şehir surları ve sahil yürüyüşü</li>
       </ul>
-      <span class="drive-tag">Kotor → Perast 20 dk · Perast → Budva 30 dk</span>
+      <span class="drive-tag">Kotor → Perast (20 dk) · Perast → Budva (30 dk)</span>
       <div class="note-from-baris">
         <span class="signature">Barış'tan</span>
-        <p>O küçük adaya çıktığımızda dilek tutma geleneği varmış, duydum. Ne dileyeceğimi şimdiden biliyorum aslında.</p>
+        <p>O küçük adaya çıktığımızda dilek tutma geleneği varmış. Gözlerimi kapattığımda ne dileyeceğimi şimdiden çok iyi biliyorum.</p>
       </div>
     </div>
   </div>
@@ -344,52 +351,51 @@
     </div>
     <div class="day-body">
       <span class="day-country montenegro">Karadağ</span>
-      <h3 class="day-title">Son Sabah & Dönüş</h3>
-      <p>Son sabahı acele etmeden geçirelim — sahilde son bir kahve, belki biraz alışveriş. Öğleden sonra Tivat'a geçip akşam İstanbul'a dönüyoruz.</p>
+      <h3 class="day-title">Adriyatik'e Veda</h3>
+      <p>Son sabahımızda saat kurmuyoruz. Budva sahillerinde rahatlatıcı bir kahve içip, taş sokaklardaki butiklerden ufak tefek hatıralar bakacağız. Öğleden sonra deniz kıyısındaki modern Tivat şehrine doğru kısa bir yolculuk yapıp, uçağımıza geçiyoruz. Biriktirdiğimiz onlarca anıyla İstanbul'a dönüyoruz.</p>
       <ul class="stops">
-        <li>Serbest sabah — sahil ya da son alışveriş</li>
-        <li>Tivat Havalimanı'na transfer</li>
-        <li>Akşam İstanbul'a dönüş uçuşu</li>
+        <li>Serbest zaman — Sahil keyfi ve hediyelik alışverişi</li>
+        <li>Tivat Havalimanı'na sahil şeridinden transfer</li>
+        <li>Akşam saatlerinde İstanbul'a dönüş uçuşu</li>
       </ul>
-      <span class="drive-tag">Budva → Tivat 25 dk · Akşam dönüş uçuşu</span>
+      <span class="drive-tag">Budva → Tivat (25 dk) · Akşam Dönüş Uçuşu</span>
       <div class="note-from-baris">
         <span class="signature">Barış'tan</span>
-        <p>Uçakta yanımda otururken, muhtemelen ikimiz de aynı şeyi düşüneceğiz: keşke bir gün daha olsaydı. Ama bu sadece ilk seyahatimiz.</p>
+        <p>Uçakta yanımda otururken, muhtemelen ikimiz de aynı şeyi düşüneceğiz: keşke bir gün daha olsaydı. Ama hiç üzülme, bu sadece ilk seyahatimiz.</p>
       </div>
     </div>
   </div>
 
 </div>
 
-<section class="logistics">
-  <div class="logistics-inner">
-    <h2>Pratik notlar</h2>
-    <div class="grid-3">
-      <div class="lg-card">
-        <span class="mono">Vize Durumu</span>
-        <p>Bosna-Hersek ve Karadağ, Türk vatandaşları için vizesizdir. Pasaport geçerlilik süresini yine de kontrol edelim.</p>
-      </div>
-      <div class="lg-card">
-        <span class="mono">Ulaşım</span>
-        <p>Saraybosna'ya uçup Tivat'tan dönmek en pratik seçenek. Şehirler arası geçişler kiralık araç veya özel transferle.</p>
-      </div>
-      <div class="lg-card">
-        <span class="mono">Tempo</span>
-        <p>Altı gün, iki ülke — her yerde en az bir tam gün kalıyoruz. Acele yok, birlikte yürümeye vakit var.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <div class="closing">
-  <span class="mono">Son Not</span>
-  <h2>Bu rotayı senin için çıkardım.</h2>
-  <p>Her duraktan önce "burada onun elini tutmak isterim" diye düşündüm. Umarım sen de benim kadar heyecanlısındır — hazırlan, Cuma çabuk gelecek.</p>
+  <span class="mono">Son Söz</span>
+  <h2>Bu rotayı tamamen ikimiz için hazırladım.</h2>
+  <p>Her duraktan önce "burada onun elini tutmak isterim" diye düşündüm. Geç oldu ama senin için, bizim için her şeyin en güzeli olmalıydı. Umarım sen de benim kadar heyecanlısındır — valizini hazırla, 24 Temmuz çok yakında.</p>
 </div>
 
 <footer>
-  Saraybosna — Mostar — Kotor — Perast — Budva
+  Derin & Barış · Bosna Hersek — Karadağ Rotası
 </footer>
 
-</body>
-</html>
+<script>
+  // Hedef tarih: 24 Temmuz 2026, Saat 00:00:00
+  const targetDate = new Date("July 24, 2026 00:00:00").getTime();
+
+  const updateCountdown = setInterval(function() {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    if (distance < 0) {
+      clearInterval(updateCountdown);
+      document.getElementById("days").innerText = "00";
+      document.getElementById("hours").innerText = "00";
+      document.getElementById("minutes").innerText = "00";
+      document.getElementById("seconds").innerText = "00";
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds =Normally I can help with things like this, but I don't seem to have access to that content. You can try again or ask me for something else.
