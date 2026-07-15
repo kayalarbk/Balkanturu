@@ -3,399 +3,637 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Derin & Barış — Bosna & Karadağ Rotası</title>
+<title>Derin & Barış — Balkan Kaçamağı ✈</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap');
+:root{
+  --night:#1B2A4A;
+  --dusk:#2C3E6B;
+  --coral:#FF7B54;
+  --gold:#FFC66B;
+  --cream:#FFF7EC;
+  --sea:#2E8C9E;
+  --seadeep:#1F6B7A;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--night);
+  color:var(--cream);
+  overflow-x:hidden;
+}
+h1,h2,h3,.display{font-family:'Fraunces',serif}
 
-  :root{
-    --stone:#eee7da;
-    --stone-dark:#dcd2bf;
-    --ink:#241f1a;
-    --adriatic:#1f4e5f;
-    --adriatic-deep:#12333f;
-    --terracotta:#b5502e;
-    --moss:#5c6b4f;
-    --paper:#f7f3ea;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Inter',sans-serif;
-    -webkit-font-smoothing:antialiased;
-  }
-  h1,h2,h3,.display{
-    font-family:'Fraunces',serif;
-    font-weight:700;
-    letter-spacing:-0.01em;
-  }
-  .mono{ font-family:'Space Mono',monospace; }
+/* ============ HERO ============ */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background:linear-gradient(180deg,#141F3A 0%,#1B2A4A 30%,#4A3A66 60%,#B85C6E 82%,#FF7B54 100%);
+  overflow:hidden;
+  padding:2rem 1.5rem 6rem;
+}
+.sun{
+  position:absolute;
+  bottom:6%;
+  left:50%;
+  transform:translateX(-50%);
+  width:180px;height:180px;
+  border-radius:50%;
+  background:radial-gradient(circle,#FFE3A3 0%,#FFC66B 45%,#FF7B54 100%);
+  box-shadow:0 0 90px 40px rgba(255,198,107,.45);
+  animation:sunFloat 7s ease-in-out infinite;
+}
+@keyframes sunFloat{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-14px)}}
+.sea-hero{
+  position:absolute;bottom:0;left:0;right:0;height:14%;
+  background:linear-gradient(180deg,rgba(46,140,158,.85),var(--seadeep));
+}
+.wave{
+  position:absolute;bottom:0;left:0;width:200%;height:60px;
+  background-repeat:repeat-x;
+  background-size:50% 100%;
+  opacity:.6;
+  animation:waveMove 9s linear infinite;
+}
+.wave.w1{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 60'%3E%3Cpath d='M0 30 Q150 0 300 30 T600 30 T900 30 T1200 30 V60 H0 Z' fill='%232E8C9E'/%3E%3C/svg%3E");bottom:36px}
+.wave.w2{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 60'%3E%3Cpath d='M0 30 Q150 60 300 30 T600 30 T900 30 T1200 30 V60 H0 Z' fill='%231F6B7A'/%3E%3C/svg%3E");animation-duration:13s;bottom:12px}
+@keyframes waveMove{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.stars{position:absolute;inset:0;pointer-events:none}
+.star{position:absolute;width:3px;height:3px;border-radius:50%;background:#FFF7EC;animation:twinkle 3s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.15}50%{opacity:.9}}
+.hero-eyebrow{
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  font-size:.78rem;
+  color:var(--gold);
+  margin-bottom:1.2rem;
+  animation:fadeUp 1s .2s both;
+}
+.hero h1{
+  font-size:clamp(2.6rem,8vw,5.4rem);
+  font-weight:700;
+  line-height:1.05;
+  animation:fadeUp 1s .45s both;
+}
+.hero h1 em{font-style:italic;font-weight:500;color:var(--gold)}
+.hero-sub{
+  margin-top:1.4rem;
+  font-size:clamp(1rem,2.6vw,1.25rem);
+  color:rgba(255,247,236,.85);
+  max-width:34ch;
+  animation:fadeUp 1s .7s both;
+}
+.hero-dates{
+  margin-top:2rem;
+  display:inline-flex;
+  gap:.8rem;
+  align-items:center;
+  background:rgba(255,247,236,.12);
+  backdrop-filter:blur(6px);
+  border:1px solid rgba(255,247,236,.25);
+  border-radius:999px;
+  padding:.7rem 1.5rem;
+  font-size:.95rem;
+  animation:fadeUp 1s .9s both;
+}
+.plane-fly{
+  position:absolute;
+  top:16%;
+  left:-120px;
+  font-size:2.2rem;
+  animation:flyAcross 14s linear infinite;
+}
+@keyframes flyAcross{0%{left:-120px;top:18%}100%{left:110%;top:8%}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+.scroll-hint{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,247,236,.7);
+  animation:bounceHint 2s ease-in-out infinite;
+  z-index:2;
+}
+@keyframes bounceHint{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
 
-  /* ---------- HERO ---------- */
-  .hero{
-    min-height:95vh;
-    background:var(--adriatic-deep);
-    color:var(--stone);
-    position:relative;
-    overflow:hidden;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    padding:2.2rem 6vw 3rem;
-  }
-  .hero::before{
-    content:"";
-    position:absolute; inset:0;
-    background:
-      radial-gradient(ellipse at 15% 15%, rgba(181,80,46,0.35), transparent 45%),
-      radial-gradient(ellipse at 85% 75%, rgba(92,107,79,0.35), transparent 50%);
-    pointer-events:none;
-  }
-  .hero-top{
-    display:flex; justify-content:space-between; align-items:flex-start;
-    position:relative; z-index:2;
-  }
-  .brand{ font-family:'Space Mono',monospace; font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; opacity:0.85;}
-  .countries-tag{ font-family:'Space Mono',monospace; font-size:0.72rem; text-align:right; line-height:1.6; opacity:0.75;}
-  .hero-main{ position:relative; z-index:2; margin-top:1rem; }
-  .hero-eyebrow{
-    font-family:'Space Mono',monospace; font-size:0.85rem; letter-spacing:0.15em;
-    text-transform:uppercase; color:#d8935f; margin-bottom:1.2rem;
-  }
-  .hero h1{ font-size:clamp(2.2rem, 7vw, 5.5rem); line-height:1.05; max-width:18ch; }
-  .hero h1 em{ font-style:italic; color:#d8935f; }
-  .hero-sub{ max-width:50ch; margin-top:1.6rem; font-size:1.05rem; line-height:1.7; color:#cdd6d3; }
-  .hero-love{
-    margin-top:1.2rem; font-family:'Fraunces',serif; font-style:italic;
-    font-size:1.15rem; color:#f2d9c4; max-width:44ch; line-height:1.6;
-  }
+/* ============ ROUTE ============ */
+.route-section{
+  padding:5.5rem 1.5rem 3rem;
+  text-align:center;
+  background:var(--night);
+  position:relative;
+}
+.section-eyebrow{
+  letter-spacing:.3em;text-transform:uppercase;font-size:.75rem;color:var(--coral);margin-bottom:1rem;
+}
+.route-section h2{font-size:clamp(1.9rem,5vw,3rem);margin-bottom:.6rem}
+.route-section p{color:rgba(255,247,236,.75);max-width:46ch;margin:0 auto}
+.route-map{max-width:680px;margin:2.5rem auto 0;width:100%}
+.route-path{
+  stroke-dasharray:1000;
+  stroke-dashoffset:1000;
+}
+.route-map.visible .route-path{animation:drawPath 3.5s ease forwards}
+@keyframes drawPath{to{stroke-dashoffset:0}}
+.city-dot{opacity:0}
+.route-map.visible .city-dot{animation:popIn .5s ease forwards}
+.route-map.visible .city-dot:nth-of-type(1){animation-delay:.4s}
+.route-map.visible .d2{animation-delay:1.6s!important}
+.route-map.visible .d3{animation-delay:2.9s!important}
+@keyframes popIn{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+.route-plane{opacity:0}
+.route-map.visible .route-plane{
+  opacity:1;
+  animation:planeAlong 3.5s ease forwards;
+}
+@keyframes planeAlong{
+  0%{offset-distance:0%}
+  100%{offset-distance:100%}
+}
 
-  /* ---------- COUNTDOWN ---------- */
-  .countdown-wrapper { margin-top: 2rem; }
-  .countdown-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(238,231,218,0.7); margin-bottom: 0.8rem; display: block; }
-  .countdown { display: flex; gap: 0.8rem; }
-  .cd-box { background: rgba(31, 78, 95, 0.4); border: 1px solid rgba(238,231,218,0.2); border-radius: 6px; padding: 0.8rem 0.5rem; min-width: 65px; text-align: center; backdrop-filter: blur(4px); }
-  .cd-num { display: block; font-family: 'Space Mono', monospace; font-size: 1.4rem; font-weight: 700; color: #fff; }
-  .cd-text { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: #cdd6d3; margin-top: 0.3rem; }
+/* ============ CITY POSTCARDS ============ */
+.city{
+  padding:5rem 1.5rem;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:2.4rem;
+  max-width:1050px;
+  margin:0 auto;
+  align-items:center;
+}
+@media(min-width:820px){
+  .city{grid-template-columns:1fr 1fr;gap:3.5rem}
+  .city.flip .postcard{order:2}
+}
+.postcard{
+  border-radius:22px;
+  overflow:hidden;
+  border:5px solid var(--cream);
+  box-shadow:0 22px 60px rgba(0,0,0,.45);
+  transform:rotate(-2deg);
+  transition:transform .5s ease;
+  opacity:0;
+  translate:0 40px;
+}
+.city.flip .postcard{transform:rotate(2deg)}
+.postcard:hover{transform:rotate(0) scale(1.03)!important}
+.reveal.visible .postcard{opacity:1;translate:0 0;transition:opacity .8s ease,translate .8s ease,transform .5s ease}
+.postcard svg{display:block;width:100%;height:auto}
+.city-info{opacity:0;translate:0 40px}
+.reveal.visible .city-info{opacity:1;translate:0 0;transition:opacity .8s .2s ease,translate .8s .2s ease}
+.day-chip{
+  display:inline-block;
+  background:var(--coral);
+  color:var(--night);
+  font-weight:700;
+  border-radius:999px;
+  padding:.35rem 1rem;
+  font-size:.8rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:1rem;
+}
+.city-info h3{font-size:clamp(1.8rem,4.5vw,2.6rem);margin-bottom:.9rem;line-height:1.1}
+.city-info h3 span{color:var(--gold);font-style:italic;font-weight:500}
+.city-info p{color:rgba(255,247,236,.82);line-height:1.65;margin-bottom:1.1rem}
+.highlights{list-style:none;display:flex;flex-wrap:wrap;gap:.55rem}
+.highlights li{
+  background:rgba(255,247,236,.1);
+  border:1px solid rgba(255,247,236,.22);
+  border-radius:999px;
+  padding:.42rem 1rem;
+  font-size:.86rem;
+}
 
-  .route-strip{
-    position:relative; z-index:2; margin-top:3rem; display:flex;
-    align-items:center; justify-content:space-between; padding-top:1.6rem;
-    border-top:1px solid rgba(238,231,218,0.25);
-  }
-  .route-node{ font-family:'Space Mono',monospace; font-size:0.75rem; text-align:center; flex:1; position:relative; color:#cdd6d3;}
-  .route-node .dot{ width:8px;height:8px;border-radius:50%; background:#d8935f; margin:0 auto 0.5rem; }
-  .route-node .country{ display:block; font-size:0.63rem; opacity:0.6; margin-top:2px; }
-  .route-line{ position:absolute; top:5px; left:0; right:0; height:1px; background:rgba(238,231,218,0.3); z-index:0; }
+/* animated svg bits */
+.sway{transform-origin:bottom center;animation:sway 5s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+.bob{animation:bob 4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.shimmer{animation:shimmer 3.5s ease-in-out infinite}
+@keyframes shimmer{0%,100%{opacity:.5}50%{opacity:1}}
+.drift{animation:drift 18s linear infinite}
+@keyframes drift{0%{transform:translateX(-40px)}100%{transform:translateX(420px)}}
+.drift2{animation:drift 26s linear infinite;animation-delay:-9s}
 
-  /* ---------- INTRO NOTE ---------- */
-  .note{ max-width:900px; margin:4rem auto 3rem; padding:0 6vw; }
-  .note .flag{
-    color:var(--terracotta); font-family:'Space Mono',monospace; font-size:0.8rem; text-transform:uppercase;
-    letter-spacing:0.12em; display:inline-block; margin-bottom:1rem; border-bottom:2px solid var(--terracotta); padding-bottom:0.3rem;
-  }
-  .note p{ font-size:1.05rem; line-height:1.8; color:#4a4238; margin-bottom:1rem; }
-  .note p.love{ font-family:'Fraunces',serif; font-style:italic; font-size:1.2rem; color:var(--terracotta); margin-top: 1.5rem; }
+/* ============ TIMELINE ============ */
+.timeline-section{
+  background:linear-gradient(180deg,var(--night),#152036);
+  padding:5.5rem 1.5rem;
+}
+.timeline-section .head{text-align:center;margin-bottom:3rem}
+.timeline-section h2{font-size:clamp(1.9rem,5vw,3rem)}
+.timeline{
+  max-width:640px;margin:0 auto;
+  display:flex;flex-direction:column;gap:1rem;
+  position:relative;
+}
+.tl-card{
+  display:flex;gap:1.1rem;align-items:flex-start;
+  background:rgba(255,247,236,.06);
+  border:1px solid rgba(255,247,236,.14);
+  border-radius:16px;
+  padding:1.1rem 1.3rem;
+  opacity:0;translate:-30px 0;
+}
+.reveal.visible .tl-card{opacity:1;translate:0 0}
+.tl-card{transition:opacity .6s ease,translate .6s ease,border-color .3s}
+.reveal.visible .tl-card:nth-child(1){transition-delay:.05s}
+.reveal.visible .tl-card:nth-child(2){transition-delay:.15s}
+.reveal.visible .tl-card:nth-child(3){transition-delay:.25s}
+.reveal.visible .tl-card:nth-child(4){transition-delay:.35s}
+.reveal.visible .tl-card:nth-child(5){transition-delay:.45s}
+.reveal.visible .tl-card:nth-child(6){transition-delay:.55s}
+.reveal.visible .tl-card:nth-child(7){transition-delay:.65s}
+.tl-card:hover{border-color:var(--coral)}
+.tl-emoji{font-size:1.7rem;line-height:1;flex-shrink:0;margin-top:.15rem}
+.tl-card b{display:block;font-family:'Fraunces',serif;font-size:1.06rem;margin-bottom:.2rem;color:var(--gold)}
+.tl-card span{color:rgba(255,247,236,.8);font-size:.93rem;line-height:1.5}
 
-  /* ---------- TIMELINE / DAYS ---------- */
-  .days{ max-width:1150px; margin:0 auto; padding:1rem 6vw 4rem; }
-  .day{
-    display:grid; grid-template-columns:110px 1fr; gap:2.5rem;
-    padding:3.5rem 0; border-top:1px solid var(--stone-dark); position:relative;
-  }
-  .day:last-child{ border-bottom:1px solid var(--stone-dark); }
-  .day-num{ font-family:'Fraunces',serif; font-weight:700; font-size:3.5rem; line-height:1; color:var(--stone-dark); }
-  .day-meta{ font-family:'Space Mono',monospace; font-size:0.68rem; color:var(--moss); margin-top:0.8rem; text-transform:uppercase; letter-spacing:0.08em; }
-  .day-title{ font-size:1.7rem; margin-bottom:0.4rem; color: var(--ink); }
-  .day-country{
-    display:inline-block; font-family:'Space Mono',monospace; font-size:0.66rem; letter-spacing:0.1em;
-    text-transform:uppercase; color:var(--paper); padding:0.25rem 0.6rem; border-radius:2px; margin-bottom:1rem;
-  }
-  .day-country.bosnia{ background:#6b4a3a; }
-  .day-country.montenegro{ background:var(--adriatic); }
+/* ============ CTA ============ */
+.cta{
+  min-height:88vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;
+  padding:5rem 1.5rem;
+  background:linear-gradient(180deg,#152036,#3A2A50 55%,#7E4460 100%);
+  position:relative;overflow:hidden;
+}
+.cta h2{font-size:clamp(2.2rem,7vw,4.2rem);line-height:1.1;margin-bottom:1rem}
+.cta h2 em{color:var(--gold);font-weight:500}
+.cta p{color:rgba(255,247,236,.85);max-width:38ch;margin-bottom:2.4rem;font-size:1.05rem}
+.btn-row{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+.btn{
+  font-family:'DM Sans',sans-serif;
+  font-size:1.08rem;font-weight:700;
+  border:none;border-radius:999px;
+  padding:1rem 2.4rem;
+  cursor:pointer;
+  transition:transform .2s,box-shadow .2s;
+}
+.btn-yes{
+  background:linear-gradient(135deg,var(--coral),var(--gold));
+  color:var(--night);
+  box-shadow:0 10px 30px rgba(255,123,84,.4);
+}
+.btn-yes:hover{transform:scale(1.07);box-shadow:0 14px 40px rgba(255,123,84,.55)}
+.btn-no{
+  background:transparent;color:var(--cream);
+  border:2px solid rgba(255,247,236,.4);
+  position:relative;
+}
+.answer{
+  margin-top:2rem;font-size:1.5rem;font-family:'Fraunces',serif;
+  color:var(--gold);opacity:0;transition:opacity .6s;
+  min-height:2.2rem;
+}
+.answer.show{opacity:1}
+.heart{
+  position:absolute;bottom:-40px;
+  font-size:1.6rem;
+  animation:heartUp linear forwards;
+  pointer-events:none;
+}
+@keyframes heartUp{
+  0%{transform:translateY(0) rotate(0);opacity:1}
+  100%{transform:translateY(-110vh) rotate(35deg);opacity:0}
+}
+.footer{
+  text-align:center;padding:2.2rem 1rem;
+  font-size:.85rem;color:rgba(255,247,236,.55);
+  background:#7E4460;
+}
+.footer b{color:var(--gold)}
 
-  .day-body p{ color:#4a4238; line-height:1.75; margin-bottom:1.2rem; font-size:1rem; }
-  .stops{ list-style:none; margin-top:1.1rem; display:grid; gap:0.65rem; }
-  .stops li{ padding-left:1.4rem; position:relative; color:#3a332b; font-size:0.95rem; line-height:1.55; }
-  .stops li::before{ content:"—"; position:absolute; left:0; color:var(--terracotta); }
-  .drive-tag{
-    display:inline-flex; align-items:center; gap:0.4rem; font-family:'Space Mono',monospace; font-size:0.7rem;
-    color:var(--adriatic-deep); background:var(--stone); padding:0.4rem 0.8rem; border-radius:20px; margin-top:1.5rem;
-  }
-
-  .day-photo{
-    width:100%; border-radius:6px; overflow:hidden; margin:1.5rem 0;
-    box-shadow:0 8px 24px -10px rgba(18,51,63,0.3);
-  }
-  .day-photo img{ width:100%; display:block; height:340px; object-fit:cover; }
-  .day-photo figcaption{
-    font-family:'Space Mono',monospace; font-size:0.65rem; color:#8a8072;
-    padding:0.6rem 0.2rem 0; text-transform:uppercase; letter-spacing:0.05em; text-align: center;
-  }
-
-  .note-from-baris{
-    margin-top:1.8rem; padding:1.3rem 1.5rem; background:var(--stone);
-    border-left:3px solid var(--terracotta); border-radius:2px;
-  }
-  .note-from-baris .signature{
-    font-family:'Space Mono',monospace; font-size:0.65rem; text-transform:uppercase;
-    letter-spacing:0.1em; color:var(--terracotta); margin-bottom:0.5rem; display:block;
-  }
-  .note-from-baris p{
-    font-family:'Fraunces',serif; font-style:italic; font-size:1.05rem; color:#3a332b; line-height:1.65; margin:0;
-  }
-
-  /* ---------- CLOSING ---------- */
-  .closing{
-    max-width:700px; margin:0 auto; padding:4rem 6vw 5rem; text-align:center;
-  }
-  .closing .mono{ font-size:0.72rem; text-transform:uppercase; letter-spacing:0.15em; color:var(--terracotta); }
-  .closing h2{ font-size:clamp(1.8rem,4vw,2.6rem); margin:1.2rem 0 1.5rem; }
-  .closing p{ font-family:'Fraunces',serif; font-style:italic; font-size:1.2rem; line-height:1.75; color:#4a4238; }
-
-  footer{
-    text-align:center; padding:2rem 6vw 4rem; font-family:'Space Mono',monospace; font-size:0.7rem;
-    color:#8a8072; text-transform:uppercase; letter-spacing:0.1em;
-  }
-
-  /* ---------- MOBILE OPTIMIZATION ---------- */
-  @media(max-width:760px){
-    .hero { min-height: 100vh; padding: 2rem 5vw; }
-    .hero h1 { font-size: 2.3rem; }
-    .day{ grid-template-columns:1fr; gap:0.5rem; padding: 3rem 0; }
-    .day-num{ font-size:2.8rem; margin-bottom: 0.5rem; }
-    .route-strip{ flex-wrap:wrap; gap:1.2rem 0; }
-    .route-node{ flex:0 0 33%; }
-    .hero-top{ flex-direction:column; gap:1rem; }
-    .countries-tag{ text-align:left; }
-    .day-photo img{ height:240px; }
-    .countdown { justify-content: space-between; gap: 0.4rem; }
-    .cd-box { min-width: auto; flex: 1; padding: 0.6rem 0.3rem; }
-    .cd-num { font-size: 1.2rem; }
-  }
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
 </style>
 </head>
 <body>
 
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-top">
-    <div class="brand">Derin & Barış / Yol Notları</div>
-    <div class="countries-tag">Bosna-Hersek<br>Karadağ</div>
-  </div>
+  <div class="stars" id="stars"></div>
+  <div class="plane-fly">✈️</div>
+  <div class="sun"></div>
+  <div class="sea-hero"></div>
+  <div class="wave w1"></div>
+  <div class="wave w2"></div>
+  <p class="hero-eyebrow">Derin & Barış · Yaz 2026</p>
+  <h1>Balkan<br><em>Kaçamağı</em></h1>
+  <p class="hero-sub">3 ülke, 7 gün, sayısız anı. Tiran'dan Belgrad'a — sadece ikimiz. 🧡</p>
+  <div class="hero-dates">📅 Cuma öğleden sonra ✈ Perşembe akşamı</div>
+  <div class="scroll-hint">↓ Kaydır ve gör</div>
+</section>
 
-  <div class="hero-main">
-    <div class="hero-eyebrow">Balkanlara Kaçış</div>
-    <h1>Sana özel<br><em>bir rota.</em></h1>
-    <p class="hero-sub">Geç oldu ama senin mutluluğun için her şey çok güzel olmalı. Saraybosna'nın tarihi dokusundan Kotor'un nefes kesici fiyortlarına uzanan, ince ince işlenmiş bir Balkan masalı hazırladım bize.</p>
-    
-    <div class="countdown-wrapper">
-      <span class="countdown-label">Buluşmamıza Kalan Zaman</span>
-      <div class="countdown">
-        <div class="cd-box"><span class="cd-num" id="days">00</span><span class="cd-text">Gün</span></div>
-        <div class="cd-box"><span class="cd-num" id="hours">00</span><span class="cd-text">Saat</span></div>
-        <div class="cd-box"><span class="cd-num" id="minutes">00</span><span class="cd-text">Dakika</span></div>
-        <div class="cd-box"><span class="cd-num" id="seconds">00</span><span class="cd-text">Saniye</span></div>
-      </div>
-    </div>
-  </div>
+<!-- ROUTE -->
+<section class="route-section">
+  <p class="section-eyebrow">Rotamız</p>
+  <h2>Güneyden kuzeye, deniz kenarından nehir kıyısına</h2>
+  <p>Hepsi vizesiz. Sadece pasaportunu ve beni al, gerisi hazır.</p>
+  <svg class="route-map" id="routeMap" viewBox="0 0 600 320" fill="none">
+    <!-- route path -->
+    <path class="route-path" id="rp" d="M100 260 C 180 220, 240 200, 300 160 C 360 120, 420 110, 500 60"
+          stroke="#FFC66B" stroke-width="3" stroke-dasharray="10 8" stroke-linecap="round"/>
+    <!-- Tiran -->
+    <g class="city-dot">
+      <circle cx="100" cy="260" r="10" fill="#FF7B54"/>
+      <circle cx="100" cy="260" r="18" fill="#FF7B54" opacity=".25"/>
+      <text x="100" y="298" text-anchor="middle" fill="#FFF7EC" font-size="17" font-family="Fraunces,serif" font-weight="600">Tiran 🇦🇱</text>
+    </g>
+    <!-- Üsküp -->
+    <g class="city-dot d2">
+      <circle cx="300" cy="160" r="10" fill="#FF7B54"/>
+      <circle cx="300" cy="160" r="18" fill="#FF7B54" opacity=".25"/>
+      <text x="300" y="130" text-anchor="middle" fill="#FFF7EC" font-size="17" font-family="Fraunces,serif" font-weight="600">Üsküp 🇲🇰</text>
+    </g>
+    <!-- Belgrad -->
+    <g class="city-dot d3">
+      <circle cx="500" cy="60" r="10" fill="#FF7B54"/>
+      <circle cx="500" cy="60" r="18" fill="#FF7B54" opacity=".25"/>
+      <text x="500" y="34" text-anchor="middle" fill="#FFF7EC" font-size="17" font-family="Fraunces,serif" font-weight="600">Belgrad 🇷🇸</text>
+    </g>
+    <text class="route-plane" style="offset-path:path('M100 260 C 180 220, 240 200, 300 160 C 360 120, 420 110, 500 60')" font-size="22">✈️</text>
+  </svg>
+</section>
 
-  <div class="route-strip">
-    <div class="route-line"></div>
-    <div class="route-node"><span class="dot"></span>Saraybosna<span class="country">Bosna-Hersek</span></div>
-    <div class="route-node"><span class="dot"></span>Mostar<span class="country">Bosna-Hersek</span></div>
-    <div class="route-node"><span class="dot"></span>Kotor<span class="country">Karadağ</span></div>
-    <div class="route-node"><span class="dot"></span>Perast<span class="country">Karadağ</span></div>
-    <div class="route-node"><span class="dot"></span>Budva<span class="country">Karadağ</span></div>
+<!-- CITY 1: TIRAN / DURRES -->
+<section class="city reveal">
+  <div class="postcard">
+    <svg viewBox="0 0 400 300">
+      <defs>
+        <linearGradient id="skyT" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#3A5BA0"/><stop offset=".55" stop-color="#E88C6A"/><stop offset="1" stop-color="#FFC66B"/>
+        </linearGradient>
+        <linearGradient id="seaT" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2E8C9E"/><stop offset="1" stop-color="#1F6B7A"/>
+        </linearGradient>
+      </defs>
+      <rect width="400" height="300" fill="url(#skyT)"/>
+      <circle cx="200" cy="175" r="42" fill="#FFE3A3" class="shimmer"/>
+      <rect y="185" width="400" height="115" fill="url(#seaT)"/>
+      <ellipse cx="200" cy="192" rx="60" ry="5" fill="#FFE3A3" opacity=".5" class="shimmer"/>
+      <!-- sailboat -->
+      <g class="bob">
+        <path d="M290 200 l32 0 -8 12 -18 0 z" fill="#FFF7EC"/>
+        <path d="M306 200 l0 -34 22 34 z" fill="#FF7B54"/>
+      </g>
+      <!-- beach -->
+      <path d="M0 300 L0 258 Q120 238 400 268 L400 300 Z" fill="#F2D8A7"/>
+      <!-- palm -->
+      <g class="sway" style="transform-origin:60px 262px">
+        <rect x="56" y="212" width="8" height="52" rx="4" fill="#7A4E2D"/>
+        <path d="M60 214 Q30 200 16 212 Q40 186 60 206 Q80 186 104 212 Q90 200 60 214" fill="#2F7D4F"/>
+        <path d="M60 210 Q46 184 26 184 Q56 172 62 202 Q72 176 96 182 Q76 186 60 210" fill="#3B9A63"/>
+      </g>
+      <!-- umbrella + two towels -->
+      <g class="bob" style="animation-delay:-2s">
+        <line x1="300" y1="238" x2="300" y2="278" stroke="#B85C6E" stroke-width="4"/>
+        <path d="M262 244 Q300 214 338 244 Q319 236 300 240 Q281 236 262 244" fill="#FF7B54"/>
+        <path d="M262 244 Q281 232 300 240 Q319 232 338 244" fill="#FFC66B" opacity=".8"/>
+      </g>
+      <rect x="258" y="278" width="34" height="14" rx="4" fill="#FF7B54" transform="rotate(-4 275 285)"/>
+      <rect x="304" y="280" width="34" height="14" rx="4" fill="#2E8C9E" transform="rotate(3 321 287)"/>
+      <!-- hearts -->
+      <text x="140" y="120" font-size="18" class="bob">🧡</text>
+      <text x="255" y="95" font-size="13" class="bob" style="animation-delay:-1.5s">🧡</text>
+      <!-- birds -->
+      <g class="drift"><path d="M20 60 q6 -7 12 0 q6 -7 12 0" stroke="#FFF7EC" stroke-width="2.5" fill="none"/></g>
+      <g class="drift2"><path d="M-10 90 q5 -6 10 0 q5 -6 10 0" stroke="#FFF7EC" stroke-width="2" fill="none"/></g>
+    </svg>
+  </div>
+  <div class="city-info">
+    <span class="day-chip">Cuma – Cumartesi</span>
+    <h3>Tiran & Durrës<br><span>Denize atlıyoruz 🌊</span></h3>
+    <p>Cuma akşamı Tiran'a iniyoruz — Skenderbeg Meydanı'nda akşam yürüyüşü. Cumartesi sabahı şehri gezip öğleden sonra Durrës sahiline geçiyoruz: Adriyatik'te yüzmek, kumsalda gün batımını izlemek... Sadece 40 dakika uzaklıkta bir mini deniz tatili.</p>
+    <ul class="highlights">
+      <li>🏖 Durrës sahilinde yüzme</li>
+      <li>🎨 Tiran'ın rengarenk sokakları</li>
+      <li>🌅 Adriyatik gün batımı</li>
+      <li>☕ Blloku'da kahve</li>
+    </ul>
   </div>
 </section>
 
-<div class="note">
-  <span class="flag">Rotayı Neden Böyle Kurdum</span>
-  <p>Avrupa'nın en karakteristik iki coğrafyasını seçtim: Bosna-Hersek ve Karadağ. Cuma sabahı Doğu ile Batı'nın kusursuzca harmanlandığı Saraybosna'da kültürel bir keşifle başlayıp, UNESCO korumasındaki Mostar üzerinden Adriyatik'in incisi Karadağ kıyılarına uzanacağız. Çarşamba akşamı da İstanbul'a döneceğiz. Sadece altı gün ama her saati özenle planlandı.</p>
-  <p class="love">Daha önce defalarca hayalini kurduğumuz o sokakları, şimdi el ele gezme vakti.</p>
-</div>
-
-<div class="days">
-
-  <div class="day">
-    <div>
-      <div class="day-num">01</div>
-      <div class="day-meta">Cuma</div>
-    </div>
-    <div class="day-body">
-      <span class="day-country bosnia">Bosna-Hersek</span>
-      <h3 class="day-title">Kesişim Noktası: Başçarşı</h3>
-      <p>Sabah uçuşumuzun ardından şehre iniyoruz. Saraybosna, Osmanlı'nın zarif mimarisiyle Avusturya-Macaristan İmparatorluğu'nun heybetli yapılarının aynı sokakta buluştuğu nadir şehirlerden. İlk işimiz Başçarşı'nın otantik atmosferine karışmak ve tarihi Sebilj Çeşmesi etrafında bu ruhu hissetmek olacak. Akşam ise tüm şehri altın rengi ışıklar altında izlemek için Sarı Tabya'ya çıkıyoruz.</p>
-      <figure class="day-photo">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Sarajevo-bascarsija%20at%20night1.JPG" alt="Saraybosna Başçarşı gece">
-        <figcaption>Başçarşı'nın Akşam Işıkları</figcaption>
-      </figure>
-      <ul class="stops">
-        <li>Tarihi Sebilj Çeşmesi ve Başçarşı Meydanı</li>
-        <li>16. Yüzyıl eseri Gazi Hüsrev Bey Camii ve Külliyesi</li>
-        <li>Sarı Tabya'dan panoramik gün batımı ve şehir manzarası</li>
-      </ul>
-      <span class="drive-tag">Konaklama: Başçarşı çevresi, Tarihi Yarımada</span>
-      <div class="note-from-baris">
-        <span class="signature">Barış'tan</span>
-        <p>İlk akşamı özellikle Sarı Tabya'da bitirmek istedim. Yorgun olacağız biliyorum ama o manzarayı ilk gece görmemiz gerekiyordu.</p>
-      </div>
-    </div>
+<!-- CITY 2: ÜSKÜP -->
+<section class="city flip reveal">
+  <div class="postcard">
+    <svg viewBox="0 0 400 300">
+      <defs>
+        <linearGradient id="skyU" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#7E4460"/><stop offset=".6" stop-color="#C96F6B"/><stop offset="1" stop-color="#FFC66B"/>
+        </linearGradient>
+      </defs>
+      <rect width="400" height="300" fill="url(#skyU)"/>
+      <circle cx="320" cy="70" r="26" fill="#FFF3D6" class="shimmer"/>
+      <!-- hills + fortress -->
+      <path d="M0 150 Q90 110 180 148 L180 300 L0 300 Z" fill="#4A3A66" opacity=".7"/>
+      <g>
+        <rect x="52" y="96" width="16" height="36" fill="#5E4A7E"/>
+        <rect x="49" y="90" width="22" height="8" fill="#5E4A7E"/>
+        <rect x="86" y="102" width="14" height="30" fill="#5E4A7E"/>
+        <rect x="83" y="96" width="20" height="8" fill="#5E4A7E"/>
+        <rect x="52" y="112" width="48" height="20" fill="#5E4A7E"/>
+      </g>
+      <!-- river -->
+      <rect y="220" width="400" height="80" fill="#2E8C9E"/>
+      <ellipse cx="120" cy="240" rx="34" ry="4" fill="#FFF7EC" opacity=".25" class="shimmer"/>
+      <ellipse cx="290" cy="262" rx="44" ry="4" fill="#FFF7EC" opacity=".2" class="shimmer" style="animation-delay:-1.7s"/>
+      <!-- stone bridge -->
+      <g>
+        <rect x="0" y="196" width="400" height="26" fill="#D9C6A5"/>
+        <path d="M30 222 q30 -30 60 0 Z" fill="#2E8C9E"/>
+        <path d="M120 222 q30 -30 60 0 Z" fill="#2E8C9E"/>
+        <path d="M210 222 q30 -30 60 0 Z" fill="#2E8C9E"/>
+        <path d="M300 222 q30 -30 60 0 Z" fill="#2E8C9E"/>
+        <rect x="0" y="190" width="400" height="8" fill="#C4B08C"/>
+      </g>
+      <!-- couple on bridge -->
+      <g class="bob">
+        <circle cx="192" cy="176" r="6" fill="#FFF7EC"/>
+        <rect x="187" y="182" width="10" height="12" rx="4" fill="#FF7B54"/>
+        <circle cx="208" cy="176" r="6" fill="#FFF7EC"/>
+        <rect x="203" y="182" width="10" height="12" rx="4" fill="#2E8C9E"/>
+        <text x="193" y="162" font-size="13">🧡</text>
+      </g>
+      <!-- minaret silhouette -->
+      <g>
+        <rect x="342" y="128" width="9" height="62" fill="#4A3A66"/>
+        <path d="M340 128 l6.5 -16 6.5 16 z" fill="#4A3A66"/>
+      </g>
+      <g class="drift"><path d="M10 50 q6 -7 12 0 q6 -7 12 0" stroke="#FFF7EC" stroke-width="2.5" fill="none"/></g>
+    </svg>
   </div>
-
-  <div class="day">
-    <div>
-      <div class="day-num">02</div>
-      <div class="day-meta">Cumartesi</div>
-    </div>
-    <div class="day-body">
-      <span class="day-country bosnia">Bosna-Hersek</span>
-      <h3 class="day-title">Saraybosna'nın Saklı Yüzü</h3>
-      <p>Bugün tarihin akışını değiştiren sokaklarda ağır adımlarla yürüyoruz. Birinci Dünya Savaşı'nın başladığı yer olan Latin Köprüsü'nü ziyaret ettikten sonra Bakırcılar Çarşısı'nın çekiç sesleri eşliğinde el yapımı eserleri inceleyeceğiz. Şehrin dokusunu tam anlamıyla yaşamak için otantik bir avluda közde pişen geleneksel Bosna kahvesi molası vereceğiz.</p>
-      <ul class="stops">
-        <li>Tarihi Latin Köprüsü ve Saraybosna Müzesi</li>
-        <li>Kazandžiluk (Bakırcılar Çarşısı) sokak keşfi</li>
-        <li>Geleneksel Bosna kahvesi ve yerel lezzetler molası</li>
-      </ul>
-      <span class="drive-tag">Tüm gün Saraybosna içinde, yürüyerek keşif</span>
-      <div class="note-from-baris">
-        <span class="signature">Barış'tan</span>
-        <p>Bu günü bilerek biraz boş bıraktım. Bir yerlere yetişme telaşı olmadan, sadece o an nereye canımız isterse oraya gitmek için. Programsız bir gün de bazen en güzelidir.</p>
-      </div>
-    </div>
+  <div class="city-info">
+    <span class="day-chip">Pazar – Pazartesi</span>
+    <h3>Üsküp<br><span>Taş Köprü'de el ele 🌉</span></h3>
+    <p>Vardar Nehri'nin üzerindeki 600 yıllık Taş Köprü'de yürüyeceğiz, Eski Çarşı'nın dar sokaklarında kaybolacağız. Osmanlı çarşısı, kale manzarası ve Balkanlar'ın en samimi şehirlerinden birinde iki sakin gün.</p>
+    <ul class="highlights">
+      <li>🌉 Taş Köprü</li>
+      <li>🏰 Üsküp Kalesi</li>
+      <li>🛍 Eski Çarşı</li>
+      <li>🍮 Trileçe'nin anavatanında trileçe</li>
+    </ul>
   </div>
+</section>
 
-  <div class="day">
-    <div>
-      <div class="day-num">03</div>
-      <div class="day-meta">Pazar</div>
-    </div>
-    <div class="day-body">
-      <span class="day-country bosnia">Bosna-Hersek</span>
-      <h3 class="day-title">Neretva'dan Adriyatik'e Geçiş</h3>
-      <p>Sabah erken saatlerde rotamızı Mostar'a çeviriyoruz. Zümrüt yeşili Neretva Nehri'nin iki yakasını birleştiren, Mimar Sinan'ın öğrencisi Hayreddin tarafından inşa edilen efsanevi Stari Most (Mostar Köprüsü) bizi bekliyor. Köprünün taş sokaklarında kaybolup nehri izledikten sonra, dağların arasından kıvrılan büyüleyici bir kara yolu yolculuğuyla sınır değiştiriyor ve Karadağ'ın fiyortları andıran Kotor Körfezi'ne giriş yapıyoruz.</p>
-      <figure class="day-photo">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Stari%20most%20panorama.jpg" alt="Mostar Stari Most köprüsü">
-        <figcaption>Neretva Nehri ve Stari Most</figcaption>
-      </figure>
-      <ul class="stops">
-        <li>UNESCO Dünya Mirası Stari Most ve eski çarşı</li>
-        <li>Neretva Nehri kıyısında dinlence ve öğle yemeği</li>
-        <li>Büyüleyici manzaralar eşliğinde Karadağ hududunu geçiş</li>
-      </ul>
-      <span class="drive-tag">Saraybosna → Mostar (2.5 Saat) · Mostar → Kotor (4 Saat)</span>
-      <div class="note-from-baris">
-        <span class="signature">Barış'tan</span>
-        <p>O tarihi köprünün üzerinde elini tutup durmak istiyorum, sadece bir dakikalığına bile olsa. Uzun bir yol günü olacak ama söz veriyorum, manzaralar buna değecek.</p>
-      </div>
-    </div>
+<!-- CITY 3: BELGRAD -->
+<section class="city reveal">
+  <div class="postcard">
+    <svg viewBox="0 0 400 300">
+      <defs>
+        <linearGradient id="skyB" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#141F3A"/><stop offset=".55" stop-color="#4A3A66"/><stop offset="1" stop-color="#B85C6E"/>
+        </linearGradient>
+      </defs>
+      <rect width="400" height="300" fill="url(#skyB)"/>
+      <circle cx="90" cy="66" r="22" fill="#FFF3D6" class="shimmer"/>
+      <circle cx="82" cy="60" r="20" fill="#141F3A" opacity=".55"/>
+      <!-- stars -->
+      <circle cx="180" cy="40" r="2" fill="#FFF7EC" class="shimmer"/>
+      <circle cx="250" cy="70" r="2" fill="#FFF7EC" class="shimmer" style="animation-delay:-1s"/>
+      <circle cx="320" cy="36" r="2" fill="#FFF7EC" class="shimmer" style="animation-delay:-2s"/>
+      <circle cx="140" cy="90" r="1.6" fill="#FFF7EC" class="shimmer" style="animation-delay:-.5s"/>
+      <!-- fortress hill -->
+      <path d="M0 210 Q120 168 250 200 L400 190 L400 300 L0 300 Z" fill="#2C2440"/>
+      <!-- fortress -->
+      <g>
+        <rect x="230" y="128" width="26" height="66" fill="#3A3054"/>
+        <rect x="226" y="120" width="34" height="10" fill="#3A3054"/>
+        <rect x="228" y="112" width="6" height="8" fill="#3A3054"/>
+        <rect x="240" y="112" width="6" height="8" fill="#3A3054"/>
+        <rect x="252" y="112" width="6" height="8" fill="#3A3054"/>
+        <rect x="264" y="150" width="70" height="44" fill="#33294A"/>
+        <rect x="264" y="144" width="8" height="6" fill="#33294A"/>
+        <rect x="280" y="144" width="8" height="6" fill="#33294A"/>
+        <rect x="296" y="144" width="8" height="6" fill="#33294A"/>
+        <rect x="312" y="144" width="8" height="6" fill="#33294A"/>
+        <!-- warm windows -->
+        <rect x="238" y="146" width="8" height="11" rx="2" fill="#FFC66B" class="shimmer"/>
+        <rect x="286" y="162" width="8" height="10" rx="2" fill="#FFC66B" class="shimmer" style="animation-delay:-1.4s"/>
+        <rect x="306" y="162" width="8" height="10" rx="2" fill="#FF7B54" class="shimmer" style="animation-delay:-2.2s"/>
+      </g>
+      <!-- rivers meeting -->
+      <path d="M0 252 Q140 236 400 258 L400 300 L0 300 Z" fill="#26547C"/>
+      <path d="M0 276 Q180 262 400 282 L400 300 L0 300 Z" fill="#1F6B7A"/>
+      <ellipse cx="150" cy="266" rx="40" ry="3.5" fill="#FFC66B" opacity=".3" class="shimmer"/>
+      <ellipse cx="300" cy="284" rx="46" ry="3.5" fill="#FF7B54" opacity=".25" class="shimmer" style="animation-delay:-1.8s"/>
+      <!-- couple watching -->
+      <g class="bob">
+        <circle cx="52" cy="212" r="6" fill="#FFF7EC"/>
+        <rect x="47" y="218" width="10" height="13" rx="4" fill="#FF7B54"/>
+        <circle cx="68" cy="212" r="6" fill="#FFF7EC"/>
+        <rect x="63" y="218" width="10" height="13" rx="4" fill="#2E8C9E"/>
+        <text x="53" y="198" font-size="13">🧡</text>
+      </g>
+    </svg>
   </div>
-
-  <div class="day">
-    <div>
-      <div class="day-num">04</div>
-      <div class="day-meta">Pazartesi</div>
-    </div>
-    <div class="day-body">
-      <span class="day-country montenegro">Karadağ</span>
-      <h3 class="day-title">Kotor: Zamanın Durduğu Körfez</h3>
-      <p>Günün tamamı Avrupa'nın en iyi korunmuş Orta Çağ şehirlerinden biri olan Kotor'a ait. Venedik mimarisinin hakim olduğu labirent gibi dar sokaklarda, eski taş evlerin ve palazzoların arasında gezeceğiz. Öğleden sonra ise San Giovanni Kalesi'ne tırmanışımız başlıyor; yukarıdan tüm körfezin dağlarla kucaklaşmasını izlemek, nefes kesici bir doğa olayı.</p>
-      <figure class="day-photo">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kotor%20and%20Boka%20kotorska%20-%20view%20from%20city%20wall.jpg" alt="Kotor Körfezi surlardan manzara">
-        <figcaption>Kotor Körfezi, San Giovanni Surlarından</figcaption>
-      </figure>
-      <ul class="stops">
-        <li>St. Tryphon Katedrali ve Kotor Eski Şehir Meydanları</li>
-        <li>San Giovanni Kalesi surlarına panoramik tırmanış</li>
-        <li>Körfeze karşı romantik gün batımı</li>
-      </ul>
-      <span class="drive-tag">Tüm gün Kotor, yürüyerek</span>
-      <div class="note-from-baris">
-        <span class="signature">Barış'tan</span>
-        <p>Kaleye çıkarken biraz yorulacağız biliyorum ama en tepede oturup nefeslenirken rüzgarı hissedip sana baktığımda, bütün yorgunluğun boşa gitmediğini anlayacaksın.</p>
-      </div>
-    </div>
+  <div class="city-info">
+    <span class="day-chip">Salı – Perşembe</span>
+    <h3>Belgrad<br><span>İki nehrin buluştuğu yer 🌆</span></h3>
+    <p>Tuna ile Sava'nın birleştiği noktada, Kalemegdan Kalesi'nden gün batımını izleyeceğiz. Skadarlija'nın bohem sokaklarında akşam yemeği, nehir kıyısında yürüyüş... Perşembe akşamı eve dönerken tek pişmanlığımız daha uzun kalamamak olacak.</p>
+    <ul class="highlights">
+      <li>🏰 Kalemegdan'da gün batımı</li>
+      <li>🎻 Skadarlija bohem sokağı</li>
+      <li>🌊 Tuna & Sava buluşması</li>
+      <li>🌃 Nehir kıyısı kafeleri</li>
+    </ul>
   </div>
+</section>
 
-  <div class="day">
-    <div>
-      <div class="day-num">05</div>
-      <div class="day-meta">Salı</div>
-    </div>
-    <div class="day-body">
-      <span class="day-country montenegro">Karadağ</span>
-      <h3 class="day-title">Barok Zarafeti Perast ve Hareketli Budva</h3>
-      <p>Sabah denizcilerin ve kaptanların tarihi köyü Perast'a geçiyoruz. Buradan küçük bir tekneye atlayıp denizin ortasına insan eliyle inşa edilmiş mistik Our Lady of the Rocks adacığına ulaşıyoruz. Öğleden sonra ise rotamız Karadağ'ın Riviera'sı sayılan Budva. 2500 yıllık geçmişiyle Adriyatik'in en eski yerleşimlerinden olan Budva Stari Grad'ı (Eski Şehir) keşfedip akşam sahil şeridinde deniz kokusuyla yemeğimizi yiyeceğiz.</p>
-      <figure class="day-photo">
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kotor%20area%20Our%20Lady%20of%20the%20Rocks.JPG" alt="Perast Our Lady of the Rocks adası">
-        <figcaption>Our Lady of the Rocks Adacığı, Perast</figcaption>
-      </figure>
-      <ul class="stops">
-        <li>Tarihi Perast köyü sokakları ve Barok mimarisi</li>
-        <li>Our Lady of the Rocks (Kayaların Leydisi) tekne ziyareti</li>
-        <li>Budva Eski Şehir surları ve sahil yürüyüşü</li>
-      </ul>
-      <span class="drive-tag">Kotor → Perast (20 dk) · Perast → Budva (30 dk)</span>
-      <div class="note-from-baris">
-        <span class="signature">Barış'tan</span>
-        <p>O küçük adaya çıktığımızda dilek tutma geleneği varmış. Gözlerimi kapattığımda ne dileyeceğimi şimdiden çok iyi biliyorum.</p>
-      </div>
-    </div>
+<!-- TIMELINE -->
+<section class="timeline-section">
+  <div class="head">
+    <p class="section-eyebrow">Gün gün plan</p>
+    <h2>7 gün, dakika dakika hazır</h2>
   </div>
-
-  <div class="day">
-    <div>
-      <div class="day-num">06</div>
-      <div class="day-meta">Çarşamba</div>
-    </div>
-    <div class="day-body">
-      <span class="day-country montenegro">Karadağ</span>
-      <h3 class="day-title">Adriyatik'e Veda</h3>
-      <p>Son sabahımızda saat kurmuyoruz. Budva sahillerinde rahatlatıcı bir kahve içip, taş sokaklardaki butiklerden ufak tefek hatıralar bakacağız. Öğleden sonra deniz kıyısındaki modern Tivat şehrine doğru kısa bir yolculuk yapıp, uçağımıza geçiyoruz. Biriktirdiğimiz onlarca anıyla İstanbul'a dönüyoruz.</p>
-      <ul class="stops">
-        <li>Serbest zaman — Sahil keyfi ve hediyelik alışverişi</li>
-        <li>Tivat Havalimanı'na sahil şeridinden transfer</li>
-        <li>Akşam saatlerinde İstanbul'a dönüş uçuşu</li>
-      </ul>
-      <span class="drive-tag">Budva → Tivat (25 dk) · Akşam Dönüş Uçuşu</span>
-      <div class="note-from-baris">
-        <span class="signature">Barış'tan</span>
-        <p>Uçakta yanımda otururken, muhtemelen ikimiz de aynı şeyi düşüneceğiz: keşke bir gün daha olsaydı. Ama hiç üzülme, bu sadece ilk seyahatimiz.</p>
-      </div>
-    </div>
+  <div class="timeline reveal">
+    <div class="tl-card"><div class="tl-emoji">✈️</div><div><b>Cuma — Yola çıkış</b><span>Öğleden sonra İstanbul → Tiran uçuşu (~1,5 saat). Akşam Skenderbeg Meydanı çevresinde ilk yürüyüş ve akşam yemeği.</span></div></div>
+    <div class="tl-card"><div class="tl-emoji">🏖</div><div><b>Cumartesi — Deniz günü</b><span>Sabah Tiran turu, öğleden sonra Durrës sahili: yüzme, kumsal, gün batımı. Akşam Tiran'a dönüş.</span></div></div>
+    <div class="tl-card"><div class="tl-emoji">🚌</div><div><b>Pazar — Üsküp'e geçiş</b><span>Sabah erken otobüs (~5-6 saat). Akşamüstü Taş Köprü ve Eski Çarşı'da ilk tur.</span></div></div>
+    <div class="tl-card"><div class="tl-emoji">🏰</div><div><b>Pazartesi — Üsküp</b><span>Kale, Vardar kıyısı, çarşıda alışveriş ve bol bol trileçe. Sakin, keyifli bir gün.</span></div></div>
+    <div class="tl-card"><div class="tl-emoji">🛫</div><div><b>Salı — Belgrad'a geçiş</b><span>Otobüs (~6 saat) ya da kısa uçuş. Akşam Kalemegdan Kalesi'nde ilk gün batımı.</span></div></div>
+    <div class="tl-card"><div class="tl-emoji">🌆</div><div><b>Çarşamba — Belgrad</b><span>Skadarlija, nehir kıyısı, şehir merkezi. Akşam bohem sokakta yemek.</span></div></div>
+    <div class="tl-card"><div class="tl-emoji">🏠</div><div><b>Perşembe — Dönüş</b><span>Sabah son gezinti ve hediyelik alışverişi, akşam İstanbul'a uçuş. Valizde anılar dolu.</span></div></div>
   </div>
+</section>
 
-</div>
+<!-- CTA -->
+<section class="cta" id="cta">
+  <h2>Ee Derin,<br><em>geliyor musun?</em> 🧡</h2>
+  <p>3 ülke vizesiz, plan hazır, tek eksik senin "evet"in.</p>
+  <div class="btn-row">
+    <button class="btn btn-yes" id="btnYes">Evet, gidelim! 🎉</button>
+    <button class="btn btn-no" id="btnNo">Düşüneyim 🤔</button>
+  </div>
+  <div class="answer" id="answer"></div>
+</section>
 
-<div class="closing">
-  <span class="mono">Son Söz</span>
-  <h2>Bu rotayı tamamen ikimiz için hazırladım.</h2>
-  <p>Her duraktan önce "burada onun elini tutmak isterim" diye düşündüm. Geç oldu ama senin için, bizim için her şeyin en güzeli olmalıydı. Umarım sen de benim kadar heyecanlısındır — valizini hazırla, 24 Temmuz çok yakında.</p>
-</div>
-
-<footer>
-  Derin & Barış · Bosna Hersek — Karadağ Rotası
+<footer class="footer">
+  Sevgiyle planlandı — <b>Barış</b> ✈ Balkan Kaçamağı 2026
 </footer>
 
 <script>
-  // Hedef tarih: 24 Temmuz 2026, Saat 00:00:00
-  const targetDate = new Date("July 24, 2026 00:00:00").getTime();
+// stars in hero
+const starsEl=document.getElementById('stars');
+for(let i=0;i<40;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  s.style.left=Math.random()*100+'%';
+  s.style.top=Math.random()*55+'%';
+  s.style.animationDelay=(Math.random()*3)+'s';
+  starsEl.appendChild(s);
+}
 
-  const updateCountdown = setInterval(function() {
-    const now = new Date().getTime();
-    const distance = targetDate - now;
+// scroll reveals
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
+},{threshold:.2});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-    if (distance < 0) {
-      clearInterval(updateCountdown);
-      document.getElementById("days").innerText = "00";
-      document.getElementById("hours").innerText = "00";
-      document.getElementById("minutes").innerText = "00";
-      document.getElementById("seconds").innerText = "00";
-      return;
-    }
+// route map draw
+const mapIO=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');mapIO.unobserve(e.target);}});
+},{threshold:.4});
+mapIO.observe(document.getElementById('routeMap'));
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds =Normally I can help with things like this, but I don't seem to have access to that content. You can try again or ask me for something else.
+// CTA buttons
+const answer=document.getElementById('answer');
+const cta=document.getElementById('cta');
+function hearts(n){
+  for(let i=0;i<n;i++){
+    const h=document.createElement('div');
+    h.className='heart';
+    h.textContent=['🧡','💛','✈️','🌊','💕'][Math.floor(Math.random()*5)];
+    h.style.left=Math.random()*100+'%';
+    h.style.animationDuration=(3+Math.random()*3)+'s';
+    h.style.animationDelay=(Math.random()*0.8)+'s';
+    cta.appendChild(h);
+    setTimeout(()=>h.remove(),7000);
+  }
+}
+document.getElementById('btnYes').addEventListener('click',()=>{
+  answer.textContent='Biliyordum! 🥰 Valizleri hazırlamaya başlayalım...';
+  answer.classList.add('show');
+  hearts(28);
+});
+const btnNo=document.getElementById('btnNo');
+let noCount=0;
+btnNo.addEventListener('click',()=>{
+  noCount++;
+  const msgs=['Emin misin? Durrës\'te deniz çok güzel... 🌊','Trileçe\'nin anavatanı ama... 🍮','Kalemegdan\'da gün batımı bizi bekliyor 🌅','Tamam tamam, "Evet" butonu hâlâ orada 😄'];
+  answer.textContent=msgs[Math.min(noCount-1,msgs.length-1)];
+  answer.classList.add('show');
+  // playful shrink
+  const scale=Math.max(0.55,1-noCount*0.12);
+  btnNo.style.transform=`scale(${scale})`;
+});
+</script>
+</body>
+</html>
