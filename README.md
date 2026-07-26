@@ -3,8 +3,8 @@
 Barış Kaya & Derin Beyza Günal'ın **12 – 20 Ağustos 2026** Balkan turu için hazırlanmış
 tek sayfalık tur programı sitesi.
 
-**Rota:** İstanbul → Priştine 🇽🇰 → Üsküp 🇲🇰 → Ohrid 🇲🇰 → Dıraç 🇦🇱 → Tiran 🇦🇱 → İstanbul
-**Süre:** 8 gün / 7 gece · 3 ülke · her üçü de vizesiz
+**Rota:** İstanbul → Priştine → Üsküp → Ohrid → Dıraç → Tiran → İstanbul
+**Süre:** 8 gün / 7 gece · 3 ülke (Kosova, Kuzey Makedonya, Arnavutluk)
 
 ---
 
@@ -12,8 +12,12 @@ tek sayfalık tur programı sitesi.
 
 `index.html`'e çift tıkla. Hepsi bu.
 
-Site tek dosyadır: CSS ve JS inline, harici bağımlılık yok, CDN yok, build adımı yok,
-internet gerekmez. Modern tarayıcıların hepsinde çalışır, mobil öncelikli tasarlanmıştır.
+Site tek dosyadır: CSS ve JS inline, harici kütüphane yok, CDN yok, build adımı yok.
+Modern tarayıcıların hepsinde çalışır, mobil öncelikli tasarlanmıştır.
+
+> Tek istisna fotoğraflar: Wikimedia Commons'tan doğrudan yükleniyor, yani görsellerin
+> görünmesi için internet gerekiyor. İnternet yoksa sayfa çalışmaya devam eder, görsellerin
+> yerine degrade renkli yer tutucu ve mekân adı çıkar.
 
 Yerel sunucu tercih edersen:
 
@@ -47,23 +51,37 @@ dokunmak gerekmez.**
 
 | Alan | İçerik |
 |---|---|
-| `meta` | Başlık, yolcular, tarih aralığı, süre, geri sayım hedefi (`kalkisISO`), giriş cümlesi, vize notu |
+| `meta` | Başlık, yolcular, tarih aralığı, süre, giriş cümlesi, sayaç hedefleri (`kalkisISO`, `donusISO`) |
 | `ucuslar` | Gidiş ve dönüş: havayolu, sefer, PNR, saat/havalimanı, bagaj, gece uçuşu uyarısı |
-| `rota` | Rota şeridindeki duraklar: ad, bayrak, gece notu |
+| `rota` | Rota şeridindeki duraklar: ad, gece notu |
 | `konaklama` | Hangi gece hangi şehir, kaç gece, tesis adı |
-| `sehirler` | Şehir kartları: tema cümlesi, rehber tanıtım paragrafı, "Öne çıkanlar" listesi |
-| `gunler` | 9 günlük program: tarih, başlık, özet, adım adım akış, rehber notları, gece bilgisi |
+| `sehirler` | Şehir kartları: tema, rehber tanıtımı, "Öne çıkanlar", `kapak` görseli, `galeri` dizisi |
+| `gunler` | 9 günlük program: tarih, başlık, özet, akış, rehber notları, `risk`, gece bilgisi |
 | `ulasim` | Ulaşım özeti tablosu: bacak, süre, yöntem, durum |
+| `dikkatEdilecekler` | "Nelere dikkat etmeli" kartları: ikon, başlık, `seviye`, maddeler |
 | `pratik` | Pratik bilgi kartları: para, bütçe, elektrik, sağlık, adap, kelimeler |
 | `kontrolListesi` | Hazırlık listesi maddeleri |
 | `belirlenecek` | Sayfa sonundaki açık işler listesi |
 
 ### Pratik notlar
 
-- **Geri sayım:** `meta.kalkisISO` alanına bağlıdır (`2026-08-12T09:50:00+03:00`).
-  Uçuş saati değişirse burayı güncelle.
+- **Geri sayım üç durumlu:** `meta.kalkisISO` ve `meta.donusISO` alanlarına bağlı.
+  Kalkıştan önce "Yola çıkmaya kalan", 12-19 Ağustos arasında "Dönüşe kalan" + "Turun N. günü / 8",
+  dönüş uçuşundan sonra "Tur tamamlandı". Uçuş saatleri değişirse bu iki alanı güncelle.
 - **Bugünü vurgulama:** her günün `tarihISO` alanı sistem tarihiyle karşılaştırılır.
   Tarih aralık içindeyse o gün kartı vurgulanır ve otomatik açılır.
+- **Görseller:** `kapak` ve `galeri` alanlarında `{ gorsel, alt, kaynak }` şeklinde durur.
+  Kaynak olarak Wikimedia Commons'ın `upload.wikimedia.org/.../960px-...` thumb URL'leri
+  kullanılıyor — Wikimedia yalnızca belirli genişliklere izin veriyor, rastgele bir sayı
+  (ör. 800) `400` döndürür. **Yeni görsel eklerken URL'i ezberden yazma:** Commons'ta ara,
+  `curl -I` ile 200 döndüğünü doğrula, sonra ekle. `kaynak` alanına fotoğrafçı + lisans yaz.
+  Yüklenemeyen görsel `onerror` ile degrade yer tutucuya düşer, sayfa bozulmaz.
+- **Lightbox:** `.gorsel-kutu` sınıfı olan her görsel tıklanabilir; Escape ya da boşluğa
+  tıklamak kapatır. Harici kütüphane yok, kod render bloğunun içinde.
+- **Risk satırı:** `gunler[].risk` doldurulursa gün kartında "Bu günün riski" uyarısı çıkar,
+  boş bırakılırsa satır hiç render edilmez.
+- **Dikkat kartı seviyeleri:** `seviye` alanı `kritik`, `yuksek` ya da `normal` olabilir;
+  sırasıyla "kritik / önemli / bilgi" etiketi ve farklı kenar rengi verir.
 - **"Belirlenecek" işaretleri:** metinde geçen _belirlenecek_, _kontrol edilecek_,
   _alınacak_ ifadeleri otomatik olarak vurgulu gösterilir. Emin olunmayan bir bilgiyi
   uydurmak yerine bu ifadelerden birini yaz.

@@ -5,9 +5,7 @@
 
 **Yolcular:** Barış Kaya & Derin Beyza Günal
 **Tarih:** 12 – 20 Ağustos 2026 · 8 gün / 7 gece
-**Rota:** İstanbul → Priştine 🇽🇰 → Üsküp 🇲🇰 → Ohrid 🇲🇰 → Dıraç 🇦🇱 → Tiran 🇦🇱 → İstanbul
-**Vize:** Kosova, Kuzey Makedonya ve Arnavutluk — üçü de Türk vatandaşlarına vizesiz.
-Tek gereken geçerli pasaport. 🛂
+**Rota:** İstanbul → Priştine → Üsküp → Ohrid → Dıraç → Tiran → İstanbul
 
 ---
 
@@ -43,9 +41,9 @@ Tek gereken geçerli pasaport. 🛂
 
 | Gece | Şehir | Süre | Tesis |
 |---|---|---|---|
-| 12 Ağustos | Üsküp 🇲🇰 | 1 gece | _belirlenecek_ |
-| 13 · 14 · 15 Ağustos | Ohrid 🇲🇰 | 3 gece | _belirlenecek_ |
-| 16 · 17 · 18 Ağustos | Dıraç 🇦🇱 | 3 gece | _belirlenecek_ |
+| 12 Ağustos | Üsküp | 1 gece | _belirlenecek_ |
+| 13 · 14 · 15 Ağustos | Ohrid | 3 gece | _belirlenecek_ |
+| 16 · 17 · 18 Ağustos | Dıraç | 3 gece | _belirlenecek_ |
 | 19 Ağustos | — | konaklama yok | gece Tiran havalimanına geçiş |
 
 ---
@@ -53,7 +51,7 @@ Tek gereken geçerli pasaport. 🛂
 ## 3. Gün gün program
 
 ### 12 Ağustos Çarşamba — Uçuş, Priştine, akşam Üsküp'e geçiş
-**Gece:** Üsküp 🇲🇰
+**Gece:** Üsküp
 - 09:50 İstanbul Sabiha Gökçen'den kalkış (VF101)
 - 10:30 Priştine'ye iniş, şehir merkezine geçiş
 - Gün boyu Priştine: NEWBORN anıtı, şehir merkezi, Bill Clinton Bulvarı
@@ -64,9 +62,12 @@ Tek gereken geçerli pasaport. 🛂
 - _En iyi saat:_ merkez öğleden sonra en canlı; NEWBORN için ikindi ışığı daha iyi.
 - _Dikkat:_ Üsküp otobüsünün son sefer saati gün içinde otogardan teyit edilecek.
 - _İpucu:_ havalimanından çıkarken euro nakit bulundur (Kosova euro kullanıyor).
+- ⚠️ _Bu günün riski:_ günün tek kritik kararı akşam otobüsü. Son sefer saati gün içinde
+  otogardan öğrenilecek (kontrol edilecek). Geç kalınırsa Üsküp'e varış gece yarısını bulabilir —
+  otelle geç check-in imkânını önceden konuş.
 
 ### 13 Ağustos Perşembe — Üsküp sabahı, öğleden sonra Ohrid
-**Gece:** Ohrid 🇲🇰
+**Gece:** Ohrid
 - Sabah Üsküp: Taş Köprü, Eski Çarşı, Üsküp Kalesi, trileçe
 - Öğleden sonra: Üsküp → Ohrid otobüsü (~3 saat)
 - Akşam göl kıyısında ilk yürüyüş
@@ -75,9 +76,12 @@ Tek gereken geçerli pasaport. 🛂
 - _En iyi saat:_ Eski Çarşı sabah erken serin ve sakin; kaleye 10:00'dan önce.
 - _Dikkat:_ Ohrid otobüsleri sınırlı sayıda; öğleden sonra seferi sabah teyit edilecek.
 - _İpucu:_ MKD denar bozdur ama fazla bulundurma, üç gece sonra Arnavutluk var.
+- ⚠️ _Bu günün riski:_ Üsküp-Ohrid hattında sefer sayısı sınırlı ve öğleden sonra seyrekleşiyor.
+  Bileti sabah, mümkünse bir gün önceden otogardan garantile. Sefer kaçarsa Ohrid'e varış gece olur
+  ve ilk göl akşamı programdan düşer.
 
 ### 14 Ağustos Cuma — Ohrid, eski şehir günü
-**Gece:** Ohrid 🇲🇰
+**Gece:** Ohrid
 - Sveti Jovan Kaneo (kayalıktaki kilise)
 - Samuel Kalesi surları ve göl manzarası
 - Eski şehrin taş sokakları
@@ -87,9 +91,11 @@ Tek gereken geçerli pasaport. 🛂
 - _En iyi saat:_ Kaneo sabah ışığında en iyi; gün batımı güzel ama kalabalık.
 - _Dikkat:_ yollar dik ve taşlar kaygan, kaymayan ayakkabı.
 - _İpucu:_ Kaneo'dan iskeleye inip merkeze tekneyle dönmek serin bir kısayol.
+- ⚠️ _Bu günün riski:_ düşük — asıl mesele yorgunluk. Kaleye ve Kaneo'ya öğle sıcağında tırmanmak
+  günün kalanını bitirir; sabahı yürüyüşe, öğleyi gölgeye ayır.
 
 ### 15 Ağustos Cumartesi — Ohrid, göl ve Sveti Naum tam günü
-**Gece:** Ohrid 🇲🇰
+**Gece:** Ohrid
 - Sabah: Ohrid Gölü'nde tekne turu
 - Sveti Naum Manastırı (gölün güneyi, tam gün değer)
 - Plaj / yüzme
@@ -98,9 +104,12 @@ Tek gereken geçerli pasaport. 🛂
 - _En iyi saat:_ Sveti Naum için **sabah teknesi**; göl öğleden sonra dalgalanıyor.
 - _Dikkat:_ manastır aktif ibadet yeri, omuz ve diz kapalı. Giriş ücreti ve tekne saatleri kontrol edilecek.
 - _İpucu:_ mayo ve havluyu tekneye al.
+- ⚠️ _Bu günün riski:_ Sveti Naum gölün ta güneyinde, gidiş-dönüş tam gün istiyor. Teknenin son
+  dönüş saatini binerken öğren; kaçırırsan kara yoluyla dönüş uzun ve pahalı. Ağustosta turlar
+  doluyor, bir gün önceden yer ayırt (saat ve ücret kontrol edilecek).
 
 ### 16 Ağustos Pazar — Ohrid → Dıraç
-**Gece:** Dıraç 🇦🇱
+**Gece:** Dıraç
 - Sabah erken: Ohrid → Dıraç otobüsü (~4-5 saat, Elbasan üzerinden, sınır geçişi dahil)
 - Öğleden sonra varış ve yerleşme
 - Akşamüstü Adriyatik'te ilk yüzme, gün batımı
@@ -109,9 +118,12 @@ Tek gereken geçerli pasaport. 🛂
 - _En iyi saat:_ günün ilk otobüsü; sınırda bekleme olabilir.
 - _Dikkat:_ sınır geçişinde **pasaportlar el altında**, bavulun içinde değil.
 - _İpucu:_ kalan denarı Ohrid'de harca, Arnavutluk lek kullanıyor.
+- ⚠️ _Bu günün riski:_ **turun en riskli günü.** Bu bacakta kara sınırı var ve bekleme süresi
+  öngörülemiyor. Pasaportlar el altında, su ve atıştırmalık yanında, telefonlar şarjlı. Günün ilk
+  otobüsünü seç; aksama olursa akşamüstü denizi kaçırırsın. Otele tahmini varış saatini bildir.
 
 ### 17 Ağustos Pazartesi — Dıraç, tam gün deniz
-**Gece:** Dıraç 🇦🇱
+**Gece:** Dıraç
 - Sabah–öğle plaj: yüzme, kumsal
 - Öğle: sahil restoranları
 - İkindi: Dıraç antik Roma amfitiyatrosu
@@ -121,9 +133,12 @@ Tek gereken geçerli pasaport. 🛂
 - _Dikkat:_ öğlen güneşi sert, 12:00-16:00 gölge; güneş kremini tekrar sür.
 - _En iyi saat:_ deniz 08:00-11:00 arası sakin ve tenha.
 - _İpucu:_ amfitiyatro merkezde, plajdan yürüme mesafesinde. Açılış saati kontrol edilecek.
+- ⚠️ _Bu günün riski:_ öğlen güneşi + sezon zirvesi. Plajlar sabah dolmaya başlıyor, şezlong
+  genelde ücretli ve erken tükeniyor. 12:00-16:00 arası güneş çarpması riski gerçek — o aralığı
+  gölgede geçir. Su ve güneş kremi pazarlık konusu değil.
 
 ### 18 Ağustos Salı — Sabah deniz, öğleden sonra Tiran kaçamağı
-**Gece:** Dıraç 🇦🇱
+**Gece:** Dıraç
 - Sabah denizde bir tur
 - Öğleden sonra Dıraç → Tiran (~40 dk)
 - Skenderbeg Meydanı, Blloku, Piramit
@@ -133,6 +148,8 @@ Tek gereken geçerli pasaport. 🛂
 - _Dikkat:_ dönüş minibüsünün son saatini gidişte sor (saatler kontrol edilecek).
 - _En iyi saat:_ Tiran'da ikindi-akşam; hava serinliyor, Blloku canlanıyor.
 - _İpucu:_ teleferik ve Bunk'Art'ı yarına bırak, yarın tam gün var.
+- ⚠️ _Bu günün riski:_ dönüş saati kritik — Dıraç'a son minibüsün kalkış saatini gidişte sor
+  (kontrol edilecek). Kaçırırsan taksi tek seçenek ve gece tarifesi devreye girer.
 
 ### 19 Ağustos Çarşamba — Tiran son günü ve gece uçuşu
 **Gece:** konaklama yok — gece havalimanı 🌙
@@ -147,11 +164,18 @@ Tek gereken geçerli pasaport. 🛂
   valizleri geri al. Emanet konumu ve saatleri kontrol edilecek.
 - _En iyi saat:_ teleferik sabah/öğle en berrak; Bunk'Art öğleden sonra serinlikte.
 - _İpucu:_ havalimanı ulaşımını 23:30 öncesi ayarla, gece toplu taşıma seyrek.
+- ⚠️ _Bu günün riski:_ otelden çıkışla uçuş arasında ~14 saat boşluk ve valizler elde. Tek soru:
+  bagaj nerede duracak? Emanet konumu ve kapanış saati kontrol edilecek; saati bırakırken teyit et,
+  valizleri yemekten ÖNCE geri al. Yedek plan: otelde geç çıkış ya da bagaj kabul eden bir yer.
+  İkinci risk gece havalimanı ulaşımı — transferi gün içinde ayarla.
 
 ### 20 Ağustos Perşembe — Dönüş 🏠
 - 02:15 Tiran Nene Tereza'dan kalkış (PC284)
 - 04:50 İstanbul Sabiha Gökçen'e iniş
 - _Dikkat:_ takvimde 20 Ağustos, pratikte 19 Ağustos gecesi.
+- ⚠️ _Bu günün riski:_ 02:15 kalkış = 00:15'te havalimanında olmak. Bu gece uykusuz geçecek,
+  iniş sonrası planı hafif tut. Dönüşte 20 kg valiz hakkı var — alışverişi bu bacağa bırak,
+  ama 8 kg kabin sınırını unutma.
 
 ---
 
@@ -170,7 +194,7 @@ Tek gereken geçerli pasaport. 🛂
 
 ## 5. Pratik bilgiler
 
-- **Para:** Kosova 🇽🇰 EUR · Kuzey Makedonya 🇲🇰 MKD denar · Arnavutluk 🇦🇱 ALL lek.
+- **Para:** Kosova EUR · Kuzey Makedonya MKD denar · Arnavutluk ALL lek.
   Denar ve lek ülke dışında geçmiyor, çıkmadan bitir. Yedek nakit euro taşı.
 - **Bütçe:** bölge Batı Avrupa'ya göre belirgin ucuz; kişi başı günlük aralık _belirlenecek_.
 - **Elektrik:** priz tipi C/F (Türkiye ile aynı), 230 V / 50 Hz. Adaptör gerekmez.
@@ -183,7 +207,109 @@ Tek gereken geçerli pasaport. 🛂
 
 ---
 
-## 6. Hazırlık kontrol listesi
+## 6. Nelere dikkat etmeli
+
+Korkutmak için değil — önceden bilinirse hiçbiri sorun olmaz. Sitede ayrı bölüm olarak duruyor
+(`TUR.dikkatEdilecekler`), seviye etiketleri: **kritik / önemli / bilgi**.
+
+### 🛂 Sınır geçişleri — önemli
+- Rotada tek kara sınırı Ohrid – Dıraç bacağında; otobüsteki bekleme süresi değişken.
+- Pasaportlar el altında dursun, bavulun içinde değil. Otobüsten inip kuyruğa girmek olağan.
+- Su ve atıştırmalık yanında bulunsun; bekleme uzarsa yakında büfe olmayabilir.
+- Konaklama rezervasyonu ve dönüş biletinin offline kopyası telefonda hazır olsun.
+
+### 📖 Pasaport damgaları — bilgi
+- Bu rotada Sırbistan üzerinden geçiş yok; Kosova giriş-çıkışı sorun çıkarmıyor.
+- Yine de her geçişte damganın vurulduğunu kontrol et; eksik çıkış damgası sonra soru yaratır.
+- Pasaportun dönüş tarihinden sonra da yeterli geçerliliği olsun.
+
+### 🚌 Otobüs kültürü — önemli
+- Her hatta online bilet yok; bazı biletler yalnızca otogar gişesinden alınıyor.
+- Bileti bir gün önceden garantiye al — özellikle Üsküp-Ohrid ve Ohrid-Dıraç.
+- Seferler öğleden sonra seyrekleşiyor; son sefer saatini vardığın gün öğren (kontrol edilecek).
+- Otogar–merkez mesafesini hesaba kat; bavul için küçük ek ücret istenebilir, bozuk para taşı.
+
+### 💱 Para ve ödeme — önemli
+- Kosova euro (EUR), Kuzey Makedonya denar (MKD), Arnavutluk lek (ALL).
+- Denar ve lek ülke dışında bozdurulmaz — o ülkeden çıkmadan harca.
+- Küçük yerlerde, plajda ve otobüste kart geçmiyor; her zaman nakit bulundur.
+- ATM'de "kendi para biriminizle ödeyin" (DCC) teklifi çıkarsa **reddet**, yerel para birimini seç.
+- Yedek olarak bir miktar euro nakit taşı; üçünde de bozdurulabiliyor.
+
+### 🌡 Ağustos sıcağı — önemli
+- Bölgede 35 °C üzeri sıcaklıklar görülebiliyor.
+- 12:00-16:00 arasına dışarıda ağır program koyma; gezileri sabaha ve ikindiye yay.
+- Su, şapka ve güneş kremi zorunlu; kremi gün içinde tekrar sür.
+- Kale, Kaneo ve amfitiyatro tırmanışlarını öğle sıcağına denk getirme.
+
+### 👥 Ağustos yoğunluğu — önemli
+- Ohrid ve Dıraç sezonun en yoğun ayında.
+- Konaklamayı ve Ohrid tekne turunu erken rezerve et.
+- Plajda şezlong genelde ücretli ve sabah tükeniyor.
+- Popüler restoranlar akşam doluyor; erken saat ya da rezervasyon işi kolaylaştırır.
+
+### 🌙 Gece uçuşu — KRİTİK
+- Kalkış 02:15 → havalimanında 00:15'te olmak gerekiyor; merkezden ~23:30'da çıkılacak.
+- Tiran merkezden havalimanına gece ulaşım seyrek; transferi gün içinde ayarla.
+- 19 Ağustos gecesi konaklama yok — o gece uykusuz geçecek, planına yaz.
+- Çıkış ile uçuş arasındaki ~14 saatte bagaj emaneti şart (konum ve saat kontrol edilecek).
+- Telefon ve powerbank tam şarjlı olsun.
+
+### 🧳 Bagaj farkı — bilgi
+- Gidiş (VF101): kabin 40 × 15 × 30 cm / 4 kg + 10 kg ek bagaj.
+- Dönüş (PC284): 20 kg valiz + 8 kg kabin.
+- Dönüşte belirgin şekilde fazla hak var — alışverişi dönüş bacağına bırak.
+- Gidişte kabin ölçüsü küçük; büyük sırt çantası sığmayabilir.
+
+### 📶 İletişim ve harita — bilgi
+- Yurt dışı roaming pahalı; yerel eSIM ya da otel wifi daha mantıklı.
+- Üç ülke de AB dışında; Türkiye paketleri genelde geçerli değil, tarifeyi kontrol et.
+- Üsküp, Ohrid, Dıraç ve Tiran haritalarını offline indir.
+- Bilet ve rezervasyonların offline kopyasını telefonda tut.
+
+### 🩺 Sağlık — bilgi
+- Acil durum numarası: 112 (üç ülkede de geçerli).
+- Musluk suyu için yerel tavsiyeye uy; şişe su güvenli tercih.
+- Küçük ilaç çantası: ağrı kesici, bağırsak ilacı, yara bandı, elektrolit.
+- Seyahat sağlık sigortası kalkıştan önce alınacak.
+
+---
+
+## 7. Görsel envanteri
+
+Tüm görseller Wikimedia Commons'tan; URL'ler `TUR` objesinde her mekânın `gorsel` alanında.
+Hepsi `curl -I` ile **HTTP 200** doğrulandı ve içerik kontrolü için indirilip görüntülendi.
+Genişlik 960 px — Wikimedia yalnızca belirli thumbnail boyutlarına izin veriyor, 800 px isteği
+`400 Use thumbnail sizes listed…` döndürüyor, bu yüzden en yakın geçerli boyut kullanıldı.
+
+| Slot | Yer | Fotoğrafçı · lisans |
+|---|---|---|
+| kapak | Priştine | GentiBehramaj · CC BY 4.0 |
+| kapak | Üsküp (kaleden panorama) | kallerna · CC BY-SA 4.0 |
+| kapak | Ohrid (göl + eski şehir) | Edal Anton Lefterov · CC BY-SA 3.0 |
+| kapak | Dıraç (şehir + deniz) | Besara1 · CC BY-SA 4.0 |
+| kapak | Tiran (Skenderbeg Meydanı) | Andrew Milligan sumo · CC BY 2.0 |
+| galeri | NEWBORN anıtı | Karrota · CC BY-SA 3.0 |
+| galeri | Taş Köprü | David Bailey · CC BY-SA 2.0 |
+| galeri | Eski Çarşı | kallerna · CC BY-SA 4.0 |
+| galeri | Makedonya Meydanı | kallerna · CC BY-SA 4.0 |
+| galeri | Sveti Jovan Kaneo | kallerna · CC BY-SA 4.0 |
+| galeri | Ohrid Gölü'nde tekne | Hans Põldoja · CC BY 2.0 |
+| galeri | Samuel Kalesi | Miha Peče · CC BY 4.0 |
+| galeri | Sveti Naum Manastırı | Petar Milošević · CC BY-SA 4.0 |
+| galeri | Dıraç sahili | Edal Anton Lefterov · CC BY-SA 3.0 |
+| galeri | Roma amfitiyatrosu | Pudelek · CC BY-SA 4.0 |
+| galeri | Skenderbeg Meydanı | Pudelek · CC BY-SA 4.0 |
+| galeri | Dajti teleferiği | Roy r lindman · CC BY 4.0 |
+| galeri | Piramit | BBB2021 · CC BY-SA 4.0 |
+
+**Görsel bulunamayan slot yok** — istenen 10 mekânın hepsi karşılandı. Ek olarak Samuel Kalesi,
+Sveti Naum ve Makedonya Meydanı da eklendi. Bill Clinton Bulvarı, Blloku ve Bunk'Art için
+doğrulanabilir uygun görsel seçilmedi; bu maddeler metinde kaldı, galerisiz.
+
+---
+
+## 8. Hazırlık kontrol listesi
 
 - [ ] 🛂 Pasaport geçerlilik kontrolü
 - [ ] 🩺 Seyahat sağlık sigortası
@@ -200,7 +326,34 @@ Tek gereken geçerli pasaport. 🛂
 
 ## Yapılanlar
 
-### 26 Temmuz 2026
+### 26 Temmuz 2026 — ikinci oturum
+- **Geri sayım üç durumlu hâle getirildi** (`meta.donusISO` eklendi):
+  yolculuk öncesi "Yola çıkmaya kalan" + altında dönüş bilgisi; 12-19 Ağustos arasında ana sayaç
+  **"Dönüşe kalan"** olur ve yanında "Turun N. günü / 8" göstergesi çıkar; dönüş uçuşu geçtikten
+  sonra "Tur tamamlandı 🏠". Saniyede bir güncelleniyor, durum değişimi sayfa yenilemesi
+  gerektirmiyor. Üç durum sahte saatle test edildi.
+- **Tüm vize ibareleri silindi** — `index.html`, `TUR` objesi, `PLAN.md` ve `README.md`.
+  Yerine bir şey konmadı; pasaport hatırlatması kontrol listesinde duruyor.
+- **Ülke kısaltmaları ve bayrak emojileri kaldırıldı** (XK / MK / AL ve bayraklar).
+  Şehir isimleri sade; ülke gerektiğinde açık yazılıyor (Kosova, Kuzey Makedonya, Arnavutluk).
+  Rota şeridinde artık yalnızca şehir adı + gece sayısı var.
+- **Fotoğraflar eklendi** — 5 şehir kapağı (16:9) + 13 mekân galerisi (4:3), hepsi Wikimedia
+  Commons. Her URL önce Commons API'den arandı, sonra `curl -I` ile 200 doğrulandı ve içerik
+  kontrolü için indirilip görüntülendi (18/18 başarılı). Her görselin altında fotoğrafçı +
+  lisans bilgisi var. `loading="lazy"`, `decoding="async"` ve `aspect-ratio` ile sayfa zıplaması
+  engellendi; `onerror` ile degrade renkli yer tutucu + mekân adı yedeği kuruldu (test edildi).
+- **Lightbox yazıldı** — harici kütüphane yok, ~35 satır JS. Tıkla/Enter ile açılıyor,
+  Escape ile veya boşluğa tıklayarak kapanıyor, arka plan kaydırması kilitleniyor,
+  odak geri veriliyor.
+- **Her gün kartına "Bu günün riski" satırı eklendi** (`gunler[].risk`) — 9 günün hepsinde,
+  o güne özel ve somut.
+- **"Nelere dikkat etmeli" bölümü açıldı** (`TUR.dikkatEdilecekler`) — 10 başlık,
+  kritik / önemli / bilgi seviyeleriyle: sınır geçişleri, pasaport damgaları, otobüs kültürü,
+  para ve DCC, ağustos sıcağı, ağustos yoğunluğu, gece uçuşu, bagaj farkı, iletişim, sağlık.
+- Yeni CSS'ler `:root` token'larını kullanıyor; sabit renk yazılmadı. Mobilde görseller tek
+  sütun, yatay taşma yok (373 px genişlikte doğrulandı).
+
+### 26 Temmuz 2026 — birinci oturum
 - Rota **tamamen değiştirildi**: yeni hat İstanbul → Priştine → Üsküp → Ohrid → Dıraç →
   Tiran → İstanbul. Belgrad ve Sırbistan rotadan çıkarıldı, hiçbir dosyada geçmiyor.
 - Kesin uçuş bilgileri eklendi: gidiş AJet VF101 (PNR 4FQPAT), dönüş Pegasus PC284
@@ -233,3 +386,7 @@ Tek gereken geçerli pasaport. 🛂
 - [ ] Seyahat sağlık sigortası poliçesi
 - [ ] 20 Ağustos 04:50 Sabiha Gökçen inişi sonrası eve dönüş planı
 - [ ] Bilet PDF'lerinin `docs/` altına eklenmesi
+- [ ] Tiran → havalimanı gece transferi (taksi/servis) ayarlanacak
+- [ ] Yerel eSIM ya da roaming tarifesi kararı
+- [ ] Ohrid tekne turu rezervasyonu (ağustos yoğunluğu nedeniyle erken)
+- [ ] Bill Clinton Bulvarı, Blloku ve Bunk'Art için uygun görsel bulunursa galeriye eklenecek
