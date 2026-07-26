@@ -1,0 +1,30 @@
+# İşletim sistemi
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+$RECYCLE.BIN/
+
+# Editör / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-workspace
+
+# Geçici ve yedek dosyalar
+*.tmp
+*.temp
+*.bak
+*.log
+
+# Bağımlılıklar / build (ileride gerekirse)
+node_modules/
+dist/
+build/
+.cache/
+
+# Ortam dosyaları
+.env
+.env.local
