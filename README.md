@@ -105,6 +105,13 @@ dokunmak gerekmez.**
   script'i çalıştırmaz ve harita sessizce yedek kutuya düşer.
 - **Lezzetler:** `sehirler[].lezzetler` dizisine `{ ad, yerel, aciklama, ipucu, gorsel?, kaynak? }`
   ekle. `gorsel` yoksa madde ikonla gösterilir — uydurma URL yazmaktansa boş bırak.
+  Görsel kartın tam genişliğinde 16:9 bant olarak basılır; yatay (manzara) görseller
+  daha iyi durur.
+- **Favoriler:** kalp düğmeleri `sehirAdı::maddeMetni` biçiminde kimlik kullanır. Bir
+  maddenin metnini değiştirirsen o maddeye daha önce verilmiş kalp kaybolur — metin
+  düzenlerken bunu bil.
+- **Anı notları:** her gün kartında `textarea[data-ani="YYYY-MM-DD"]` var, tarih anahtar
+  olarak kullanılıyor. `gunler[].tarihISO` değişirse eski not erişilemez hâle gelir.
 - **Bugün kartı:** `?tarih=2026-08-15` parametresiyle istediğin günü simüle edip
   görünümü test edebilirsin. Kart yalnızca tarih 12-20 Ağustos 2026 aralığındayken çıkar.
 - **Hava durumu:** `havaDurumu.gunSehir` hangi gün hangi şehrin tahmininin çekileceğini
@@ -128,8 +135,19 @@ dokunmak gerekmez.**
 - **"Belirlenecek" işaretleri:** metinde geçen _belirlenecek_, _kontrol edilecek_,
   _alınacak_ ifadeleri otomatik olarak vurgulu gösterilir. Emin olunmayan bir bilgiyi
   uydurmak yerine bu ifadelerden birini yaz.
+- **Tarayıcıda saklanan veriler** (hepsi `localStorage`, sunucuya hiçbir şey gitmez):
+
+  | Anahtar | İçerik |
+  |---|---|
+  | `balkan2026.hazirlik` | Hazırlık listesi işaretleri |
+  | `balkan2026.favoriler` | ♥ İkimizin listesi — beğenilen mekân ve lezzetler |
+  | `balkan2026.anilar` | Gün kartlarındaki anı notları |
+  | `balkan2026.hava` | Hava durumu yanıtı + zaman damgası (3 saat) |
+
+  Bunlar cihaza özeldir; telefonda işaretlenen bir şey bilgisayarda görünmez.
 - **Kontrol listesi:** işaretler tarayıcının `localStorage`'ında `balkan2026.hazirlik`
-  anahtarıyla saklanır. Yeni madde eklerken `id` alanının benzersiz olmasına dikkat et;
+  anahtarıyla saklanır. Liste 10/10 olunca konfeti ve kutlama kutusu çıkar — yalnızca
+  tamamlanma anında, her açılışta değil. Yeni madde eklerken `id` alanının benzersiz olmasına dikkat et;
   mevcut bir `id`'yi değiştirmek o maddenin kaydını sıfırlar.
 - **Rehber notu etiketleri:** `notlar` dizisindeki `tip` alanı "En iyi saat", "Dikkat" veya
   "İpucu" olabilir. "Dikkat" ve "İpucu" ayrı renkle gösterilir.

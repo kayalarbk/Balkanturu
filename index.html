@@ -1714,22 +1714,36 @@ tbody td:last-child{ padding-bottom:0; }
    LEZZETLER
    ===================================================================== */
 .lezzetler{ display:flex; flex-direction:column; gap:var(--s-3); margin-top:var(--s-2); }
+/* Görsel karesi kartın tam yüksekliğine yayılır — altında boşluk kalmaz.
+   Kart içeriği ne kadar uzarsa kare de o kadar uzar (object-fit:cover). */
+/* Görsel kartın tamamı kadar geniş bir bant olarak üstte durur.
+   Yanda dar bir kare olarak dizilince, metin uzadıkça kare incecik bir
+   şeride dönüşüyor ve "oturmamış" görünüyordu; bant her genişlikte
+   sabit 16:9 oranında ve kart genişliğinde kalıyor. */
 .lezzet{
-  display:grid; grid-template-columns:auto 1fr; gap:var(--s-3); align-items:start;
-  background:var(--c-cream); border:1px solid var(--c-line); border-radius:var(--r-s); padding:.6rem .7rem;
+  display:grid; grid-template-columns:minmax(0,1fr); gap:var(--s-3);
+  background:var(--c-cream); border:1px solid var(--c-line); border-radius:var(--r-m);
+  padding:.7rem .8rem .85rem; overflow:hidden;
 }
-.lezzet-gorsel{
-  width:64px; height:64px; border-radius:var(--r-s); overflow:hidden; background:var(--c-sand-2);
-  cursor:zoom-in;
+.lezzet-gorsel, .lezzet-yok{
+  width:100%; aspect-ratio:16 / 9;
+  border-radius:var(--r-s); overflow:hidden; background:var(--c-sand-2);
 }
+/* Görseli olmayan maddede koca boş bant durmasın — sadece ikon kadar yer */
+.lezzet-yok{ aspect-ratio:auto; min-height:56px; }
+.lezzet-gorsel{ cursor:zoom-in; }
 .lezzet-gorsel img{ width:100%; height:100%; object-fit:cover; display:block; }
 .lezzet-gorsel.hata{ background:linear-gradient(135deg,var(--c-deep),var(--c-teal)); }
 .lezzet-gorsel.hata img{ display:none; }
-.lezzet-yok{ width:64px; height:64px; border-radius:var(--r-s); background:var(--c-sand-2); display:grid; place-items:center; font-size:1.4rem; }
-.lezzet-ad{ font-weight:700; font-size:.98rem; }
+.lezzet-yok{ display:grid; place-items:center; font-size:1.8rem; }
+.lezzet-icerik{ min-width:0; align-self:center; }
+.lezzet-ad{
+  font-weight:700; font-size:1rem;
+  display:flex; align-items:baseline; gap:.4rem; flex-wrap:wrap;
+}
 .lezzet-ad i{ font-style:italic; font-weight:500; color:var(--c-ink-soft); font-size:.88rem; }
-.lezzet-aciklama{ font-size:.9rem; color:var(--c-ink-soft); margin-top:.15rem; }
-.lezzet-ipucu{ font-size:.85rem; margin-top:.3rem; }
+.lezzet-aciklama{ font-size:.9rem; color:var(--c-ink-soft); margin-top:.25rem; }
+.lezzet-ipucu{ font-size:.86rem; margin-top:.35rem; }
 .lezzet-ipucu b{ color:var(--c-teal); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; }
 .yeme-notlar{
   margin-top:var(--s-5); background:#fff; border:1px solid var(--c-line);
@@ -1738,6 +1752,120 @@ tbody td:last-child{ padding-bottom:0; }
 .yeme-notlar h3{ font-size:1.02rem; margin-bottom:var(--s-3); }
 .yeme-notlar ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:.45rem; font-size:.93rem; }
 .yeme-notlar li{ display:flex; gap:var(--s-3); align-items:flex-start; }
+
+/* =====================================================================
+   FAVORİLER — ikimizin listesi
+   Lezzetlere ve öne çıkan mekânlara kalp atılabiliyor, seçimler
+   localStorage'da saklanıyor.
+   ===================================================================== */
+.fav{
+  all:unset; box-sizing:border-box; cursor:pointer;
+  display:inline-grid; place-items:center; flex:0 0 auto;
+  width:34px; height:34px; margin-left:auto; border-radius:50%;
+  font-size:1.05rem; line-height:1; color:var(--c-ink-soft);
+  transition:transform .18s cubic-bezier(.2,.7,.3,1), background .18s ease, color .18s ease;
+}
+.fav:hover{ background:var(--c-sand-2); transform:scale(1.12); }
+.fav:focus-visible{ outline:3px solid var(--c-teal-soft); outline-offset:2px; }
+.fav[aria-pressed="true"]{ color:#d64545; }
+.fav[aria-pressed="true"]::after{ content:"♥"; }
+.fav[aria-pressed="false"]::after{ content:"♡"; }
+/* Kalbe basınca kısa bir "atış" */
+.fav.atiyor{ animation:kalp-atisi .5s cubic-bezier(.2,.7,.3,1); }
+@keyframes kalp-atisi{
+  0%{ transform:scale(1); } 35%{ transform:scale(1.5); }
+  55%{ transform:scale(.92); } 100%{ transform:scale(1); }
+}
+/* Kalpten yukarı süzülen küçük kalp */
+.ucan-kalp{
+  position:fixed; z-index:120; pointer-events:none;
+  font-size:1.1rem; color:#d64545; animation:kalp-ucus 1s ease-out forwards;
+}
+@keyframes kalp-ucus{
+  0%{ opacity:1; transform:translate(-50%,-50%) scale(.7); }
+  100%{ opacity:0; transform:translate(-50%,-190%) scale(1.5); }
+}
+.city ul li{ display:flex; align-items:center; gap:var(--s-2); }
+.city ul li > span{ min-width:0; }
+.fav-sayac{
+  display:none; align-items:center; gap:.3rem;
+  background:#fdeaea; color:#b03a3a; border:1px solid #f3cfcf;
+  border-radius:var(--r-pill); padding:.14rem .55rem;
+  font-size:.76rem; font-weight:800; white-space:nowrap;
+}
+.fav-sayac[data-adet]:not([data-adet="0"]){ display:inline-flex; }
+.fav-ozet{
+  margin-top:var(--s-4); background:#fff; border:1px solid var(--c-line);
+  border-left:5px solid #d64545; border-radius:var(--r-m);
+  padding:var(--s-4) var(--s-5); box-shadow:var(--sh-1);
+}
+.fav-ozet h3{ font-size:1.02rem; margin-bottom:var(--s-2); }
+.fav-ozet p{ font-size:.92rem; color:var(--c-ink-soft); }
+.fav-ozet ul{ margin:var(--s-3) 0 0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:.4rem; }
+.fav-ozet li{
+  background:var(--c-cream); border:1px solid var(--c-line); border-radius:var(--r-pill);
+  padding:.25rem .7rem; font-size:.86rem;
+}
+
+/* =====================================================================
+   ANI NOTLARI — her güne küçük seyahat defteri
+   ===================================================================== */
+.ani{ margin-top:var(--s-4); }
+.ani label{
+  display:block; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--c-ink-soft); font-weight:700; margin-bottom:.35rem;
+}
+.ani textarea{
+  width:100%; min-height:64px; resize:vertical; font-family:inherit; font-size:.95rem;
+  line-height:1.55; color:var(--c-ink);
+  background:var(--c-cream); border:1px dashed var(--c-line); border-radius:var(--r-s);
+  padding:.6rem .75rem;
+}
+.ani textarea:focus{ outline:none; border-color:var(--c-teal); border-style:solid; background:#fff; }
+.ani textarea::placeholder{ color:var(--c-ink-soft); opacity:.8; }
+.ani-durum{ display:block; margin-top:.3rem; font-size:.76rem; color:var(--c-ok); min-height:1.1em; }
+
+/* =====================================================================
+   KONFETİ — hazırlık listesi tamamlanınca
+   ===================================================================== */
+.konfeti-parca{
+  position:fixed; top:-14px; z-index:130; width:9px; height:14px; border-radius:2px;
+  pointer-events:none; animation:konfeti-dus linear forwards;
+}
+@keyframes konfeti-dus{
+  0%{ opacity:1; transform:translateY(0) rotate(0deg); }
+  100%{ opacity:.1; transform:translateY(102vh) rotate(680deg); }
+}
+.kutlama{
+  display:none; margin-top:var(--s-4);
+  background:linear-gradient(135deg,var(--c-teal) 0%,var(--c-deep) 120%); color:#fff;
+  border-radius:var(--r-m); padding:var(--s-4) var(--s-5); font-weight:700;
+  box-shadow:var(--sh-2);
+}
+.kutlama[data-acik="1"]{ display:block; animation:kutlama-gir .5s cubic-bezier(.2,.7,.3,1); }
+.kutlama small{ display:block; margin-top:.25rem; font-weight:400; color:rgba(255,255,255,.85); }
+@keyframes kutlama-gir{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:none; } }
+
+/* =====================================================================
+   LIGHTBOX GEZİNME — oklar ve sayaç
+   ===================================================================== */
+.lightbox-gez{
+  all:unset; box-sizing:border-box; cursor:pointer; position:fixed; z-index:2;
+  top:50%; transform:translateY(-50%);
+  width:48px; height:48px; display:grid; place-items:center; border-radius:50%;
+  background:rgba(255,255,255,.18); color:#fff; font-size:1.5rem; line-height:1;
+}
+.lightbox-gez:hover{ background:rgba(255,255,255,.3); }
+.lightbox-gez:focus-visible{ outline:3px solid var(--c-teal-soft); outline-offset:2px; }
+.lightbox-gez.onceki{ left:calc(var(--s-3) + env(safe-area-inset-left)); }
+.lightbox-gez.sonraki{ right:calc(var(--s-3) + env(safe-area-inset-right)); }
+.lightbox[data-tekli="1"] .lightbox-gez{ display:none; }
+.lightbox-sayac{
+  position:fixed; z-index:2; left:50%; transform:translateX(-50%);
+  bottom:calc(var(--s-4) + env(safe-area-inset-bottom));
+  color:rgba(255,255,255,.75); font-size:.8rem; letter-spacing:.1em; font-variant-numeric:tabular-nums;
+}
+.lightbox[data-tekli="1"] .lightbox-sayac{ display:none; }
 
 /* ===================== HARİTA ===================== */
 .harita-kutu{
@@ -2106,6 +2234,10 @@ footer p + p{ margin-top:var(--s-2); }
     </div>
     <div class="progress"><i id="check-bar"></i></div>
     <ul class="checks" id="checks"></ul>
+    <div class="kutlama" id="kutlama" data-acik="0">
+      🎉 Her şey hazır!
+      <small>Liste tamam — geriye sadece yola çıkmak kaldı.</small>
+    </div>
     <p class="check-note">✔ İşaretler bu tarayıcıda saklanır; sayfayı kapatsan da kaybolmaz.</p>
 
     <div class="tbd-box">
@@ -2120,10 +2252,13 @@ footer p + p{ margin-top:var(--s-2); }
 <!-- ===================== LIGHTBOX ===================== -->
 <div class="lightbox" id="lightbox" data-acik="0" role="dialog" aria-modal="true" aria-label="Büyütülmüş görsel">
   <button class="lightbox-kapat" id="lightbox-kapat" type="button" aria-label="Kapat">✕</button>
+  <button class="lightbox-gez onceki" id="lightbox-onceki" type="button" aria-label="Önceki görsel">‹</button>
+  <button class="lightbox-gez sonraki" id="lightbox-sonraki" type="button" aria-label="Sonraki görsel">›</button>
   <figure style="margin:0; display:grid; place-items:center;">
     <img id="lightbox-img" alt="">
     <figcaption id="lightbox-yazi"></figcaption>
   </figure>
+  <span class="lightbox-sayac" id="lightbox-sayac"></span>
 </div>
 
 <!-- ===================== FOOTER ===================== -->
@@ -2322,6 +2457,22 @@ footer p + p{ margin-top:var(--s-2); }
   const esc = (s) => String(s == null ? "" : s)
     .replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
+  /* =====================================================================
+     FAVORİLER — "ikimizin listesi"
+     Lezzetlere ve öne çıkan mekânlara kalp atılıyor, seçim tarayıcıda
+     saklanıyor. Kalpler render sırasında basılır, sayaçlar sonradan güncellenir.
+     ===================================================================== */
+  const FAV_KEY = "balkan2026.favoriler";
+  let favoriler = {};
+  try { favoriler = JSON.parse(localStorage.getItem(FAV_KEY) || "{}") || {}; } catch (e) { favoriler = {}; }
+  const favKaydet = () => {
+    try { localStorage.setItem(FAV_KEY, JSON.stringify(favoriler)); } catch (e) {}
+  };
+  const favDugmesi = (id, ad) =>
+    '<button type="button" class="fav" data-fav="' + esc(id) + '"' +
+    ' aria-pressed="' + (favoriler[id] ? "true" : "false") + '"' +
+    ' aria-label="' + esc(ad) + ' — favorilere ekle"></button>';
+
   /* Sabit oranlı, tıklanabilir görsel kutusu üretir */
   function gorselKutusu(g, oran, ad) {
     if (!g || !g.gorsel) return "";
@@ -2357,10 +2508,12 @@ footer p + p{ margin-top:var(--s-2); }
                 ' onerror="this.closest(\'.gorsel-kutu\').classList.add(\'hata\')">' +
               "</div>"
             : '<div class="lezzet-yok" aria-hidden="true">🍽</div>';
+          const favId = c.ad + "::" + y.ad;
           return '<div class="lezzet">' + gorsel +
-            "<div>" +
-              '<div class="lezzet-ad">' + esc(y.ad) +
-                (y.yerel ? " <i>· " + esc(y.yerel) + "</i>" : "") + "</div>" +
+            '<div class="lezzet-icerik">' +
+              '<div class="lezzet-ad"><span>' + esc(y.ad) + "</span>" +
+                (y.yerel ? "<i>· " + esc(y.yerel) + "</i>" : "") +
+                favDugmesi(favId, y.ad) + "</div>" +
               '<div class="lezzet-aciklama">' + esc(y.aciklama) + "</div>" +
               (y.ipucu ? '<div class="lezzet-ipucu"><b>İpucu</b> ' + markTBD(esc(y.ipucu)) + "</div>" : "") +
             "</div></div>";
@@ -2380,12 +2533,16 @@ footer p + p{ margin-top:var(--s-2); }
       kapak +
       '<div class="city-title">' +
         "<div><h3>" + c.ad + '</h3><div class="city-country">' + c.ulke + "</div></div>" +
-        '<span class="city-nights">' + c.sure + "</span>" +
+        '<div style="display:flex;gap:.4rem;align-items:center;flex-wrap:wrap">' +
+          '<span class="fav-sayac" data-sehir="' + esc(c.ad) + '" data-adet="0">♥ <span>0</span></span>' +
+          '<span class="city-nights">' + c.sure + "</span>" +
+        "</div>" +
       "</div>" +
       '<div class="city-theme">' + c.tema + "</div>" +
       '<p class="city-text">' + c.tanitim + "</p>" +
       "<h4>Öne çıkanlar</h4>" +
-      "<ul>" + c.oneCikanlar.map((x) => "<li>" + x + "</li>").join("") + "</ul>" +
+      "<ul>" + c.oneCikanlar.map((x) =>
+        "<li><span>" + x + "</span>" + favDugmesi(c.ad + "::" + x, x) + "</li>").join("") + "</ul>" +
       lezzetler +
       galeri));
   });
@@ -2399,20 +2556,100 @@ footer p + p{ margin-top:var(--s-2); }
     ).join("") + "</ul>");
   cities.parentNode.appendChild(yinKutu);
 
+  /* ---------- Favori özeti + sayaçlar ---------- */
+  const favOzet = el("div", "fav-ozet",
+    "<h3>♥ İkimizin listesi</h3>" +
+    '<p id="fav-ozet-metin"></p><ul id="fav-ozet-liste"></ul>');
+  cities.parentNode.insertBefore(favOzet, yinKutu);
+
+  function favYenile() {
+    /* Şehir başına sayaç */
+    document.querySelectorAll(".fav-sayac").forEach((s) => {
+      const sehir = s.dataset.sehir;
+      const adet = Object.keys(favoriler).filter((k) => favoriler[k] && k.indexOf(sehir + "::") === 0).length;
+      s.dataset.adet = String(adet);
+      s.querySelector("span").textContent = adet;
+    });
+    /* Genel özet */
+    const secilenler = Object.keys(favoriler).filter((k) => favoriler[k]);
+    const metin = $("#fav-ozet-metin");
+    const liste = $("#fav-ozet-liste");
+    if (!secilenler.length) {
+      metin.textContent = "Beğendiğiniz yerlere ve lezzetlere kalp bırakın — burada birikecek.";
+      liste.innerHTML = "";
+      return;
+    }
+    metin.textContent = secilenler.length + " şey seçtiniz. Yolda bu listeye bakın:";
+    liste.innerHTML = secilenler.map((k) => {
+      const [sehir, ad] = k.split("::");
+      return "<li>" + esc(ad) + " <span style='opacity:.6'>· " + esc(sehir) + "</span></li>";
+    }).join("");
+  }
+
+  /* Kalbe basınca: kaydet, kısa bir atış animasyonu ve yukarı süzülen kalp */
+  document.addEventListener("click", (e) => {
+    const dugme = e.target.closest(".fav");
+    if (!dugme) return;
+    const id = dugme.dataset.fav;
+    const yeni = !favoriler[id];
+    if (yeni) favoriler[id] = true; else delete favoriler[id];
+    favKaydet();
+
+    dugme.setAttribute("aria-pressed", yeni ? "true" : "false");
+    dugme.classList.remove("atiyor");
+    void dugme.offsetWidth;           /* animasyonu yeniden tetikle */
+    dugme.classList.add("atiyor");
+
+    if (yeni) {
+      const r = dugme.getBoundingClientRect();
+      const kalp = el("span", "ucan-kalp", "♥");
+      kalp.style.left = (r.left + r.width / 2) + "px";
+      kalp.style.top = (r.top + r.height / 2) + "px";
+      document.body.appendChild(kalp);
+      setTimeout(() => kalp.remove(), 1000);
+    }
+    favYenile();
+  });
+  favYenile();
+
   /* ---------- LIGHTBOX (harici kütüphane yok) ---------- */
   const lb = $("#lightbox");
   const lbImg = $("#lightbox-img");
   const lbYazi = $("#lightbox-yazi");
   let sonOdak = null;
+  let lbGrup = [];      /* aynı galerideki görseller */
+  let lbIndex = 0;
+
+  /* Tıklanan görselin komşularını bul: aynı galeri / lezzet listesi içindekiler */
+  function grubuBul(kutu) {
+    const kap = kutu.closest(".galeri") || kutu.closest(".lezzetler") || kutu.closest(".city-kapak");
+    if (!kap) return [kutu];
+    const hepsi = [...kap.querySelectorAll(".gorsel-kutu")].filter((k) => !k.classList.contains("hata"));
+    return hepsi.length ? hepsi : [kutu];
+  }
+
+  function lbGoster(i) {
+    const kutu = lbGrup[i];
+    if (!kutu) return;
+    lbIndex = i;
+    lbImg.src = kutu.dataset.buyuk;
+    const ic = kutu.querySelector("img");
+    lbImg.alt = ic ? ic.alt : kutu.dataset.baslik;
+    lbYazi.innerHTML = "<strong>" + esc(kutu.dataset.baslik) + "</strong>📷 " + esc(kutu.dataset.kaynak);
+    $("#lightbox-sayac").textContent = (i + 1) + " / " + lbGrup.length;
+    lb.dataset.tekli = lbGrup.length > 1 ? "0" : "1";
+  }
+  const lbSonraki = () => lbGoster((lbIndex + 1) % lbGrup.length);
+  const lbOnceki = () => lbGoster((lbIndex - 1 + lbGrup.length) % lbGrup.length);
 
   function lbAc(kutu) {
     if (kutu.classList.contains("hata")) return;
     sonOdak = document.activeElement;
-    lbImg.src = kutu.dataset.buyuk;
-    lbImg.alt = kutu.querySelector("img") ? kutu.querySelector("img").alt : kutu.dataset.baslik;
-    lbYazi.innerHTML = "<strong>" + esc(kutu.dataset.baslik) + "</strong>📷 " + esc(kutu.dataset.kaynak);
+    lbGrup = grubuBul(kutu);
+    const i = lbGrup.indexOf(kutu);
     lb.dataset.acik = "1";
     document.body.style.overflow = "hidden";
+    lbGoster(i < 0 ? 0 : i);
     $("#lightbox-kapat").focus();
   }
   function lbKapat() {
@@ -2421,19 +2658,42 @@ footer p + p{ margin-top:var(--s-2); }
     document.body.style.overflow = "";
     if (sonOdak) sonOdak.focus();
   }
+
   document.addEventListener("click", (e) => {
+    if (e.target.closest("#lightbox-onceki")) { lbOnceki(); return; }
+    if (e.target.closest("#lightbox-sonraki")) { lbSonraki(); return; }
     const kutu = e.target.closest(".gorsel-kutu");
     if (kutu) { lbAc(kutu); return; }
     if (e.target.closest("#lightbox-kapat") || e.target === lb) lbKapat();
   });
+
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && lb.dataset.acik === "1") lbKapat();
+    if (lb.dataset.acik === "1") {
+      if (e.key === "Escape") { lbKapat(); return; }
+      if (e.key === "ArrowRight") { e.preventDefault(); lbSonraki(); return; }
+      if (e.key === "ArrowLeft") { e.preventDefault(); lbOnceki(); return; }
+    }
     if ((e.key === "Enter" || e.key === " ") && document.activeElement &&
         document.activeElement.classList.contains("gorsel-kutu")) {
       e.preventDefault();
       lbAc(document.activeElement);
     }
   });
+
+  /* Telefonda sola/sağa kaydırarak gezinme */
+  let dokunusX = null, dokunusY = null;
+  lb.addEventListener("touchstart", (e) => {
+    dokunusX = e.changedTouches[0].clientX;
+    dokunusY = e.changedTouches[0].clientY;
+  }, { passive: true });
+  lb.addEventListener("touchend", (e) => {
+    if (dokunusX === null) return;
+    const dx = e.changedTouches[0].clientX - dokunusX;
+    const dy = e.changedTouches[0].clientY - dokunusY;
+    dokunusX = dokunusY = null;
+    if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy)) return; /* dikey kaydırma değil */
+    if (dx < 0) lbSonraki(); else lbOnceki();
+  }, { passive: true });
 
   /* ---------- GÜN GÜN PROGRAM (accordion) ---------- */
   const bugun = new Date();
@@ -2480,7 +2740,14 @@ footer p + p{ margin-top:var(--s-2); }
         ? '<div class="day-risk"><span class="ico" aria-hidden="true">⚠</span>' +
           "<span><b>Bu günün riski</b>" + markTBD(g.risk) + "</span></div>"
         : "") +
-      '<div class="day-night">🌙 Gece: ' + g.gece + "</div>";
+      '<div class="day-night">🌙 Gece: ' + g.gece + "</div>" +
+      /* Küçük seyahat defteri — yazdıkça kaydedilir */
+      '<div class="ani">' +
+        '<label for="ani-' + (i + 1) + '">✍ Bu günden aklımızda kalan</label>' +
+        '<textarea id="ani-' + (i + 1) + '" data-ani="' + g.tarihISO + '"' +
+          ' placeholder="Ne yedik, kime rastladık, ne güldük…"></textarea>' +
+        '<span class="ani-durum" data-ani-durum="' + g.tarihISO + '"></span>' +
+      "</div>";
 
     btn.addEventListener("click", () => {
       const acik = day.dataset.open === "1";
@@ -2522,6 +2789,31 @@ footer p + p{ margin-top:var(--s-2); }
   });
   window.addEventListener("hashchange", () => gunuAc(location.hash));
   if (location.hash) gunuAc(location.hash);
+
+  /* ---------- ANI NOTLARI — yazdıkça localStorage'a kaydedilir ---------- */
+  const ANI_KEY = "balkan2026.anilar";
+  let anilar = {};
+  try { anilar = JSON.parse(localStorage.getItem(ANI_KEY) || "{}") || {}; } catch (e) { anilar = {}; }
+
+  daysWrap.querySelectorAll("textarea[data-ani]").forEach((alan) => {
+    const gun = alan.dataset.ani;
+    if (anilar[gun]) alan.value = anilar[gun];
+    let zamanlayici = null;
+    alan.addEventListener("input", () => {
+      clearTimeout(zamanlayici);
+      zamanlayici = setTimeout(() => {
+        if (alan.value.trim()) anilar[gun] = alan.value; else delete anilar[gun];
+        try { localStorage.setItem(ANI_KEY, JSON.stringify(anilar)); } catch (e) {}
+        const durum = daysWrap.querySelector('[data-ani-durum="' + gun + '"]');
+        if (durum) {
+          durum.textContent = alan.value.trim() ? "✓ kaydedildi" : "";
+          setTimeout(() => { durum.textContent = ""; }, 2000);
+        }
+      }, 500);
+    });
+    /* Yazarken kart kapanmasın diye tıklama accordion'a sızmasın */
+    alan.addEventListener("click", (e) => e.stopPropagation());
+  });
 
   $("#footer-note").textContent = bugunKarti
     ? "Bugün programın içindeyiz — günün kartı otomatik vurgulandı ve açıldı."
@@ -2812,11 +3104,36 @@ footer p + p{ margin-top:var(--s-2); }
   const bar = $("#check-bar");
   const count = $("#check-count");
 
+  /* Liste tamamlanınca konfeti — sadece o an tamamlandığında, her açılışta değil */
+  let oncekiTamamMi = TUR.kontrolListesi.every((k) => kayit[k.id]);
+
+  function konfetiAt() {
+    const renkler = ["#17879b", "#2fb3c4", "#e0952b", "#d64545", "#f4ece0", "#0b2a45"];
+    for (let i = 0; i < 70; i++) {
+      const p = el("i", "konfeti-parca");
+      p.style.left = Math.random() * 100 + "vw";
+      p.style.background = renkler[i % renkler.length];
+      p.style.animationDuration = (2.2 + Math.random() * 1.6) + "s";
+      p.style.animationDelay = (Math.random() * .5) + "s";
+      p.style.transform = "rotate(" + Math.random() * 360 + "deg)";
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 4500);
+    }
+  }
+
   function guncelleSayac() {
     const toplam = TUR.kontrolListesi.length;
     const yapilan = TUR.kontrolListesi.filter((k) => kayit[k.id]).length;
     bar.style.width = (yapilan / toplam * 100) + "%";
     count.textContent = yapilan + " / " + toplam + " tamam";
+
+    const tamamMi = yapilan === toplam;
+    $("#kutlama").dataset.acik = tamamMi ? "1" : "0";
+    if (tamamMi && !oncekiTamamMi &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      konfetiAt();
+    }
+    oncekiTamamMi = tamamMi;
   }
 
   TUR.kontrolListesi.forEach((k) => {

@@ -391,6 +391,40 @@ açısından beklenen kalıp bu.
 
 ## Yapılanlar
 
+### 26 Temmuz 2026 — altıncı oturum
+
+**Lezzet kartlarındaki görsel oturmuyordu**
+- Sorun: görsel 64 × 64 px sabit kareydi, kart ise metin uzunluğuna göre 170-216 px
+  yükseliyordu; karenin altında büyük bir boşluk kalıyor, kare "oturmamış" görünüyordu.
+- Önce kareyi kart yüksekliğine yaydım (96 px genişlik, `align-self:stretch`) — bu sefer
+  ölçüm 96 × 253 px çıktı, yani incecik bir şeride döndü. Masaüstünde şehir kartları üçe
+  bölününce daha da kötüleşti (112 × 323 px).
+- Nihai çözüm: **görsel artık kartın tam genişliğinde, üstte, sabit 16:9 bant.**
+  Her genişlikte ölçülen oran 1.78 (320 / 390 / 768 / 1440 px). Görseli olmayan
+  maddelerde koca boş bant durmasın diye ikon kutusu 56 px yüksekliğinde kalıyor.
+
+**Etkileşimler eklendi**
+Hepsi `localStorage` tabanlı, çevrimdışı çalışıyor, harici kütüphane yok.
+
+1. **♥ İkimizin listesi (favoriler)** — her lezzete ve her "öne çıkanlar" maddesine kalp
+   atılabiliyor (50 kalp düğmesi). Kalbe basınca kısa bir "atış" animasyonu ve yukarı
+   süzülen küçük bir kalp çıkıyor. Şehir kartının başlığında o şehirden kaç şey seçildiğini
+   gösteren sayaç, şehir kartlarının altında ise toplu özet listesi var.
+   Anahtar: `balkan2026.favoriler`.
+2. **✍ Anı notları** — her gün kartının içinde "Bu günden aklımızda kalan" alanı;
+   yazdıkça (500 ms gecikmeyle) kaydediliyor ve "✓ kaydedildi" geri bildirimi veriyor.
+   Küçük bir seyahat defteri. Anahtar: `balkan2026.anilar`.
+3. **🎉 Konfeti** — hazırlık listesi 10/10 olduğunda konfeti yağıyor ve "Her şey hazır!"
+   kutusu açılıyor. Sadece o an tamamlandığında tetikleniyor, her sayfa açılışında değil;
+   `prefers-reduced-motion` açıksa animasyon çalışmıyor.
+4. **Lightbox'ta gezinme** — aynı galerideki görseller arasında ok düğmeleri, klavye
+   ok tuşları ve telefonda sola/sağa kaydırma ile geçiş; altta "2 / 4" sayacı.
+   Tek görselli galerilerde oklar ve sayaç gizli.
+
+**Testler:** favori ekleme/çıkarma ve sayaçlar, not kaydı, konfetinin yalnızca tamamlanma
+anında tetiklenmesi, Ohrid galerisinde 2/4 → 3/4 → 4/4 → 1/4 döngüsü ve kaydırma —
+hepsi ölçülerek doğrulandı. 320 / 390 / 768 / 1440 px'te taşma yok, dokunma hedefleri yeterli.
+
 ### 26 Temmuz 2026 — beşinci oturum
 
 **Eksik bilgiler dolduruldu — büyükelçilikler**
