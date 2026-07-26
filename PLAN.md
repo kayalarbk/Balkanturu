@@ -269,6 +269,8 @@ Korkutmak için değil — önceden bilinirse hiçbiri sorun olmaz. Sitede ayrı
 
 ### 🩺 Sağlık — bilgi
 - Acil durum numarası: 112 (üç ülkede de geçerli).
+- Türk temsilcilikleri (mesai dışı nöbetçi hatlar sitede "Cepte" bölümünde):
+  Priştine +383 38 226044 · Üsküp +389 2 310 4710 · Tiran +355 4 238 0350.
 - Musluk suyu için yerel tavsiyeye uy; şişe su güvenli tercih.
 - Küçük ilaç çantası: ağrı kesici, bağırsak ilacı, yara bandı, elektrolit.
 - Seyahat sağlık sigortası kalkıştan önce alınacak.
@@ -388,6 +390,49 @@ açısından beklenen kalıp bu.
 ---
 
 ## Yapılanlar
+
+### 26 Temmuz 2026 — beşinci oturum
+
+**Eksik bilgiler dolduruldu — büyükelçilikler**
+Üç büyükelçiliğin bilgileri `mfa.gov.tr` üzerindeki **resmî "İletişim" sayfalarından**
+alındı (uydurulmadı, arama sonucu özetine güvenilmedi; her sayfa doğrudan açıldı):
+
+| Temsilcilik | Santral | Nöbetçi (mesai dışı) | Adres |
+|---|---|---|---|
+| T.C. Priştine Büyükelçiliği | +383 38 226044 | +383 44 353 074 | Rruga İsmail Qemali No: 90, Arberia |
+| T.C. Üsküp Büyükelçiliği | +389 2 310 4710 | +389 71 245 561 | Ul. Slavej Planina bb, 1000 Skopje |
+| T.C. Tiran Büyükelçiliği | +355 4 238 0350 | +355 67 500 4440 | Rruga e Elbasanit No: 65, Tiranë |
+
+- Numaralar `tel:` bağlantılı — Cepte bölümünden tek dokunuşla aranıyor.
+- Priştine santralini iki resmî ayna 226044 ve 226045 olarak veriyor; ikisi de aynı
+  santralin ardışık hatları, notta belirtildi.
+- **Hâlâ doldurulmayanlar bilinçli:** seyahat sigortası acil hattı (poliçe alınmadı),
+  konaklama adresleri (rezervasyon yapılmadı), müze/teleferik açılış saatleri ve ücretleri.
+  Bunlar sezonluk değişen bilgiler; doğrulanabilir sabit bir kaynak bulunamadığı için
+  "kontrol edilecek" bırakıldı.
+
+**Kutu denetimi — taşan/kırpılan metinler**
+320 / 360 / 390 / 768 / 1440 px'te iki ayrı tarama yapıldı: (a) kutusunun dışına taşan
+metin, (b) `overflow:hidden` yüzünden kırpılan metin.
+
+| Bulgu | Çözüm |
+|---|---|
+| Kapak künyelerinden ikisi kırpılıyordu (346 → 365 px): "Edal Anton Lefterov · CC BY-SA 3.0 · Wikimedia Commons" ve "Andrew Milligan sumo · CC BY 2.0 · Wikimedia Commons". **CC BY-SA'da atıf yükümlülüğü olduğu için bu sadece görsel değil lisans sorunuydu.** | Künye artık hiçbir genişlikte kırpılmıyor; 700 px üstünde iki satırlık yer ayrıldı (`min-height:3.4em`), kart yükseklikleri eşit kaldı (ölçüldü: 227 px × 5) |
+| Acil numara satırı dar ekranda ad ve numarayı yan yana sıkıştırıyordu | Mobilde dikey akış, 520 px üstünde yan yana. Numaralar `white-space:nowrap` + tabular-nums ile bölünmüyor |
+
+Bunun dışında taşan/kırpılan metin bulunamadı (tüm genişliklerde 0).
+
+**iPhone Dynamic Island — üst kısma dokunulamıyor sorunu**
+- Sorun: `viewport-fit=cover` ile içerik ekranın en üstünden başlıyordu; iPhone 14 Pro ve
+  sonrasında Dynamic Island bu alanı kapatıyor ve oradaki öğelere dokunulamıyordu.
+  Özellikle "Yeni sürüm hazır / Yenile" düğmesi ve tur günlerinde en üstte duran
+  **Bugün kartı** ada altında kalıyordu.
+- Çözüm: sayfanın en başına `.ust-alan` bandı eklendi; yüksekliği
+  `env(safe-area-inset-top)` kadar, rengi `theme-color` ile aynı (`--c-deep`).
+  Durum şeritleri bu bandın içine alındı. Masaüstünde inset 0 olduğu için band kayboluyor.
+- Alt tarafta ana ekran çubuğu için footer'a `env(safe-area-inset-bottom)` payı eklendi.
+- **Test:** 393 × 852 px'te inset 59 px'e zorlanarak simüle edildi. Band tam 59 px yer ayırdı,
+  içerik 59 px aşağı kaydı ve **ada bölgesinde tek bir dokunulabilir öğe kalmadı** (ölçüldü).
 
 ### 26 Temmuz 2026 — dördüncü oturum
 
@@ -542,8 +587,6 @@ her genişlikte blok listesi. Önceki turun mobil düzeltmeleri bozulmadı.
 - [ ] Site gerçek bir telefonda açılıp gözle kontrol edilecek (ölçümler tarayıcıda yapıldı,
       dokunma hissi cihazda test edilmedi)
 - [ ] Konaklama adresleri belli olunca haritaya otel işaretçisi eklenebilir
-- [ ] **T.C. Priştine / Üsküp / Tiran büyükelçilik telefonları** — resmî sitelerden alınıp
-      `TUR.cepte.acil` içine yazılacak (şu an "kontrol edilecek")
 - [ ] Konaklama adresleri ve rezervasyon numaraları `TUR.cepte.konaklamalar` içine girilecek;
       girilince "taksiciye göster" kutusu ve harita bağlantısı kendiliğinden çalışacak
 - [ ] Seyahat sigortası acil hattı `TUR.cepte.acil` içine eklenecek

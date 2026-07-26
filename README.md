@@ -113,7 +113,15 @@ dokunmak gerekmez.**
   Yanıt `localStorage`'da `balkan2026.hava` anahtarında 3 saat önbelleklenir.
 - **Acil numaralar:** `cepte.acil` içinde değeri "kontrol edilecek" olan maddeler
   `tel:` bağlantısı almaz, vurgulu "belirlenecek" olarak görünür. **Doğrulamadığın bir
-  telefon numarasını asla yazma.**
+  telefon numarasını asla yazma.** Büyükelçilik numaraları `mfa.gov.tr` üzerindeki resmî
+  "İletişim" sayfalarından alındı; güncellerken arama sonucu özetine değil, sayfanın
+  kendisine bak. İsteğe bağlı alanlar: `nobetci` (mesai dışı hat) ve `adres`.
+- **Güvenli alan (çentik / Dynamic Island):** sayfanın en üstündeki `.ust-alan` bandı
+  `env(safe-area-inset-top)` kadar yer ayırır; üste yeni bir şey eklerken bu bandın
+  **içine ya da altına** koy, öncesine değil — yoksa iPhone'da adanın altında kalır ve
+  dokunulamaz. Footer'da da `env(safe-area-inset-bottom)` payı var.
+- **Görsel künyeleri kırpma:** fotoğrafçı + lisans metni atıf yükümlülüğüdür.
+  `text-overflow:ellipsis` ile kesme; yer dardır diye kısaltmak yerine satır ayır.
 - **Mobil:** yeni bir ızgara eklerken `1fr` yerine **`minmax(0,1fr)`** kullan — `1fr`'nin
   alt sınırı `auto` olduğu için uzun içerik sütunu şişirip kartı taşırıyor. Yeni tablo
   eklersen hücrelere `data-label` ver; 700 px altında başlık olarak basılıyor.

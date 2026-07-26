@@ -835,11 +835,31 @@ const TUR = {
       { sehir: "Ohrid", tarih: "13 – 15 Ağustos (3 gece)", tesis: "belirlenecek", adres: "belirlenecek", rezervasyon: "belirlenecek" },
       { sehir: "Dıraç", tarih: "16 – 18 Ağustos (3 gece)", tesis: "belirlenecek", adres: "belirlenecek", rezervasyon: "belirlenecek" }
     ],
+    /* Büyükelçilik bilgileri mfa.gov.tr üzerindeki resmî "İletişim" sayfalarından
+       alındı (Temmuz 2026). Nöbetçi hatlar mesai dışı acil durumlar içindir. */
     acil: [
-      { ad: "Acil çağrı (polis / ambulans / itfaiye)", deger: "112", not: "Kosova, Kuzey Makedonya ve Arnavutluk'ta geçerli", vurgulu: true },
-      { ad: "T.C. Priştine Büyükelçiliği", deger: "kontrol edilecek", not: "Numara kalkıştan önce resmî siteden alınacak" },
-      { ad: "T.C. Üsküp Büyükelçiliği", deger: "kontrol edilecek", not: "Numara kalkıştan önce resmî siteden alınacak" },
-      { ad: "T.C. Tiran Büyükelçiliği", deger: "kontrol edilecek", not: "Numara kalkıştan önce resmî siteden alınacak" },
+      {
+        ad: "Acil çağrı — polis / ambulans / itfaiye", deger: "112",
+        not: "Kosova, Kuzey Makedonya ve Arnavutluk'ta geçerli", vurgulu: true
+      },
+      {
+        ad: "T.C. Priştine Büyükelçiliği", deger: "+383 38 226044",
+        nobetci: "+383 44 353 074",
+        adres: "Rruga İsmail Qemali No: 90, Arberia — Prishtina",
+        not: "Santral 226044 / 226045 · mesai 09:00-16:00"
+      },
+      {
+        ad: "T.C. Üsküp Büyükelçiliği", deger: "+389 2 310 4710",
+        nobetci: "+389 71 245 561",
+        adres: "Ul. Slavej Planina bb, 1000 Skopje",
+        not: "Konsolosluk şubesi: +389 2 310 4720 / 4721"
+      },
+      {
+        ad: "T.C. Tiran Büyükelçiliği", deger: "+355 4 238 0350",
+        nobetci: "+355 67 500 4440",
+        adres: "Rruga e Elbasanit No: 65, Tiranë",
+        not: "Santral 0350 – 0353 arası dört hat"
+      },
       { ad: "Seyahat sigortası acil hattı", deger: "kontrol edilecek", not: "Poliçe alınınca buraya yazılacak" }
     ],
     kelimeler: [
@@ -1348,9 +1368,12 @@ tbody td:last-child{ padding-bottom:0; }
 }
 @media(min-width:700px){
   .gorsel-kaynak{ font-size:.72rem; }
-  /* Yalnızca kapak künyesi tek satırda kalır (kart genişliğinde, yeri var);
-     galeri künyeleri sarar — dar sütunda lisans bilgisi kırpılmasın. */
-  .city-kapak .gorsel-kaynak{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  /* Künye hiçbir genişlikte kırpılmaz: lisans ve fotoğrafçı adı atıf
+     yükümlülüğü, kesilirse eksik atıf olur. Uzun künyeler sarsın diye
+     iki satırlık yer ayrılır — kart yükseklikleri yine eşit kalır. */
+  /* box-sizing:border-box olduğu için üst padding de min-height'a dâhil:
+     iki satır (2 × 1.45em) + .35rem üst padding ≈ 3.4em */
+  .city-kapak .gorsel-kaynak{ min-height:3.4em; }
 }
 .galeri-ogesi .gorsel-kaynak{ padding-inline:0; }
 /* Yüklenemeyen görseller için degrade yer tutucu */
@@ -1484,6 +1507,20 @@ tbody td:last-child{ padding-bottom:0; }
   display:block; margin-bottom:.2rem; font-size:.7rem; letter-spacing:.12em;
   text-transform:uppercase;
 }
+
+/* =====================================================================
+   ÜST ALAN — çentik / Dynamic Island güvenli alanı
+   iPhone 14 Pro ve sonrasında ekranın üstündeki ada, viewport-fit=cover
+   ile birlikte sayfanın ilk piksellerini kapatıyor ve oradaki düğmelere
+   dokunulamıyordu. Bu band adanın yüksekliği kadar yer ayırır.
+   Renk theme-color ile aynı: ada çevresi tek parça görünür.
+   ===================================================================== */
+.ust-alan{
+  background:var(--c-deep);
+  padding-top:env(safe-area-inset-top);
+}
+/* Masaüstünde ve adasız telefonlarda inset 0'dır; band kendiliğinden
+   sıfır yükseklikte kalır, ayrıca bir kural gerekmez. */
 
 /* =====================================================================
    DURUM ŞERİTLERİ — çevrimdışı uyarısı ve yeni sürüm bildirimi
@@ -1623,15 +1660,35 @@ tbody td:last-child{ padding-bottom:0; }
   background:var(--c-cream); border:1px solid var(--c-line); border-radius:var(--r-s);
   padding:.6rem .75rem;
 }
-.acil-satir{ display:flex; align-items:center; justify-content:space-between; gap:var(--s-3); padding:.55rem 0; border-bottom:1px dashed var(--c-line); }
-.acil-satir:last-child{ border-bottom:0; }
-.acil-ad{ font-size:.92rem; }
-.acil-ad small{ display:block; color:var(--c-ink-soft); font-size:.78rem; }
-.acil-numara{
-  font-size:1.35rem; font-weight:800; color:var(--c-deep); text-decoration:none;
-  min-height:44px; display:inline-flex; align-items:center; padding-inline:.5rem;
+/* Mobile-first: ad üstte, numaralar altta — dar ekranda yan yana sıkışmasın */
+.acil-satir{
+  display:flex; flex-direction:column; gap:.35rem;
+  padding:.7rem 0; border-bottom:1px dashed var(--c-line);
 }
-.acil-satir.vurgulu .acil-numara{ font-size:1.9rem; color:#b03a2e; }
+.acil-satir:last-child{ border-bottom:0; }
+.acil-ad{ font-size:.94rem; font-weight:600; min-width:0; }
+.acil-ad small{ display:block; font-weight:400; color:var(--c-ink-soft); font-size:.82rem; line-height:1.45; }
+.acil-adres{ margin-top:.15rem; }
+.acil-numaralar{ display:flex; flex-wrap:wrap; align-items:center; gap:.35rem var(--s-3); }
+.acil-numara{
+  font-size:1.2rem; font-weight:800; color:var(--c-deep); text-decoration:none;
+  min-height:44px; display:inline-flex; align-items:center;
+  /* uzun uluslararası numaralar kırılmasın */
+  white-space:nowrap; font-variant-numeric:tabular-nums;
+}
+.acil-numara:hover{ text-decoration:underline; }
+.acil-nobetci{
+  display:inline-flex; align-items:center; gap:.4rem;
+  font-size:.76rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--c-ink-soft);
+}
+.acil-nobetci .acil-numara{ font-size:1rem; color:var(--c-teal); }
+.acil-yok{ font-size:.9rem; }
+.acil-satir.vurgulu .acil-numara{ font-size:2rem; color:#b03a2e; }
+@media(min-width:520px){
+  .acil-satir{ flex-direction:row; align-items:center; justify-content:space-between; gap:var(--s-3); }
+  .acil-numaralar{ flex-direction:column; align-items:flex-end; gap:.1rem; flex:0 0 auto; }
+}
 /* Kelime tablosu her genişlikte blok listesi kalır — genel tablo
    kurallarındaki min-width:34rem'i miras alırsa kartı taşırıyor. */
 .kelime-tablo,
@@ -1803,7 +1860,12 @@ tbody td:last-child{ padding-bottom:0; }
 .tbd-box ul{ margin:0; padding-left:1.1rem; font-size:.93rem; color:var(--c-ink-soft); }
 
 /* ===================== FOOTER ===================== */
-footer{ background:var(--c-deep); color:rgba(255,255,255,.72); padding-block:var(--s-6); font-size:.88rem; text-align:center; }
+footer{
+  background:var(--c-deep); color:rgba(255,255,255,.72); font-size:.88rem; text-align:center;
+  /* Alttaki ana ekran çubuğu (home indicator) metni kesmesin */
+  padding-top:var(--s-6);
+  padding-bottom:calc(var(--s-6) + env(safe-area-inset-bottom));
+}
 footer strong{ color:#fff; }
 footer p + p{ margin-top:var(--s-2); }
 
@@ -1843,13 +1905,19 @@ footer p + p{ margin-top:var(--s-2); }
 </head>
 <body>
 
-<!-- ===================== DURUM ŞERİTLERİ ===================== -->
-<div class="serit serit-offline" id="serit-offline" role="status" data-acik="0">
-  📴 Çevrimdışısın — kayıtlı bilgiler gösteriliyor
-</div>
-<div class="serit serit-guncelle" id="serit-guncelle" role="status" data-acik="0">
-  <span>✨ Yeni sürüm hazır</span>
-  <button type="button" id="btn-guncelle">Yenile</button>
+<!-- ===================== ÜST ALAN + DURUM ŞERİTLERİ =====================
+     .ust-alan çentik / Dynamic Island yüksekliğini env(safe-area-inset-top)
+     ile ayırır. Böylece hiçbir içerik ve hiçbir dokunma hedefi adanın
+     altında kalmaz. Masaüstünde inset 0 olduğu için band tamamen kaybolur.
+     ===================================================================== -->
+<div class="ust-alan">
+  <div class="serit serit-offline" id="serit-offline" role="status" data-acik="0">
+    📴 Çevrimdışısın — kayıtlı bilgiler gösteriliyor
+  </div>
+  <div class="serit serit-guncelle" id="serit-guncelle" role="status" data-acik="0">
+    <span>✨ Yeni sürüm hazır</span>
+    <button type="button" id="btn-guncelle">Yenile</button>
+  </div>
 </div>
 
 <!-- ===================== BUGÜN ===================== -->
@@ -2526,11 +2594,18 @@ footer p + p{ margin-top:var(--s-2); }
     "<h3><span aria-hidden='true'>🆘</span> Acil numaralar</h3>" +
     C.acil.map((a) => {
       const gercek = !/kontrol edilecek/i.test(a.deger);
+      const tel = (n) => '<a class="acil-numara" href="tel:' + esc(n.replace(/[\s()]/g, "")) + '">' + esc(n) + "</a>";
       return '<div class="acil-satir' + (a.vurgulu ? " vurgulu" : "") + '">' +
-        '<span class="acil-ad">' + esc(a.ad) + "<small>" + esc(a.not) + "</small></span>" +
-        (gercek
-          ? '<a class="acil-numara" href="tel:' + esc(a.deger.replace(/\s/g, "")) + '">' + esc(a.deger) + "</a>"
-          : '<span class="acil-numara" style="font-size:.9rem">' + markTBD(esc(a.deger)) + "</span>") +
+        '<div class="acil-ad">' + esc(a.ad) +
+          (a.not ? "<small>" + esc(a.not) + "</small>" : "") +
+          (a.adres ? '<small class="acil-adres">📍 ' + esc(a.adres) + "</small>" : "") +
+        "</div>" +
+        '<div class="acil-numaralar">' +
+          (gercek ? tel(a.deger) : '<span class="acil-yok">' + markTBD(esc(a.deger)) + "</span>") +
+          (a.nobetci
+            ? '<span class="acil-nobetci">Nöbetçi ' + tel(a.nobetci) + "</span>"
+            : "") +
+        "</div>" +
       "</div>";
     }).join("")));
 
