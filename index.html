@@ -15,6 +15,13 @@
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%96%3C/text%3E%3C/svg%3E">
 
+<!-- PWA: telefona uygulama gibi eklenebilsin, çevrimdışı açılsın -->
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Balkan">
+
 <!-- =====================================================================
      LEAFLET — projedeki "harici bağımlılık yok" kuralına tek ve bilinçli
      istisna; yalnızca rota haritası için. SRI hash'leri unpkg ve cdnjs
@@ -121,7 +128,7 @@ const TUR = {
       haritaTarih: "12 Ağustos",
       haritaGun: "gun-1",
       kapak: {
-        gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Prishtina_cityscape.jpg/960px-Prishtina_cityscape.jpg",
+        gorsel: "./docs/img/kapak-pristine.jpg",
         alt: "Priştine şehir manzarası",
         kaynak: "GentiBehramaj · CC BY 4.0 · Wikimedia Commons"
       },
@@ -137,6 +144,30 @@ const TUR = {
         "☕ Merkezdeki kafe kültürü",
         "🕌 Osmanlı dönemi camileri ve eski çarşı",
         "🍲 Kosova mutfağı: flija"
+      ],
+      lezzetler: [
+        {
+          ad: "Flija", yerel: "flia",
+          aciklama: "Kat kat dökülüp saatlerce sabırla pişirilen, tepsiyle servis edilen bir hamur işi; Kosova'nın en simgesel yemeği.",
+          ipucu: "Uzun sürdüğü için genelde önceden hazırlanır — öğle saatlerinde sorman daha iyi.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Flia_n%C3%AB_Bukosh_01.jpg/640px-Flia_n%C3%AB_Bukosh_01.jpg",
+          kaynak: "Edukatori · CC BY 4.0"
+        },
+        {
+          ad: "Sac böreği", yerel: "byrek",
+          aciklama: "Sacda pişen, peynirli ya da etli ince yufka böreği; günün her saatinde bulunur.",
+          ipucu: "Ayaküstü kahvaltı için en pratik seçenek."
+        },
+        {
+          ad: "Kosova usulü kebap", yerel: "qebapa",
+          aciklama: "Küçük, baharatlı köfteler; yanında soğan, ekmek ve kaymak benzeri süt ürünleriyle gelir.",
+          ipucu: "Porsiyonlar adetle sayılır; ilk seferde az söyleyip eklemek daha mantıklı."
+        },
+        {
+          ad: "Makiato", yerel: "makiato",
+          aciklama: "Priştine'nin kahve kültürünün merkezinde; kısa, sütlü ve şaşırtıcı derecede iyi.",
+          ipucu: "Kafede oturmak burada sosyal bir ritüel — acele etme, saatlerce kalabilirsin."
+        }
       ],
       galeri: [
         {
@@ -157,7 +188,7 @@ const TUR = {
       haritaTarih: "12 Ağustos gecesi",
       haritaGun: "gun-2",
       kapak: {
-        gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Skopje_view_from_Kale_3.jpg/960px-Skopje_view_from_Kale_3.jpg",
+        gorsel: "./docs/img/kapak-uskup.jpg",
         alt: "Üsküp Kalesi'nden Vardar Nehri ve şehir panoraması",
         kaynak: "kallerna · CC BY-SA 4.0 · Wikimedia Commons"
       },
@@ -173,6 +204,39 @@ const TUR = {
         "🏰 Üsküp Kalesi ve şehir manzarası",
         "🍮 Trileçenin anavatanında trileçe",
         "🏞 Matka Kanyonu — vakit kalırsa yarım gün"
+      ],
+      lezzetler: [
+        {
+          ad: "Trileçe", yerel: "trileče",
+          aciklama: "Üç sütle ıslatılan, üstü karamelli sünger kek. Anavatanı burası; Türkiye'de bildiğinden daha hafif ve daha ıslak.",
+          ipucu: "Turun tek 'kaçırılmaz tatlısı' buysa şaşırma.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Trileche.jpg/640px-Trileche.jpg",
+          kaynak: "E4024 · CC BY-SA 4.0"
+        },
+        {
+          ad: "Tavče gravče", yerel: "тавче гравче",
+          aciklama: "Toprak kapta fırınlanan baharatlı kuru fasulye — Kuzey Makedonya'nın ulusal yemeği sayılır.",
+          ipucu: "Tek başına doyurucu; yanına ekmek yeter. Vejetaryen dostu.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Tavce_gravce.jpg/640px-Tavce_gravce.jpg",
+          kaynak: "Nenadimitrovski81 · CC BY-SA 4.0"
+        },
+        {
+          ad: "Ajvar", yerel: "ајвар",
+          aciklama: "Közlenmiş kırmızı biberden yapılan, ekmeğe sürülen bölgesel meze.",
+          ipucu: "Kavanozda satılanı hediyelik olarak iyi gider — ama dönüş bagajını düşün.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/%D0%A2%D1%80%D0%B0%D0%B4%D0%B8%D1%86%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D0%BD%D0%BE_%D1%81%D0%B5%D1%80%D0%B2%D0%B8%D1%80%D0%B0%D0%BD_%D0%B0%D1%98%D0%B2%D0%B0%D1%80.jpg/640px-%D0%A2%D1%80%D0%B0%D0%B4%D0%B8%D1%86%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D0%BD%D0%BE_%D1%81%D0%B5%D1%80%D0%B2%D0%B8%D1%80%D0%B0%D0%BD_%D0%B0%D1%98%D0%B2%D0%B0%D1%80.jpg",
+          kaynak: "Mila Atkovska · CC BY-SA 4.0"
+        },
+        {
+          ad: "Eski Çarşı kebabı", yerel: "ќебапи",
+          aciklama: "Çarşının ara sokaklarında ızgaradan gelen küçük köfteler; Osmanlı mutfağının doğrudan devamı.",
+          ipucu: "Öğle saati en taze olduğu zaman."
+        },
+        {
+          ad: "Skopsko", yerel: "Скопско",
+          aciklama: "Şehrin adını taşıyan yerel bira; sıcak bir günün sonunda çarşı kenarında iyi gider.",
+          ipucu: "Alkolsüz tercih edersen ayran ve boza da her yerde var."
+        }
       ],
       galeri: [
         {
@@ -205,7 +269,7 @@ const TUR = {
       haritaTarih: "13 – 15 Ağustos",
       haritaGun: "gun-3",
       kapak: {
-        gorsel: "https://upload.wikimedia.org/wikipedia/commons/5/53/OhridLake-and-the-Old-town.jpg",
+        gorsel: "./docs/img/kapak-ohrid.jpg",
         alt: "Ohrid Gölü kıyısı ve tepeye tırmanan eski şehir",
         kaynak: "Edal Anton Lefterov · CC BY-SA 3.0 · Wikimedia Commons"
       },
@@ -222,6 +286,35 @@ const TUR = {
         "🧭 Sveti Naum Manastırı — gölün güneyi, tam gün",
         "🏊 Göl plajlarında yüzme",
         "🍽 Göl kenarında akşam yemeği"
+      ],
+      lezzetler: [
+        {
+          ad: "Ohrid alabalığı", yerel: "охридска пастрмка",
+          aciklama: "Gölün simge balığı; kızartma ya da ızgara, yanında patates ve limonla gelir.",
+          ipucu: "Göl kıyısında akşamüstü, gün batarken yenir. Ohrid alabalığının bazı türleri koruma altında — menüde hangi balık olduğunu sor.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/%D0%9E%D1%85%D1%80%D0%B8%D0%B4%D1%81%D0%BA%D0%B0_%D0%BF%D0%B0%D1%81%D1%82%D1%80%D0%BC%D0%BA%D0%B0_%2C_%D0%BF%D1%80%D0%B6%D0%B5%D0%BD%D0%B0_%D1%80%D0%B8%D0%B1%D0%B0_%D1%81%D0%BE_%D0%B3%D0%B0%D1%80%D0%BD%D0%B8%D1%80_%D0%BF%D0%BE%D0%BC%D1%84%D1%80%D0%B8%D1%82%2C_%D0%BC%D0%B0%D1%80%D1%83%D0%BB%D0%B0_%D0%B8_%D0%BF%D0%B0%D1%80%D1%87%D0%B8%D1%9A%D0%B0_%D0%BB%D0%B8%D0%BC%D0%BE%D0%BD%D0%B8.jpg/640px-%D0%9E%D1%85%D1%80%D0%B8%D0%B4%D1%81%D0%BA%D0%B0_%D0%BF%D0%B0%D1%81%D1%82%D1%80%D0%BC%D0%BA%D0%B0_%2C_%D0%BF%D1%80%D0%B6%D0%B5%D0%BD%D0%B0_%D1%80%D0%B8%D0%B1%D0%B0_%D1%81%D0%BE_%D0%B3%D0%B0%D1%80%D0%BD%D0%B8%D1%80_%D0%BF%D0%BE%D0%BC%D1%84%D1%80%D0%B8%D1%82%2C_%D0%BC%D0%B0%D1%80%D1%83%D0%BB%D0%B0_%D0%B8_%D0%BF%D0%B0%D1%80%D1%87%D0%B8%D1%9A%D0%B0_%D0%BB%D0%B8%D0%BC%D0%BE%D0%BD%D0%B8.jpg",
+          kaynak: "Mihail Verbal · CC BY 4.0"
+        },
+        {
+          ad: "Tavče gravče", yerel: "тавче гравче",
+          aciklama: "Ohrid'de de her menüde var; göl kenarında sıcak bir öğle yemeği olarak ideal.",
+          ipucu: "Balık pahalıysa bu daha ekonomik ve bir o kadar doyurucu."
+        },
+        {
+          ad: "Burek + kefir kahvaltısı", yerel: "бурек и кефир",
+          aciklama: "Bölgenin klasik sabah ikilisi: sıcak börek yanında ekşi kefir.",
+          ipucu: "Sabah tekne turuna çıkmadan önce en pratik kahvaltı."
+        },
+        {
+          ad: "Yerel şarap", yerel: "вино",
+          aciklama: "Kuzey Makedonya'nın şarapçılığı güçlü; kırmızıda Vranec en bilinen yerel üzüm.",
+          ipucu: "Akşam yemeğinde kadeh usulü denemek en kolayı."
+        },
+        {
+          ad: "Rakı", yerel: "ракија",
+          aciklama: "Üzüm ya da erikten damıtılan sert yerel içki; göl manzarasına eşlik eder.",
+          ipucu: "Türkiye'deki anason rakısıyla aynı şey değil — daha çok sert bir eau-de-vie."
+        }
       ],
       galeri: [
         {
@@ -260,7 +353,7 @@ const TUR = {
       haritaTarih: "16 – 18 Ağustos",
       haritaGun: "gun-5",
       kapak: {
-        gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/City_of_Durr%C3%ABs.jpg/960px-City_of_Durr%C3%ABs.jpg",
+        gorsel: "./docs/img/kapak-dirac.jpg",
         alt: "Dıraç şehri ve arkasında Adriyatik",
         kaynak: "Besara1 · CC BY-SA 4.0 · Wikimedia Commons"
       },
@@ -276,6 +369,34 @@ const TUR = {
         "🏛 Dıraç antik Roma amfitiyatrosu",
         "🍤 Sahil restoranlarında deniz ürünleri",
         "🚌 Tiran'a 40 dakikalık kolay kaçamak"
+      ],
+      lezzetler: [
+        {
+          ad: "Taze deniz mahsulleri", yerel: "peshk i freskët",
+          aciklama: "Liman kenti olduğu için balık ve kalamar sahil boyunca her yerde; genelde kilo hesabıyla satılır.",
+          ipucu: "Fiyat kiloyla verildiği için sipariş ederken balığı tarttır, sonra onaylat."
+        },
+        {
+          ad: "Tavë kosi", yerel: "tavë kosi",
+          aciklama: "Yoğurt ve yumurtayla fırınlanan kuzu — Arnavutluk'un ulusal yemeği.",
+          ipucu: "Ağır bir yemek; öğlen sıcağında değil akşam denemek daha iyi.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Tav%C3%AB_kosi.jpg/640px-Tav%C3%AB_kosi.jpg",
+          kaynak: "MirelaAndoni · CC BY-SA 4.0"
+        },
+        {
+          ad: "Fërgesë", yerel: "fërgesë",
+          aciklama: "Biber, domates ve taze beyaz peynirle yapılan sıcak meze; ekmekle yenir.",
+          ipucu: "Vejetaryen ve paylaşmalık — masaya ilk gelecek şey olsun.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/F%C3%ABrges%C3%AB_dhe_Tav%C3%AB_me_oriz.jpg/640px-F%C3%ABrges%C3%AB_dhe_Tav%C3%AB_me_oriz.jpg",
+          kaynak: "Kj1595 · CC BY-SA 4.0"
+        },
+        {
+          ad: "Byrek", yerel: "byrek",
+          aciklama: "Arnavutluk'un her köşesinde bulunan yufka böreği; peynirli, ıspanaklı ya da patatesli.",
+          ipucu: "Plaja inmeden önce alınacak en pratik atıştırmalık.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Byrek_me_djath%C3%AB.jpg/640px-Byrek_me_djath%C3%AB.jpg",
+          kaynak: "Rrezjaediellit · CC BY-SA 4.0"
+        }
       ],
       galeri: [
         {
@@ -302,7 +423,7 @@ const TUR = {
       haritaTarih: "18 Ağustos kaçamak · 19 Ağustos tam gün",
       haritaGun: "gun-8",
       kapak: {
-        gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Skanderbeg_Square%2C_Tirana_%2849593783026%29.jpg/960px-Skanderbeg_Square%2C_Tirana_%2849593783026%29.jpg",
+        gorsel: "./docs/img/kapak-tiran.jpg",
         alt: "İkindi güneşinde Tiran Skenderbeg Meydanı",
         kaynak: "Andrew Milligan sumo · CC BY 2.0 · Wikimedia Commons"
       },
@@ -319,6 +440,35 @@ const TUR = {
         "🚡 Dajti teleferiği",
         "🏚 Bunk'Art — soğuk savaş sığınağı müzesi",
         "🎁 Yeni Çarşı (Pazari i Ri) ve hediyelikler"
+      ],
+      lezzetler: [
+        {
+          ad: "Modern Arnavut mutfağı", yerel: "Blloku",
+          aciklama: "Blloku semti, geleneksel tarifleri yeniden yorumlayan restoranların merkezi.",
+          ipucu: "Turun en 'şehirli' akşam yemeği burada olur. Mekân seçimi gidince bakılacak."
+        },
+        {
+          ad: "Qofte", yerel: "qofte",
+          aciklama: "Baharatlı Arnavut köftesi; ızgara ya da sulu, yanında ekmek ve salatayla.",
+          ipucu: "Küçük lokantalarda en güvenilir sipariş.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Qofte_shqiptare.jpg/640px-Qofte_shqiptare.jpg",
+          kaynak: "Valovaloooo · CC BY-SA 4.0"
+        },
+        {
+          ad: "Byrek", yerel: "byrek",
+          aciklama: "Son gün valizle dolaşırken tek elle yenebilecek en iyi şey.",
+          ipucu: "Gece uçuşu öncesi ağır yemekten kaçınmak istersen ideal."
+        },
+        {
+          ad: "Yeni Çarşı ürünleri", yerel: "Pazari i Ri",
+          aciklama: "Bal, zeytinyağı, kuru baharat, dağ çayı — hediyelik için en iyi yer.",
+          ipucu: "Sıvı ürünleri kabin bagajına koyma; dönüşte 20 kg valiz hakkın var, oraya yerleştir."
+        },
+        {
+          ad: "Raki Rrushi", yerel: "raki rrushi",
+          aciklama: "Üzüm rakısı; Arnavutluk'ta yemek sonrası ikram olarak da gelir.",
+          ipucu: "Gece uçuşun var — son akşam dozunu ayarla."
+        }
       ],
       galeri: [
         {
@@ -646,6 +796,96 @@ const TUR = {
       ]
     }
   ],
+
+  /* ---------- YEME-İÇME NOTLARI ---------- */
+  yemeIcmeNotlari: {
+    baslik: "Yeme-içme notları",
+    maddeler: [
+      { ikon: "🕗", metin: "Akşam yemeği geç yenir — restoranlar 20:00-22:00 arası dolar. Erken acıkırsan öğleden sonra bir şeyler atıştır." },
+      { ikon: "💵", metin: "Bahşiş yaygın ama zorunlu değil: hesabın %5-10'u ya da yukarı yuvarlama yeterli." },
+      { ikon: "💳", metin: "Küçük lokantalar, büfeler ve plaj işletmeleri çoğunlukla nakit çalışıyor. Yanında her zaman yerel para bulundur." },
+      { ikon: "☕", metin: "Kahve sosyal bir ritüel; tek bir fincanla saatlerce oturmak normal, kimse seni kaldırmaz." },
+      { ikon: "💧", metin: "Şişe su her yerde ucuz ve bol. Sıcakta günde 2-3 litre hedefle." },
+      { ikon: "🥗", metin: "Vejetaryen seçenek her menüde var: fërgesë, tavče gravče, byrek, ajvar, salatalar." },
+      { ikon: "📍", metin: "Spesifik mekân önerisi bilerek yazılmadı — fiyat ve açılış saatleri değişken. Gidince bakılacak." }
+    ]
+  },
+
+  /* ---------- CEPTE — yolda hızlı erişim ----------
+     Bu bölüm tamamen çevrimdışı çalışır, hiçbir ağ isteği yapmaz. */
+  cepte: {
+    yolcular: ["Barış Kaya", "Derin Beyza Günal"],
+    ucuslar: [
+      {
+        etiket: "Gidiş", tarih: "12 Ağustos 2026",
+        sefer: "AJet VF101", pnr: "4FQPAT",
+        rota: "SAW 09:50 → Priştine 10:30",
+        bagaj: "Kabin 40×15×30 cm / 4 kg + 10 kg ek bagaj"
+      },
+      {
+        etiket: "Dönüş", tarih: "20 Ağustos 2026",
+        sefer: "Pegasus PC284", pnr: "29BHAE",
+        rota: "Tiran 02:15 → SAW 04:50",
+        bagaj: "20 kg valiz + 8 kg kabin",
+        uyari: "GECE UÇUŞU — 19 Ağustos akşamı havalimanında ol"
+      }
+    ],
+    konaklamalar: [
+      { sehir: "Üsküp", tarih: "12 Ağustos (1 gece)", tesis: "belirlenecek", adres: "belirlenecek", rezervasyon: "belirlenecek" },
+      { sehir: "Ohrid", tarih: "13 – 15 Ağustos (3 gece)", tesis: "belirlenecek", adres: "belirlenecek", rezervasyon: "belirlenecek" },
+      { sehir: "Dıraç", tarih: "16 – 18 Ağustos (3 gece)", tesis: "belirlenecek", adres: "belirlenecek", rezervasyon: "belirlenecek" }
+    ],
+    acil: [
+      { ad: "Acil çağrı (polis / ambulans / itfaiye)", deger: "112", not: "Kosova, Kuzey Makedonya ve Arnavutluk'ta geçerli", vurgulu: true },
+      { ad: "T.C. Priştine Büyükelçiliği", deger: "kontrol edilecek", not: "Numara kalkıştan önce resmî siteden alınacak" },
+      { ad: "T.C. Üsküp Büyükelçiliği", deger: "kontrol edilecek", not: "Numara kalkıştan önce resmî siteden alınacak" },
+      { ad: "T.C. Tiran Büyükelçiliği", deger: "kontrol edilecek", not: "Numara kalkıştan önce resmî siteden alınacak" },
+      { ad: "Seyahat sigortası acil hattı", deger: "kontrol edilecek", not: "Poliçe alınınca buraya yazılacak" }
+    ],
+    kelimeler: [
+      { tr: "Merhaba", sq: "Përshëndetje", sqOku: "pörşendetye", mk: "Здраво", mkOku: "zdravo" },
+      { tr: "Teşekkürler", sq: "Faleminderit", sqOku: "faleminderit", mk: "Благодарам", mkOku: "blagodaram" },
+      { tr: "Ne kadar?", sq: "Sa kushton?", sqOku: "sa kuşton", mk: "Колку чини?", mkOku: "kolku çini" },
+      { tr: "Hesap lütfen", sq: "Llogarinë, ju lutem", sqOku: "logarinö yu lutem", mk: "Сметка, ве молам", mkOku: "smetka ve molam" },
+      { tr: "Su", sq: "Ujë", sqOku: "uyö", mk: "Вода", mkOku: "voda" },
+      { tr: "Yardım edin!", sq: "Ndihmë!", sqOku: "ndihmö", mk: "Помош!", mkOku: "pomoş" },
+      { tr: "Evet / Hayır", sq: "Po / Jo", sqOku: "po / yo", mk: "Да / Не", mkOku: "da / ne" }
+    ]
+  },
+
+  /* ---------- HAVA DURUMU ----------
+     Kaynak: Open-Meteo (API anahtarı gerekmez).
+     Open-Meteo yaklaşık 16 gün ileriyi tahmin ediyor; tur tarihi bu pencerenin
+     dışındaysa aşağıdaki mevsim normalleri gösterilir. */
+  havaDurumu: {
+    api: "https://api.open-meteo.com/v1/forecast",
+    saatDilimi: "Europe/Istanbul",
+    onbellekSaat: 3,
+    sicakEsik: 32,
+    yagisEsik: 40,
+    sicakUyari: "Sıcak gün — öğlen 12-16 arası gölgede kal",
+    yagisUyari: "Yanına ince yağmurluk al",
+    normalNotu: "Tahmin henüz açılmadı — mevsim normali gösteriliyor",
+    mevsimNormali: {
+      /* Ağustos ortası bölgesel ortalamalar — API verisi gelene kadar yer tutucu */
+      "Priştine": { max: 30, min: 15, yagis: 20 },
+      "Üsküp":    { max: 33, min: 17, yagis: 15 },
+      "Ohrid":    { max: 30, min: 16, yagis: 20 },
+      "Dıraç":    { max: 31, min: 21, yagis: 10 },
+      "Tiran":    { max: 33, min: 20, yagis: 15 }
+    },
+    /* Hangi gün hangi şehirde olunuyor (hava tahmini bu eşlemeye göre çekilir) */
+    gunSehir: {
+      "2026-08-12": "Priştine",
+      "2026-08-13": "Üsküp",
+      "2026-08-14": "Ohrid",
+      "2026-08-15": "Ohrid",
+      "2026-08-16": "Dıraç",
+      "2026-08-17": "Dıraç",
+      "2026-08-18": "Dıraç",
+      "2026-08-19": "Tiran"
+    }
+  },
 
   /* ---------- HARİTA ----------
      Koordinatlar Wikidata'daki (P625) doğrulanmış değerlerden alındı.
@@ -1245,6 +1485,203 @@ tbody td:last-child{ padding-bottom:0; }
   text-transform:uppercase;
 }
 
+/* =====================================================================
+   DURUM ŞERİTLERİ — çevrimdışı uyarısı ve yeni sürüm bildirimi
+   ===================================================================== */
+.serit{
+  display:none; width:100%; font-size:.88rem; font-weight:600; text-align:center;
+  padding:.55rem calc(var(--s-4) + env(safe-area-inset-right)) .55rem calc(var(--s-4) + env(safe-area-inset-left));
+}
+.serit[data-acik="1"]{ display:block; }
+.serit-offline{ background:var(--c-warn-bg); color:var(--c-warn-ink); border-bottom:1px solid var(--c-warn-line); }
+.serit-guncelle{
+  background:var(--c-deep); color:#fff;
+  display:none; align-items:center; justify-content:center; gap:var(--s-3); flex-wrap:wrap;
+}
+.serit-guncelle[data-acik="1"]{ display:flex; }
+.serit-guncelle button{
+  all:unset; box-sizing:border-box; cursor:pointer; font-family:inherit;
+  background:var(--c-teal-soft); color:var(--c-deep); font-weight:800; font-size:.85rem;
+  border-radius:var(--r-pill); padding:.35rem 1rem; min-height:36px;
+  display:inline-flex; align-items:center;
+}
+.serit-guncelle button:focus-visible{ outline:3px solid #fff; outline-offset:2px; }
+
+/* =====================================================================
+   BUGÜN KARTI
+   ===================================================================== */
+#bugun{ padding-block:var(--s-6); background:var(--c-sand); }
+.bugun-kart{
+  background:#fff; border:1px solid var(--c-teal); border-radius:var(--r-l);
+  box-shadow:0 0 0 4px rgba(47,179,196,.16), var(--sh-2);
+  overflow:hidden;
+}
+.bugun-ust{
+  background:linear-gradient(135deg,var(--c-deep) 0%,var(--c-teal) 130%);
+  color:#fff; padding:var(--s-4) var(--s-5);
+  display:flex; align-items:baseline; justify-content:space-between; gap:var(--s-3); flex-wrap:wrap;
+}
+.bugun-etiket{ font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; font-weight:800; color:var(--c-teal-soft); }
+.bugun-tarih{ font-size:clamp(1.15rem,4.6vw,1.5rem); font-weight:800; }
+.bugun-sayac{
+  background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.28);
+  border-radius:var(--r-pill); padding:.2rem .7rem; font-size:.82rem; font-weight:700; white-space:nowrap;
+}
+.bugun-govde{ padding:var(--s-4) var(--s-5) var(--s-5); display:flex; flex-direction:column; gap:var(--s-4); }
+.bugun-baslik{ font-size:1.1rem; font-weight:700; }
+.bugun-satir{ display:flex; gap:var(--s-3); align-items:flex-start; font-size:.95rem; }
+.bugun-satir .ico{ flex:0 0 1.4rem; font-size:1.05rem; line-height:1.5; }
+.bugun-satir b{ display:block; font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:var(--c-ink-soft); }
+.bugun-plan{ display:grid; gap:var(--s-2); }
+.bugun-dilim{
+  display:grid; grid-template-columns:5.2rem 1fr; gap:var(--s-3); align-items:baseline;
+  background:var(--c-cream); border-radius:var(--r-s); padding:.55rem .75rem; font-size:.93rem;
+}
+.bugun-dilim b{ font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--c-teal); }
+.bugun-risk{
+  background:var(--c-warn-bg); color:var(--c-warn-ink); border:1px solid var(--c-warn-line);
+  border-left-width:5px; border-radius:var(--r-m); padding:var(--s-3) var(--s-4); font-size:.92rem;
+}
+.bugun-alt{ display:flex; gap:var(--s-3); flex-wrap:wrap; align-items:center; }
+.bugun-yarin{ font-size:.9rem; color:var(--c-ink-soft); flex:1 1 14rem; }
+.bugun-hava{
+  display:inline-flex; align-items:center; gap:.5rem; font-weight:700; font-size:.95rem;
+  background:var(--c-cream); border:1px solid var(--c-line); border-radius:var(--r-pill); padding:.35rem .8rem;
+}
+
+/* =====================================================================
+   HAVA DURUMU ŞERİDİ
+   ===================================================================== */
+#hava-bolumu[hidden]{ display:none; }
+.hava-serit{
+  display:grid; grid-auto-flow:column; grid-auto-columns:minmax(9.5rem,1fr);
+  gap:var(--s-3); overflow-x:auto; padding-block:var(--s-2) var(--s-3);
+  scroll-snap-type:x mandatory; scrollbar-width:thin;
+}
+.hava-kart{
+  scroll-snap-align:start;
+  background:#fff; border:1px solid var(--c-line); border-radius:var(--r-m);
+  padding:var(--s-3) var(--s-4); box-shadow:var(--sh-1); text-align:center;
+}
+.hava-kart.tahmin-yok{ background:var(--c-cream); border-style:dashed; }
+.hava-kart.bugun-mu{ border-color:var(--c-teal); box-shadow:0 0 0 3px rgba(47,179,196,.18); }
+.hava-tarih{ font-size:.78rem; font-weight:700; letter-spacing:.06em; color:var(--c-teal); text-transform:uppercase; }
+.hava-sehir{ font-size:.88rem; font-weight:600; color:var(--c-ink-soft); }
+.hava-ikon{ font-size:2rem; line-height:1.3; }
+.hava-derece{ font-size:1.05rem; font-weight:800; font-variant-numeric:tabular-nums; }
+.hava-derece small{ font-weight:600; color:var(--c-ink-soft); font-size:.82rem; }
+.hava-yagis{ font-size:.82rem; color:var(--c-ink-soft); }
+.hava-rozet{
+  display:block; margin-top:.4rem; font-size:.72rem; font-weight:700; line-height:1.35;
+  border-radius:var(--r-s); padding:.28rem .4rem;
+}
+.hava-rozet.sicak{ background:var(--c-warn-bg); color:var(--c-warn-ink); }
+.hava-rozet.yagmur{ background:#e8f3fa; color:#1c5a80; }
+.hava-not{ font-size:.85rem; color:var(--c-ink-soft); margin-top:var(--s-2); }
+
+/* =====================================================================
+   CEPTE
+   ===================================================================== */
+.cepte-grid{ display:grid; gap:var(--s-4); grid-template-columns:minmax(0,1fr); }
+@media(min-width:760px){ .cepte-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+.cep-kart{
+  background:#fff; border:1px solid var(--c-line); border-radius:var(--r-m);
+  padding:var(--s-4) var(--s-5); box-shadow:var(--sh-1);
+}
+.cep-kart h3{ display:flex; align-items:center; gap:.5rem; font-size:1.02rem; margin-bottom:var(--s-3); }
+.cep-satir{
+  display:flex; align-items:center; justify-content:space-between; gap:var(--s-3);
+  padding:.5rem 0; border-bottom:1px dashed var(--c-line); font-size:.93rem;
+}
+.cep-satir:last-child{ border-bottom:0; }
+.cep-satir .etiket{ color:var(--c-ink-soft); }
+.cep-ucus{ border-bottom:1px solid var(--c-line); padding-bottom:var(--s-3); margin-bottom:var(--s-3); }
+.cep-ucus:last-child{ border-bottom:0; padding-bottom:0; margin-bottom:0; }
+.cep-ucus-ust{ display:flex; align-items:baseline; justify-content:space-between; gap:var(--s-2); flex-wrap:wrap; }
+.cep-ucus-ust strong{ font-size:1rem; }
+.cep-ucus-ust span{ font-size:.85rem; color:var(--c-ink-soft); }
+.cep-rota{ font-size:1.02rem; font-weight:700; margin:.3rem 0; font-variant-numeric:tabular-nums; }
+/* Kopyalanabilir kod — parmakla basılabilir boyutta */
+.kopyala{
+  all:unset; box-sizing:border-box; cursor:pointer; font-family:inherit;
+  display:inline-flex; align-items:center; gap:.45rem; min-height:44px;
+  background:var(--c-deep); color:#fff; border-radius:var(--r-s);
+  padding:.4rem .8rem; font-weight:800; letter-spacing:.12em; font-size:.95rem;
+}
+.kopyala:hover{ background:var(--c-deep-2); }
+.kopyala:focus-visible{ outline:3px solid var(--c-teal-soft); outline-offset:2px; }
+.kopyala .ipucu{ font-size:.68rem; font-weight:600; letter-spacing:.04em; opacity:.75; }
+.kopyala[data-kopyalandi="1"]{ background:var(--c-ok); }
+.cep-uyari{
+  margin-top:var(--s-2); background:var(--c-warn-bg); color:var(--c-warn-ink);
+  border:1px solid var(--c-warn-line); border-radius:var(--r-s);
+  padding:.4rem .6rem; font-size:.85rem; font-weight:700;
+}
+/* Taksiciye gösterilecek büyük punto adres */
+.adres-buyuk{
+  display:block; margin-top:.35rem; font-size:1.25rem; font-weight:700; line-height:1.35;
+  background:var(--c-cream); border:1px solid var(--c-line); border-radius:var(--r-s);
+  padding:.6rem .75rem;
+}
+.acil-satir{ display:flex; align-items:center; justify-content:space-between; gap:var(--s-3); padding:.55rem 0; border-bottom:1px dashed var(--c-line); }
+.acil-satir:last-child{ border-bottom:0; }
+.acil-ad{ font-size:.92rem; }
+.acil-ad small{ display:block; color:var(--c-ink-soft); font-size:.78rem; }
+.acil-numara{
+  font-size:1.35rem; font-weight:800; color:var(--c-deep); text-decoration:none;
+  min-height:44px; display:inline-flex; align-items:center; padding-inline:.5rem;
+}
+.acil-satir.vurgulu .acil-numara{ font-size:1.9rem; color:#b03a2e; }
+/* Kelime tablosu her genişlikte blok listesi kalır — genel tablo
+   kurallarındaki min-width:34rem'i miras alırsa kartı taşırıyor. */
+.kelime-tablo,
+.cep-kart table{ width:100%; min-width:0; border-collapse:collapse; font-size:.9rem; }
+.kelime-tablo tbody tr{
+  display:block; padding:.5rem 0; margin:0; border:0; border-bottom:1px dashed var(--c-line);
+  background:transparent; box-shadow:none; border-radius:0;
+}
+.kelime-tablo tbody tr:last-child{ border-bottom:0; }
+.kelime-tablo td{ display:block; padding:0; border:0; grid-template-columns:none; }
+.kelime-tablo td::before{ content:none; }
+@media(min-width:700px){
+  .kelime-tablo{ min-width:0; }
+  .kelime-tablo tbody tr{ display:block; border-bottom:1px dashed var(--c-line); }
+  .kelime-tablo td{ display:block; padding:0; border-bottom:0; }
+}
+.kelime-tr{ font-weight:700; }
+.kelime-yerel{ color:var(--c-ink-soft); }
+.kelime-yerel b{ color:var(--c-ink); }
+.kelime-yerel i{ font-style:normal; opacity:.75; }
+
+/* =====================================================================
+   LEZZETLER
+   ===================================================================== */
+.lezzetler{ display:flex; flex-direction:column; gap:var(--s-3); margin-top:var(--s-2); }
+.lezzet{
+  display:grid; grid-template-columns:auto 1fr; gap:var(--s-3); align-items:start;
+  background:var(--c-cream); border:1px solid var(--c-line); border-radius:var(--r-s); padding:.6rem .7rem;
+}
+.lezzet-gorsel{
+  width:64px; height:64px; border-radius:var(--r-s); overflow:hidden; background:var(--c-sand-2);
+  cursor:zoom-in;
+}
+.lezzet-gorsel img{ width:100%; height:100%; object-fit:cover; display:block; }
+.lezzet-gorsel.hata{ background:linear-gradient(135deg,var(--c-deep),var(--c-teal)); }
+.lezzet-gorsel.hata img{ display:none; }
+.lezzet-yok{ width:64px; height:64px; border-radius:var(--r-s); background:var(--c-sand-2); display:grid; place-items:center; font-size:1.4rem; }
+.lezzet-ad{ font-weight:700; font-size:.98rem; }
+.lezzet-ad i{ font-style:italic; font-weight:500; color:var(--c-ink-soft); font-size:.88rem; }
+.lezzet-aciklama{ font-size:.9rem; color:var(--c-ink-soft); margin-top:.15rem; }
+.lezzet-ipucu{ font-size:.85rem; margin-top:.3rem; }
+.lezzet-ipucu b{ color:var(--c-teal); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; }
+.yeme-notlar{
+  margin-top:var(--s-5); background:#fff; border:1px solid var(--c-line);
+  border-left:5px solid var(--c-teal); border-radius:var(--r-m); padding:var(--s-4) var(--s-5); box-shadow:var(--sh-1);
+}
+.yeme-notlar h3{ font-size:1.02rem; margin-bottom:var(--s-3); }
+.yeme-notlar ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:.45rem; font-size:.93rem; }
+.yeme-notlar li{ display:flex; gap:var(--s-3); align-items:flex-start; }
+
 /* ===================== HARİTA ===================== */
 .harita-kutu{
   position:relative; border-radius:var(--r-l); overflow:hidden;
@@ -1406,6 +1843,22 @@ footer p + p{ margin-top:var(--s-2); }
 </head>
 <body>
 
+<!-- ===================== DURUM ŞERİTLERİ ===================== -->
+<div class="serit serit-offline" id="serit-offline" role="status" data-acik="0">
+  📴 Çevrimdışısın — kayıtlı bilgiler gösteriliyor
+</div>
+<div class="serit serit-guncelle" id="serit-guncelle" role="status" data-acik="0">
+  <span>✨ Yeni sürüm hazır</span>
+  <button type="button" id="btn-guncelle">Yenile</button>
+</div>
+
+<!-- ===================== BUGÜN ===================== -->
+<section id="bugun" hidden>
+  <div class="wrap">
+    <article class="bugun-kart" id="bugun-kart"></article>
+  </div>
+</section>
+
 <!-- ===================== HERO ===================== -->
 <header class="hero">
   <div class="wrap">
@@ -1436,6 +1889,32 @@ footer p + p{ margin-top:var(--s-2); }
       <p>Gidiş ve dönüş biletleri kesinleşti. Saatler yerel saatlerdir.</p>
     </div>
     <div class="flights" id="flights"></div>
+  </div>
+</section>
+
+<!-- ===================== CEPTE ===================== -->
+<section id="cepte">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">Yolda lazım olacak</span>
+      <h2>Cepte</h2>
+      <p>Uçuş kodları, konaklama, acil numaralar ve temel kelimeler tek yerde.
+         Bu bölüm tamamen çevrimdışı çalışır — kodlara dokununca panoya kopyalanır.</p>
+    </div>
+    <div class="cepte-grid" id="cepte-grid"></div>
+  </div>
+</section>
+
+<!-- ===================== HAVA DURUMU ===================== -->
+<section id="hava-bolumu" hidden>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">12 – 19 Ağustos</span>
+      <h2>Hava durumu</h2>
+      <p id="hava-aciklama"></p>
+    </div>
+    <div class="hava-serit" id="hava-serit"></div>
+    <p class="hava-not" id="hava-not"></p>
   </div>
 </section>
 
@@ -1797,6 +2276,29 @@ footer p + p{ margin-top:var(--s-2); }
           '<small class="gorsel-kaynak">📷 ' + esc(c.kapak.kaynak) + "</small></div>"
       : "";
 
+    /* Ne yenir? — her lezzet için ad, açıklama, ipucu ve varsa küçük görsel */
+    const lezzetler = (c.lezzetler && c.lezzetler.length)
+      ? "<h4>Ne yenir?</h4>" +
+        '<div class="lezzetler">' + c.lezzetler.map((y) => {
+          const gorsel = y.gorsel
+            ? '<div class="gorsel-kutu lezzet-gorsel" data-ad="' + esc(y.ad) + '"' +
+                ' data-buyuk="' + esc(y.gorsel) + '" data-baslik="' + esc(y.ad) + '"' +
+                ' data-kaynak="' + esc(y.kaynak || "Wikimedia Commons") + '"' +
+                ' role="button" tabindex="0" aria-label="' + esc(y.ad) + ' — büyüt">' +
+                '<img src="' + esc(y.gorsel) + '" alt="' + esc(y.ad) + '" loading="lazy" decoding="async"' +
+                ' onerror="this.closest(\'.gorsel-kutu\').classList.add(\'hata\')">' +
+              "</div>"
+            : '<div class="lezzet-yok" aria-hidden="true">🍽</div>';
+          return '<div class="lezzet">' + gorsel +
+            "<div>" +
+              '<div class="lezzet-ad">' + esc(y.ad) +
+                (y.yerel ? " <i>· " + esc(y.yerel) + "</i>" : "") + "</div>" +
+              '<div class="lezzet-aciklama">' + esc(y.aciklama) + "</div>" +
+              (y.ipucu ? '<div class="lezzet-ipucu"><b>İpucu</b> ' + markTBD(esc(y.ipucu)) + "</div>" : "") +
+            "</div></div>";
+        }).join("") + "</div>"
+      : "";
+
     const galeri = (c.galeri && c.galeri.length)
       ? '<div class="galeri">' + c.galeri.map((g) =>
           '<figure class="galeri-ogesi">' +
@@ -1816,8 +2318,18 @@ footer p + p{ margin-top:var(--s-2); }
       '<p class="city-text">' + c.tanitim + "</p>" +
       "<h4>Öne çıkanlar</h4>" +
       "<ul>" + c.oneCikanlar.map((x) => "<li>" + x + "</li>").join("") + "</ul>" +
+      lezzetler +
       galeri));
   });
+
+  /* Yeme-içme notları kutusu — şehir kartlarının altında */
+  const yin = TUR.yemeIcmeNotlari;
+  const yinKutu = el("div", "yeme-notlar",
+    "<h3>🍽 " + esc(yin.baslik) + "</h3><ul>" +
+    yin.maddeler.map((m) =>
+      "<li><span aria-hidden='true'>" + m.ikon + "</span><span>" + markTBD(esc(m.metin)) + "</span></li>"
+    ).join("") + "</ul>");
+  cities.parentNode.appendChild(yinKutu);
 
   /* ---------- LIGHTBOX (harici kütüphane yok) ---------- */
   const lb = $("#lightbox");
@@ -1957,6 +2469,125 @@ footer p + p{ margin-top:var(--s-2); }
       '<td data-label="Yöntem">' + u.yontem + "</td>" +
       '<td data-label="Durum"><span class="status ' + (ok ? "ok" : "todo") + '">' +
         (ok ? "✅ " : "⏳ ") + u.durum + "</span></td>"));
+  });
+
+  /* =====================================================================
+     CEPTE — yolda hızlı erişim
+     Tamamen çevrimdışı: hiçbir ağ isteği yapmaz, her şey TUR objesinden gelir.
+     ===================================================================== */
+  const C = TUR.cepte;
+  const cepteGrid = $("#cepte-grid");
+
+  /* Panoya kopyalanabilir kod düğmesi */
+  const kopyaDugmesi = (deger, etiket) =>
+    '<button type="button" class="kopyala" data-kopya="' + esc(deger) + '">' +
+      "<span>" + esc(deger) + '</span><span class="ipucu">' + esc(etiket) + "</span>" +
+    "</button>";
+
+  /* 1) Uçuşlar */
+  cepteGrid.appendChild(el("article", "cep-kart",
+    "<h3><span aria-hidden='true'>✈</span> Uçuşlar</h3>" +
+    '<div class="cep-satir"><span class="etiket">Yolcular</span><strong>' +
+      C.yolcular.map(esc).join(" · ") + "</strong></div>" +
+    C.ucuslar.map((u) =>
+      '<div class="cep-ucus">' +
+        '<div class="cep-ucus-ust"><strong>' + esc(u.etiket) + " · " + esc(u.sefer) + "</strong>" +
+          "<span>" + esc(u.tarih) + "</span></div>" +
+        '<div class="cep-rota">' + esc(u.rota) + "</div>" +
+        kopyaDugmesi(u.pnr, "PNR — dokun, kopyala") +
+        '<div class="cep-satir"><span class="etiket">Bagaj</span><span>' + esc(u.bagaj) + "</span></div>" +
+        (u.uyari ? '<div class="cep-uyari">🌙 ' + esc(u.uyari) + "</div>" : "") +
+      "</div>").join("")));
+
+  /* 2) Konaklama — adresler netleşince TUR objesinden dolar */
+  cepteGrid.appendChild(el("article", "cep-kart",
+    "<h3><span aria-hidden='true'>🏨</span> Konaklama</h3>" +
+    C.konaklamalar.map((k) => {
+      const adresBelli = k.adres && !/belirlenecek/i.test(k.adres);
+      return '<div class="cep-ucus">' +
+        '<div class="cep-ucus-ust"><strong>' + esc(k.sehir) + "</strong><span>" + esc(k.tarih) + "</span></div>" +
+        '<div class="cep-satir"><span class="etiket">Tesis</span><span>' + markTBD(esc(k.tesis)) + "</span></div>" +
+        '<div class="cep-satir"><span class="etiket">Rezervasyon</span><span>' +
+          (adresBelli || !/belirlenecek/i.test(k.rezervasyon)
+            ? kopyaDugmesi(k.rezervasyon, "dokun, kopyala")
+            : markTBD(esc(k.rezervasyon))) + "</span></div>" +
+        '<div><span class="etiket" style="font-size:.8rem">Adres — taksiciye göster</span>' +
+          '<span class="adres-buyuk">' + markTBD(esc(k.adres)) + "</span>" +
+          (adresBelli
+            ? '<a class="btn" style="margin-top:.5rem" target="_blank" rel="noopener" href="https://www.openstreetmap.org/search?query=' +
+              encodeURIComponent(k.adres + " " + k.sehir) + '">🗺 Haritada aç</a>'
+            : "") +
+        "</div>" +
+      "</div>";
+    }).join("")));
+
+  /* 3) Acil numaralar — doğrulanmayan numaralar bilerek boş */
+  cepteGrid.appendChild(el("article", "cep-kart",
+    "<h3><span aria-hidden='true'>🆘</span> Acil numaralar</h3>" +
+    C.acil.map((a) => {
+      const gercek = !/kontrol edilecek/i.test(a.deger);
+      return '<div class="acil-satir' + (a.vurgulu ? " vurgulu" : "") + '">' +
+        '<span class="acil-ad">' + esc(a.ad) + "<small>" + esc(a.not) + "</small></span>" +
+        (gercek
+          ? '<a class="acil-numara" href="tel:' + esc(a.deger.replace(/\s/g, "")) + '">' + esc(a.deger) + "</a>"
+          : '<span class="acil-numara" style="font-size:.9rem">' + markTBD(esc(a.deger)) + "</span>") +
+      "</div>";
+    }).join("")));
+
+  /* 4) Temel kelimeler */
+  cepteGrid.appendChild(el("article", "cep-kart",
+    "<h3><span aria-hidden='true'>🗣</span> Temel kelimeler</h3>" +
+    '<table class="kelime-tablo"><tbody>' +
+    C.kelimeler.map((k) =>
+      "<tr><td>" +
+        '<div class="kelime-tr">' + esc(k.tr) + "</div>" +
+        '<div class="kelime-yerel">🇦🇱 <b>' + esc(k.sq) + "</b> <i>(" + esc(k.sqOku) + ")</i></div>" +
+        '<div class="kelime-yerel">🇲🇰 <b>' + esc(k.mk) + "</b> <i>(" + esc(k.mkOku) + ")</i></div>" +
+      "</td></tr>").join("") +
+    "</tbody></table>"));
+
+  /* Kopyalama — Clipboard API yoksa eski yönteme düşer */
+  document.addEventListener("click", async (e) => {
+    const dugme = e.target.closest(".kopyala");
+    if (!dugme) return;
+    const deger = dugme.dataset.kopya;
+    const ipucu = dugme.querySelector(".ipucu");
+    const eskiMetin = ipucu.textContent;
+
+    /* Eski yöntem — Clipboard API yoksa ya da izin vermezse devreye girer */
+    const eskiYontem = () => {
+      const t = document.createElement("textarea");
+      t.value = deger;
+      t.setAttribute("readonly", "");
+      t.style.cssText = "position:fixed;top:0;left:-9999px";
+      document.body.appendChild(t);
+      t.select();
+      t.setSelectionRange(0, deger.length);
+      let oldu = false;
+      try { oldu = document.execCommand("copy"); } catch (e2) { oldu = false; }
+      t.remove();
+      return oldu;
+    };
+
+    let basarili = false;
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(deger);
+        basarili = true;
+      } catch (err) { basarili = false; }
+    }
+    if (!basarili) basarili = eskiYontem();
+
+    if (basarili) {
+      dugme.dataset.kopyalandi = "1";
+      ipucu.textContent = "✓ kopyalandı";
+    } else {
+      ipucu.textContent = "kopyalanamadı — elle seç";
+    }
+    setTimeout(() => {
+      dugme.removeAttribute("data-kopyalandi");
+      ipucu.textContent = eskiMetin;
+    }, 2000);
   });
 
   /* =====================================================================
@@ -2132,6 +2763,295 @@ footer p + p{ margin-top:var(--s-2); }
   /* ---------- BELİRLENECEKLER ---------- */
   const tbdList = $("#tbd-list");
   TUR.belirlenecek.forEach((t) => tbdList.appendChild(el("li", null, t)));
+
+  /* =====================================================================
+     HAVA DURUMU — Open-Meteo
+     Open-Meteo ~16 gün ileriyi tahmin ediyor. Tur tarihi bu pencerenin
+     dışındaysa TUR.havaDurumu.mevsimNormali gösterilir.
+     Yanıt localStorage'a zaman damgasıyla yazılır; 3 saatten yeniyse
+     tekrar istek atılmaz. Veri hiç gelmezse şerit sessizce gizli kalır.
+     ===================================================================== */
+  const HV = TUR.havaDurumu;
+  const HAVA_LS = "balkan2026.hava";
+  const havaGunleri = Object.keys(HV.gunSehir).sort();
+
+  const WMO_IKON = {
+    0: "☀️", 1: "🌤", 2: "⛅", 3: "☁️",
+    45: "🌫", 48: "🌫",
+    51: "🌦", 53: "🌦", 55: "🌦", 56: "🌦", 57: "🌦",
+    61: "🌧", 63: "🌧", 65: "🌧", 66: "🌧", 67: "🌧",
+    71: "🌨", 73: "🌨", 75: "🌨", 77: "🌨",
+    80: "🌦", 81: "🌧", 82: "⛈",
+    85: "🌨", 86: "🌨",
+    95: "⛈", 96: "⛈", 99: "⛈"
+  };
+  const havaIkonu = (kod) => WMO_IKON[kod] || "🌡";
+
+  function havaOku() {
+    try {
+      const ham = localStorage.getItem(HAVA_LS);
+      return ham ? JSON.parse(ham) : null;
+    } catch (e) { return null; }
+  }
+  function havaYaz(veri) {
+    try {
+      localStorage.setItem(HAVA_LS, JSON.stringify({ zaman: Date.now(), veri }));
+    } catch (e) { /* kota dolu olabilir, sessiz geç */ }
+  }
+
+  /* Her şehir için tek istek at, gün → değer eşlemesi çıkar */
+  async function havaCek() {
+    const sehirler = {};
+    TUR.sehirler.forEach((s) => { if (s.konum) sehirler[s.ad] = s.konum; });
+    const gerekli = [...new Set(Object.values(HV.gunSehir))].filter((ad) => sehirler[ad]);
+
+    const sonuc = {};
+    await Promise.all(gerekli.map(async (ad) => {
+      const [lat, lon] = sehirler[ad];
+      const url = HV.api +
+        "?latitude=" + lat + "&longitude=" + lon +
+        "&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode" +
+        "&timezone=" + encodeURIComponent(HV.saatDilimi);
+      const yanit = await fetch(url);
+      if (!yanit.ok) throw new Error("hava " + yanit.status);
+      const j = await yanit.json();
+      const g = j && j.daily;
+      if (!g || !g.time) return;
+      g.time.forEach((tarih, i) => {
+        if (HV.gunSehir[tarih] !== ad) return;
+        sonuc[tarih] = {
+          max: Math.round(g.temperature_2m_max[i]),
+          min: Math.round(g.temperature_2m_min[i]),
+          yagis: g.precipitation_probability_max ? g.precipitation_probability_max[i] : null,
+          kod: g.weathercode[i]
+        };
+      });
+    }));
+    return sonuc;
+  }
+
+  function havaCiz(veri, zaman, bugunISO) {
+    const bolum = $("#hava-bolumu");
+    const serit = $("#hava-serit");
+    serit.innerHTML = "";
+    let gercekVarMi = false;
+
+    havaGunleri.forEach((tarih) => {
+      const sehir = HV.gunSehir[tarih];
+      const g = veri && veri[tarih];
+      const normal = HV.mevsimNormali[sehir];
+      const [yil, ay, gun] = tarih.split("-");
+      const kart = el("article", "hava-kart" + (g ? "" : " tahmin-yok") + (tarih === bugunISO ? " bugun-mu" : ""));
+
+      if (g) {
+        gercekVarMi = true;
+        const rozetler =
+          (g.max >= HV.sicakEsik ? '<span class="hava-rozet sicak">🥵 ' + esc(HV.sicakUyari) + "</span>" : "") +
+          (g.yagis != null && g.yagis >= HV.yagisEsik ? '<span class="hava-rozet yagmur">☔ ' + esc(HV.yagisUyari) + "</span>" : "");
+        kart.innerHTML =
+          '<div class="hava-tarih">' + Number(gun) + " Ağu</div>" +
+          '<div class="hava-sehir">' + esc(sehir) + "</div>" +
+          '<div class="hava-ikon" aria-hidden="true">' + havaIkonu(g.kod) + "</div>" +
+          '<div class="hava-derece">' + g.max + "° <small>/ " + g.min + "°</small></div>" +
+          (g.yagis != null ? '<div class="hava-yagis">☔ %' + g.yagis + "</div>" : "") +
+          rozetler;
+      } else if (normal) {
+        /* Tahmin penceresi açılmadı — mevsim normali */
+        const kalan = Math.ceil((new Date(tarih + "T00:00:00+03:00") - new Date()) / 86400000) - 16;
+        kart.innerHTML =
+          '<div class="hava-tarih">' + Number(gun) + " Ağu</div>" +
+          '<div class="hava-sehir">' + esc(sehir) + "</div>" +
+          '<div class="hava-ikon" aria-hidden="true">🗓</div>' +
+          '<div class="hava-derece">' + normal.max + "° <small>/ " + normal.min + "°</small></div>" +
+          '<div class="hava-yagis">mevsim normali</div>' +
+          (kalan > 0
+            ? '<span class="hava-rozet">' + kalan + " gün sonra gerçek tahmin gelecek</span>"
+            : "");
+      }
+      serit.appendChild(kart);
+    });
+
+    $("#hava-aciklama").textContent = gercekVarMi
+      ? "Her gün, o gün bulunulacak şehrin tahmini. Kaynak: Open-Meteo."
+      : HV.normalNotu + " · Ağustos ortalaması. Kaynak: Open-Meteo (tahmin ~16 gün ileriye açılıyor).";
+
+    /* "Son güncelleme" yalnızca elimizde gerçek tahmin varsa anlamlı */
+    $("#hava-not").textContent = (gercekVarMi && zaman)
+      ? "Son güncelleme: " + new Date(zaman).toLocaleString("tr-TR") +
+        (navigator.onLine ? "" : " · çevrimdışı, kayıtlı veri")
+      : "";
+
+    bolum.hidden = false;
+    return veri;
+  }
+
+  /* Bugünün havası — "Bugün" kartı da bunu kullanır */
+  let havaVerisi = null;
+
+  async function havaBaslat(bugunISO) {
+    const kayit = havaOku();
+    const tazeMi = kayit && (Date.now() - kayit.zaman) < HV.onbellekSaat * 3600000;
+
+    if (tazeMi) {
+      havaVerisi = kayit.veri;
+      havaCiz(kayit.veri, kayit.zaman, bugunISO);
+      return;
+    }
+    /* Önce elimizdekini göster (varsa), sonra tazelemeyi dene */
+    if (kayit) { havaVerisi = kayit.veri; havaCiz(kayit.veri, kayit.zaman, bugunISO); }
+
+    try {
+      const yeni = await havaCek();
+      if (yeni && Object.keys(yeni).length) {
+        havaVerisi = yeni;
+        havaYaz(yeni);
+        havaCiz(yeni, Date.now(), bugunISO);
+      } else {
+        /* Tahmin penceresi henüz açılmamış. Boş sonucu da damgalayıp yazıyoruz ki
+           her sayfa açılışında API'yi boş yere yormayalım. */
+        havaYaz({});
+        if (!kayit) havaCiz(null, null, bugunISO);
+      }
+    } catch (err) {
+      /* Ağ yok ve kayıt da yoksa mevsim normallerini göster; hata basma */
+      if (!kayit) havaCiz(null, null, bugunISO);
+    }
+  }
+
+  /* =====================================================================
+     BUGÜN EKRANI
+     Tarih 12-20 Ağustos 2026 aralığındaysa en üstte özet kart çıkar.
+     ?tarih=2026-08-15 ile başka bir gün simüle edilebilir (geliştirme kolaylığı,
+     kullanıcıya duyurulmuyor).
+     ===================================================================== */
+  function simuleTarih() {
+    try {
+      const p = new URLSearchParams(location.search).get("tarih");
+      if (p && /^\d{4}-\d{2}-\d{2}$/.test(p)) return p;
+    } catch (e) { /* yoksay */ }
+    return null;
+  }
+
+  const etkinISO = simuleTarih() || bugunISO;
+
+  function bugunKartiCiz() {
+    const i = TUR.gunler.findIndex((g) => g.tarihISO === etkinISO);
+    if (i < 0) return false;
+
+    const g = TUR.gunler[i];
+    const yarin = TUR.gunler[i + 1] || null;
+    const sonGun = etkinISO === "2026-08-20";
+    const kacinci = Math.min(i + 1, 8);
+
+    /* Programı üç dilime böl: sabah / öğleden sonra / akşam */
+    const dilimle = (satirlar) => {
+      const d = { sabah: [], ogle: [], aksam: [] };
+      satirlar.forEach((s) => {
+        if (/sabah|kalkış|09:|10:|çıkış|check-out|kahvalt/i.test(s)) d.sabah.push(s);
+        else if (/akşam|gece|gün batımı|yemek|23:|02:|04:/i.test(s)) d.aksam.push(s);
+        else d.ogle.push(s);
+      });
+      return d;
+    };
+    const d = dilimle(g.program);
+    const dilimSatiri = (etiket, liste) => liste.length
+      ? '<div class="bugun-dilim"><b>' + etiket + "</b><span>" +
+        liste.map((x) => markTBD(esc(x))).join(" ") + "</span></div>"
+      : "";
+
+    /* Bugün hangi şehirde kalıyoruz + o günün ulaşım bacağı */
+    const sehir = HV.gunSehir[etkinISO] || (sonGun ? "Yolda" : "—");
+    const bacak = TUR.ulasim.find((u) => {
+      if (etkinISO === "2026-08-12") return u.bacak === "Priştine → Üsküp";
+      if (etkinISO === "2026-08-13") return u.bacak === "Üsküp → Ohrid";
+      if (etkinISO === "2026-08-16") return u.bacak === "Ohrid → Dıraç";
+      if (etkinISO === "2026-08-18") return u.bacak === "Dıraç → Tiran";
+      if (etkinISO === "2026-08-19") return u.bacak === "Tiran → İstanbul";
+      return false;
+    });
+
+    const hv = havaVerisi && havaVerisi[etkinISO];
+    const normal = HV.mevsimNormali[sehir];
+    const havaMetni = hv
+      ? havaIkonu(hv.kod) + " " + hv.max + "° / " + hv.min + "°" +
+        (hv.yagis != null ? " · ☔ %" + hv.yagis : "")
+      : (normal ? "🗓 " + normal.max + "° / " + normal.min + "° · mevsim normali" : "");
+
+    $("#bugun-kart").innerHTML =
+      '<div class="bugun-ust">' +
+        "<div>" +
+          '<div class="bugun-etiket">Bugün</div>' +
+          '<div class="bugun-tarih">' + esc(g.tarih) + " " + esc(g.gun) + "</div>" +
+        "</div>" +
+        '<span class="bugun-sayac">Turun ' + kacinci + ". günü / 8</span>" +
+      "</div>" +
+      '<div class="bugun-govde">' +
+        '<div class="bugun-baslik">' + esc(g.ikon) + " " + esc(g.baslik) + "</div>" +
+        '<div class="bugun-satir"><span class="ico" aria-hidden="true">📍</span>' +
+          "<span><b>Şehir ve konaklama</b>" + esc(sehir) + " — bu gece: " + esc(g.gece) + "</span></div>" +
+        (havaMetni
+          ? '<div class="bugun-satir"><span class="ico" aria-hidden="true">🌡</span>' +
+            "<span><b>Hava</b>" + esc(havaMetni) + "</span></div>"
+          : "") +
+        '<div class="bugun-plan">' +
+          dilimSatiri("Sabah", d.sabah) +
+          dilimSatiri("Öğleden sonra", d.ogle) +
+          dilimSatiri("Akşam", d.aksam) +
+        "</div>" +
+        (bacak
+          ? '<div class="bugun-satir"><span class="ico" aria-hidden="true">🚌</span>' +
+            "<span><b>Sıradaki ulaşım</b>" + esc(bacak.bacak) + " · " + esc(bacak.sure) +
+            " · " + markTBD(esc(bacak.durum)) + "</span></div>"
+          : "") +
+        (g.risk ? '<div class="bugun-risk">⚠ <b>Dikkat:</b> ' + markTBD(esc(g.risk)) + "</div>" : "") +
+        '<div class="bugun-alt">' +
+          '<span class="bugun-yarin">' +
+            (yarin ? "<b>Yarın:</b> " + esc(yarin.tarih) + " — " + esc(yarin.baslik) : "<b>Yarın:</b> tur tamamlanıyor 🏠") +
+          "</span>" +
+          '<a class="btn" href="#gun-' + (i + 1) + '">Tam güne git →</a>' +
+        "</div>" +
+      "</div>";
+
+    $("#bugun").hidden = false;
+    return true;
+  }
+
+  const bugunVarMi = bugunKartiCiz();
+  havaBaslat(etkinISO).then(() => { if (bugunVarMi) bugunKartiCiz(); });
+
+  /* =====================================================================
+     PWA — service worker kaydı, güncelleme ve çevrimdışı şeridi
+     ===================================================================== */
+  const offlineSerit = $("#serit-offline");
+  function agDurumu() {
+    offlineSerit.dataset.acik = navigator.onLine ? "0" : "1";
+  }
+  window.addEventListener("online", agDurumu);
+  window.addEventListener("offline", agDurumu);
+  agDurumu();
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js").then((kayit) => {
+        /* Yeni sürüm hazır olduğunda bildirim çubuğu göster */
+        const yeniSurumVar = (calisan) => {
+          $("#serit-guncelle").dataset.acik = "1";
+          $("#btn-guncelle").onclick = () => {
+            if (calisan) calisan.postMessage({ type: "SKIP_WAITING" });
+            location.reload();
+          };
+        };
+        if (kayit.waiting) yeniSurumVar(kayit.waiting);
+        kayit.addEventListener("updatefound", () => {
+          const yeni = kayit.installing;
+          if (!yeni) return;
+          yeni.addEventListener("statechange", () => {
+            if (yeni.state === "installed" && navigator.serviceWorker.controller) yeniSurumVar(yeni);
+          });
+        });
+      }).catch(() => { /* SW kaydedilemedi — site normal çalışmaya devam eder */ });
+    });
+  }
 })();
 </script>
 </body>

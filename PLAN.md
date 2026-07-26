@@ -389,6 +389,70 @@ açısından beklenen kalıp bu.
 
 ## Yapılanlar
 
+### 26 Temmuz 2026 — dördüncü oturum
+
+**1) PWA — çevrimdışı çalışma**
+- Yeni dosyalar: `manifest.json`, `sw.js`, `icon.svg`. **Tek dosya kuralına ikinci bilinçli
+  istisna** — service worker tarayıcı gereği ayrı dosya olmak zorunda, manifest de öyle.
+- `sw.js` stratejileri: HTML → network-first + cache yedeği; app shell → install'da ön bellek;
+  görseller, harita karoları ve Leaflet → cache-first + stale-while-revalidate;
+  Open-Meteo → network-first, ağ yoksa son başarılı yanıt. `CACHE_VERSION = "balkan-v1"`,
+  activate sırasında eski cache'ler siliniyor.
+- Sayfada service worker kaydı + yeni sürüm gelince "✨ Yeni sürüm hazır / Yenile" çubuğu
+  (`SKIP_WAITING` mesajıyla devralıp yeniliyor).
+- `navigator.onLine` + online/offline olaylarıyla üstte "📴 Çevrimdışısın — kayıtlı bilgiler
+  gösteriliyor" şeridi.
+- **Şehir kapak görselleri yerele indirildi** (`docs/img/kapak-*.jpg`, 5 dosya) ve app shell'e
+  eklendi; artık hotlink değiller. Lisans bilgileri `docs/img/KAYNAKLAR.md` dosyasında.
+  Galeri ve lezzet görselleri hotlink kaldı — gelmezlerse yer tutucuya düşüyorlar.
+- **Gerçek çevrimdışı testi yapıldı:** yerel sunucu kapatılıp sayfa yeniden yüklendi.
+  Site açıldı; 5 şehir kartı, 9 gün, Cepte, Bugün kartı, harita (Leaflet cache'ten) ve
+  hava şeridi çalıştı, 5 yerel kapak görseli önbellekten geldi.
+
+**2) "Bugün" ekranı**
+- Tarih 12-20 Ağustos 2026 aralığındaysa hero'nun üstünde kart çıkıyor: tarih + turun kaçıncı
+  günü, şehir ve konaklama, hava, programın sabah / öğleden sonra / akşam özeti, o günün riski,
+  sıradaki ulaşım bacağı, "Yarın ne var?" ve "Tam güne git" bağlantısı (ilgili günü açıyor).
+- Aralık dışındaysa kart gizli, mevcut geri sayım aynen kalıyor.
+- `?tarih=2026-08-15` parametresiyle başka bir gün simüle edilebiliyor (geliştirme kolaylığı,
+  arayüzde duyurulmuyor). 16 Ağustos ile test edildi.
+
+**3) Cepte**
+- Dört kart: uçuşlar, konaklama, acil numaralar, temel kelimeler. Hiç ağ isteği yapmıyor.
+- PNR ve rezervasyon kodları dokununca panoya kopyalanıyor, "✓ kopyalandı" geri bildirimi var.
+  Clipboard API izin vermezse `execCommand` yedeğine düşüyor.
+- Konaklama adresleri `belirlenecek`; netleşince `TUR.cepte.konaklamalar` doldurulunca
+  "taksiciye göster" büyük punto kutusu ve "haritada aç" bağlantısı otomatik geliyor.
+- **Büyükelçilik numaraları uydurulmadı**, "kontrol edilecek" bırakıldı. Yalnızca 112 gerçek
+  numara olarak yazıldı ve `tel:` bağlantısı verildi.
+
+**4) Yerel lezzetler**
+- Her şehir kartına "Ne yenir?" bölümü (`TUR.sehirler[].lezzetler`) — toplam 23 madde,
+  yerel yazılışı, bir cümle açıklama ve ipucu ile.
+- 9 lezzete Wikimedia görseli eklendi; hepsi `curl -I` ile 200 doğrulandı, indirilip
+  JPEG imzası kontrol edildi ve içerikleri gözle doğrulandı (flija, trileçe, tavče gravče,
+  ajvar, Ohrid alabalığı, byrek, fërgesë, tavë kosi, qofte). Görseli olmayan maddeler
+  ikonla gösteriliyor.
+- "Yeme-içme notları" kutusu: öğün saatleri, bahşiş (%5-10), nakit gerekliliği, kahve kültürü,
+  su, vejetaryen seçenekler. **Fiyat, restoran adı ve açılış saati yazılmadı.**
+
+**5) Hava durumu şeridi**
+- Open-Meteo'dan (anahtarsız) 12-19 Ağustos için, her gün o gün bulunulacak şehrin koordinatıyla
+  tahmin çekiliyor. Şehir başına tek istek atılıp gün eşlemesi çıkarılıyor.
+- Open-Meteo ~16 gün ileriyi tahmin ediyor; bugün tur tarihine 17 gün var, yani **API henüz veri
+  döndürmüyor**. Bu durumda `TUR.havaDurumu.mevsimNormali` gösteriliyor ve karta
+  "X gün sonra gerçek tahmin gelecek" notu düşülüyor. Test edilen davranış bu.
+- Yanıt `localStorage`'a zaman damgasıyla yazılıyor, 3 saatten yeniyse istek atılmıyor.
+  Boş yanıt da damgalanıyor ki API boş yere yorulmasın.
+- 32 °C üstü günlerde "Sıcak gün — öğlen 12-16 arası gölgede kal", yağış %40 üstünde
+  "Yanına ince yağmurluk al" rozeti çıkıyor.
+- Veri hiç gelmezse ve kayıt da yoksa mevsim normalleri gösteriliyor; hata mesajı basılmıyor.
+
+**Mobil kontrol:** yeni bölümler 320 / 360 / 390 / 768 / 1440 ve yatayda denetlendi.
+Bir taşma bulundu ve düzeltildi: Cepte'deki kelime tablosu genel tablo kurallarındaki
+`min-width:34rem`'i miras alıp 768 px'te kartı taşırıyordu (350 → 568). Kelime tablosu artık
+her genişlikte blok listesi. Önceki turun mobil düzeltmeleri bozulmadı.
+
 ### 26 Temmuz 2026 — üçüncü oturum
 - **Mobil denetim yapıldı ve 13 sorun düzeltildi** — ayrıntı yukarıdaki "Mobil düzeltmeleri"
   bölümünde. Düzeltmeler mobile-first yazıldı (temel stiller mobil, `min-width` sorgularıyla
@@ -478,3 +542,13 @@ açısından beklenen kalıp bu.
 - [ ] Site gerçek bir telefonda açılıp gözle kontrol edilecek (ölçümler tarayıcıda yapıldı,
       dokunma hissi cihazda test edilmedi)
 - [ ] Konaklama adresleri belli olunca haritaya otel işaretçisi eklenebilir
+- [ ] **T.C. Priştine / Üsküp / Tiran büyükelçilik telefonları** — resmî sitelerden alınıp
+      `TUR.cepte.acil` içine yazılacak (şu an "kontrol edilecek")
+- [ ] Konaklama adresleri ve rezervasyon numaraları `TUR.cepte.konaklamalar` içine girilecek;
+      girilince "taksiciye göster" kutusu ve harita bağlantısı kendiliğinden çalışacak
+- [ ] Seyahat sigortası acil hattı `TUR.cepte.acil` içine eklenecek
+- [ ] **28 Temmuz 2026'dan sonra** hava durumu şeridinde gerçek tahmin görünmeye başlayacak
+      (Open-Meteo 16 günlük pencere); o gün kontrol edilip mevsim normali yerine tahminin
+      geldiği doğrulanacak
+- [ ] Siteyi telefona "ana ekrana ekle" ile kurup gerçek cihazda çevrimdışı test et
+- [ ] Kalan lezzetlere (sac böreği, kebap, Skopsko, deniz mahsulleri vb.) görsel bulunursa eklenecek

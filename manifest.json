@@ -1,0 +1,42 @@
+{
+  "name": "Balkan Kaçamağı",
+  "short_name": "Balkan",
+  "description": "12-20 Ağustos 2026 Balkan turu programı: Priştine, Üsküp, Ohrid, Dıraç ve Tiran. Çevrimdışı çalışır.",
+  "lang": "tr",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#0b2a45",
+  "background_color": "#fbf7f1",
+  "categories": ["travel", "lifestyle"],
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "192x192 512x512 any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon.svg",
+      "sizes": "192x192 512x512 any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Bugün",
+      "short_name": "Bugün",
+      "url": "./#bugun",
+      "description": "Bugünün programı"
+    },
+    {
+      "name": "Cepte",
+      "short_name": "Cepte",
+      "url": "./#cepte",
+      "description": "Uçuş, konaklama ve acil bilgiler"
+    }
+  ]
+}

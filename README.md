@@ -38,6 +38,10 @@ python -m http.server 8000
 | Dosya | Ne işe yarar |
 |---|---|
 | `index.html` | Sitenin tamamı — içerik, tasarım ve davranış tek dosyada |
+| `manifest.json` | PWA tanımı: ad, ikon, tema rengi, standalone görünüm |
+| `sw.js` | Service worker — çevrimdışı çalışma ve önbellek stratejileri |
+| `icon.svg` | Uygulama ikonu (maskable) |
+| `docs/img/` | Yerele indirilmiş şehir kapak görselleri + `KAYNAKLAR.md` lisans listesi |
 | `PLAN.md` | **Planın tek doğruluk kaynağı.** Uçuşlar, konaklama, gün gün program, yapılanlar ve bekleyenler |
 | `README.md` | Bu dosya |
 | `docs/` | Bilet PDF'leri, ekran görüntüleri, rezervasyon çıktıları |
@@ -65,6 +69,9 @@ dokunmak gerekmez.**
 | `ulasim` | Ulaşım özeti tablosu: bacak, süre, yöntem, durum |
 | `harita` | Harita ayarları: karo kaynağı ve atıf, zoom sınırları, havalimanları, yedek metin |
 | `dikkatEdilecekler` | "Nelere dikkat etmeli" kartları: ikon, başlık, `seviye`, maddeler |
+| `cepte` | Cepte bölümü: uçuş kodları, konaklama, acil numaralar, temel kelimeler |
+| `havaDurumu` | Open-Meteo ayarları, gün→şehir eşlemesi, mevsim normalleri, uyarı eşikleri |
+| `yemeIcmeNotlari` | Şehir kartlarının altındaki yeme-içme notları kutusu |
 | `pratik` | Pratik bilgi kartları: para, bütçe, elektrik, sağlık, adap, kelimeler |
 | `kontrolListesi` | Hazırlık listesi maddeleri |
 | `belirlenecek` | Sayfa sonundaki açık işler listesi |
@@ -96,6 +103,17 @@ dokunmak gerekmez.**
 - **Leaflet sürümü değişirse** SRI hash'i de değişmeli: dosyayı indirip SHA-384'ünü
   hesapla, base64'e çevir, `integrity` değerini güncelle. Hash tutmazsa tarayıcı
   script'i çalıştırmaz ve harita sessizce yedek kutuya düşer.
+- **Lezzetler:** `sehirler[].lezzetler` dizisine `{ ad, yerel, aciklama, ipucu, gorsel?, kaynak? }`
+  ekle. `gorsel` yoksa madde ikonla gösterilir — uydurma URL yazmaktansa boş bırak.
+- **Bugün kartı:** `?tarih=2026-08-15` parametresiyle istediğin günü simüle edip
+  görünümü test edebilirsin. Kart yalnızca tarih 12-20 Ağustos 2026 aralığındayken çıkar.
+- **Hava durumu:** `havaDurumu.gunSehir` hangi gün hangi şehrin tahmininin çekileceğini
+  belirler. Tur tarihi Open-Meteo'nun ~16 günlük penceresinin dışındaysa
+  `havaDurumu.mevsimNormali` gösterilir — bu normaller elle girilmiş yer tutuculardır.
+  Yanıt `localStorage`'da `balkan2026.hava` anahtarında 3 saat önbelleklenir.
+- **Acil numaralar:** `cepte.acil` içinde değeri "kontrol edilecek" olan maddeler
+  `tel:` bağlantısı almaz, vurgulu "belirlenecek" olarak görünür. **Doğrulamadığın bir
+  telefon numarasını asla yazma.**
 - **Mobil:** yeni bir ızgara eklerken `1fr` yerine **`minmax(0,1fr)`** kullan — `1fr`'nin
   alt sınırı `auto` olduğu için uzun içerik sütunu şişirip kartı taşırıyor. Yeni tablo
   eklersen hücrelere `data-label` ver; 700 px altında başlık olarak basılıyor.
@@ -123,6 +141,58 @@ Her değişiklikte, ne kadar küçük olursa olsun:
 4. `git push` yap.
 
 `PLAN.md` ile `index.html` içindeki `TUR` objesi asla ayrışmamalıdır.
+
+---
+
+## PWA — çevrimdışı çalışma ve telefona kurma
+
+Site bir **progressive web app**: telefona uygulama gibi eklenebiliyor ve yurt dışında
+internet olmadan da açılıyor. Bunu `manifest.json` + `sw.js` sağlıyor — projedeki
+"tek dosya" kuralına ikinci bilinçli istisna, çünkü service worker tarayıcı gereği
+ayrı bir dosya olmak zorunda.
+
+### Test etmek
+
+**Service worker yalnızca `https://` ya da `localhost` üzerinde çalışır.** Dosyayı
+çift tıklayıp `file://` ile açarsan site normal çalışır ama çevrimdışı desteği devreye girmez.
+
+```bash
+python -m http.server 8000
+# http://localhost:8000 — 127.0.0.1 de kabul edilir
+```
+
+Çevrimdışı davranışı denemek için: sayfayı bir kez aç (önbellek dolsun), sonra sunucuyu
+durdur ve sayfayı yenile. Site açılmaya devam etmeli.
+
+DevTools → Application sekmesinden `Service Workers` ve `Cache Storage` bölümlerini
+izleyebilirsin. Üç cache olur: `balkan-v1-shell`, `balkan-v1-gorsel`, `balkan-v1-hava`.
+
+### Telefona ekleme
+
+- **Android / Chrome:** menü → "Ana ekrana ekle"
+- **iOS / Safari:** paylaş → "Ana Ekrana Ekle"
+
+### Service worker güncellemesi
+
+`index.html`, CSS ya da JS değiştirdiğinde tarayıcı yeni service worker'ı arka planda kurar
+ve sayfada **"✨ Yeni sürüm hazır / Yenile"** çubuğu çıkar. Yenile'ye basmak yeni sürümü
+devralır.
+
+Önbelleklenen dosya listesi değiştiyse (`sw.js` içindeki `APP_SHELL`) ya da eski önbelleğin
+tamamen atılması gerekiyorsa **`CACHE_VERSION` sabitini artır** (`balkan-v1` → `balkan-v2`).
+Eski cache'ler `activate` sırasında otomatik silinir.
+
+Takılırsan: DevTools → Application → Service Workers → *Unregister*, sonra sert yenileme.
+
+### Çevrimdışı neler çalışır
+
+| Çalışır | Çalışmaz |
+|---|---|
+| Tüm program, Cepte, gün kartları, kontrol listesi | Galeri ve lezzet görselleri (Wikimedia'dan hotlink) |
+| 5 şehir kapak görseli (yerelden servis ediliyor) | Yeni hava durumu verisi (son kayıtlı veri gösterilir) |
+| Harita — Leaflet önbellekten, daha önce görülen karolar | Daha önce hiç açılmamış harita bölgeleri |
+
+Gelmeyen görsellerin yerine degrade renkli yer tutucu + mekân adı çıkar; sayfa bozulmaz.
 
 ---
 
