@@ -309,7 +309,32 @@ doğrulanabilir uygun görsel seçilmedi; bu maddeler metinde kaldı, galerisiz.
 
 ---
 
-## 8. Hazırlık kontrol listesi
+## 8. Harita koordinatları
+
+Hepsi Wikidata'daki `P625` (koordinat konumu) değerinden alındı, uydurulmadı.
+Sitede `TUR.sehirler[].konum` ve `TUR.harita.havalimanlari[].konum` alanlarında duruyor.
+
+| Sıra | Yer | Wikidata | Koordinat |
+|---|---|---|---|
+| 1 | Priştine | Q25270 | 42.6667, 21.1667 |
+| 2 | Üsküp | Q384 | 41.9961, 21.4317 |
+| 3 | Ohrid | Q1223508 | 41.1169, 20.8019 |
+| 4 | Dıraç | Q83285 | 41.3133, 19.4458 |
+| 5 | Tiran | Q19689 | 41.3283, 19.8181 |
+| ✈ | Priştine Adem Yaşari Havalimanı (PRN) | Q643783 | 42.5728, 21.0358 |
+| ✈ | Tiran Nene Tereza Havalimanı (TIA) | Q217226 | 41.4147, 19.7206 |
+
+Leaflet 1.9.4 SRI hash'leri (dosyalar indirilip SHA-384 hesaplandı; unpkg ve cdnjs aynı):
+
+- `leaflet.js` → `sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH`
+- `leaflet.css` → `sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H`
+
+Harita, ulaşım özeti tablosundaki bacaklarla tutarlı: çizgi Priştine → Üsküp → Ohrid →
+Dıraç → Tiran sırasını izliyor, iki havalimanı uçuş bacaklarını işaretliyor.
+
+---
+
+## 9. Hazırlık kontrol listesi
 
 - [ ] 🛂 Pasaport geçerlilik kontrolü
 - [ ] 🩺 Seyahat sağlık sigortası
@@ -324,7 +349,67 @@ doğrulanabilir uygun görsel seçilmedi; bu maddeler metinde kaldı, galerisiz.
 
 ---
 
+## Mobil düzeltmeleri
+
+26 Temmuz 2026'da yapılan denetim. Test genişlikleri **320 / 360 / 390 / 414 / 768 px**,
+ayrıca yatay (740 × 360) ve masaüstü (1440 × 900). Ölçüm iframe içinde gerçek layout
+üzerinden yapıldı; her gün kartı açık ve tüm görseller yüklenmiş hâlde.
+
+### Bulunan sorunlar → uygulanan çözümler
+
+| # | Bulgu (ölçüm) | Çözüm |
+|---|---|---|
+| 1 | **Rota şeridi** her genişlikte yatay kaydırma istiyordu: 320 px'te kap 271 px, içerik 998 px | Mobile-first dikey akışa çevrildi; oklar CSS `::before` ile mobilde ↓, 1040 px üstünde → olur. Yatay şerit yalnızca 1040 px ve üstünde |
+| 2 | **Ulaşım ve konaklama tabloları** taşıyordu: 320 px'te kap 269 px, içerik 544 px | 700 px altında kart görünümü: `thead` görsel olarak gizlendi, her satır bir kart, hücre başlıkları `data-label` + `::before` ile etiket olarak basılıyor. 700 px üstünde gerçek tabloya dönüyor |
+| 3 | **Galeri ızgarası şehir kartını taşırıyordu** (320 px'te 221 → 246; 768 px'te 298 → 531). Sebep: `grid-template-columns:1fr` — `1fr`'nin min ölçüsü `auto` olduğu için içerik sütunu şişiriyordu | Tüm ızgaralarda `minmax(0,1fr)` kullanıldı: `.galeri`, `.cities`, `.flights`, `.info-grid`, `.dikkat-grid`, `.checks` |
+| 4 | **Görsel künyesi** `white-space:nowrap` yüzünden dar ekranda kırpılıyordu, lisans bilgisi kayboluyordu | Mobilde ve galeri künyelerinde sarma serbest. Tek satır kısıtı yalnızca kapak künyesinde ve 700 px üstünde (kart yükseklikleri eşit kalsın diye) |
+| 5 | **Geri sayım** 4 kutu esnek satırda düzensiz kırılıyordu | `flex-wrap` yerine ızgara: 420 px altında düzenli **2 × 2**, üstünde tek satır 4 sütun |
+| 6 | **Buton dokunma hedefi 100 × 37 px** (44 px altında) | `.btn`'e `min-height/min-width:44px` + flex ortalama → ölçülen yeni boyut 108 × 44 |
+| 7 | **Lightbox kapatma butonu 41,6 px** ve `position:absolute` (uzun görselde kayıyordu) | 48 × 48 px, `position:fixed`, sağ üstte sabit, güvenli alan payı ile |
+| 8 | Lightbox görseli **`max-height:78vh`** — mobil adres çubuğu açılınca taşıyordu | `70dvh` (dinamik viewport yüksekliği) |
+| 9 | `<meta viewport>` **`viewport-fit=cover` içermiyordu**, çentikli telefonlar için güvenli alan yoktu | Meta güncellendi; `.wrap` yan boşlukları ve lightbox `env(safe-area-inset-*)` kullanıyor |
+| 10 | Uzun kelime / URL taşması için kural yoktu | `body`'de `overflow-wrap:anywhere`; `html`/`body`'de `overflow-x:hidden` emniyet kemeri |
+| 11 | Küçük büyük-harf etiketler mobilde 10,6 – 11,8 px'e kadar düşüyordu | 700 px altında ayrı tipografi bloğu ile büyütüldü (en küçük değer artık 12 px üstünde). Gövde metni zaten 16,5 px |
+| 12 | Bölüm boşluğu mobilde 72 px, gereğinden fazla | Mobilde `--s-7` (48 px), 700 px üstünde `--s-8` (72 px). Kart iç boşlukları da mobilde daraltıldı |
+| 13 | Checkbox 18 × 18 px, parmakla zor | Kutucuk mobilde 24 px'e büyütüldü; etiketin tamamı tıklanabilir ve `min-height:44px` (ölçülen satır yüksekliği 54 – 75 px) |
+
+### Sorun çıkmayan, doğrulanmış maddeler
+- **Belge düzeyinde yatay kaydırma hiçbir genişlikte yok** (320 – 1440, yatay dâhil).
+- **Accordion başlığı**: dokunma alanı zaten tüm satır (ölçülen `.day-btn` 309 × 153 px), sadece ok değil. Açılınca içerik taşmıyor.
+- **Görseller**: mobilde tek sütun, `width:100%`, `aspect-ratio` sabit.
+- **Yapışkan/sabit eleman yok**; içeriği kapatan bir katman bulunmuyor.
+
+### Bilinçli istisna
+Checkbox `<input>` kutusunun kendi kutusu 24 × 24 px (masaüstünde 20). 44 × 44 px'lik native
+bir kutucuk görsel olarak orantısız kaçıyor; bunun yerine **dokunma hedefi etiketin tamamı**:
+satır 44 px'ten yüksek ve etikete her yerden basıldığında kutucuk işaretleniyor. Erişilebilirlik
+açısından beklenen kalıp bu.
+
+---
+
 ## Yapılanlar
+
+### 26 Temmuz 2026 — üçüncü oturum
+- **Mobil denetim yapıldı ve 13 sorun düzeltildi** — ayrıntı yukarıdaki "Mobil düzeltmeleri"
+  bölümünde. Düzeltmeler mobile-first yazıldı (temel stiller mobil, `min-width` sorgularıyla
+  masaüstüne genişliyor) ve mevcut `:root` token'larını kullanıyor, yeni sabit renk/ölçü yok.
+- **Rota haritası bölümü eklendi** (gün gün programın hemen altında):
+  - Leaflet 1.9.4, unpkg üzerinden **SRI hash** ile (`defer`). Hash'ler dosyalar indirilip
+    SHA-384 hesaplanarak üretildi; unpkg ve cdnjs sürümleri bayt bayt aynı çıktı.
+    Bu, "harici bağımlılık yok" kuralına **tek ve bilinçli istisna**.
+  - Leaflet yüklenemezse bölüm `data-durum="hata"` olur: harita gizlenir, yerine
+    "Harita yüklenemedi — rota: Priştine → Üsküp → Ohrid → Dıraç → Tiran" kutusu çıkar.
+    Bu senaryo, script URL'i bozularak test edildi; sitenin geri kalanı etkilenmedi.
+  - 5 numaralı durak işaretçisi + 2 havalimanı işaretçisi (ayrı ikon), şehirleri sırayla
+    birleştiren polyline, `fitBounds` ile tüm rotayı kapsayan ilk görünüm.
+  - Popup: şehir adı, ülke, tarih aralığı, gece sayısı, öne çıkan 3 madde ve
+    "gün programına git" bağlantısı. Bağlantı ilgili gün kartını **açıp** oraya kaydırıyor
+    (kapalı kart `display:none` olduğu için düz anchor işe yaramıyordu).
+  - Mobil kaydırma tuzağına karşı: `scrollWheelZoom:false`, `dragging` başlangıçta kapalı,
+    üstte "Haritayı etkinleştirmek için dokun" katmanı; dokununca tek parmak kaydırma açılıyor.
+    İki parmakla yakınlaştırma her zaman serbest.
+  - Yükseklik mobilde 320 px, 700 px üstünde 480 px. OpenStreetMap atıfı görünür.
+  - Koordinatlar **Wikidata'dan (P625) doğrulandı**, uydurulmadı — bkz. bölüm 9.
 
 ### 26 Temmuz 2026 — ikinci oturum
 - **Geri sayım üç durumlu hâle getirildi** (`meta.donusISO` eklendi):
@@ -390,3 +475,6 @@ doğrulanabilir uygun görsel seçilmedi; bu maddeler metinde kaldı, galerisiz.
 - [ ] Yerel eSIM ya da roaming tarifesi kararı
 - [ ] Ohrid tekne turu rezervasyonu (ağustos yoğunluğu nedeniyle erken)
 - [ ] Bill Clinton Bulvarı, Blloku ve Bunk'Art için uygun görsel bulunursa galeriye eklenecek
+- [ ] Site gerçek bir telefonda açılıp gözle kontrol edilecek (ölçümler tarayıcıda yapıldı,
+      dokunma hissi cihazda test edilmedi)
+- [ ] Konaklama adresleri belli olunca haritaya otel işaretçisi eklenebilir

@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Balkan Kaçamağı — Derin &amp; Barış | 12-20 Ağustos 2026</title>
 <meta name="description" content="12-20 Ağustos 2026 Balkan turu programı: Priştine, Üsküp, Ohrid, Dıraç ve Tiran. 8 gün, 7 gece, 3 ülke — uçuş bilgileri, gün gün program, ulaşım ve hazırlık listesi.">
 <meta name="author" content="Derin &amp; Barış">
@@ -14,6 +14,25 @@
 <meta property="og:site_name" content="Balkan Kaçamağı">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%96%3C/text%3E%3C/svg%3E">
+
+<!-- =====================================================================
+     LEAFLET — projedeki "harici bağımlılık yok" kuralına tek ve bilinçli
+     istisna; yalnızca rota haritası için. SRI hash'leri unpkg ve cdnjs
+     dosyalarından hesaplandı (ikisi de bayt bayt aynı).
+     Yüklenemezse harita bölümü gizlenir, yerine sade bir kutu çıkar;
+     sitenin geri kalanı etkilenmez.
+     ===================================================================== -->
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer">
+<script defer
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
 
 <!-- =====================================================================
      İÇERİK KAYNAĞI — TUR objesi
@@ -96,6 +115,11 @@ const TUR = {
       ad: "Priştine",
       ulke: "Kosova",
       sure: "1 gün · geçiş",
+      konum: [42.6667, 21.1667],
+      haritaSira: 1,
+      haritaGece: "varış günü — konaklama yok",
+      haritaTarih: "12 Ağustos",
+      haritaGun: "gun-1",
       kapak: {
         gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Prishtina_cityscape.jpg/960px-Prishtina_cityscape.jpg",
         alt: "Priştine şehir manzarası",
@@ -127,6 +151,11 @@ const TUR = {
       ad: "Üsküp",
       ulke: "Kuzey Makedonya",
       sure: "1 gece",
+      konum: [41.9961, 21.4317],
+      haritaSira: 2,
+      haritaGece: "1 gece",
+      haritaTarih: "12 Ağustos gecesi",
+      haritaGun: "gun-2",
       kapak: {
         gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Skopje_view_from_Kale_3.jpg/960px-Skopje_view_from_Kale_3.jpg",
         alt: "Üsküp Kalesi'nden Vardar Nehri ve şehir panoraması",
@@ -170,6 +199,11 @@ const TUR = {
       ad: "Ohrid",
       ulke: "Kuzey Makedonya",
       sure: "3 gece",
+      konum: [41.1169, 20.8019],
+      haritaSira: 3,
+      haritaGece: "3 gece",
+      haritaTarih: "13 – 15 Ağustos",
+      haritaGun: "gun-3",
       kapak: {
         gorsel: "https://upload.wikimedia.org/wikipedia/commons/5/53/OhridLake-and-the-Old-town.jpg",
         alt: "Ohrid Gölü kıyısı ve tepeye tırmanan eski şehir",
@@ -220,6 +254,11 @@ const TUR = {
       ad: "Dıraç",
       ulke: "Arnavutluk",
       sure: "3 gece",
+      konum: [41.3133, 19.4458],
+      haritaSira: 4,
+      haritaGece: "3 gece",
+      haritaTarih: "16 – 18 Ağustos",
+      haritaGun: "gun-5",
       kapak: {
         gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/City_of_Durr%C3%ABs.jpg/960px-City_of_Durr%C3%ABs.jpg",
         alt: "Dıraç şehri ve arkasında Adriyatik",
@@ -257,6 +296,11 @@ const TUR = {
       ad: "Tiran",
       ulke: "Arnavutluk",
       sure: "kaçamak + son gün",
+      konum: [41.3283, 19.8181],
+      haritaSira: 5,
+      haritaGece: "son gün — gece uçuşu",
+      haritaTarih: "18 Ağustos kaçamak · 19 Ağustos tam gün",
+      haritaGun: "gun-8",
       kapak: {
         gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Skanderbeg_Square%2C_Tirana_%2849593783026%29.jpg/960px-Skanderbeg_Square%2C_Tirana_%2849593783026%29.jpg",
         alt: "İkindi güneşinde Tiran Skenderbeg Meydanı",
@@ -603,6 +647,38 @@ const TUR = {
     }
   ],
 
+  /* ---------- HARİTA ----------
+     Koordinatlar Wikidata'daki (P625) doğrulanmış değerlerden alındı.
+     Duraklar sehirler[] içindeki konum / haritaSira alanlarından okunur;
+     burada yalnızca havalimanları ve harita ayarları var. */
+  harita: {
+    baslik: "Rota haritası",
+    yedekMetin: "Harita yüklenemedi — rota: Priştine → Üsküp → Ohrid → Dıraç → Tiran",
+    etkinlestirMetni: "Haritayı etkinleştirmek için dokun",
+    ipucu: "Kaydırmak için haritaya dokun · yakınlaştırmak için iki parmak",
+    minZoom: 6,
+    maxZoom: 13,
+    kenarBosluk: 36,
+    karo: {
+      url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      atif: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> katkıcıları'
+    },
+    havalimanlari: [
+      {
+        ad: "Priştine Adem Yaşari Havalimanı",
+        kod: "PRN",
+        konum: [42.5728, 21.0358],
+        not: "12 Ağustos 10:30 — iniş (AJet VF101)"
+      },
+      {
+        ad: "Tiran Nene Tereza Havalimanı",
+        kod: "TIA",
+        konum: [41.4147, 19.7206],
+        not: "20 Ağustos 02:15 — dönüş kalkışı (Pegasus PC284)"
+      }
+    ]
+  },
+
   /* ---------- NELERE DİKKAT ETMELİ ---------- */
   dikkatEdilecekler: [
     {
@@ -783,16 +859,30 @@ const TUR = {
 }
 
 *,*::before,*::after{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+html{
+  scroll-behavior:smooth; -webkit-text-size-adjust:100%;
+  /* mobilde hiçbir koşulda yatay kaydırma olmasın */
+  overflow-x:hidden;
+}
 body{
   margin:0; font-family:var(--f-body); font-size:16.5px; line-height:1.65;
   color:var(--c-ink); background:var(--c-cream);
+  overflow-x:hidden;
+  /* uzun kelime / URL taşmasını engelle */
+  overflow-wrap:anywhere; word-break:normal;
 }
 h1,h2,h3,h4,h5{ margin:0; line-height:1.22; font-weight:700; letter-spacing:-.015em; }
 p{ margin:0; }
 
-.wrap{ width:100%; max-width:var(--w-max); margin-inline:auto; padding-inline:var(--s-4); }
-section{ padding-block:var(--s-8); }
+/* Sayfa kenarları — çentikli telefonlarda güvenli alan kadar içeri al */
+.wrap{
+  width:100%; max-width:var(--w-max); margin-inline:auto;
+  padding-left:calc(var(--s-4) + env(safe-area-inset-left));
+  padding-right:calc(var(--s-4) + env(safe-area-inset-right));
+}
+/* Mobile-first: dar ekranda bölüm boşlukları daha ölçülü */
+section{ padding-block:var(--s-7); }
+@media(min-width:700px){ section{ padding-block:var(--s-8); } }
 section:nth-of-type(even){ background:linear-gradient(180deg,var(--c-sand) 0%,#f7f0e6 100%); }
 
 .sec-head{ margin-bottom:var(--s-6); }
@@ -839,8 +929,13 @@ section:nth-of-type(even){ background:linear-gradient(180deg,var(--c-sand) 0%,#f
   background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.18);
 }
 .countdown-label{ font-size:.74rem; letter-spacing:.16em; text-transform:uppercase; color:var(--c-teal-soft); font-weight:700; }
-.cd-grid{ display:flex; flex-wrap:wrap; gap:var(--s-4); margin-top:var(--s-3); }
-.cd-cell{ min-width:4.2rem; }
+/* Mobile-first: 2×2 düzenli kutular — tek satıra zorlanmaz, kırılıp bozulmaz */
+.cd-grid{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:var(--s-3) var(--s-4); margin-top:var(--s-3);
+}
+@media(min-width:420px){ .cd-grid{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
+.cd-cell{ min-width:0; }
 .cd-num{ font-size:clamp(1.7rem,6vw,2.5rem); font-weight:800; line-height:1; font-variant-numeric:tabular-nums; }
 .cd-unit{ font-size:.74rem; text-transform:uppercase; letter-spacing:.12em; color:rgba(255,255,255,.66); }
 .cd-note{ margin-top:var(--s-3); font-size:.88rem; color:rgba(255,255,255,.72); }
@@ -853,8 +948,8 @@ section:nth-of-type(even){ background:linear-gradient(180deg,var(--c-sand) 0%,#f
 .cd-bitti{ font-size:clamp(1.4rem,5vw,2rem); font-weight:800; margin-top:var(--s-2); }
 
 /* ===================== UÇUŞLAR ===================== */
-.flights{ display:grid; gap:var(--s-5); grid-template-columns:1fr; }
-@media(min-width:860px){ .flights{ grid-template-columns:1fr 1fr; } }
+.flights{ display:grid; gap:var(--s-5); grid-template-columns:minmax(0,1fr); }
+@media(min-width:860px){ .flights{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
 .flight{
   position:relative; overflow:hidden; display:flex; flex-direction:column; gap:var(--s-4);
   background:#fff; border:1px solid var(--c-line); border-radius:var(--r-l);
@@ -895,32 +990,80 @@ section:nth-of-type(even){ background:linear-gradient(180deg,var(--c-sand) 0%,#f
 .alert .ico{ font-size:1.15rem; line-height:1.35; }
 
 /* ===================== ROTA ===================== */
-.route{ display:flex; align-items:stretch; overflow-x:auto; padding-block:var(--s-3); scrollbar-width:thin; }
+/* Mobile-first: dikey akış — dar ekranda yatay kaydırma gerekmez */
+.route{ display:flex; flex-direction:column; align-items:stretch; padding-block:var(--s-3); }
 .route-stop{
-  flex:0 0 auto; min-width:7.5rem; text-align:center; padding:var(--s-3) var(--s-2);
+  text-align:left; padding:var(--s-3) var(--s-4);
   background:#fff; border:1px solid var(--c-line); border-radius:var(--r-m); box-shadow:var(--sh-1);
+  display:flex; align-items:baseline; justify-content:space-between; gap:var(--s-3);
 }
 .route-stop.is-edge{ background:var(--c-sand); box-shadow:none; }
 .route-name{ font-weight:700; font-size:.95rem; }
-.route-nights{ font-size:.78rem; font-weight:600; color:var(--c-teal); }
-.route-arrow{ flex:0 0 auto; align-self:center; padding-inline:.35rem; font-size:1.1rem; font-weight:700; color:var(--c-teal-soft); }
+.route-nights{ font-size:.82rem; font-weight:600; color:var(--c-teal); }
+.route-arrow{
+  align-self:center; padding-block:.15rem; font-size:1.1rem; font-weight:700;
+  color:var(--c-teal-soft); line-height:1;
+}
+.route-arrow::before{ content:"↓"; }
+/* Geniş ekran: klasik yatay şerit */
+@media(min-width:1040px){
+  .route{ flex-direction:row; align-items:stretch; overflow-x:auto; scrollbar-width:thin; }
+  .route-stop{
+    flex:0 0 auto; min-width:7.5rem; text-align:center; padding:var(--s-3) var(--s-2);
+    display:block;
+  }
+  .route-nights{ font-size:.78rem; }
+  .route-arrow{ flex:0 0 auto; padding:0 .35rem; }
+  .route-arrow::before{ content:"→"; }
+}
 .sub-h{ margin:var(--s-6) 0 var(--s-3); font-size:1.05rem; }
 
-/* ===================== TABLOLAR ===================== */
-.table-wrap{ overflow-x:auto; background:#fff; border:1px solid var(--c-line); border-radius:var(--r-m); }
-table{ width:100%; min-width:34rem; border-collapse:collapse; font-size:.94rem; }
-th,td{ padding:.7rem .9rem; text-align:left; border-bottom:1px solid var(--c-line); }
-th{ background:var(--c-deep); color:#fff; font-size:.78rem; letter-spacing:.09em; text-transform:uppercase; }
-tbody tr:last-child td{ border-bottom:none; }
-tbody tr:hover{ background:var(--c-cream); }
+/* =====================================================================
+   TABLOLAR — mobile-first
+   Dar ekranda tablo yerine kart listesi: her satır bir kart, hücre
+   başlıkları data-label değerinden ::before ile etiket olarak basılır.
+   700 px ve üstünde gerçek tabloya döner.
+   ===================================================================== */
+.table-wrap{ background:transparent; border:0; border-radius:0; }
+table{ width:100%; border-collapse:collapse; font-size:.94rem; }
+thead{ position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+tbody tr{
+  display:block; margin-bottom:var(--s-3); padding:var(--s-3) var(--s-4);
+  background:#fff; border:1px solid var(--c-line); border-radius:var(--r-m); box-shadow:var(--sh-1);
+}
+tbody tr:last-child{ margin-bottom:0; }
+tbody td{
+  display:grid; grid-template-columns:minmax(6.5rem,auto) 1fr; gap:var(--s-3);
+  align-items:baseline; padding:.3rem 0; border:0;
+}
+tbody td::before{
+  content:attr(data-label);
+  font-size:.7rem; letter-spacing:.09em; text-transform:uppercase;
+  font-weight:700; color:var(--c-ink-soft);
+}
+tbody td:first-child{ padding-top:0; }
+tbody td:last-child{ padding-bottom:0; }
+
+@media(min-width:700px){
+  .table-wrap{ overflow-x:auto; background:#fff; border:1px solid var(--c-line); border-radius:var(--r-m); }
+  table{ min-width:34rem; }
+  thead{ position:static; width:auto; height:auto; overflow:visible; clip-path:none; }
+  th,td{ padding:.7rem .9rem; text-align:left; border-bottom:1px solid var(--c-line); }
+  th{ background:var(--c-deep); color:#fff; font-size:.78rem; letter-spacing:.09em; text-transform:uppercase; }
+  tbody tr{ display:table-row; margin:0; padding:0; background:transparent; border:0; border-radius:0; box-shadow:none; }
+  tbody td{ display:table-cell; }
+  tbody td::before{ content:none; }
+  tbody tr:last-child td{ border-bottom:none; }
+  tbody tr:hover{ background:var(--c-cream); }
+}
 .status{ font-size:.82rem; font-weight:700; white-space:nowrap; }
 .status.ok{ color:var(--c-ok); }
 .status.todo{ color:#a8641a; }
 
 /* ===================== ŞEHİR KARTLARI ===================== */
-.cities{ display:grid; gap:var(--s-5); grid-template-columns:1fr; }
-@media(min-width:700px){ .cities{ grid-template-columns:1fr 1fr; } }
-@media(min-width:1040px){ .cities{ grid-template-columns:repeat(3,1fr); } }
+.cities{ display:grid; gap:var(--s-5); grid-template-columns:minmax(0,1fr); }
+@media(min-width:700px){ .cities{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(min-width:1040px){ .cities{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
 .city{
   display:flex; flex-direction:column; gap:var(--s-3);
   background:#fff; border:1px solid var(--c-line); border-radius:var(--r-l);
@@ -957,11 +1100,17 @@ tbody tr:hover{ background:var(--c-cream); }
   transition:transform .4s cubic-bezier(.2,.7,.3,1);
 }
 .gorsel-kutu{ position:relative; overflow:hidden; background:var(--c-sand-2); }
-/* Kaynak satırı tek satırda kalsın — kartların yüksekliği kaymasın */
+/* Kaynak satırı: mobilde sarsın (lisans bilgisi kırpılmasın),
+   geniş ekranda tek satırda kalsın ki kart yükseklikleri eşitlensin */
 .gorsel-kaynak{
-  display:block; padding:.35rem var(--s-5) 0; font-size:.7rem; line-height:1.4;
+  display:block; padding:.35rem var(--s-5) 0; font-size:.78rem; line-height:1.45;
   color:var(--c-ink-soft); letter-spacing:.01em;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+@media(min-width:700px){
+  .gorsel-kaynak{ font-size:.72rem; }
+  /* Yalnızca kapak künyesi tek satırda kalır (kart genişliğinde, yeri var);
+     galeri künyeleri sarar — dar sütunda lisans bilgisi kırpılmasın. */
+  .city-kapak .gorsel-kaynak{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 }
 .galeri-ogesi .gorsel-kaynak{ padding-inline:0; }
 /* Yüklenemeyen görseller için degrade yer tutucu */
@@ -975,9 +1124,9 @@ tbody tr:hover{ background:var(--c-cream); }
   letter-spacing:.04em; text-align:center; padding:var(--s-3);
 }
 .galeri{
-  display:grid; grid-template-columns:1fr; gap:var(--s-3); margin-top:var(--s-2);
+  display:grid; grid-template-columns:minmax(0,1fr); gap:var(--s-3); margin-top:var(--s-2);
 }
-@media(min-width:420px){ .galeri{ grid-template-columns:1fr 1fr; } }
+@media(min-width:420px){ .galeri{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
 .galeri-ogesi{ margin:0; }
 .galeri-ogesi .gorsel-kutu{ border-radius:var(--r-s); cursor:zoom-in; }
 .galeri-ogesi:hover img{ transform:scale(1.06); }
@@ -987,25 +1136,38 @@ tbody tr:hover{ background:var(--c-cream); }
 /* ===================== LIGHTBOX ===================== */
 .lightbox{
   position:fixed; inset:0; z-index:100; display:none;
-  place-items:center; padding:var(--s-4);
+  place-items:center;
+  /* çentik ve dinamik adres çubuğu güvenli alanı */
+  padding:calc(var(--s-4) + env(safe-area-inset-top))
+          calc(var(--s-4) + env(safe-area-inset-right))
+          calc(var(--s-4) + env(safe-area-inset-bottom))
+          calc(var(--s-4) + env(safe-area-inset-left));
   background:rgba(11,42,69,.92); backdrop-filter:blur(3px);
+  overscroll-behavior:contain;
 }
 .lightbox[data-acik="1"]{ display:grid; }
 .lightbox img{
-  max-width:min(100%,1100px); max-height:78vh; border-radius:var(--r-m);
-  box-shadow:var(--sh-3); background:var(--c-deep-2);
+  max-width:min(100%,1100px);
+  max-height:70dvh; /* dvh: mobil adres çubuğu açılıp kapanınca görsel taşmaz */
+  width:auto; height:auto;
+  border-radius:var(--r-m); box-shadow:var(--sh-3); background:var(--c-deep-2);
 }
 .lightbox figcaption{
   margin-top:var(--s-3); color:rgba(255,255,255,.82); font-size:.85rem;
   text-align:center; max-width:60ch;
 }
 .lightbox figcaption strong{ display:block; color:#fff; font-size:1rem; margin-bottom:.2rem; }
+/* Kapatma: parmakla basılabilir 48×48, ekrana sabit, sağ üstte */
 .lightbox-kapat{
-  all:unset; position:absolute; top:var(--s-4); right:var(--s-4); cursor:pointer;
-  width:2.6rem; height:2.6rem; display:grid; place-items:center; border-radius:50%;
-  background:rgba(255,255,255,.14); color:#fff; font-size:1.3rem; line-height:1;
+  all:unset; box-sizing:border-box; cursor:pointer;
+  position:fixed;
+  top:calc(var(--s-3) + env(safe-area-inset-top));
+  right:calc(var(--s-3) + env(safe-area-inset-right));
+  z-index:2;
+  width:48px; height:48px; display:grid; place-items:center; border-radius:50%;
+  background:rgba(255,255,255,.18); color:#fff; font-size:1.4rem; line-height:1;
 }
-.lightbox-kapat:hover{ background:rgba(255,255,255,.26); }
+.lightbox-kapat:hover{ background:rgba(255,255,255,.3); }
 .lightbox-kapat:focus-visible{ outline:3px solid var(--c-teal-soft); outline-offset:2px; }
 
 /* ===================== GÜN GÜN PROGRAM ===================== */
@@ -1013,7 +1175,9 @@ tbody tr:hover{ background:var(--c-cream); }
 .btn{
   all:unset; box-sizing:border-box; cursor:pointer; font-family:inherit;
   background:#fff; color:var(--c-ink); border:1px solid var(--c-line); border-radius:var(--r-pill);
-  padding:.4rem .95rem; font-size:.85rem; font-weight:600;
+  padding:.4rem 1.1rem; font-size:.9rem; font-weight:600;
+  /* dokunma hedefi en az 44×44 */
+  min-height:44px; min-width:44px; display:inline-flex; align-items:center; justify-content:center;
   transition:background .2s ease, color .2s ease, border-color .2s ease;
 }
 .btn:hover{ background:var(--c-deep); color:#fff; border-color:var(--c-deep); }
@@ -1081,9 +1245,69 @@ tbody tr:hover{ background:var(--c-cream); }
   text-transform:uppercase;
 }
 
+/* ===================== HARİTA ===================== */
+.harita-kutu{
+  position:relative; border-radius:var(--r-l); overflow:hidden;
+  border:1px solid var(--c-line); box-shadow:var(--sh-2); background:var(--c-sand-2);
+}
+#harita{ height:320px; width:100%; background:var(--c-sand-2); }
+@media(min-width:700px){ #harita{ height:480px; } }
+
+/* Sayfa kaydırırken harita parmağı yakalamasın:
+   dokunulana kadar üstte şeffaf bir katman durur. */
+.harita-kilit{
+  position:absolute; inset:0; z-index:500; display:grid; place-items:center;
+  background:rgba(11,42,69,.28); color:#fff; cursor:pointer;
+  font-weight:700; font-size:.95rem; text-align:center; padding:var(--s-4);
+  transition:opacity .2s ease;
+}
+.harita-kilit span{
+  background:rgba(11,42,69,.85); border:1px solid rgba(255,255,255,.28);
+  border-radius:var(--r-pill); padding:.6rem 1.1rem; min-height:44px;
+  display:inline-flex; align-items:center;
+}
+.harita-kutu[data-etkin="1"] .harita-kilit{ display:none; }
+.harita-ipucu{
+  margin-top:var(--s-3); font-size:.85rem; color:var(--c-ink-soft);
+  display:flex; align-items:flex-start; gap:var(--s-2);
+}
+.harita-yedek{
+  display:none; background:#fff; border:1px dashed var(--c-warn-line);
+  border-radius:var(--r-m); padding:var(--s-5); text-align:center;
+  font-weight:600; color:var(--c-warn-ink);
+}
+.harita-yedek small{ display:block; margin-top:var(--s-2); font-weight:400; color:var(--c-ink-soft); }
+#harita-bolumu[data-durum="hata"] .harita-kutu,
+#harita-bolumu[data-durum="hata"] .harita-ipucu{ display:none; }
+#harita-bolumu[data-durum="hata"] .harita-yedek{ display:block; }
+
+/* Numaralı durak işaretçisi */
+.durak-pin{
+  width:32px; height:32px; border-radius:50% 50% 50% 4px; transform:rotate(-45deg);
+  background:var(--c-teal); border:2px solid #fff; box-shadow:var(--sh-2);
+  display:grid; place-items:center;
+}
+.durak-pin b{ transform:rotate(45deg); color:#fff; font-size:.9rem; line-height:1; }
+.ucus-pin{
+  width:30px; height:30px; border-radius:50%; background:var(--c-deep);
+  border:2px solid #fff; box-shadow:var(--sh-2); display:grid; place-items:center;
+  font-size:.9rem;
+}
+/* Leaflet popup'ını site diline uydur */
+.leaflet-popup-content{ margin:var(--s-3) var(--s-4); font-family:var(--f-body); min-width:12rem; }
+.harita-popup h4{ font-size:1.02rem; margin-bottom:.15rem; }
+.harita-popup .pp-alt{ font-size:.8rem; color:var(--c-ink-soft); }
+.harita-popup .pp-gece{
+  display:inline-block; margin:.4rem 0; padding:.14rem .55rem; border-radius:var(--r-pill);
+  background:var(--c-teal); color:#fff; font-size:.74rem; font-weight:700;
+}
+.harita-popup ul{ margin:.3rem 0 .5rem; padding-left:1.05rem; font-size:.85rem; }
+.harita-popup li{ margin-bottom:.15rem; }
+.harita-popup a{ font-weight:700; color:var(--c-teal); }
+
 /* ===================== NELERE DİKKAT ETMELİ ===================== */
-.dikkat-grid{ display:grid; gap:var(--s-4); grid-template-columns:1fr; }
-@media(min-width:700px){ .dikkat-grid{ grid-template-columns:1fr 1fr; } }
+.dikkat-grid{ display:grid; gap:var(--s-4); grid-template-columns:minmax(0,1fr); }
+@media(min-width:700px){ .dikkat-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
 .dikkat{
   background:#fff; border:1px solid var(--c-line); border-left:5px solid var(--c-teal);
   border-radius:var(--r-m); padding:var(--s-4) var(--s-5); box-shadow:var(--sh-1);
@@ -1093,18 +1317,19 @@ tbody tr:hover{ background:var(--c-cream); }
 .dikkat-basi{ display:flex; align-items:center; gap:.55rem; flex-wrap:wrap; margin-bottom:var(--s-3); }
 .dikkat-basi h3{ font-size:1.02rem; }
 .dikkat-etiket{
-  font-size:.66rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
-  padding:.14rem .5rem; border-radius:var(--r-pill); background:var(--c-sand); color:var(--c-ink-soft);
+  font-size:.74rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
+  padding:.16rem .55rem; border-radius:var(--r-pill); background:var(--c-sand); color:var(--c-ink-soft);
 }
+@media(min-width:700px){ .dikkat-etiket{ font-size:.68rem; } }
 .dikkat.s-yuksek .dikkat-etiket{ background:var(--c-warn-bg); color:var(--c-warn-ink); }
 .dikkat.s-kritik .dikkat-etiket{ background:#fbeae8; color:#8e2b20; }
 .dikkat ul{ margin:0; padding-left:1.1rem; font-size:.91rem; color:var(--c-ink-soft); }
 .dikkat li{ margin-bottom:.35rem; }
 
 /* ===================== PRATİK BİLGİ ===================== */
-.info-grid{ display:grid; gap:var(--s-4); grid-template-columns:1fr; }
-@media(min-width:660px){ .info-grid{ grid-template-columns:1fr 1fr; } }
-@media(min-width:1000px){ .info-grid{ grid-template-columns:repeat(3,1fr); } }
+.info-grid{ display:grid; gap:var(--s-4); grid-template-columns:minmax(0,1fr); }
+@media(min-width:660px){ .info-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(min-width:1000px){ .info-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
 .info{ background:#fff; border:1px solid var(--c-line); border-radius:var(--r-m); padding:var(--s-4) var(--s-5); box-shadow:var(--sh-1); }
 .info h3{ display:flex; align-items:center; gap:.5rem; margin-bottom:var(--s-3); font-size:1.02rem; }
 .info ul{ margin:0; padding-left:1.1rem; font-size:.9rem; color:var(--c-ink-soft); }
@@ -1115,13 +1340,24 @@ tbody tr:hover{ background:var(--c-cream); }
 .check-count{ font-size:.95rem; font-weight:700; color:var(--c-teal); white-space:nowrap; }
 .progress{ height:8px; margin:var(--s-3) 0 var(--s-5); background:var(--c-sand-2); border-radius:var(--r-pill); overflow:hidden; }
 .progress i{ display:block; height:100%; width:0; background:linear-gradient(90deg,var(--c-teal),var(--c-teal-soft)); transition:width .35s ease; }
-.checks{ display:grid; gap:var(--s-2); grid-template-columns:1fr; margin:0; padding:0; list-style:none; }
-@media(min-width:700px){ .checks{ grid-template-columns:1fr 1fr; } }
+.checks{ display:grid; gap:var(--s-2); grid-template-columns:minmax(0,1fr); margin:0; padding:0; list-style:none; }
+@media(min-width:700px){ .checks{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
 .check{ background:#fff; border:1px solid var(--c-line); border-radius:var(--r-m); transition:border-color .2s ease, background .2s ease; }
 .check:hover{ border-color:var(--c-teal-soft); }
-.check label{ display:flex; gap:var(--s-3); align-items:flex-start; width:100%; padding:.75rem .9rem; cursor:pointer; }
-.check input{ flex:0 0 auto; width:1.15rem; height:1.15rem; margin-top:.2rem; accent-color:var(--c-teal); cursor:pointer; }
-.check span{ font-size:.94rem; }
+/* Etiketin tamamı tıklanabilir, satır yüksekliği 44 px'in altına düşmez */
+.check label{
+  display:flex; gap:var(--s-3); align-items:center; width:100%;
+  padding:.75rem .9rem; min-height:44px; cursor:pointer;
+}
+/* Kutucuk parmakla rahat işaretlenebilir boyutta */
+.check input{
+  flex:0 0 auto; width:1.5rem; height:1.5rem; accent-color:var(--c-teal); cursor:pointer;
+}
+.check span{ font-size:.96rem; }
+@media(min-width:700px){
+  .check input{ width:1.25rem; height:1.25rem; }
+  .check span{ font-size:.94rem; }
+}
 .check.done{ background:#f3faf7; border-color:#bfe3d3; }
 .check.done span{ text-decoration:line-through; color:var(--c-ink-soft); }
 .check-note{ margin-top:var(--s-4); font-size:.85rem; color:var(--c-ink-soft); }
@@ -1133,6 +1369,35 @@ tbody tr:hover{ background:var(--c-cream); }
 footer{ background:var(--c-deep); color:rgba(255,255,255,.72); padding-block:var(--s-6); font-size:.88rem; text-align:center; }
 footer strong{ color:#fff; }
 footer p + p{ margin-top:var(--s-2); }
+
+/* =====================================================================
+   MOBİL TİPOGRAFİ
+   Gövde metni zaten 16.5 px. Buradaki küçük büyük-harf etiketler
+   (bölüm başlıkçıkları, sayaç birimleri, not rozetleri) dar ekranda
+   okunaklı kalsın diye bir tık büyütülür; 700 px üstünde eski
+   ölçülerine döner. rem tabanı 16 px'tir.
+   ===================================================================== */
+@media(max-width:699.98px){
+  .sec-kicker{ font-size:.8rem; }
+  .cd-unit{ font-size:.8rem; }
+  .countdown-label{ font-size:.8rem; }
+  .day-body h5{ font-size:.8rem; }
+  .city h4{ font-size:.8rem; }
+  .note b, .day-risk b{ font-size:.76rem; }
+  .dikkat-etiket{ font-size:.78rem; }
+  .day-date{ font-size:.82rem; }
+  .today-pill{ font-size:.72rem; }
+  .chip{ font-size:.86rem; }
+  .leg-place{ font-size:.86rem; }
+  .baggage{ font-size:.92rem; }
+  .info ul, .dikkat ul{ font-size:.95rem; }
+  .check-note{ font-size:.88rem; }
+  /* Kartlar dar ekranda daha az iç boşlukla nefes alsın */
+  .city, .flight{ padding-inline:var(--s-4); }
+  .city-kapak{ margin-inline:calc(-1 * var(--s-4)); }
+  .gorsel-kaynak{ padding-inline:var(--s-4); }
+  .galeri-ogesi .gorsel-kaynak{ padding-inline:0; }
+}
 
 @media (prefers-reduced-motion:reduce){
   *{ transition:none !important; animation:none !important; scroll-behavior:auto !important; }
@@ -1219,6 +1484,24 @@ footer p + p{ margin-top:var(--s-2); }
       <button class="btn" id="btn-close-all" type="button">Tümünü kapat</button>
     </div>
     <div class="days" id="days"></div>
+  </div>
+</section>
+
+<!-- ===================== HARİTA ===================== -->
+<section id="harita-bolumu" data-durum="bekliyor">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-kicker">Nerede, ne zaman</span>
+      <h2>Rota haritası</h2>
+      <p>Duraklar sırayla numaralandı; işaretçiye dokununca o şehrin özeti ve gün programına
+         bağlantısı açılır.</p>
+    </div>
+    <div class="harita-kutu" data-etkin="0">
+      <div id="harita"></div>
+      <div class="harita-kilit" id="harita-kilit" role="button" tabindex="0"><span></span></div>
+    </div>
+    <p class="harita-ipucu"><span aria-hidden="true">🗺</span><span id="harita-ipucu"></span></p>
+    <div class="harita-yedek" id="harita-yedek"></div>
   </div>
 </section>
 
@@ -1459,7 +1742,12 @@ footer p + p{ margin-top:var(--s-2); }
   /* ---------- ROTA ŞERİDİ ---------- */
   const route = $("#route");
   TUR.rota.forEach((r, i) => {
-    if (i > 0) route.appendChild(el("div", "route-arrow", "→"));
+    /* Ok yönü CSS'te ::before ile verilir (mobilde ↓, geniş ekranda →) */
+    if (i > 0) {
+      const ok = el("div", "route-arrow");
+      ok.setAttribute("aria-hidden", "true");
+      route.appendChild(ok);
+    }
     const stop = el("div", "route-stop" + (r.tip === "uc" ? " is-edge" : ""));
     stop.setAttribute("role", "listitem");
     stop.innerHTML =
@@ -1469,11 +1757,14 @@ footer p + p{ margin-top:var(--s-2); }
   });
 
   /* ---------- KONAKLAMA TABLOSU ---------- */
+  /* data-label: dar ekranda tablo kart görünümüne düşünce hücre başlığı olur */
   const stayBody = $("#stay-body");
   TUR.konaklama.forEach((k) => {
     stayBody.appendChild(el("tr", null,
-      "<td><strong>" + k.sehir + "</strong></td><td>" + k.geceler + "</td><td>" + k.adet +
-      "</td><td>" + markTBD(k.tesis) + "</td>"));
+      '<td data-label="Şehir"><strong>' + k.sehir + "</strong></td>" +
+      '<td data-label="Geceler">' + k.geceler + "</td>" +
+      '<td data-label="Süre">' + k.adet + "</td>" +
+      '<td data-label="Tesis">' + markTBD(k.tesis) + "</td>"));
   });
 
   /* =====================================================================
@@ -1632,6 +1923,26 @@ footer p + p{ margin-top:var(--s-2); }
   $("#btn-open-all").addEventListener("click", () => setAll("1"));
   $("#btn-close-all").addEventListener("click", () => setAll("0"));
 
+  /* #gun-N bağlantısı (harita popup'larından gelir): ilgili günü aç ve oraya kaydır.
+     Kapalı kart display:none olduğu için önce açılmazsa tarayıcı zıplayamaz. */
+  function gunuAc(hash) {
+    if (!/^#gun-\d+$/.test(hash)) return;
+    const govde = document.getElementById(hash.slice(1));
+    if (!govde) return;
+    const kart = govde.closest(".day");
+    kart.dataset.open = "1";
+    kart.querySelector(".day-btn").setAttribute("aria-expanded", "true");
+    kart.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  document.addEventListener("click", (e) => {
+    const bag = e.target.closest('a[href^="#gun-"]');
+    if (!bag) return;
+    e.preventDefault();
+    gunuAc(bag.getAttribute("href"));
+  });
+  window.addEventListener("hashchange", () => gunuAc(location.hash));
+  if (location.hash) gunuAc(location.hash);
+
   $("#footer-note").textContent = bugunKarti
     ? "Bugün programın içindeyiz — günün kartı otomatik vurgulandı ve açıldı."
     : "Bu sayfa turun programıdır; içerik güncellemeleri PLAN.md üzerinden yürür.";
@@ -1641,9 +1952,129 @@ footer p + p{ margin-top:var(--s-2); }
   TUR.ulasim.forEach((u) => {
     const ok = u.durum === "alındı";
     trBody.appendChild(el("tr", null,
-      "<td><strong>" + u.bacak + "</strong></td><td>" + u.sure + "</td><td>" + u.yontem + "</td>" +
-      '<td><span class="status ' + (ok ? "ok" : "todo") + '">' + (ok ? "✅ " : "⏳ ") + u.durum + "</span></td>"));
+      '<td data-label="Bacak"><strong>' + u.bacak + "</strong></td>" +
+      '<td data-label="Süre">' + u.sure + "</td>" +
+      '<td data-label="Yöntem">' + u.yontem + "</td>" +
+      '<td data-label="Durum"><span class="status ' + (ok ? "ok" : "todo") + '">' +
+        (ok ? "✅ " : "⏳ ") + u.durum + "</span></td>"));
   });
+
+  /* =====================================================================
+     HARİTA — Leaflet
+     Leaflet yüklenmediyse (internet yok / CDN engelli / SRI uyuşmadı)
+     bölüm "hata" durumuna geçer: harita gizlenir, sade yedek kutu çıkar.
+     Sitenin geri kalanı bu koddan hiçbir şekilde etkilenmez.
+     ===================================================================== */
+  function haritayiKur() {
+    const H = TUR.harita;
+    const bolum = $("#harita-bolumu");
+    $("#harita-ipucu").textContent = H.ipucu;
+    $("#harita-yedek").innerHTML =
+      "🗺 " + esc(H.yedekMetin) +
+      "<small>Haritayı görmek için internet bağlantısı gerekiyor; " +
+      "programın geri kalanı çevrimdışı da çalışır.</small>";
+    $("#harita-kilit").querySelector("span").textContent = H.etkinlestirMetni;
+
+    if (typeof window.L === "undefined") {
+      bolum.dataset.durum = "hata";
+      return;
+    }
+
+    try {
+      const duraklar = TUR.sehirler
+        .filter((s) => Array.isArray(s.konum) && s.haritaSira)
+        .sort((a, b) => a.haritaSira - b.haritaSira);
+
+      const harita = L.map("harita", {
+        scrollWheelZoom: false,   /* sayfa kaydırırken harita zoom yapmasın */
+        dragging: false,          /* kilit kalkana kadar kapalı */
+        tap: false,
+        touchZoom: true,          /* iki parmakla yakınlaştırma hep serbest */
+        minZoom: H.minZoom,
+        maxZoom: H.maxZoom
+      });
+
+      L.tileLayer(H.karo.url, {
+        attribution: H.karo.atif,
+        maxZoom: H.maxZoom
+      }).addTo(harita);
+
+      /* Rota çizgisi — şehirleri sırayla birleştirir */
+      const cizgi = duraklar.map((s) => s.konum);
+      L.polyline(cizgi, {
+        color: "#17879b", weight: 4, opacity: .85, dashArray: "1 8", lineCap: "round"
+      }).addTo(harita);
+
+      /* Numaralı durak işaretçileri */
+      duraklar.forEach((s) => {
+        const ikon = L.divIcon({
+          className: "",
+          html: '<div class="durak-pin"><b>' + s.haritaSira + "</b></div>",
+          iconSize: [32, 32], iconAnchor: [16, 30], popupAnchor: [0, -28]
+        });
+        const oneCikan = (s.oneCikanlar || []).slice(0, 3)
+          .map((x) => "<li>" + esc(x) + "</li>").join("");
+        L.marker(s.konum, { icon: ikon, title: s.ad })
+          .addTo(harita)
+          .bindPopup(
+            '<div class="harita-popup">' +
+              "<h4>" + s.haritaSira + ". " + esc(s.ad) + "</h4>" +
+              '<div class="pp-alt">' + esc(s.ulke) + " · " + esc(s.haritaTarih) + "</div>" +
+              '<span class="pp-gece">' + esc(s.haritaGece) + "</span>" +
+              "<ul>" + oneCikan + "</ul>" +
+              '<a href="#' + esc(s.haritaGun) + '">Gün programına git →</a>' +
+            "</div>"
+          );
+      });
+
+      /* Havalimanları ayrı ikonla */
+      (H.havalimanlari || []).forEach((h) => {
+        const ikon = L.divIcon({
+          className: "",
+          html: '<div class="ucus-pin">✈</div>',
+          iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -16]
+        });
+        L.marker(h.konum, { icon: ikon, title: h.ad })
+          .addTo(harita)
+          .bindPopup(
+            '<div class="harita-popup">' +
+              "<h4>" + esc(h.ad) + "</h4>" +
+              '<div class="pp-alt">' + esc(h.kod) + " · " + esc(h.not) + "</div>" +
+            "</div>"
+          );
+      });
+
+      /* Tüm rotayı kapsayacak şekilde aç */
+      const tumNoktalar = cizgi.concat((H.havalimanlari || []).map((h) => h.konum));
+      harita.fitBounds(L.latLngBounds(tumNoktalar), { padding: [H.kenarBosluk, H.kenarBosluk] });
+
+      /* Dokununca haritayı etkinleştir — tek parmak kaydırması ondan sonra açılır */
+      const kutu = document.querySelector(".harita-kutu");
+      const kilit = $("#harita-kilit");
+      const etkinlestir = () => {
+        kutu.dataset.etkin = "1";
+        harita.dragging.enable();
+        harita.invalidateSize();
+      };
+      kilit.addEventListener("click", etkinlestir);
+      kilit.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); etkinlestir(); }
+      });
+
+      bolum.dataset.durum = "hazir";
+      /* Bölüm görünür olduğunda boyutu tazele (gizli render sorununa karşı) */
+      setTimeout(() => harita.invalidateSize(), 250);
+    } catch (e) {
+      bolum.dataset.durum = "hata";
+    }
+  }
+
+  /* Leaflet defer ile yükleniyor; script'i bekle, gelmezse yedeğe düş */
+  if (document.readyState === "complete") {
+    haritayiKur();
+  } else {
+    window.addEventListener("load", haritayiKur, { once: true });
+  }
 
   /* ---------- NELERE DİKKAT ETMELİ ---------- */
   const dikkatGrid = $("#dikkat-grid");

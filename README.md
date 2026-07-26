@@ -12,12 +12,17 @@ tek sayfalık tur programı sitesi.
 
 `index.html`'e çift tıkla. Hepsi bu.
 
-Site tek dosyadır: CSS ve JS inline, harici kütüphane yok, CDN yok, build adımı yok.
-Modern tarayıcıların hepsinde çalışır, mobil öncelikli tasarlanmıştır.
+Site tek dosyadır: CSS ve JS inline, build adımı yok. Modern tarayıcıların hepsinde çalışır,
+mobile-first yazılmıştır (temel stiller mobil için, `min-width` sorgularıyla masaüstüne genişler).
 
-> Tek istisna fotoğraflar: Wikimedia Commons'tan doğrudan yükleniyor, yani görsellerin
-> görünmesi için internet gerekiyor. İnternet yoksa sayfa çalışmaya devam eder, görsellerin
-> yerine degrade renkli yer tutucu ve mekân adı çıkar.
+> **İnternete bağlı iki parça var**, ikisi de bozulmaya karşı korumalı:
+> - **Fotoğraflar** Wikimedia Commons'tan yükleniyor; erişilemezse yerine degrade renkli
+>   yer tutucu ve mekân adı çıkar.
+> - **Rota haritası** Leaflet 1.9.4 kullanıyor (unpkg, SRI hash'li) — projedeki
+>   "harici bağımlılık yok" kuralına tek ve bilinçli istisna. Yüklenemezse harita bölümü
+>   gizlenir, yerine rotayı yazan sade bir kutu çıkar.
+>
+> Her iki durumda da sayfanın geri kalanı çevrimdışı sorunsuz çalışır.
 
 Yerel sunucu tercih edersen:
 
@@ -58,6 +63,7 @@ dokunmak gerekmez.**
 | `sehirler` | Şehir kartları: tema, rehber tanıtımı, "Öne çıkanlar", `kapak` görseli, `galeri` dizisi |
 | `gunler` | 9 günlük program: tarih, başlık, özet, akış, rehber notları, `risk`, gece bilgisi |
 | `ulasim` | Ulaşım özeti tablosu: bacak, süre, yöntem, durum |
+| `harita` | Harita ayarları: karo kaynağı ve atıf, zoom sınırları, havalimanları, yedek metin |
 | `dikkatEdilecekler` | "Nelere dikkat etmeli" kartları: ikon, başlık, `seviye`, maddeler |
 | `pratik` | Pratik bilgi kartları: para, bütçe, elektrik, sağlık, adap, kelimeler |
 | `kontrolListesi` | Hazırlık listesi maddeleri |
@@ -82,6 +88,17 @@ dokunmak gerekmez.**
   boş bırakılırsa satır hiç render edilmez.
 - **Dikkat kartı seviyeleri:** `seviye` alanı `kritik`, `yuksek` ya da `normal` olabilir;
   sırasıyla "kritik / önemli / bilgi" etiketi ve farklı kenar rengi verir.
+- **Harita durakları:** bir şehri haritada göstermek için `sehirler[]` kaydına
+  `konum: [enlem, boylam]`, `haritaSira`, `haritaGece`, `haritaTarih` ve `haritaGun`
+  (gün kartının id'si, ör. `gun-3`) alanlarını ekle. `haritaSira` yoksa şehir haritaya
+  çizilmez. **Koordinatı ezberden yazma** — Wikidata'daki `P625` değerini kullan;
+  mevcutların listesi `PLAN.md` bölüm 8'de.
+- **Leaflet sürümü değişirse** SRI hash'i de değişmeli: dosyayı indirip SHA-384'ünü
+  hesapla, base64'e çevir, `integrity` değerini güncelle. Hash tutmazsa tarayıcı
+  script'i çalıştırmaz ve harita sessizce yedek kutuya düşer.
+- **Mobil:** yeni bir ızgara eklerken `1fr` yerine **`minmax(0,1fr)`** kullan — `1fr`'nin
+  alt sınırı `auto` olduğu için uzun içerik sütunu şişirip kartı taşırıyor. Yeni tablo
+  eklersen hücrelere `data-label` ver; 700 px altında başlık olarak basılıyor.
 - **"Belirlenecek" işaretleri:** metinde geçen _belirlenecek_, _kontrol edilecek_,
   _alınacak_ ifadeleri otomatik olarak vurgulu gösterilir. Emin olunmayan bir bilgiyi
   uydurmak yerine bu ifadelerden birini yaz.
