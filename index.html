@@ -15,6 +15,39 @@
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%96%3C/text%3E%3C/svg%3E">
 
+<!-- =====================================================================
+     TEMA — ilk boyamadan ÖNCE çalışır
+     Koyu tema tercihini <html data-tema> üzerine yazar. Buraya konmasının
+     sebebi: gövdedeki script'i beklersek koyu temada bir kare beyaz
+     parlama görülür. Kullanıcı seçim yapmadıysa (kayıt yok) işletim
+     sistemi tercihi uygulanır ve sistem teması değişince canlı takip
+     edilir; kullanıcı düğmeye bastığı anda takip biter, seçim kazanır.
+     ===================================================================== -->
+<script>
+(function () {
+  var KEY = "balkan2026.tema";
+  var kok = document.documentElement;
+  var sec;
+  try { sec = localStorage.getItem(KEY); } catch (e) { sec = null; }
+  var sistem = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
+  function uygula(t) {
+    kok.dataset.tema = t;
+    var mavi = t === "koyu" ? "#0a1b2a" : "#0b2a45";
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.content = mavi;
+  }
+  uygula(sec === "koyu" || sec === "acik" ? sec : (sistem && sistem.matches ? "koyu" : "acik"));
+  if (!sec && sistem && sistem.addEventListener) {
+    sistem.addEventListener("change", function (e) {
+      try { if (localStorage.getItem(KEY)) return; } catch (x) {}
+      uygula(e.matches ? "koyu" : "acik");
+      window.dispatchEvent(new Event("tema-degisti"));
+    });
+  }
+  window.temaUygula = uygula;
+})();
+</script>
+
 <!-- PWA: telefona uygulama gibi eklenebilsin, çevrimdışı açılsın -->
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icon.svg">
@@ -1092,7 +1125,9 @@ const TUR = {
   --c-teal-soft: #2fb3c4;
   --c-sand:      #f4ece0;
   --c-sand-2:    #e9dcc9;
+  --c-sand-3:    #f7f0e6;
   --c-cream:     #fbf7f1;
+  --c-yuzey:     #ffffff;   /* kart yüzeyi — koyu temada ezilir */
   --c-ink:       #12222e;
   --c-ink-soft:  #4a6172;
   --c-line:      #dfd3c2;
@@ -1116,18 +1151,88 @@ const TUR = {
   /* tipografi & ölçü */
   --f-body:"Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
   --w-max:68rem;
+
+  /* üst çubuk yüksekliği — çapa kaydırmalarında pay olarak kullanılır */
+  --h-nav:3.1rem;
 }
+
+/* =====================================================================
+   KARANLIK TEMA
+   Renkler token'larda toplandığı için koyu tema büyük ölçüde :root
+   değerlerini ezmekle çözülür; geriye kalan birkaç sabit renk
+   (uyarı rozetleri, favori kalpleri, tamamlanan madde) altta tek tek
+   dengelenir.
+
+   Tema <html data-tema="koyu|acik"> ile taşınır ve <head> içindeki
+   küçük script tarafından ilk boyamadan ÖNCE yazılır — böylece açılışta
+   beyaz parlaması olmaz. Kullanıcı seçim yapmadıysa işletim sistemi
+   tercihi (prefers-color-scheme) uygulanır ve tercih değişince
+   canlı takip edilir. Bu yüzden CSS'te tek bir seçici yeterli.
+   ===================================================================== */
+html[data-tema="koyu"]{
+  --c-deep:      #0a1b2a;
+  --c-deep-2:    #10293f;
+  --c-teal:      #1f9db2;
+  --c-teal-soft: #5fd0df;
+  --c-sand:      #16242f;
+  --c-sand-2:    #24394a;
+  --c-sand-3:    #131f29;
+  --c-cream:     #0d1720;   /* sayfa zemini + kart içi gömme alanlar */
+  --c-yuzey:     #16242f;   /* kart yüzeyi — zeminden bir tık açık */
+  --c-ink:       #e7eef4;
+  --c-ink-soft:  #a2b5c3;
+  --c-line:      #27404f;
+  --c-warn-bg:   #33260f;
+  --c-warn-line: #b7841f;
+  --c-warn-ink:  #f2d9a4;
+  --c-ok:        #3f9d76;
+
+  --sh-1:0 1px 3px rgba(0,0,0,.4), 0 1px 2px rgba(0,0,0,.3);
+  --sh-2:0 6px 20px rgba(0,0,0,.45);
+  --sh-3:0 16px 40px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+/* Sabit renkli küçük parçaların koyu zemindeki karşılıkları */
+html[data-tema="koyu"] .tbd{ color:#e0a54e; }
+html[data-tema="koyu"] .status.todo{ color:#e0a54e; }
+html[data-tema="koyu"] .flight.is-night .flight-tag{ color:#e0a54e; }
+html[data-tema="koyu"] .note.t-dikkat{ border-color:#6d5220; }
+html[data-tema="koyu"] .note.t-dikkat b{ color:#2b1e05; }
+html[data-tema="koyu"] .hava-rozet.yagmur{ background:#16344a; color:#9fd2f0; }
+html[data-tema="koyu"] .acil-satir.vurgulu .acil-numara{ color:#ff8f7a; }
+html[data-tema="koyu"] .fav[aria-pressed="true"],
+html[data-tema="koyu"] .ucan-kalp{ color:#ff7a7a; }
+html[data-tema="koyu"] .fav-sayac{ background:#3a1c1c; color:#ffb0b0; border-color:#5c2b2b; }
+html[data-tema="koyu"] .fav-ozet{ border-left-color:#ff7a7a; }
+html[data-tema="koyu"] .dikkat.s-kritik{ border-left-color:#e0685a; }
+html[data-tema="koyu"] .dikkat.s-kritik .dikkat-etiket{ background:#3a1c19; color:#ffb3a7; }
+html[data-tema="koyu"] .check.done{ background:#122a24; border-color:#2c5c4a; }
+/* Fotoğraflar ve harita karoları koyu zeminde göz almasın diye kısılır.
+   Karo kaynağı OSM'in açık renkli seti; ayrı bir koyu karo servisi
+   eklemek yeni bir harici bağımlılık demek olurdu, filtre yeterli. */
+html[data-tema="koyu"] .gorsel-kutu img{ filter:brightness(.9) contrast(1.02); }
+html[data-tema="koyu"] .leaflet-tile-pane{ filter:brightness(.72) saturate(.85) contrast(1.05); }
+html[data-tema="koyu"] .leaflet-popup-content-wrapper,
+html[data-tema="koyu"] .leaflet-popup-tip{ background:var(--c-yuzey); color:var(--c-ink); }
+html[data-tema="koyu"] .leaflet-control-attribution{ background:rgba(13,23,32,.85) !important; color:var(--c-ink-soft); }
+html[data-tema="koyu"] .leaflet-control-attribution a{ color:var(--c-teal-soft); }
+html[data-tema="koyu"] .leaflet-bar a{ background:var(--c-yuzey); color:var(--c-ink); border-color:var(--c-line); }
 
 *,*::before,*::after{ box-sizing:border-box; }
 html{
   scroll-behavior:smooth; -webkit-text-size-adjust:100%;
-  /* mobilde hiçbir koşulda yatay kaydırma olmasın */
+  /* Mobilde hiçbir koşulda yatay kaydırma olmasın.
+     clip, hidden'ın aksine kaydırma kabı OLUŞTURMAZ; hidden bırakılırsa
+     üst çubuğun position:sticky'si sessizce çalışmaz. Eski tarayıcılar
+     clip'i tanımazsa bir üstteki hidden yürürlükte kalır. */
   overflow-x:hidden;
+  overflow-x:clip;
 }
 body{
   margin:0; font-family:var(--f-body); font-size:16.5px; line-height:1.65;
   color:var(--c-ink); background:var(--c-cream);
   overflow-x:hidden;
+  overflow-x:clip;
   /* uzun kelime / URL taşmasını engelle */
   overflow-wrap:anywhere; word-break:normal;
 }
@@ -1143,7 +1248,7 @@ p{ margin:0; }
 /* Mobile-first: dar ekranda bölüm boşlukları daha ölçülü */
 section{ padding-block:var(--s-7); }
 @media(min-width:700px){ section{ padding-block:var(--s-8); } }
-section:nth-of-type(even){ background:linear-gradient(180deg,var(--c-sand) 0%,#f7f0e6 100%); }
+section:nth-of-type(even){ background:linear-gradient(180deg,var(--c-sand) 0%,var(--c-sand-3) 100%); }
 
 .sec-head{ margin-bottom:var(--s-6); }
 .sec-kicker{
@@ -1212,7 +1317,7 @@ section:nth-of-type(even){ background:linear-gradient(180deg,var(--c-sand) 0%,#f
 @media(min-width:860px){ .flights{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
 .flight{
   position:relative; overflow:hidden; display:flex; flex-direction:column; gap:var(--s-4);
-  background:#fff; border:1px solid var(--c-line); border-radius:var(--r-l);
+  background:var(--c-yuzey); border:1px solid var(--c-line); border-radius:var(--r-l);
   padding:var(--s-5); box-shadow:var(--sh-2);
 }
 .flight::before{ content:""; position:absolute; inset:0 0 auto 0; height:4px; background:linear-gradient(90deg,var(--c-teal),var(--c-teal-soft)); }
@@ -1254,7 +1359,7 @@ section:nth-of-type(even){ background:linear-gradient(180deg,var(--c-sand) 0%,#f
 .route{ display:flex; flex-direction:column; align-items:stretch; padding-block:var(--s-3); }
 .route-stop{
   text-align:left; padding:var(--s-3) var(--s-4);
-  background:#fff; border:1px solid var(--c-line); border-radius:var(--r-m); box-shadow:var(--sh-1);
+  background:var(--c-yuzey); border:1px solid var(--c-line); border-radius:var(--r-m); box-shadow:var(--sh-1);
   display:flex; align-items:baseline; justify-content:space-between; gap:var(--s-3);
 }
 .route-stop.is-edge{ background:var(--c-sand); box-shadow:none; }
@@ -1289,7 +1394,7 @@ table{ width:100%; border-collapse:collapse; font-size:.94rem; }
 thead{ position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
 tbody tr{
   display:block; margin-bottom:var(--s-3); padding:var(--s-3) var(--s-4);
-  background:#fff; border:1px solid var(--c-line); border-radius:var(--r-m); box-shadow:var(--sh-1);
+  background:var(--c-yuzey); border:1px solid var(--c-line); border-radius:var(--r-m); box-shadow:var(--sh-1);
 }
 tbody tr:last-child{ margin-bottom:0; }
 tbody td{
@@ -1305,7 +1410,7 @@ tbody td:first-child{ padding-top:0; }
 tbody td:last-child{ padding-bottom:0; }
 
 @media(min-width:700px){
-  .table-wrap{ overflow-x:auto; background:#fff; border:1px solid var(--c-line); border-radius:var(--r-m); }
+  .table-wrap{ overflow-x:auto; background:var(--c-yuzey); border:1px solid var(--c-line); border-radius:var(--r-m); }
   table{ min-width:34rem; }
   thead{ position:static; width:auto; height:auto; overflow:visible; clip-path:none; }
   th,td{ padding:.7rem .9rem; text-align:left; border-bottom:1px solid var(--c-line); }
@@ -1326,7 +1431,7 @@ tbody td:last-child{ padding-bottom:0; }
 @media(min-width:1040px){ .cities{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
 .city{
   display:flex; flex-direction:column; gap:var(--s-3);
-  background:#fff; border:1px solid var(--c-line); border-radius:var(--r-l);
+  background:var(--c-yuzey); border:1px solid var(--c-line); border-radius:var(--r-l);
   padding:0 var(--s-5) var(--s-5); box-shadow:var(--sh-1); overflow:hidden;
   transition:transform .28s cubic-bezier(.2,.7,.3,1), box-shadow .28s ease, border-color .28s ease;
 }
@@ -1437,7 +1542,7 @@ tbody td:last-child{ padding-bottom:0; }
 .days-tools{ display:flex; flex-wrap:wrap; gap:var(--s-2); margin-bottom:var(--s-4); }
 .btn{
   all:unset; box-sizing:border-box; cursor:pointer; font-family:inherit;
-  background:#fff; color:var(--c-ink); border:1px solid var(--c-line); border-radius:var(--r-pill);
+  background:var(--c-yuzey); color:var(--c-ink); border:1px solid var(--c-line); border-radius:var(--r-pill);
   padding:.4rem 1.1rem; font-size:.9rem; font-weight:600;
   /* dokunma hedefi en az 44×44 */
   min-height:44px; min-width:44px; display:inline-flex; align-items:center; justify-content:center;
@@ -1448,7 +1553,7 @@ tbody td:last-child{ padding-bottom:0; }
 
 .days{ display:flex; flex-direction:column; gap:var(--s-3); }
 .day{
-  overflow:hidden; background:#fff; border:1px solid var(--c-line); border-radius:var(--r-m);
+  overflow:hidden; background:var(--c-yuzey); border:1px solid var(--c-line); border-radius:var(--r-m);
   box-shadow:var(--sh-1); transition:box-shadow .25s ease, border-color .25s ease;
 }
 .day:hover{ box-shadow:var(--sh-2); }
@@ -1549,7 +1654,7 @@ tbody td:last-child{ padding-bottom:0; }
    ===================================================================== */
 #bugun{ padding-block:var(--s-6); background:var(--c-sand); }
 .bugun-kart{
-  background:#fff; border:1px solid var(--c-teal); border-radius:var(--r-l);
+  background:var(--c-yuzey); border:1px solid var(--c-teal); border-radius:var(--r-l);
   box-shadow:0 0 0 4px rgba(47,179,196,.16), var(--sh-2);
   overflow:hidden;
 }
@@ -1597,7 +1702,7 @@ tbody td:last-child{ padding-bottom:0; }
 }
 .hava-kart{
   scroll-snap-align:start;
-  background:#fff; border:1px solid var(--c-line); border-radius:var(--r-m);
+  background:var(--c-yuzey); border:1px solid var(--c-line); border-radius:var(--r-m);
   padding:var(--s-3) var(--s-4); box-shadow:var(--sh-1); text-align:center;
 }
 .hava-kart.tahmin-yok{ background:var(--c-cream); border-style:dashed; }
@@ -1622,7 +1727,7 @@ tbody td:last-child{ padding-bottom:0; }
 .cepte-grid{ display:grid; gap:var(--s-4); grid-template-columns:minmax(0,1fr); }
 @media(min-width:760px){ .cepte-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
 .cep-kart{
-  background:#fff; border:1px solid var(--c-line); border-radius:var(--r-m);
+  background:var(--c-yuzey); border:1px solid var(--c-line); border-radius:var(--r-m);
   padding:var(--s-4) var(--s-5); box-shadow:var(--sh-1);
 }
 .cep-kart h3{ display:flex; align-items:center; gap:.5rem; font-size:1.02rem; margin-bottom:var(--s-3); }
@@ -1746,7 +1851,7 @@ tbody td:last-child{ padding-bottom:0; }
 .lezzet-ipucu{ font-size:.86rem; margin-top:.35rem; }
 .lezzet-ipucu b{ color:var(--c-teal); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; }
 .yeme-notlar{
-  margin-top:var(--s-5); background:#fff; border:1px solid var(--c-line);
+  margin-top:var(--s-5); background:var(--c-yuzey); border:1px solid var(--c-line);
   border-left:5px solid var(--c-teal); border-radius:var(--r-m); padding:var(--s-4) var(--s-5); box-shadow:var(--sh-1);
 }
 .yeme-notlar h3{ font-size:1.02rem; margin-bottom:var(--s-3); }
@@ -1795,7 +1900,7 @@ tbody td:last-child{ padding-bottom:0; }
 }
 .fav-sayac[data-adet]:not([data-adet="0"]){ display:inline-flex; }
 .fav-ozet{
-  margin-top:var(--s-4); background:#fff; border:1px solid var(--c-line);
+  margin-top:var(--s-4); background:var(--c-yuzey); border:1px solid var(--c-line);
   border-left:5px solid #d64545; border-radius:var(--r-m);
   padding:var(--s-4) var(--s-5); box-shadow:var(--sh-1);
 }
@@ -1821,7 +1926,7 @@ tbody td:last-child{ padding-bottom:0; }
   background:var(--c-cream); border:1px dashed var(--c-line); border-radius:var(--r-s);
   padding:.6rem .75rem;
 }
-.ani textarea:focus{ outline:none; border-color:var(--c-teal); border-style:solid; background:#fff; }
+.ani textarea:focus{ outline:none; border-color:var(--c-teal); border-style:solid; background:var(--c-yuzey); }
 .ani textarea::placeholder{ color:var(--c-ink-soft); opacity:.8; }
 .ani-durum{ display:block; margin-top:.3rem; font-size:.76rem; color:var(--c-ok); min-height:1.1em; }
 
@@ -1894,7 +1999,7 @@ tbody td:last-child{ padding-bottom:0; }
   display:flex; align-items:flex-start; gap:var(--s-2);
 }
 .harita-yedek{
-  display:none; background:#fff; border:1px dashed var(--c-warn-line);
+  display:none; background:var(--c-yuzey); border:1px dashed var(--c-warn-line);
   border-radius:var(--r-m); padding:var(--s-5); text-align:center;
   font-weight:600; color:var(--c-warn-ink);
 }
@@ -1931,7 +2036,7 @@ tbody td:last-child{ padding-bottom:0; }
 .dikkat-grid{ display:grid; gap:var(--s-4); grid-template-columns:minmax(0,1fr); }
 @media(min-width:700px){ .dikkat-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
 .dikkat{
-  background:#fff; border:1px solid var(--c-line); border-left:5px solid var(--c-teal);
+  background:var(--c-yuzey); border:1px solid var(--c-line); border-left:5px solid var(--c-teal);
   border-radius:var(--r-m); padding:var(--s-4) var(--s-5); box-shadow:var(--sh-1);
 }
 .dikkat.s-yuksek{ border-left-color:var(--c-warn-line); }
@@ -1952,7 +2057,7 @@ tbody td:last-child{ padding-bottom:0; }
 .info-grid{ display:grid; gap:var(--s-4); grid-template-columns:minmax(0,1fr); }
 @media(min-width:660px){ .info-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media(min-width:1000px){ .info-grid{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
-.info{ background:#fff; border:1px solid var(--c-line); border-radius:var(--r-m); padding:var(--s-4) var(--s-5); box-shadow:var(--sh-1); }
+.info{ background:var(--c-yuzey); border:1px solid var(--c-line); border-radius:var(--r-m); padding:var(--s-4) var(--s-5); box-shadow:var(--sh-1); }
 .info h3{ display:flex; align-items:center; gap:.5rem; margin-bottom:var(--s-3); font-size:1.02rem; }
 .info ul{ margin:0; padding-left:1.1rem; font-size:.9rem; color:var(--c-ink-soft); }
 .info li{ margin-bottom:.3rem; }
@@ -1964,7 +2069,7 @@ tbody td:last-child{ padding-bottom:0; }
 .progress i{ display:block; height:100%; width:0; background:linear-gradient(90deg,var(--c-teal),var(--c-teal-soft)); transition:width .35s ease; }
 .checks{ display:grid; gap:var(--s-2); grid-template-columns:minmax(0,1fr); margin:0; padding:0; list-style:none; }
 @media(min-width:700px){ .checks{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
-.check{ background:#fff; border:1px solid var(--c-line); border-radius:var(--r-m); transition:border-color .2s ease, background .2s ease; }
+.check{ background:var(--c-yuzey); border:1px solid var(--c-line); border-radius:var(--r-m); transition:border-color .2s ease, background .2s ease; }
 .check:hover{ border-color:var(--c-teal-soft); }
 /* Etiketin tamamı tıklanabilir, satır yüksekliği 44 px'in altına düşmez */
 .check label{
@@ -1983,7 +2088,7 @@ tbody td:last-child{ padding-bottom:0; }
 .check.done{ background:#f3faf7; border-color:#bfe3d3; }
 .check.done span{ text-decoration:line-through; color:var(--c-ink-soft); }
 .check-note{ margin-top:var(--s-4); font-size:.85rem; color:var(--c-ink-soft); }
-.tbd-box{ margin-top:var(--s-6); background:#fff; border:1px dashed var(--c-warn-line); border-radius:var(--r-m); padding:var(--s-4) var(--s-5); }
+.tbd-box{ margin-top:var(--s-6); background:var(--c-yuzey); border:1px dashed var(--c-warn-line); border-radius:var(--r-m); padding:var(--s-4) var(--s-5); }
 .tbd-box h3{ margin-bottom:var(--s-3); font-size:1rem; }
 .tbd-box ul{ margin:0; padding-left:1.1rem; font-size:.93rem; color:var(--c-ink-soft); }
 
@@ -1996,6 +2101,134 @@ footer{
 }
 footer strong{ color:#fff; }
 footer p + p{ margin-top:var(--s-2); }
+
+/* =====================================================================
+   ÜST GEZİNME ÇUBUĞU
+   Sayfa 12 bölüm uzunluğunda; çubuk hem "neredeyim" bilgisini hem de
+   tek dokunuşla bölüme atlamayı verir. Mobilde yatay kaydırmalı şerit,
+   masaüstünde tek sıra. Şerit .ust-alan'ın içinde durur ki çentik payı
+   bir kez hesaplansın ve hiçbir düğme adanın altında kalmasın.
+   ===================================================================== */
+.ana-nav{
+  display:flex; align-items:center; gap:var(--s-2);
+  padding-left:calc(var(--s-2) + env(safe-area-inset-left));
+  padding-right:calc(var(--s-2) + env(safe-area-inset-right));
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.nav-linkler{
+  flex:1 1 auto; min-width:0; display:flex; gap:.2rem;
+  overflow-x:auto; overflow-y:hidden; scrollbar-width:none;
+  -webkit-overflow-scrolling:touch; scroll-snap-type:x proximity;
+}
+.nav-linkler::-webkit-scrollbar{ display:none; }
+.nav-linkler a{
+  flex:0 0 auto; scroll-snap-align:center;
+  display:inline-flex; align-items:center; gap:.32rem;
+  padding:.6rem .6rem; min-height:2.9rem;
+  color:rgba(255,255,255,.72); text-decoration:none;
+  font-size:.82rem; font-weight:600; white-space:nowrap;
+  border-bottom:2px solid transparent;
+}
+.nav-linkler a:hover{ color:#fff; }
+.nav-linkler a[aria-current="true"]{ color:#fff; border-bottom-color:var(--c-teal-soft); }
+.nav-linkler a .ico{ font-size:.95rem; }
+.nav-arac{
+  flex:0 0 auto; display:flex; gap:.2rem;
+  border-left:1px solid rgba(255,255,255,.14); padding-left:.3rem;
+}
+.nav-btn{
+  display:grid; place-items:center; width:2.5rem; height:2.5rem;
+  background:transparent; border:0; border-radius:var(--r-s);
+  color:rgba(255,255,255,.8); font-size:1.05rem; cursor:pointer;
+  transition:background .15s ease, color .15s ease;
+}
+.nav-btn:hover{ background:rgba(255,255,255,.12); color:#fff; }
+.nav-btn:focus-visible{ outline:2px solid var(--c-teal-soft); outline-offset:1px; }
+/* Çubuk yapışkan: sayfanın en üstündeki band bütünüyle ekranda kalır */
+.ust-alan{ position:sticky; top:0; z-index:90; }
+/* Çapaya atlarken başlık çubuğun altında kalmasın */
+section, .day{ scroll-margin-top:calc(var(--h-nav) + env(safe-area-inset-top) + .5rem); }
+
+/* Yukarı çık — uzun sayfada tek dokunuşla başa dön */
+.yukari{
+  position:fixed; z-index:80;
+  right:calc(var(--s-4) + env(safe-area-inset-right));
+  bottom:calc(var(--s-4) + env(safe-area-inset-bottom));
+  width:2.9rem; height:2.9rem; border-radius:50%;
+  display:grid; place-items:center;
+  background:var(--c-deep); color:#fff; border:1px solid rgba(255,255,255,.18);
+  box-shadow:var(--sh-2); font-size:1.1rem; cursor:pointer;
+  opacity:0; visibility:hidden; transform:translateY(.6rem);
+  transition:opacity .2s ease, transform .2s ease, visibility .2s;
+}
+.yukari[data-acik="1"]{ opacity:1; visibility:visible; transform:none; }
+
+/* =====================================================================
+   YEDEKLEME KUTUSU
+   İşaretler, kalpler ve anı notları yalnızca o cihazın tarayıcısında
+   durur. İki kişilik bir gezide bu yetmiyor — kutu bütün kayıtları tek
+   bir .json dosyasına yazar ve karşı cihazda geri yükler.
+   ===================================================================== */
+.yedek-kutu{
+  margin-top:var(--s-5); background:var(--c-yuzey);
+  border:1px solid var(--c-line); border-radius:var(--r-m);
+  padding:var(--s-4) var(--s-5); box-shadow:var(--sh-1);
+}
+.yedek-kutu h3{ font-size:1.02rem; }
+.yedek-kutu > p{ margin-top:var(--s-2); font-size:.9rem; color:var(--c-ink-soft); }
+.yedek-btnler{ display:flex; flex-wrap:wrap; gap:var(--s-2); margin-top:var(--s-3); }
+.yedek-durum{
+  margin-top:var(--s-3); font-size:.88rem; font-weight:600; color:var(--c-ok);
+  min-height:1.2rem;
+}
+.yedek-durum[data-tip="hata"]{ color:#b03a2e; }
+html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
+.yedek-ozet{ margin-top:var(--s-2); font-size:.85rem; color:var(--c-ink-soft); }
+
+/* =====================================================================
+   YAZDIRMA / PDF
+   Kâğıt yedeği sınırda ve internetsiz otel resepsiyonunda işe yarar:
+   uçuş bilgileri, gün gün program, ulaşım ve cepteki numaralar basılır.
+   Etkileşimli olan her şey (harita, sayaç, düğmeler, galeri) atılır,
+   gün kartları zorla açılır ki katlanmış içerik kâğıda düşmesin.
+   ===================================================================== */
+@media print{
+  @page{ margin:14mm; }
+  /* Kâğıt her zaman beyazdır: koyu tema açıkken bile bütün renk token'ları
+     mürekkep tasarruflu bir gri-siyah sete indirgenir. Tek tek kutu
+     boyamaktansa token'ları ezmek daha güvenli — yeni eklenen bir kart da
+     kendiliğinden doğru basılır. */
+  html, html[data-tema="koyu"]{
+    --c-deep:#000; --c-deep-2:#222; --c-teal:#245b66; --c-teal-soft:#5a8b93;
+    --c-sand:#fff; --c-sand-2:#ddd; --c-sand-3:#fff; --c-cream:#fff; --c-yuzey:#fff;
+    --c-ink:#000; --c-ink-soft:#333; --c-line:#bbb;
+    --c-warn-bg:#fff; --c-warn-line:#888; --c-warn-ink:#000; --c-ok:#1d5c43;
+    --sh-1:none; --sh-2:none; --sh-3:none;
+    color-scheme:light;
+  }
+  html[data-tema="koyu"] .gorsel-kutu img,
+  html[data-tema="koyu"] .leaflet-tile-pane{ filter:none; }
+  html, body{ background:#fff !important; color:#000 !important; font-size:10.5pt; }
+  .ust-alan, .yukari, .days-tools, .yedek-kutu, .harita-kutu, .harita-ipucu,
+  .lightbox, .kutlama, .fav, .ani, .countdown, .hero::after,
+  #hava-bolumu, .check-note, .galeri, .city-kapak, .lezzet-gorsel,
+  .kopyala, .bugun-alt .btn{ display:none !important; }
+  .hero{ background:#fff !important; color:#000 !important; padding-block:0 0 !important; }
+  .hero-badge, .hero-facts li{ background:none !important; border:1px solid #999 !important; color:#000 !important; }
+  .hero-lede{ color:#333 !important; }
+  .hero h1 span{ color:#333 !important; }
+  section{ padding-block:10pt !important; background:none !important; break-inside:auto; }
+  .flight, .city, .day, .info, .dikkat, .cep-kart, .check{
+    box-shadow:none !important; border:1px solid #bbb !important;
+    background:#fff !important; break-inside:avoid;
+  }
+  .day-body{ display:block !important; }   /* katlanmış günler açılır */
+  .day-head{ pointer-events:none; }
+  th{ background:#eee !important; color:#000 !important; }
+  a{ text-decoration:none; color:#000 !important; }
+  .sec-head > p, .day-sum{ color:#333 !important; }
+  .tbd{ color:#000 !important; text-decoration:underline; }
+}
 
 /* =====================================================================
    MOBİL TİPOGRAFİ
@@ -2046,6 +2279,18 @@ footer p + p{ margin-top:var(--s-2); }
     <span>✨ Yeni sürüm hazır</span>
     <button type="button" id="btn-guncelle">Yenile</button>
   </div>
+
+  <!-- Bölüm gezintisi — bağlantılar JS ile mevcut bölümlerden üretilir,
+       böylece gizli bölümler (Bugün, Hava) listeye girmez. -->
+  <nav class="ana-nav" aria-label="Bölümler">
+    <div class="nav-linkler" id="nav-linkler"></div>
+    <div class="nav-arac">
+      <button class="nav-btn" id="btn-tema" type="button" aria-live="polite"
+              title="Koyu / açık tema">🌙</button>
+      <button class="nav-btn" id="btn-yazdir" type="button"
+              title="Programı yazdır veya PDF'e kaydet">🖨</button>
+    </div>
+  </nav>
 </div>
 
 <!-- ===================== BUGÜN ===================== -->
@@ -2240,6 +2485,21 @@ footer p + p{ margin-top:var(--s-2); }
     </div>
     <p class="check-note">✔ İşaretler bu tarayıcıda saklanır; sayfayı kapatsan da kaybolmaz.</p>
 
+    <!-- Yedekleme — kayıtlar cihaza özel olduğu için taşınabilir hâle getirir -->
+    <div class="yedek-kutu">
+      <h3>💾 Kayıtları yedekle / taşı</h3>
+      <p>İşaretler, kalpler ve anı notları yalnızca <b>bu cihazın tarayıcısında</b> duruyor.
+         Dosyaya indirip diğer telefonda geri yükleyebilir, ikinizin listesini birleştirebilirsiniz.</p>
+      <div class="yedek-btnler">
+        <button class="btn" id="btn-yedek-indir" type="button">⬇ Dosyaya indir</button>
+        <button class="btn" id="btn-yedek-yukle" type="button">⬆ Dosyadan yükle</button>
+        <button class="btn" id="btn-yedek-kopyala" type="button">📋 Panoya kopyala</button>
+        <input type="file" id="yedek-dosya" accept="application/json,.json" hidden>
+      </div>
+      <p class="yedek-durum" id="yedek-durum" role="status"></p>
+      <p class="yedek-ozet" id="yedek-ozet"></p>
+    </div>
+
     <div class="tbd-box">
       <h3>📌 Henüz belirlenecekler</h3>
       <ul id="tbd-list"></ul>
@@ -2260,6 +2520,9 @@ footer p + p{ margin-top:var(--s-2); }
   </figure>
   <span class="lightbox-sayac" id="lightbox-sayac"></span>
 </div>
+
+<!-- ===================== YUKARI ÇIK ===================== -->
+<button class="yukari" id="yukari" type="button" data-acik="0" aria-label="Sayfanın başına dön">↑</button>
 
 <!-- ===================== FOOTER ===================== -->
 <footer>
@@ -3203,6 +3466,9 @@ footer p + p{ margin-top:var(--s-2); }
       const url = HV.api +
         "?latitude=" + lat + "&longitude=" + lon +
         "&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode" +
+        /* Open-Meteo varsayılanı 7 gün; pencerenin tamamını istemezsek tur
+           tarihleri görünmez ve gereksiz yere "mevsim normali" gösterilir. */
+        "&forecast_days=16" +
         "&timezone=" + encodeURIComponent(HV.saatDilimi);
       const yanit = await fetch(url);
       if (!yanit.ok) throw new Error("hava " + yanit.status);
@@ -3409,7 +3675,205 @@ footer p + p{ margin-top:var(--s-2); }
   }
 
   const bugunVarMi = bugunKartiCiz();
-  havaBaslat(etkinISO).then(() => { if (bugunVarMi) bugunKartiCiz(); });
+  havaBaslat(etkinISO).then(() => { if (bugunVarMi) bugunKartiCiz(); navKur(); });
+
+  /* =====================================================================
+     BÖLÜM GEZİNTİSİ
+     Sayfa 12 bölüm; çubuktaki bağlantılar DOM'daki gerçek bölümlerden
+     üretilir, gizli olanlar (Bugün, Hava — tarihe ve ağa bağlı) atlanır.
+     Hava bölümü sonradan açılabildiği için navKur() bir kez daha çağrılır.
+     Kaydırdıkça hangi bölümdeysek o bağlantı işaretlenir; işaretli bağlantı
+     dar ekranda şeridin görünür kısmına kaydırılır.
+     ===================================================================== */
+  const NAV_ADLARI = {
+    "bugun":         ["📌", "Bugün"],
+    "ucuslar":       ["✈", "Uçuş"],
+    "cepte":         ["📱", "Cepte"],
+    "hava-bolumu":   ["🌤", "Hava"],
+    "rota":          ["🧭", "Rota"],
+    "sehirler":      ["🏙", "Şehirler"],
+    "program":       ["🗓", "Program"],
+    "harita-bolumu": ["🗺", "Harita"],
+    "ulasim":        ["🚌", "Ulaşım"],
+    "dikkat":        ["⚠", "Dikkat"],
+    "pratik":        ["💡", "Pratik"],
+    "hazirlik":      ["✔", "Hazırlık"]
+  };
+  const navKutu = $("#nav-linkler");
+  let navGozcu = null;
+
+  function navKur() {
+    const bolumler = Array.from(document.querySelectorAll("section[id]"))
+      .filter((s) => !s.hidden && NAV_ADLARI[s.id]);
+    /* Aynı liste zaten duruyorsa boşuna yeniden kurma (işaret kaybolmasın) */
+    const imza = bolumler.map((s) => s.id).join(",");
+    if (navKutu.dataset.imza === imza) return;
+    navKutu.dataset.imza = imza;
+    navKutu.innerHTML = "";
+
+    bolumler.forEach((s) => {
+      const [ikon, ad] = NAV_ADLARI[s.id];
+      const a = el("a");
+      a.href = "#" + s.id;
+      a.innerHTML = '<span class="ico" aria-hidden="true">' + ikon + "</span>" + ad;
+      navKutu.appendChild(a);
+    });
+
+    if (navGozcu) navGozcu.disconnect();
+    /* Ekranın üst üçte birine giren bölüm "içinde olduğumuz" bölüm sayılır */
+    navGozcu = new IntersectionObserver((girisler) => {
+      girisler.forEach((g) => {
+        if (!g.isIntersecting) return;
+        const link = navKutu.querySelector('a[href="#' + g.target.id + '"]');
+        if (!link || link.getAttribute("aria-current") === "true") return;
+        navKutu.querySelectorAll("a[aria-current]").forEach((x) => x.removeAttribute("aria-current"));
+        link.setAttribute("aria-current", "true");
+        /* İşaretli bağlantı şeridin dışında kaldıysa görünür yere getir */
+        const kutuSol = navKutu.scrollLeft, kutuSag = kutuSol + navKutu.clientWidth;
+        if (link.offsetLeft < kutuSol || link.offsetLeft + link.offsetWidth > kutuSag) {
+          navKutu.scrollTo({ left: link.offsetLeft - navKutu.clientWidth / 2 + link.offsetWidth / 2,
+                             behavior: "smooth" });
+        }
+      });
+    }, { rootMargin: "-15% 0px -70% 0px", threshold: 0 });
+    bolumler.forEach((s) => navGozcu.observe(s));
+  }
+  navKur();
+
+  /* ---------- YUKARI ÇIK ---------- */
+  const yukariBtn = $("#yukari");
+  const yukariDurum = () => {
+    yukariBtn.dataset.acik = window.scrollY > window.innerHeight ? "1" : "0";
+  };
+  window.addEventListener("scroll", yukariDurum, { passive: true });
+  yukariBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  yukariDurum();
+
+  /* =====================================================================
+     TEMA DÜĞMESİ
+     Asıl uygulama <head> içinde yapıldı; buradaki iş yalnızca düğmeyi
+     mevcut temaya göre yazmak ve tıklamada tercihi kaydetmek.
+     ===================================================================== */
+  const TEMA_KEY = "balkan2026.tema";
+  const temaBtn = $("#btn-tema");
+  function temaBtnTazele() {
+    const koyu = document.documentElement.dataset.tema === "koyu";
+    temaBtn.textContent = koyu ? "☀" : "🌙";
+    temaBtn.setAttribute("aria-label", koyu ? "Açık temaya geç" : "Koyu temaya geç");
+  }
+  temaBtn.addEventListener("click", () => {
+    const yeni = document.documentElement.dataset.tema === "koyu" ? "acik" : "koyu";
+    try { localStorage.setItem(TEMA_KEY, yeni); } catch (e) {}
+    if (window.temaUygula) window.temaUygula(yeni);
+    temaBtnTazele();
+  });
+  window.addEventListener("tema-degisti", temaBtnTazele);
+  temaBtnTazele();
+
+  /* ---------- YAZDIR ---------- */
+  $("#btn-yazdir").addEventListener("click", () => window.print());
+
+  /* =====================================================================
+     YEDEKLEME — kayıtları dosyaya al, başka cihazda geri yükle
+     İşaretler / kalpler / anı notları localStorage'da, yani cihaza özel.
+     İki kişilik bir gezide bu yetmiyor: dışa aktarım tek bir .json üretir,
+     içe aktarım ise EZMEZ, BİRLEŞTİRİR — işaretlerde ve kalplerde "seçili"
+     olan kazanır, aynı güne iki farklı not yazılmışsa ikisi de korunur.
+     Böylece iki telefonun listesi birbirini silmeden birleşir.
+     ===================================================================== */
+  const YEDEK_ALANLAR = [
+    ["hazirlik", "balkan2026.hazirlik", "hazırlık işareti"],
+    ["favoriler", "balkan2026.favoriler", "kalp"],
+    ["anilar", "balkan2026.anilar", "anı notu"]
+  ];
+  const yedekDurum = $("#yedek-durum");
+  const yedekOzet = $("#yedek-ozet");
+
+  const oku = (anahtar) => {
+    try { return JSON.parse(localStorage.getItem(anahtar) || "{}") || {}; } catch (e) { return {}; }
+  };
+  const doluAdet = (o) => Object.values(o).filter((v) => v === true || (typeof v === "string" && v.trim())).length;
+
+  function yedekPaket() {
+    const p = { uygulama: "balkan-kacamagi", surum: 1, tarih: new Date().toISOString(), veri: {} };
+    YEDEK_ALANLAR.forEach(([ad, anahtar]) => { p.veri[ad] = oku(anahtar); });
+    return p;
+  }
+  function ozetiTazele() {
+    const p = yedekPaket();
+    yedekOzet.textContent = "Şu an kayıtlı: " +
+      YEDEK_ALANLAR.map(([ad, , etiket]) => doluAdet(p.veri[ad]) + " " + etiket).join(" · ") + ".";
+  }
+  const durumYaz = (metin, tip) => {
+    yedekDurum.textContent = metin;
+    if (tip) yedekDurum.dataset.tip = tip; else delete yedekDurum.dataset.tip;
+  };
+  ozetiTazele();
+
+  $("#btn-yedek-indir").addEventListener("click", () => {
+    const metin = JSON.stringify(yedekPaket(), null, 2);
+    const bag = URL.createObjectURL(new Blob([metin], { type: "application/json" }));
+    const a = document.createElement("a");
+    a.href = bag;
+    a.download = "balkan-kacamagi-yedek-" + new Date().toISOString().slice(0, 10) + ".json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(bag), 1000);
+    durumYaz("✓ Yedek dosyası indirildi.");
+  });
+
+  $("#btn-yedek-kopyala").addEventListener("click", async () => {
+    const metin = JSON.stringify(yedekPaket());
+    try {
+      await navigator.clipboard.writeText(metin);
+      durumYaz("✓ Yedek panoya kopyalandı — mesajla gönderebilirsin.");
+    } catch (e) {
+      durumYaz("Pano kullanılamadı; \"Dosyaya indir\" ile alabilirsin.", "hata");
+    }
+  });
+
+  const dosyaGiris = $("#yedek-dosya");
+  $("#btn-yedek-yukle").addEventListener("click", () => dosyaGiris.click());
+  dosyaGiris.addEventListener("change", () => {
+    const dosya = dosyaGiris.files && dosyaGiris.files[0];
+    if (!dosya) return;
+    const okuyucu = new FileReader();
+    okuyucu.onload = () => {
+      let paket;
+      try { paket = JSON.parse(String(okuyucu.result)); } catch (e) { paket = null; }
+      if (!paket || paket.uygulama !== "balkan-kacamagi" || !paket.veri) {
+        durumYaz("Bu dosya bir Balkan Kaçamağı yedeği değil.", "hata");
+        dosyaGiris.value = "";
+        return;
+      }
+      const rapor = [];
+      YEDEK_ALANLAR.forEach(([ad, anahtar, etiket]) => {
+        const gelen = paket.veri[ad] || {};
+        const mevcut = oku(anahtar);
+        let yeni = 0;
+        Object.keys(gelen).forEach((k) => {
+          const g = gelen[k], m = mevcut[k];
+          if (typeof g === "string") {
+            /* Anı notu: aynı güne iki farklı not yazılmışsa ikisi de kalır */
+            if (!g.trim()) return;
+            if (!m || !String(m).trim()) { mevcut[k] = g; yeni++; }
+            else if (String(m).trim() !== g.trim() && String(m).indexOf(g.trim()) === -1) {
+              mevcut[k] = String(m).trim() + "\n———\n" + g.trim(); yeni++;
+            }
+          } else if (g === true && m !== true) {
+            mevcut[k] = true; yeni++;
+          }
+        });
+        try { localStorage.setItem(anahtar, JSON.stringify(mevcut)); } catch (e) {}
+        rapor.push(yeni + " " + etiket);
+      });
+      durumYaz("✓ Birleştirildi — eklenen: " + rapor.join(" · ") + ". Sayfa yenileniyor…");
+      ozetiTazele();
+      dosyaGiris.value = "";
+      setTimeout(() => location.reload(), 1400);
+    };
+    okuyucu.onerror = () => durumYaz("Dosya okunamadı.", "hata");
+    okuyucu.readAsText(dosya);
+  });
 
   /* =====================================================================
      PWA — service worker kaydı, güncelleme ve çevrimdışı şeridi

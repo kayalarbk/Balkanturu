@@ -115,7 +115,9 @@ dokunmak gerekmez.**
 - **Bugün kartı:** `?tarih=2026-08-15` parametresiyle istediğin günü simüle edip
   görünümü test edebilirsin. Kart yalnızca tarih 12-20 Ağustos 2026 aralığındayken çıkar.
 - **Hava durumu:** `havaDurumu.gunSehir` hangi gün hangi şehrin tahmininin çekileceğini
-  belirler. Tur tarihi Open-Meteo'nun ~16 günlük penceresinin dışındaysa
+  belirler. İstek `forecast_days=16` ile atılır — **bu parametre şart**, Open-Meteo'nun
+  varsayılanı 7 gündür ve o hâlde tur tarihleri pencerede olsa bile boş döner.
+  Tur tarihi Open-Meteo'nun ~16 günlük penceresinin dışındaysa
   `havaDurumu.mevsimNormali` gösterilir — bu normaller elle girilmiş yer tutuculardır.
   Yanıt `localStorage`'da `balkan2026.hava` anahtarında 3 saat önbelleklenir.
 - **Acil numaralar:** `cepte.acil` içinde değeri "kontrol edilecek" olan maddeler
@@ -143,8 +145,30 @@ dokunmak gerekmez.**
   | `balkan2026.favoriler` | ♥ İkimizin listesi — beğenilen mekân ve lezzetler |
   | `balkan2026.anilar` | Gün kartlarındaki anı notları |
   | `balkan2026.hava` | Hava durumu yanıtı + zaman damgası (3 saat) |
+  | `balkan2026.tema` | Koyu / açık tema tercihi (yoksa sistem tercihi geçerli) |
 
-  Bunlar cihaza özeldir; telefonda işaretlenen bir şey bilgisayarda görünmez.
+  Bunlar cihaza özeldir; telefonda işaretlenen bir şey bilgisayarda görünmez —
+  taşımak için aşağıdaki yedekleme kutusu var.
+- **Yedekleme / taşıma:** Hazırlık bölümünün altındaki kutu ilk üç anahtarı tek bir
+  `.json` dosyasına yazar (indir ya da panoya kopyala). Geri yükleme **ezmez, birleştirir**:
+  işaret ve kalplerde "seçili" olan kazanır, aynı güne iki farklı anı notu yazılmışsa
+  ikisi de `———` çizgisiyle alt alta korunur. Böylece iki telefonun kaydı birbirini
+  silmeden birleşir. Dosya `uygulama: "balkan-kacamagi"` alanıyla doğrulanır, yabancı
+  dosya reddedilir. Birleştirmeden sonra sayfa kendini yeniler.
+- **Karanlık tema:** Renkler `:root` token'larında olduğu için koyu tema
+  `html[data-tema="koyu"]` altında token'ları ezerek çözülür; yalnızca birkaç sabit renk
+  (uyarı rozetleri, kalpler, harita karoları) tek tek dengelenir. **Yeni bir kart eklerken
+  sabit renk yazma, token kullan** — o zaman koyu tema kendiliğinden doğru çalışır.
+  Tema seçimi `<head>` içindeki küçük script ile ilk boyamadan önce uygulanır (aksi hâlde
+  açılışta beyaz parlama olur). Kullanıcı düğmeye basmadıysa sistem tercihi izlenir.
+- **Üst çubuk:** bölüm bağlantıları DOM'daki görünür `section[id]`'lerden üretilir, adlar
+  `NAV_ADLARI` eşlemesinde durur; yeni bölüm eklersen oraya bir satır ekle, yoksa çubukta
+  çıkmaz. Çubuk `position:sticky` — bu yüzden `html`/`body` üzerinde `overflow-x` **`clip`**
+  kullanılıyor, `hidden` bırakılırsa yapışkanlık sessizce çalışmaz.
+- **Yazdırma:** 🖨 düğmesi ya da Ctrl+P. Yazdırma stilinde bütün renk token'ları beyaz
+  kâğıda uygun bir sete indirgenir (koyu tema açıkken bile), etkileşimli parçalar
+  (harita, sayaç, galeri, düğmeler, notlar) gizlenir ve **katlanmış gün kartları açılır**.
+  Sınırda ya da internetsiz resepsiyonda kâğıt yedeği için.
 - **Kontrol listesi:** işaretler tarayıcının `localStorage`'ında `balkan2026.hazirlik`
   anahtarıyla saklanır. Liste 10/10 olunca konfeti ve kutlama kutusu çıkar — yalnızca
   tamamlanma anında, her açılışta değil. Yeni madde eklerken `id` alanının benzersiz olmasına dikkat et;

@@ -391,6 +391,61 @@ açısından beklenen kalıp bu.
 
 ## Yapılanlar
 
+### 29 Temmuz 2026 — yedinci oturum
+
+**Hava durumu tahmini aslında hiç gelmiyormuş — düzeltildi**
+- Beklenen: 28 Temmuz'dan sonra 12-14 Ağustos için gerçek tahmin görünmeye başlaması.
+  Görünen: bütün günler hâlâ "mevsim normali".
+- Sebep: Open-Meteo isteğinde `forecast_days` verilmemişti; API'nin varsayılanı **7 gün**,
+  yani yanıt en fazla 5 Ağustos'a kadar geliyordu. 16 günlük pencere hiç istenmemişti.
+- Çözüm: isteğe `&forecast_days=16` eklendi. Doğrulandı — 12 Ağustos Priştine 28°/16°,
+  13 Ağustos Üsküp 42°/21° (sıcak uyarısı rozetiyle) geliyor. Kalan günler pencere
+  açıldıkça sırayla gerçek tahmine dönecek. (16. gün model çıktısı en oynak olanıdır;
+  42° değeri kaynağın verdiği değerdir, tur yaklaştıkça oturacak.)
+
+**Üst gezinme çubuğu**
+- Sayfa 12 bölüm uzunluğundaydı ve bölüme atlamanın yolu yoktu. `.ust-alan` bandının
+  içine yapışkan bir şerit eklendi: bölüm bağlantıları + tema ve yazdırma düğmeleri.
+- Bağlantılar DOM'daki **görünür** bölümlerden üretiliyor; Bugün ve Hava gizliyse listede
+  çıkmıyor, Hava sonradan açılınca şerit yeniden kuruluyor.
+- Kaydırdıkça bulunulan bölüm işaretleniyor (IntersectionObserver) ve dar ekranda işaretli
+  bağlantı şeridin görünür kısmına kaydırılıyor.
+- **Tuzak:** `html{overflow-x:hidden}` yüzünden `position:sticky` sessizce çalışmıyordu
+  (hidden kaydırma kabı oluşturur). `overflow-x:clip`'e geçildi, eski tarayıcılar için
+  bir satır üstte `hidden` bırakıldı.
+- Ayrıca sağ altta "yukarı çık" düğmesi — bir ekran boyu aşağı inince beliriyor.
+
+**Karanlık tema**
+- Renkler zaten `:root` token'larındaydı; koyu tema `html[data-tema="koyu"]` altında
+  token'ları ezerek çözüldü. Hazırlık olarak CSS'teki 18 sabit `background:#fff`
+  `var(--c-yuzey)`'e çevrildi. Sabit kalan birkaç renk (uyarı rozeti, kalp, kritik etiket,
+  tamamlanan madde, yağmur rozeti) tek tek dengelendi.
+- Fotoğraflar ve harita karoları koyu zeminde göz almasın diye CSS filtresiyle kısıldı;
+  ayrı bir koyu karo servisi eklemek yeni bir harici bağımlılık olurdu.
+- Tercih `<head>` içindeki küçük script ile **ilk boyamadan önce** uygulanıyor, yoksa
+  açılışta bir kare beyaz parlama oluyor. Seçim yoksa sistem teması izleniyor ve sistem
+  teması değişince canlı güncelleniyor; düğmeye basıldığı anda seçim kaydediliyor
+  (`balkan2026.tema`) ve takip bitiyor. `theme-color` meta'sı da temayla değişiyor.
+
+**Yazdırma / PDF çıktısı**
+- Sınırda, otel resepsiyonunda ya da telefon bittiğinde kâğıt yedeği için yazdırma stili.
+- Bütün renk token'ları beyaz kâğıda uygun sete indirgeniyor — koyu tema açıkken bile.
+  Kutu kutu boyamak yerine token ezmek seçildi; sonradan eklenen bir kart da doğru basılır.
+- Harita, sayaç, galeri, düğmeler, anı notları ve favori kalpleri basılmıyor;
+  **katlanmış gün kartları zorla açılıyor** ki program kâğıda eksiksiz düşsün.
+- Ölçüldü: yazdırma kuralları geçici olarak `@media screen`'e çevrilip göz kontrolü
+  yapıldı — koyu temada bile beyaz zemin, siyah metin, açık gün kartları.
+
+**Kayıtları yedekle / taşı**
+- İşaretler, kalpler ve anı notları cihaza özeldi; iki kişilik bir gezide bu yetmiyordu.
+- Hazırlık bölümünün altına kutu eklendi: dosyaya indir · dosyadan yükle · panoya kopyala.
+- Geri yükleme **ezmiyor, birleştiriyor**: işaret ve kalplerde "seçili" olan kazanıyor,
+  aynı güne iki farklı not yazılmışsa ikisi de `———` çizgisiyle korunuyor. Yabancı dosya
+  `uygulama` alanından anlaşılıp reddediliyor.
+- Test edildi: yerelde 1 işaret + 1 not varken 2 işaret + 1 kalp + 2 not içeren yedek
+  yüklendi; sonuç "1 hazırlık işareti · 1 kalp · 2 anı notu eklendi", çakışan not
+  kaybolmadan birleşti.
+
 ### 26 Temmuz 2026 — altıncı oturum
 
 **Lezzet kartlarındaki görsel oturmuyordu**
@@ -624,8 +679,10 @@ her genişlikte blok listesi. Önceki turun mobil düzeltmeleri bozulmadı.
 - [ ] Konaklama adresleri ve rezervasyon numaraları `TUR.cepte.konaklamalar` içine girilecek;
       girilince "taksiciye göster" kutusu ve harita bağlantısı kendiliğinden çalışacak
 - [ ] Seyahat sigortası acil hattı `TUR.cepte.acil` içine eklenecek
-- [ ] **28 Temmuz 2026'dan sonra** hava durumu şeridinde gerçek tahmin görünmeye başlayacak
-      (Open-Meteo 16 günlük pencere); o gün kontrol edilip mevsim normali yerine tahminin
-      geldiği doğrulanacak
+- [x] ~~**28 Temmuz 2026'dan sonra** hava durumu şeridinde gerçek tahmin görünmeye
+      başlayacak~~ — 29 Temmuz'da kontrol edildi; gelmiyordu, `forecast_days=16` eksikti,
+      düzeltildi. Kalan günler pencere açıldıkça kendiliğinden gerçek tahmine dönecek.
+- [ ] Yeni tema ve üst çubuk gerçek telefonda (özellikle çentikli iPhone'da) göz kontrolü —
+      ölçümler tarayıcıda yapıldı
 - [ ] Siteyi telefona "ana ekrana ekle" ile kurup gerçek cihazda çevrimdışı test et
 - [ ] Kalan lezzetlere (sac böreği, kebap, Skopsko, deniz mahsulleri vb.) görsel bulunursa eklenecek
