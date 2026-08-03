@@ -391,6 +391,21 @@ açısından beklenen kalıp bu.
 
 ## Yapılanlar
 
+### 4 Ağustos 2026 — sekizinci oturum
+
+**`progress.md` — proje durum panosu eklendi**
+- İhtiyaç: `PLAN.md` planın doğruluk kaynağı, `README.md` geliştirme kılavuzu; ikisinin
+  üstünde "şu an ne kadar tamam, sırada ne var" diye tek bakışta okunan bir yer yoktu.
+- Eklendi: depo/yayın künyesi, teknik yapı (dosya boyutları, `TUR` bölümlerinin tek tek
+  durumu, harici bağımlılıklar ve yedek davranışları), 12 bölümün listesi, özellik durumu
+  (tamamlanan / veri bekleyen), `localStorage` anahtarları ve kırılganlıkları, bilinen
+  tuzaklar tablosu, mobil denetimi özeti, oturum geçmişi, sıradaki işler, hızlı komutlar.
+- **Çalışma kuralları dosyanın en başına, bağlayıcı olarak yazıldı.** Birinci kural:
+  *değişiklik push'lanmadan görev bitmez* — sıra "değişikliği yap → PLAN.md + progress.md
+  güncelle → Türkçe commit → `git push`". Push başarısız olursa görev kapatılmaz.
+- Sayılar dosyalardan okunarak doğrulandı: `index.html` 3.914 satır, 9 gün, 5 şehir
+  (5'i haritada), 10 dikkat kartı, 10 hazırlık maddesi, 12 bölüm, 15 commit.
+
 ### 29 Temmuz 2026 — yedinci oturum
 
 **Hava durumu tahmini aslında hiç gelmiyormuş — düzeltildi**

@@ -43,6 +43,7 @@ python -m http.server 8000
 | `icon.svg` | Uygulama ikonu (maskable) |
 | `docs/img/` | Yerele indirilmiş şehir kapak görselleri + `KAYNAKLAR.md` lisans listesi |
 | `PLAN.md` | **Planın tek doğruluk kaynağı.** Uçuşlar, konaklama, gün gün program, yapılanlar ve bekleyenler |
+| `progress.md` | **Durum panosu.** Ne var, nasıl çalışıyor, ne kadar tamam, sırada ne var, bilinen tuzaklar |
 | `README.md` | Bu dosya |
 | `docs/` | Bilet PDF'leri, ekran görüntüleri, rezervasyon çıktıları |
 | `.gitignore` | Standart yoksayma listesi |
@@ -187,8 +188,10 @@ Her değişiklikte, ne kadar küçük olursa olsun:
 1. Değişikliği yap.
 2. **`PLAN.md`**'yi güncelle: plan bölümleri `TUR` objesiyle birebir tutarlı kalsın,
    "Yapılanlar" bölümüne tarihli madde ekle, "Bekleyenler" listesini tazele.
-3. Açıklayıcı bir Türkçe commit mesajıyla commit'le.
-4. `git push` yap.
+3. **`progress.md`**'yi tazele: etkilenen durum satırları ve "Sırada ne var" listesi.
+4. Açıklayıcı bir Türkçe commit mesajıyla commit'le.
+5. **`git push` yap — push'lanmadan görev bitmez.** Kod değişip push edilmediyse iş
+   yarım sayılır; push başarısız olursa sebebi çözülür, görev "bitti" diye kapatılmaz.
 
 `PLAN.md` ile `index.html` içindeki `TUR` objesi asla ayrışmamalıdır.
 
