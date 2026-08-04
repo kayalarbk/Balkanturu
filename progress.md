@@ -9,8 +9,8 @@
 **Son güncelleme:** 4 Ağustos 2026
 **Depo:** https://github.com/kayalarbk/Balkanturu (`main`)
 **Yayın:** https://kayalarbk.github.io/Balkanturu/ (GitHub Pages, `main` / root — build adımı yok)
-**Son commit:** `8366440` + konaklama oturumu — üç Airbnb siteye işlendi
-**Çalışma ağacı:** temiz · **Toplam commit:** 17 · **Oturum sayısı:** 9
+**Son commit:** `7d3881b` + tasarım sadeleştirme oturumu
+**Çalışma ağacı:** temiz · **Toplam commit:** 18 · **Oturum sayısı:** 10
 
 ---
 
@@ -69,8 +69,8 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 
 | Dosya | Satır / boyut | Ne işe yarar |
 |---|---|---|
-| `index.html` | **4.429 satır** (~209 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
-| `sw.js` | 140 satır | Service worker — çevrimdışı çalışma, üç ayrı cache (`balkan-v2`) |
+| `index.html` | **4.437 satır** (~208 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
+| `sw.js` | 140 satır | Service worker — çevrimdışı çalışma, üç ayrı cache (`balkan-v3`) |
 | `manifest.json` | — | PWA künyesi: standalone, portrait, tema `#0b2a45`, 2 kısayol (Bugün · Cepte) |
 | `icon.svg` | — | Uygulama ikonu (`any` + `maskable`) |
 | `docs/img/` | 5 kapak + `KAYNAKLAR.md` | Yerele indirilmiş şehir kapakları ve lisans listesi |
@@ -89,6 +89,9 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
   (2604–2810) → render + davranış JS'i (2845'ten sona).
 - **Tasarım token'ları** CSS'te `:root` altında (renk, boşluk `--s-*`, radius, gölge).
   Karanlık tema bu token'ları `html[data-tema="koyu"]` altında ezerek çalışır.
+- **Ayrım ilkesi:** site *yolda işe yarayan* alt kümeyi gösterir, `PLAN.md` tam kaydı tutar.
+  Rezervasyon kararı verirken önemli olan (puan, olanak listesi, ev sahibi kıdemi) siteye
+  konmaz — kart kalabalıklaşır ve asıl iş (adres, saat, kod) görünmez olur.
 
 ### `TUR` objesinin bölümleri
 
@@ -160,8 +163,8 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 | Rota haritası | Leaflet, 5 şehir + 2 havalimanı + **3 konaklama** işaretçisi (ayrı renk/ikon), gün kartlarına bağlı; yedek kutusu var |
 | Hava durumu şeridi | Open-Meteo `forecast_days=16`, sıcak/yağmur uyarı rozetleri, 3 saat önbellek |
 | Cepte bölümü | Uçuş kodları, acil numaralar (resmî `mfa.gov.tr` kaynaklı), temel kelimeler |
-| Konaklama kartı | Üç Airbnb: tip, giriş/çıkış, giriş yöntemi, ev sahibi, mesafe/olanak çipleri, güvenlik, puan, ilan bağlantısı |
-| "Taksiciye göster" | Yerel alfabede büyük punto adres + latin karşılığı + Dıraç'ta sözlü tarif; kopyala düğmesi ve **koordinattan** üretilen Maps bağlantısı |
+| Konaklama kartı | Üç Airbnb: şehir/tarih başlığı, ev adı, tip, künye listesi (giriş · çıkış · ev sahibi · telefon · rezervasyon), mesafeler, ilan bağlantısı |
+| "Taksiciye göster" | Kartın tek vurgulu bloğu: yerel alfabede büyük punto adres + latin karşılığı + Dıraç'ta sözlü tarif; kopyala düğmesi ve **koordinattan** üretilen Maps bağlantısı |
 | Gizli kod alanları | Kapı kodu / kutu şifresi / wifi — kaynak koda yazılmaz, `balkan2026.gizli` altında yalnızca cihazda; "Sil" düğmesi |
 | Dikkat kartları | 12 kart, kritik / önemli / bilgi seviyeleri (yeni: eve giriş pencereleri · konaklama güvenliği) |
 | Hazırlık listesi | 10 madde, `localStorage`, 10/10'da konfeti + kutlama (yalnızca tamamlanma anında) |
@@ -232,6 +235,10 @@ Yedek dosyası bu kodları **içerir** — yalnızca kendi cihazlarınızla payl
 | Maps bağlantısını adresten üretmek | Adres yazımı yanlış yere düşebiliyor → **koordinattan** üret |
 | Kapı / wifi şifresi | Depo public: `TUR` objesine **asla** yazılmaz, `balkan2026.gizli` altında cihazda kalır |
 | `index.html` değişince | `sw.js` içindeki `CACHE_VERSION` artırılmalı, yoksa kurulu cihazlar eski sürümü görür |
+| `<dl>` ızgarasında `column-gap` | Satır ayırıcı çizgi sütunlar arasında kesiliyor → `gap:0` + `dt`'ye sağ padding |
+| Üç sütunu 768 px'te açmak | Sütun 212 px'e düşüp künye satırları kırılıyor, kart 1500 px'e uzuyor → kırılma noktası 1040 px |
+| `Math.round(null)` | Sıfır döndürüyor; Open-Meteo pencere kenarında `null` verince ağustosta "0°" basılıyordu → `Number.isFinite` kontrolü |
+| Segoe UI'da 🗺 | Bozuk glif olarak basılıyor — düğme etiketlerinde emoji kullanmadan önce bak |
 
 ---
 
@@ -266,6 +273,7 @@ kontrolü yapılmadı.**
 | 6c | 26 Tem 2026 | Lezzet görselleri 16:9 banda çevrildi, favori kalpleri, anı notları, konfeti, galeri gezinmesi |
 | 7 | 29 Tem 2026 | Üst gezinme çubuğu, karanlık tema, yazdırma çıktısı, kayıt yedekleme; **hava tahmini düzeltildi** (`forecast_days=16` eksikti) |
 | 8 | 4 Ağu 2026 | `progress.md` oluşturuldu |
+| 10 | 4 Ağu 2026 | **Tasarım sadeleştirildi:** konaklama kartı yeniden kuruldu, rezervasyon anına ait künyeler (puan, olanaklar) siteden çıkarıldı, Bugün ekranındaki tekrarlar kaldırıldı, hava durumundaki "0°" hatası düzeltildi |
 | 9 | 4 Ağu 2026 | **Konaklamalar işlendi:** üç Airbnb (adres + koordinat), taksiciye göster kutusu, Ohrid 19:00 kritik uyarısı, 19 Ağustos boşluğu, gizli kod alanları, haritada ev pinleri, Dıraç Arkeoloji Müzesi, `sw.js` v2 |
 
 Ayrıntılı oturum günlüğü (sebep–çözüm anlatımıyla): `PLAN.md` → "Yapılanlar".

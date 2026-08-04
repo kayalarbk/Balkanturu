@@ -132,6 +132,10 @@ dokunmak gerekmez.**
   büyük basılır. `tarif` isteğe bağlı sözlü tarif satırıdır (Dıraç'ta kullanıldı).
   `telefonlar` dizisindeki değeri "belirlenecek" olan kayıt `tel:` bağlantısı almaz;
   numara girilince kendiliğinden aranabilir olur. `uyari` doldurulursa kartta sarı kutu çıkar.
+  `mesafeler` tek satırda `·` ile birleştirilir, `not` tek satırlık dipnottur.
+  **Puan, olanak listesi, ev sahibi kıdemi gibi rezervasyon anına ait bilgiler siteye
+  konmaz** — kart kalabalıklaşınca asıl iş (adres, saat, kod) görünmez oluyor. O ayrıntılar
+  `PLAN.md` bölüm 2'de tutulur.
 - **🔒 Kapı kodu / kutu şifresi / wifi şifresi ASLA kaynak koda yazılmaz** — depo herkese açık.
   Bunlar `cepte.konaklamalar[].gizliAlanlar` ile yalnızca *alan tanımı* olarak durur
   (`{ ad, etiket, bos }`); değerler kullanıcı girdiğinde `localStorage`'a

@@ -143,9 +143,9 @@ const TUR = {
 
   /* ---------- KONAKLAMA (kesin) ---------- */
   konaklama: [
-    { sehir: "Üsküp", geceler: "12 Ağustos",            adet: "1 gece",        tesis: "Universe Hostel &amp; Apartments — özel oda (Airbnb)" },
-    { sehir: "Ohrid", geceler: "13 · 14 · 15 Ağustos",  adet: "3 gece",        tesis: "AGH Elite Studio No. 10 — özel oda (Airbnb)" },
-    { sehir: "Dıraç", geceler: "16 · 17 · 18 Ağustos",  adet: "3 gece",        tesis: "Red Crab deniz kenarında daire — tüm daire (Airbnb)" },
+    { sehir: "Üsküp", geceler: "12 Ağustos",            adet: "1 gece",        tesis: "Universe Hostel &amp; Apartments · özel oda" },
+    { sehir: "Ohrid", geceler: "13 · 14 · 15 Ağustos",  adet: "3 gece",        tesis: "AGH Elite Studio No. 10 · özel oda" },
+    { sehir: "Dıraç", geceler: "16 · 17 · 18 Ağustos",  adet: "3 gece",        tesis: "Red Crab deniz kenarında daire · tüm daire" },
     { sehir: "—",     geceler: "19 Ağustos",            adet: "konaklama yok", tesis: "gece Tiran havalimanına geçiş" }
   ],
 
@@ -568,11 +568,9 @@ const TUR = {
         "Ohrid'e en geç 19:00'da varılmalı — anahtar kutusu sonrasında kullanılamaz. " +
         "Üsküp'ten kalkış saati buna göre seçilecek.",
       risk:
-        "Üsküp – Ohrid hattında gün içindeki sefer sayısı sınırlı ve öğleden sonra seyrekleşiyor. " +
-        "Üstüne Ohrid'in giriş penceresi 13:00 – 19:00 arası; kilitli kutu 19:00'dan sonra " +
-        "kullanılamıyor. Bileti sabah, mümkünse bir gün önceden otogardan garantile; " +
-        "\"sonra alırız\" deme. Sefer kaçarsa hem göl kıyısındaki ilk akşam düşer hem de " +
-        "eve girmek için ev sahibiyle ayrıca uğraşmak gerekir.",
+        "Üsküp – Ohrid hattında sefer sayısı sınırlı ve öğleden sonra seyrekleşiyor. Bileti sabah, " +
+        "mümkünse bir gün önceden otogardan garantile. Sefer kaçarsa yukarıdaki 19:00 penceresi " +
+        "de kaçar: hem göl kıyısındaki ilk akşam düşer hem de eve girmek ayrı bir uğraş olur.",
       program: [
         "Erken sabah Üsküp: Taş Köprü, Eski Çarşı, Üsküp Kalesi.",
         "Çarşıda trileçe molası.",
@@ -896,30 +894,24 @@ const TUR = {
         kisaAd: "Universe Hostel",
         tesis: "Universe Hostel & Apartments",
         ilanAdi: "Evren Rahat Çift Kişilik Özel Tuvaletli",
-        tip: "Misafir evi içinde özel oda · 2 misafir · 1 çift kişilik yatak · özel banyo",
+        tip: "Özel oda · 2 kişi · çift kişilik yatak · özel banyo",
         girisTarih: "12 Ağustos 2026",
         cikisTarih: "13 Ağustos 2026",
         girisPencere: "14:00 – 02:00",
         cikisSaat: "en geç 10:00",
         girisYontemi: "Tuş takımıyla kendi kendine giriş",
-        evSahibi: "Goran — Süper Ev Sahibi · 13 yıl · İngilizce",
+        evSahibi: "Goran · İngilizce",
         adres: "Tome Arsovski 40b, Skopje 1000, Kuzey Makedonya",
         adresYerel: "Томе Арсовски 40б, Скопје 1000",
         konum: [41.982601, 21.433764],
         telefonlar: [
-          { etiket: "Tesis — yedek hat", numara: "+389 75 383 868", not: "kişisel değil, tesisin genel hattı" },
-          { etiket: "Ev sahibi (Goran)", numara: "belirlenecek" }
+          { etiket: "Tesis hattı", numara: "+389 75 383 868" },
+          { etiket: "Telefon", numara: "belirlenecek" }
         ],
         rezervasyon: "belirlenecek",
         ilanNo: "13376578",
-        mesafeler: ["Otogar ~1,9 km · ~25 dk yürüme", "Merkez ~1,5 km · ~20 dk yürüme"],
-        puan: "Airbnb 4,68 (82 değerlendirme) · Google 4,5 (106)",
-        olanaklar: ["Mutfak", "Wi-Fi", "Ücretsiz otopark", "Saç kurutma makinesi"],
-        guvenlik: "Karbonmonoksit alarmı yok · duman dedektörü yok",
-        notlar: [
-          "Klima teyit edilecek — ilanda yazmıyor, bir yorum \"klima yok\" diyor.",
-          "Geç giriş 02:00'a kadar mümkün; Priştine otobüsü gecikse bile kapı açılır."
-        ],
+        mesafeler: ["Otogar 1,9 km", "Merkez 1,5 km"],
+        not: "Klima teyit edilecek — ilanda yazmıyor.",
         gizliAlanlar: [
           { ad: "kapi", etiket: "Kapı / tuş takımı kodu", bos: "kapı kodunu bu cihaza kaydet" },
           { ad: "wifi", etiket: "Wi-Fi şifresi", bos: "wifi şifresini bu cihaza kaydet" }
@@ -933,33 +925,27 @@ const TUR = {
         kisaAd: "AGH Elite Studio No. 10",
         tesis: "AGH Elite Studio No. 10",
         ilanAdi: "AGH Elite Studio No. 10",
-        tip: "Site içi konutta özel oda · 2 misafir · 1 queen yatak · özel banyo",
+        tip: "Özel oda · 2 kişi · queen yatak · özel banyo",
         girisTarih: "13 Ağustos 2026",
         cikisTarih: "16 Ağustos 2026",
         girisPencere: "13:00 – 19:00",
         girisDar: true,
         cikisSaat: "en geç 10:00",
         girisYontemi: "Kilitli kutuyla kendi kendine giriş",
-        evSahibi: "Krste — 8 yıl · İngilizce ve Sırpça",
+        evSahibi: "Krste · İngilizce, Sırpça",
         adres: "Bogomilska 47, Ohrid 6000, Kuzey Makedonya",
         adresYerel: "Богомилска 47, Охрид 6000",
         konum: [41.116653, 20.805831],
         telefonlar: [
-          { etiket: "Ev sahibi (Krste)", numara: "belirlenecek" }
+          { etiket: "Telefon", numara: "belirlenecek" }
         ],
         rezervasyon: "belirlenecek",
         ilanNo: "990523740677045006",
-        mesafeler: ["Otogar ~1,2 km · ~15 dk yürüme", "Meydan ~450 m · ~6 dk yürüme"],
-        puan: "Airbnb 4,66 (41 değerlendirme)",
-        olanaklar: ["Wi-Fi", "Klima", "Çalışma alanı", "Ücretsiz otopark", "TV"],
-        guvenlik: "Karbonmonoksit alarmı yok · duman dedektörü var",
+        mesafeler: ["Otogar 1,2 km", "Meydan 450 m"],
         uyari:
           "Ohrid'e en geç 19:00'da varılmalı — anahtar kutusu sonrasında kullanılamaz. " +
           "Üsküp'ten kalkış saati buna göre seçilecek.",
-        notlar: [
-          "Giriş penceresi dar: 13:00 – 19:00. Üsküp otobüsü buna göre seçilecek.",
-          "Merdiven çıkmak gerekiyor — ağır valizle hesaba kat."
-        ],
+        not: "Merdiven çıkmak gerekiyor — ağır valizle hesaba kat.",
         gizliAlanlar: [
           { ad: "kutu", etiket: "Kilitli kutu şifresi", bos: "kutu şifresini bu cihaza kaydet" },
           { ad: "wifi", etiket: "Wi-Fi şifresi", bos: "wifi şifresini bu cihaza kaydet" }
@@ -973,33 +959,23 @@ const TUR = {
         kisaAd: "Red Crab dairesi",
         tesis: "Red Crab deniz kenarında daire",
         ilanAdi: "Merkezi plaj bölgesinde Red Crab deniz kenarında daire",
-        tip: "Tüm daire · 3 misafir · 1 queen + 1 kanepe + 1 yer yatağı · 1 banyo",
+        tip: "Tüm daire · 3 kişi · queen + kanepe + yer yatağı · 1 banyo",
         girisTarih: "16 Ağustos 2026",
         cikisTarih: "19 Ağustos 2026",
         girisPencere: "en erken 15:00",
         cikisSaat: "en geç 11:00",
         girisYontemi: "Kilitli kutuyla kendi kendine giriş",
-        evSahibi: "Slavik — Süper Ev Sahibi · 6 yıl · İngilizce",
+        evSahibi: "Slavik · İngilizce",
         adres: "Rruga Taulantia, Durrës 2000, Arnavutluk",
         tarif: "Vollga, Arkeoloji Müzesi'nin yanı (Muzeu Arkeologjik, Rruga Taulantia)",
         konum: [41.311130, 19.439557],
         telefonlar: [
-          { etiket: "Ev sahibi (Slavik)", numara: "belirlenecek" }
+          { etiket: "Telefon", numara: "belirlenecek" }
         ],
         rezervasyon: "belirlenecek",
         ilanNo: "1402205036890877685",
-        mesafeler: [
-          "Arkeoloji Müzesi ~70 m",
-          "Antik amfitiyatro ~650 m",
-          "Plaj bitişik",
-          "Tiran havalimanı — taksiyle 30-40 dk (normal trafikte)"
-        ],
-        puan: "Airbnb 5,0 (31 değerlendirme) · \"Misafirlerin favorisi\"",
-        olanaklar: ["Mutfak", "Wi-Fi 220 Mbps", "Çalışma alanı", "Ortak plaj erişimi", "Şehir manzarası"],
-        guvenlik: "Karbonmonoksit alarmı yok · duman dedektörü yok · mülkte dış mekân güvenlik kamerası var",
-        notlar: [
-          "Çıkış 11:00, uçuş ertesi gece 02:15 — aradaki ~14 saat için bagaj emaneti gerekiyor (yer belirlenecek)."
-        ],
+        mesafeler: ["Arkeoloji Müzesi 70 m", "Amfitiyatro 650 m", "Plaj bitişik", "Tiran havalimanı 30-40 dk taksi"],
+        not: "Çıkış 11:00, uçuş ertesi gece 02:15 — arada bagaj emaneti gerekiyor (yer belirlenecek).",
         gizliAlanlar: [
           { ad: "kutu", etiket: "Kilitli kutu şifresi", bos: "kutu şifresini bu cihaza kaydet" },
           { ad: "wifi", etiket: "Wi-Fi şifresi", bos: "wifi şifresini bu cihaza kaydet" }
@@ -1117,11 +1093,9 @@ const TUR = {
       baslik: "Eve giriş pencereleri",
       seviye: "kritik",
       maddeler: [
-        "Ohrid'e en geç 19:00'da varılmalı — anahtar kutusu 13:00 – 19:00 arası kullanılabiliyor, sonrasında kullanılamaz. Üsküp'ten kalkış saati buna göre seçilecek.",
-        "Üsküp rahat: giriş 14:00 – 02:00 arası, tuş takımıyla. Priştine otobüsü gecikse bile kapı açılır.",
-        "Dıraç: giriş en erken 15:00, kilitli kutuyla. Ohrid'den ilk otobüsle çıkılırsa sorun yok.",
-        "Çıkış saatleri: Üsküp en geç 10:00 · Ohrid en geç 10:00 · Dıraç en geç 11:00.",
-        "Üçünde de kendi kendine giriş var, yani karşılayan kimse yok — kod ve kutu şifresi telefonda hazır olsun (Cepte bölümündeki alanlara kaydedilebilir).",
+        "Ohrid'e en geç 19:00'da varılmalı — anahtar kutusu sonrasında kullanılamaz. Üsküp'ten kalkış saati buna göre seçilecek; turun tek gerçek zaman kilidi bu.",
+        "Üçünde de kendi kendine giriş var, karşılayan kimse yok — kapı kodu ve kutu şifresi telefonda hazır olsun (Cepte bölümündeki alanlara kaydedilir).",
+        "Çıkışlar sabah: Üsküp ve Ohrid en geç 10:00, Dıraç en geç 11:00. Yani her taşınma gününde valizler öğleden önce elde.",
         "Ev sahibi telefonları belirlenecek; rezervasyon onayındaki numarayı yola çıkmadan Cepte bölümüne gir."
       ]
     },
@@ -1768,11 +1742,11 @@ tbody td:last-child{ padding-bottom:0; }
 /* Kaçırılamaz kısıt — programın en üstünde, riskten daha sert bir vurgu */
 .day-uyari{
   display:flex; gap:var(--s-3); align-items:flex-start; margin-bottom:var(--s-4);
-  padding:var(--s-4); font-size:.95rem; font-weight:600; line-height:1.6;
+  padding:var(--s-3) var(--s-4); font-size:.94rem; font-weight:600; line-height:1.6;
   background:var(--c-warn-bg); color:var(--c-warn-ink);
-  border:2px solid var(--c-warn-line); border-radius:var(--r-m);
+  border-left:3px solid var(--c-warn-line); border-radius:0 var(--r-s) var(--r-s) 0;
 }
-.day-uyari .ico{ flex:0 0 auto; font-size:1.15rem; line-height:1.45; }
+.day-uyari .ico{ flex:0 0 auto; font-size:1.05rem; line-height:1.55; }
 /* Bu günün riski */
 .day-risk{
   display:flex; gap:var(--s-3); align-items:flex-start; margin-top:var(--s-4);
@@ -1855,10 +1829,10 @@ tbody td:last-child{ padding-bottom:0; }
 .bugun-dilim b{ font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--c-teal); }
 /* Bugün ekranındaki "bu gece nerede kalıyoruz" bloğu */
 .bugun-konak{
-  background:var(--c-cream); border:1px solid var(--c-line); border-left:5px solid var(--c-teal);
-  border-radius:var(--r-m); padding:var(--s-3) var(--s-4);
+  background:var(--c-cream); border:1px solid var(--c-line);
+  border-radius:var(--r-m); padding:var(--s-4);
 }
-.bugun-konak.yok{ border-left-color:var(--c-warn-line); }
+.bugun-konak.yok{ background:var(--c-warn-bg); border-color:var(--c-warn-line); }
 .bugun-konak-ust{
   display:flex; align-items:baseline; justify-content:space-between;
   gap:var(--s-2); flex-wrap:wrap; margin-bottom:.35rem;
@@ -1875,15 +1849,20 @@ tbody td:last-child{ padding-bottom:0; }
   color:var(--c-ink-soft); line-height:1.6;
 }
 .bugun-konak-adres{
-  display:block; margin-top:.5rem; font-size:1.1rem; font-weight:800; line-height:1.35;
-  background:var(--c-yuzey); border:1px solid var(--c-line); border-radius:var(--r-s);
-  padding:.45rem .6rem;
+  display:block; margin-top:var(--s-3); padding-top:var(--s-3);
+  border-top:1px solid var(--c-line);
+  font-size:1.05rem; font-weight:800; line-height:1.35;
 }
 .bugun-konak-latin{ display:block; margin-top:.25rem; font-size:.85rem; color:var(--c-ink-soft); font-weight:600; }
 .bugun-konak .btn{ margin-top:var(--s-3); }
 .bugun-risk{
-  background:var(--c-warn-bg); color:var(--c-warn-ink); border:1px solid var(--c-warn-line);
-  border-left-width:5px; border-radius:var(--r-m); padding:var(--s-3) var(--s-4); font-size:.92rem;
+  background:var(--c-warn-bg); color:var(--c-warn-ink);
+  border-left:3px solid var(--c-warn-line); border-radius:0 var(--r-s) var(--r-s) 0;
+  padding:var(--s-3) var(--s-4); font-size:.9rem; line-height:1.6;
+}
+.bugun-risk b{
+  display:block; margin-bottom:.15rem; font-size:.68rem; letter-spacing:.14em;
+  text-transform:uppercase;
 }
 .bugun-alt{ display:flex; gap:var(--s-3); flex-wrap:wrap; align-items:center; }
 .bugun-yarin{ font-size:.9rem; color:var(--c-ink-soft); flex:1 1 14rem; }
@@ -1965,80 +1944,100 @@ tbody td:last-child{ padding-bottom:0; }
    Geniş ekranda tam satırı alır; içindeki üç ev yan yana dizilir.
    Bütün renkler token — koyu tema ve yazdırma kendiliğinden doğru olur.
    ===================================================================== */
+/* Üç ev yan yana ancak 1040 px'ten sonra: 768'de sütunlar 212 px'e düşüyor ve
+   künye satırları iki-üç satıra kırılıp kart 1500 px'e uzuyordu. O aralıkta kart
+   normal genişlikte kalıp evler alt alta dizilir. */
 .konak-liste{ display:grid; gap:var(--s-4); grid-template-columns:minmax(0,1fr); }
-@media(min-width:760px){
+@media(min-width:1040px){
   .cep-kart.konak-kart{ grid-column:1 / -1; }
   .konak-liste{ grid-template-columns:repeat(3,minmax(0,1fr)); }
 }
 .konak{
   min-width:0; display:flex; flex-direction:column;
-  background:var(--c-cream); border:1px solid var(--c-line); border-radius:var(--r-s);
-  padding:var(--s-3) var(--s-4);
+  border:1px solid var(--c-line); border-radius:var(--r-m);
+  padding:var(--s-4);
 }
-.konak .cep-satir{ font-size:.9rem; align-items:flex-start; }
-/* Etiket sütunu kırılmasın: sağdaki değer uzayınca "Giriş" → "Giri / ş" oluyordu */
-.konak .cep-satir .etiket{ flex:0 0 auto; white-space:nowrap; }
-.konak .cep-satir > span:last-child{ min-width:0; text-align:right; }
-.konak-tip{ font-size:.85rem; color:var(--c-ink-soft); margin:.2rem 0 .4rem; }
+/* Başlık bloğu: şehir küçük büyük-harf, tarih sağda, ev adı altında iri */
+.konak-basi{
+  display:flex; align-items:baseline; justify-content:space-between;
+  gap:var(--s-2); flex-wrap:wrap;
+}
+.konak-sehir{
+  font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+  font-weight:800; color:var(--c-teal);
+}
+.konak-tarih{ font-size:.8rem; color:var(--c-ink-soft); }
+.konak-ad{ margin:.15rem 0 0; font-size:1.05rem; line-height:1.3; }
+.konak-tip{ margin:.2rem 0 0; font-size:.83rem; color:var(--c-ink-soft); }
 .konak-uyari{
-  margin:.35rem 0 .5rem; background:var(--c-warn-bg); color:var(--c-warn-ink);
-  border:1px solid var(--c-warn-line); border-left:4px solid var(--c-warn-line);
-  border-radius:var(--r-s); padding:.5rem .65rem; font-size:.88rem; font-weight:600; line-height:1.5;
+  margin:var(--s-3) 0 0; background:var(--c-warn-bg); color:var(--c-warn-ink);
+  border-left:3px solid var(--c-warn-line); border-radius:0 var(--r-s) var(--r-s) 0;
+  padding:.5rem .7rem; font-size:.86rem; line-height:1.5;
 }
+/* Künye: etiket sütunu sabit, değer sağa yaslı — sayılar hizalı okunur */
+/* gap:0 — sütun boşluğu bırakılırsa satır ayırıcısı ortada kesiliyor.
+   Aradaki nefes payı dt'nin sağ padding'inden geliyor. */
+.konak-kunye{
+  display:grid; grid-template-columns:auto minmax(0,1fr); gap:0;
+  margin:var(--s-3) 0 0; font-size:.9rem;
+}
+.konak-kunye dt{
+  color:var(--c-ink-soft); white-space:nowrap; padding:.45rem var(--s-3) .45rem 0;
+  border-top:1px solid var(--c-line);
+}
+.konak-kunye dd{
+  margin:0; text-align:right; min-width:0; padding:.45rem 0;
+  border-top:1px solid var(--c-line);
+}
+.konak-kunye dt:first-of-type, .konak-kunye dd:first-of-type{ border-top:0; }
+.konak-kunye dd small{
+  display:block; font-size:.78rem; font-weight:400; color:var(--c-ink-soft); line-height:1.45;
+}
+.konak-kunye .kopyala{ margin:.1rem 0; }
 .konak-dar{
-  display:inline-block; background:var(--c-warn-bg); color:var(--c-warn-ink);
-  border:1px solid var(--c-warn-line); border-radius:var(--r-pill);
-  padding:.05rem .45rem; font-size:.7rem; font-weight:700; letter-spacing:.04em;
+  display:inline-block; vertical-align:.05em; background:var(--c-warn-line); color:#3d2400;
+  border-radius:var(--r-pill); padding:.02rem .4rem;
+  font-size:.66rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
 }
-.konak-tel-not{ display:block; font-size:.76rem; font-weight:400; color:var(--c-ink-soft); }
 .konak-etiket-ust{
-  display:block; font-size:.78rem; letter-spacing:.06em; text-transform:uppercase;
-  color:var(--c-ink-soft); font-weight:700; margin-bottom:.3rem;
+  display:block; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--c-ink-soft); font-weight:800; margin-bottom:.35rem;
 }
-/* ---- taksiciye göster ---- */
-.adres-kutu{ margin-top:var(--s-3); }
-/* Yerel alfabedeki satır: şoföre uzatılacak olan. Büyük punto, kalın çerçeve,
-   kart zemininden ayrışan yüzey — koyu temada da kontrast korunur. */
+/* ---- taksiciye göster: karttaki tek vurgulu blok ---- */
+.adres-kutu{
+  margin-top:var(--s-4); background:var(--c-cream);
+  border:1px solid var(--c-line); border-radius:var(--r-s); padding:var(--s-3);
+}
+/* Yerel alfabedeki satır: şoföre uzatılacak olan. Kartın en iri metni. */
 .adres-yerel{
-  display:block; font-size:1.45rem; font-weight:800; line-height:1.3;
-  background:var(--c-yuzey); color:var(--c-ink);
-  border:2px solid var(--c-deep); border-radius:var(--r-s);
-  padding:.6rem .7rem;
+  display:block; font-size:1.3rem; font-weight:800; line-height:1.3; color:var(--c-ink);
 }
-/* Koyu temada --c-deep zeminden daha koyu kalıyor, çerçeve kayboluyordu:
-   orada turkuaz kenar kullanılır (metin kontrastı zaten yüksek). */
-html[data-tema="koyu"] .adres-yerel{ border-color:var(--c-teal); }
-.adres-latin{ display:block; margin-top:.35rem; font-size:.95rem; font-weight:700; }
-.adres-tarif{ display:block; margin-top:.25rem; font-size:.88rem; color:var(--c-ink-soft); font-weight:600; }
+.adres-latin{ display:block; margin-top:.3rem; font-size:.9rem; color:var(--c-ink-soft); }
+.adres-tarif{
+  display:block; margin-top:.3rem; padding-top:.3rem; border-top:1px solid var(--c-line);
+  font-size:.85rem; color:var(--c-ink-soft);
+}
 .adres-btnler{ display:flex; flex-wrap:wrap; gap:var(--s-2); margin-top:var(--s-3); }
 /* Uzun etiketli kopyalama düğmesi — kod düğmesinin harf aralığı burada durmuyor */
-.kopyala-genis{ letter-spacing:normal; font-weight:700; font-size:.9rem; }
-/* ---- mesafe / olanak çipleri ---- */
-.konak-etiketler{ display:flex; flex-wrap:wrap; gap:.3rem; margin-top:var(--s-3); }
-.konak-cip{
-  background:var(--c-sand); border:1px solid var(--c-sand-2); border-radius:var(--r-pill);
-  padding:.14rem .55rem; font-size:.78rem; font-weight:600;
+.kopyala-genis{ letter-spacing:normal; font-weight:700; font-size:.88rem; }
+/* Yan yana duran ikinci düğme öne çıkmasın */
+.btn-sade{ font-size:.88rem; }
+.konak-mesafe{
+  margin:var(--s-3) 0 0; font-size:.82rem; color:var(--c-ink-soft); line-height:1.6;
 }
-.konak-cip.sade{ background:transparent; color:var(--c-ink-soft); font-weight:400; }
-.konak-guvenlik{
-  margin-top:var(--s-3); font-size:.83rem; color:var(--c-warn-ink);
-  background:var(--c-warn-bg); border:1px dashed var(--c-warn-line);
-  border-radius:var(--r-s); padding:.35rem .55rem;
-}
-.konak-puan{ margin-top:.4rem; font-size:.82rem; color:var(--c-ink-soft); }
-.konak-notlar{ margin:.5rem 0 0; padding-left:1.05rem; font-size:.85rem; color:var(--c-ink-soft); }
-.konak-notlar li{ margin-bottom:.2rem; }
+.konak-not{ margin:.35rem 0 0; font-size:.82rem; color:var(--c-ink-soft); line-height:1.6; }
 .konak-ilan{
-  margin-top:var(--s-3); align-self:flex-start; font-size:.85rem; font-weight:700;
-  color:var(--c-teal); min-height:44px; display:inline-flex; align-items:center;
+  margin-top:auto; padding-top:var(--s-3); align-self:flex-start;
+  font-size:.82rem; font-weight:700; color:var(--c-teal);
+  min-height:44px; display:inline-flex; align-items:flex-end;
 }
 /* ---- gizli alanlar: kapı kodu / kutu şifresi / wifi ----
    Değerler kaynak koda yazılmaz, yalnızca localStorage'da durur. */
 .gizli-kutu{
-  margin-top:var(--s-3); padding-top:var(--s-3); border-top:1px dashed var(--c-line);
+  margin-top:var(--s-4); padding-top:var(--s-3); border-top:1px solid var(--c-line);
 }
 .gizli-satir{ margin-bottom:var(--s-2); }
-.gizli-satir label{ display:block; font-size:.82rem; font-weight:600; margin-bottom:.2rem; }
+.gizli-satir label{ display:block; font-size:.8rem; color:var(--c-ink-soft); margin-bottom:.2rem; }
 .gizli-giris{ display:flex; gap:var(--s-2); align-items:stretch; }
 .gizli-giris input{
   flex:1 1 auto; min-width:0; min-height:44px; font-family:inherit; font-size:.95rem;
@@ -2518,8 +2517,8 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
     border:0 !important; padding:0 !important; min-height:0 !important;
     font-weight:700; background:#fff !important; color:#000 !important;
   }
-  .adres-yerel, .bugun-konak-adres{ border:1px solid #000 !important; background:#fff !important; }
-  .konak{ break-inside:avoid; }
+  .adres-kutu{ border:1px solid #000 !important; background:#fff !important; }
+  .konak, .adres-kutu{ break-inside:avoid; }
   .hero{ background:#fff !important; color:#000 !important; padding-block:0 0 !important; }
   .hero-badge, .hero-facts li{ background:none !important; border:1px solid #999 !important; color:#000 !important; }
   .hero-lede{ color:#333 !important; }
@@ -3479,58 +3478,58 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
     const bag = mapsBag(k.konum);
     const panoAdres = k.adresYerel ? k.adresYerel + " — " + k.adres : k.adres;
 
+    /* Künye satırı: etiket + değer. Boş/uydurma değer basılmaz. */
     const satir = (etiket, deger) =>
-      '<div class="cep-satir"><span class="etiket">' + esc(etiket) + "</span><span>" + deger + "</span></div>";
+      "<dt>" + esc(etiket) + "</dt><dd>" + deger + "</dd>";
 
     return '<div class="konak">' +
-      '<div class="cep-ucus-ust"><strong>' + esc(k.sehir) + " · " + esc(k.kisaAd) + "</strong>" +
-        "<span>" + esc(k.tarih) + "</span></div>" +
-      '<div class="konak-tip">' + esc(k.tip) + "</div>" +
+      '<div class="konak-basi">' +
+        '<span class="konak-sehir">' + esc(k.sehir) + "</span>" +
+        '<span class="konak-tarih">' + esc(k.tarih) + "</span>" +
+      "</div>" +
+      '<h4 class="konak-ad">' + esc(k.kisaAd) + "</h4>" +
+      '<p class="konak-tip">' + esc(k.tip) + "</p>" +
 
       (k.uyari
-        ? '<div class="konak-uyari">🔑 ' + markTBD(esc(k.uyari)) + "</div>"
+        ? '<p class="konak-uyari">' + markTBD(esc(k.uyari)) + "</p>"
         : "") +
 
-      satir("Giriş", esc(k.girisTarih) + " · <b>" + esc(k.girisPencere) + "</b>" +
-        (k.girisDar ? ' <span class="konak-dar">dar pencere</span>' : "")) +
-      satir("Çıkış", esc(k.cikisTarih) + " · " + esc(k.cikisSaat)) +
-      satir("Giriş yöntemi", esc(k.girisYontemi)) +
-      satir("Ev sahibi", esc(k.evSahibi)) +
-      satir("Rezervasyon kodu",
-        belliMi(k.rezervasyon)
-          ? kopyaDugmesi(k.rezervasyon, "dokun, kopyala")
-          : markTBD(esc(k.rezervasyon))) +
-      (k.telefonlar || []).map((t) =>
-        satir(t.etiket, belliMi(t.numara)
-          ? telBag(t.numara) + (t.not ? '<small class="konak-tel-not">' + esc(t.not) + "</small>" : "")
-          : markTBD(esc(t.numara)))).join("") +
+      '<dl class="konak-kunye">' +
+        satir("Giriş", "<b>" + esc(k.girisPencere) + "</b>" +
+          (k.girisDar ? ' <span class="konak-dar">dar</span>' : "") +
+          '<small>' + esc(k.girisTarih) + " · " + esc(k.girisYontemi) + "</small>") +
+        satir("Çıkış", esc(k.cikisSaat) + '<small>' + esc(k.cikisTarih) + "</small>") +
+        satir("Ev sahibi", esc(k.evSahibi)) +
+        satir("Rezervasyon",
+          belliMi(k.rezervasyon)
+            ? kopyaDugmesi(k.rezervasyon, "dokun, kopyala")
+            : markTBD(esc(k.rezervasyon))) +
+        (k.telefonlar || []).map((t) =>
+          satir(t.etiket, belliMi(t.numara)
+            ? telBag(t.numara) + (t.not ? "<small>" + esc(t.not) + "</small>" : "")
+            : markTBD(esc(t.numara)))).join("") +
+      "</dl>" +
 
-      /* ---- taksiciye göster ---- */
+      /* ---- taksiciye göster: kartın asıl işi, tek vurgulu blok ---- */
       '<div class="adres-kutu">' +
-        '<span class="etiket konak-etiket-ust">Adres — taksiciye göster</span>' +
+        '<span class="konak-etiket-ust">Adres — taksiciye göster</span>' +
         '<span class="adres-yerel" lang="' + (k.adresYerel ? "mk" : "sq") + '">' + esc(yerel) + "</span>" +
         (latin ? '<span class="adres-latin">' + esc(latin) + "</span>" : "") +
-        (k.tarif ? '<span class="adres-tarif">📍 ' + esc(k.tarif) + "</span>" : "") +
+        (k.tarif ? '<span class="adres-tarif">' + esc(k.tarif) + "</span>" : "") +
         '<div class="adres-btnler">' +
-          kopyaEtiketli(panoAdres, "📋 Adresi kopyala", "dokun") +
-          (bag ? '<a class="btn" target="_blank" rel="noopener" href="' + bag + '">🗺 Google Maps</a>' : "") +
+          kopyaEtiketli(panoAdres, "Adresi kopyala", "dokun") +
+          (bag ? '<a class="btn btn-sade" target="_blank" rel="noopener" href="' + bag + '">Haritada aç</a>' : "") +
         "</div>" +
       "</div>" +
 
-      '<div class="konak-etiketler">' +
-        (k.mesafeler || []).map((x) => '<span class="konak-cip">🚶 ' + esc(x) + "</span>").join("") +
-        (k.olanaklar || []).map((x) => '<span class="konak-cip sade">' + esc(x) + "</span>").join("") +
-      "</div>" +
-
-      (k.guvenlik ? '<div class="konak-guvenlik">⚠ ' + esc(k.guvenlik) + "</div>" : "") +
-      (k.puan ? '<div class="konak-puan">★ ' + esc(k.puan) + "</div>" : "") +
-      ((k.notlar || []).length
-        ? '<ul class="konak-notlar">' + k.notlar.map((n) => "<li>" + markTBD(esc(n)) + "</li>").join("") + "</ul>"
+      ((k.mesafeler || []).length
+        ? '<p class="konak-mesafe">' + esc(k.mesafeler.join(" · ")) + "</p>"
         : "") +
+      (k.not ? '<p class="konak-not">' + markTBD(esc(k.not)) + "</p>" : "") +
 
       /* ---- yalnızca bu cihazda duran kodlar ---- */
       '<div class="gizli-kutu">' +
-        '<span class="etiket konak-etiket-ust">🔒 Kodlar — yalnızca bu cihazda</span>' +
+        '<span class="konak-etiket-ust">Kodlar — yalnızca bu cihazda</span>' +
         (k.gizliAlanlar || []).map((a) => {
           const kimlik = k.id + "::" + a.ad;
           const deger = typeof gizliler[kimlik] === "string" ? gizliler[kimlik] : "";
@@ -3546,13 +3545,12 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
             "</div>" +
           "</div>";
         }).join("") +
-        '<p class="gizli-not">Bu kodlar depoya yazılmaz, sunucuya gitmez — bu tarayıcıda saklanır. ' +
-          "Yedek dosyasına dâhil edilir, yani yedeği paylaşırken kodları da paylaşmış olursun.</p>" +
+        '<p class="gizli-not">Sunucuya gitmez, bu tarayıcıda kalır — yedek dosyasına dâhildir.</p>' +
       "</div>" +
 
       (k.ilanNo
         ? '<a class="konak-ilan" target="_blank" rel="noopener" href="https://www.airbnb.com/rooms/' +
-          encodeURIComponent(k.ilanNo) + '">Airbnb ilanını aç →</a>'
+          encodeURIComponent(k.ilanNo) + '">Airbnb ilanı →</a>'
         : "") +
     "</div>";
   }
@@ -3945,9 +3943,15 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
       if (!g || !g.time) return;
       g.time.forEach((tarih, i) => {
         if (HV.gunSehir[tarih] !== ad) return;
+        /* Pencerenin son gününde model bazen null döndürüyor; Math.round(null)
+           sıfır olduğu için ağustosta "0° / 0°" basılıyordu. Değer sayı değilse
+           o gün hiç kaydedilmez ve mevsim normaline düşer. */
+        const max = g.temperature_2m_max[i];
+        const min = g.temperature_2m_min[i];
+        if (!Number.isFinite(max) || !Number.isFinite(min)) return;
         sonuc[tarih] = {
-          max: Math.round(g.temperature_2m_max[i]),
-          min: Math.round(g.temperature_2m_min[i]),
+          max: Math.round(max),
+          min: Math.round(min),
           yagis: g.precipitation_probability_max ? g.precipitation_probability_max[i] : null,
           kod: g.weathercode[i]
         };
@@ -4112,12 +4116,14 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
           '<span class="bugun-konak-rozet">' +
             (ilkGece ? "bugün giriş" : (sonGece ? "yarın çıkış" : "zaten içeride")) +
           "</span></div>" +
-        konakSatiri("Giriş", esc(konak.girisPencere) + " · " + esc(konak.girisYontemi)) +
-        konakSatiri("Çıkış", esc(konak.cikisTarih) + " · " + esc(konak.cikisSaat)) +
+        konakSatiri(ilkGece ? "Giriş" : "Çıkış",
+          ilkGece
+            ? "<b>" + esc(konak.girisPencere) + "</b> · " + esc(konak.girisYontemi)
+            : esc(konak.cikisTarih) + " · " + esc(konak.cikisSaat)) +
         '<span class="bugun-konak-adres">' + esc(konak.adresYerel || konak.adres) + "</span>" +
         (konak.adresYerel ? '<span class="bugun-konak-latin">' + esc(konak.adres) + "</span>" : "") +
-        (konak.tarif ? '<span class="bugun-konak-latin">📍 ' + esc(konak.tarif) + "</span>" : "") +
-        (bag ? '<a class="btn" target="_blank" rel="noopener" href="' + bag + '">🗺 Yol tarifi</a>' : "") +
+        (konak.tarif ? '<span class="bugun-konak-latin">' + esc(konak.tarif) + "</span>" : "") +
+        (bag ? '<a class="btn btn-sade" target="_blank" rel="noopener" href="' + bag + '">Yol tarifi</a>' : "") +
       "</div>";
     } else if (etkinISO === "2026-08-19") {
       konakBlok = '<div class="bugun-konak yok">' +
@@ -4147,9 +4153,11 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
       "</div>" +
       '<div class="bugun-govde">' +
         '<div class="bugun-baslik">' + esc(g.ikon) + " " + esc(g.baslik) + "</div>" +
-        '<div class="bugun-satir"><span class="ico" aria-hidden="true">📍</span>' +
-          "<span><b>Şehir ve konaklama</b>" + esc(sehir) + " — bu gece: " + esc(g.gece) + "</span></div>" +
-        konakBlok +
+        /* Konaklama bloğu şehri ve geceyi zaten söylüyor; ikisi birlikte
+           basılmaz. Blok yoksa (20 Ağustos) tek satırlık özet çıkar. */
+        (konakBlok ||
+          '<div class="bugun-satir"><span class="ico" aria-hidden="true">📍</span>' +
+          "<span><b>Şehir ve konaklama</b>" + esc(sehir) + " — bu gece: " + esc(g.gece) + "</span></div>") +
         (havaMetni
           ? '<div class="bugun-satir"><span class="ico" aria-hidden="true">🌡</span>' +
             "<span><b>Hava</b>" + esc(havaMetni) + "</span></div>"
@@ -4164,11 +4172,11 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
             "<span><b>Sıradaki ulaşım</b>" + esc(bacak.bacak) + " · " + esc(bacak.sure) +
             " · " + markTBD(esc(bacak.durum)) + "</span></div>"
           : "") +
+        /* Kaçırılamaz kısıt varsa o basılır — tam risk metni gün kartında duruyor,
+           ikisini birlikte basmak Bugün kartını paragraf duvarına çeviriyordu. */
         (g.uyari
-          ? '<div class="bugun-risk">' + (g.uyariIkon || "⚠") + " <b>Kaçırılmayacak:</b> " +
-            markTBD(esc(g.uyari)) + "</div>"
-          : "") +
-        (g.risk ? '<div class="bugun-risk">⚠ <b>Dikkat:</b> ' + markTBD(esc(g.risk)) + "</div>" : "") +
+          ? '<div class="bugun-risk"><b>Kaçırılmayacak</b>' + markTBD(esc(g.uyari)) + "</div>"
+          : (g.risk ? '<div class="bugun-risk"><b>Dikkat</b>' + markTBD(esc(g.risk)) + "</div>" : "")) +
         '<div class="bugun-alt">' +
           '<span class="bugun-yarin">' +
             (yarin ? "<b>Yarın:</b> " + esc(yarin.tarih) + " — " + esc(yarin.baslik) : "<b>Yarın:</b> tur tamamlanıyor 🏠") +

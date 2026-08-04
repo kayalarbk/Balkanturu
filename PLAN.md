@@ -499,6 +499,55 @@ açısından beklenen kalıp bu.
 
 ## Yapılanlar
 
+### 4 Ağustos 2026 — onuncu oturum
+
+**Tasarım sadeleştirildi — konaklama kartı yeniden kuruldu**
+- Dokuzuncu oturumda kart doğru ama kalabalıktı: künye satırları, mesafe ve olanak çipleri,
+  güvenlik kutusu, puan satırı, iki maddelik not listesi, kodlar ve ilan bağlantısı üst üste
+  binmişti. Kart kendi içinde kutu-içinde-kutu görünüyordu.
+- **Siteden çıkanlar:** Airbnb/Google puanları, olanak listeleri (mutfak, wifi, TV, otopark…),
+  karttaki güvenlik satırı ve "Süper Ev Sahibi · 13 yıl" gibi rezervasyon anına ait künyeler.
+  Bunlar rezervasyon kararı verirken işe yarardı, yolda yaramıyor. **Hepsi bu dosyanın
+  2. bölümünde duruyor** — site operasyonel alt kümeyi gösteriyor, PLAN.md tam kaydı tutuyor.
+  `puan`, `olanaklar`, `guvenlik` alanları ve çok maddeli `notlar` dizisi `TUR`'dan kaldırıldı;
+  yerine tek satırlık `not` alanı geldi.
+- **Yeni hiyerarşi:** üstte küçük büyük-harf şehir + sağda tarih, altında ev adı iri, altında
+  tek satır tip. Sonra `<dl>` künyesi (etiket solda, değer sağa yaslı, satır aralarında ince
+  çizgi) → adres kutusu → mesafeler tek satır → not → kodlar → ilan bağlantısı.
+  Karttaki tek zeminli blok adres kutusu: vurgu artık tek yerde.
+- Emoji temizliği: çiplerdeki 🚶, güvenlik ⚠, puan ★, düğmelerdeki 📋 🗺 kaldırıldı.
+  Segoe UI'da 🗺 bozuk bir glif olarak basılıyordu.
+- Telefon etiketleri tekrarı gitti: "Ev sahibi (Goran) — belirlenecek" satırı hem ev sahibi
+  satırını hem kendini tekrar ediyordu. Artık "Ev sahibi: Goran · İngilizce",
+  "Tesis hattı: +389 75 383 868", "Telefon: belirlenecek".
+- Tuzak: `<dl>` ızgarasında `column-gap` bırakılınca satır ayırıcı çizgi sütunların arasında
+  kesiliyordu. `gap:0` + `dt`'ye sağ padding ile çizgi kesintisiz oldu.
+- Kırılma noktası düzeltildi: üç ev **1040 px**'ten sonra yan yana. 768'de sütunlar 212 px'e
+  düşüyor, künye satırları üçe kırılıyor ve kart 1484 px'e uzuyordu; şimdi o aralıkta kart
+  normal genişlikte kalıp evler alt alta diziliyor (ölçülen yükseklik 1484 → 1050 px).
+
+**Bugün ekranındaki tekrarlar kaldırıldı**
+- "Şehir ve konaklama" satırı ile konaklama bloğu aynı şeyi söylüyordu; blok varsa satır
+  basılmıyor (20 Ağustos'ta blok yok, satır çıkıyor).
+- `uyari` ve `risk` birlikte basılınca kart paragraf duvarına dönüyordu. Artık kaçırılamaz
+  kısıt varsa **o** basılıyor; tam risk metni gün kartında duruyor, "Tam güne git" bir dokunuş.
+- Konaklama bloğu ilk gecede giriş penceresini, sonraki gecelerde çıkış saatini gösteriyor —
+  ikisini birlikte göstermek gereksizdi.
+- 13 Ağustos'un `risk` metni, hemen üstündeki uyarı kutusunun söylediği 19:00 kuralını
+  tekrarlıyordu; kısaltıldı. "Eve giriş pencereleri" kartı 6 maddeden 4'e indi.
+
+**Hata: hava durumunda "0° / 0°"**
+- 19 Ağustos kartında ağustos ortasında 0°/0° görünüyordu. Sebep: Open-Meteo 16 günlük
+  pencerenin son gününde bazen `null` döndürüyor ve `Math.round(null)` sıfır.
+- Çözüm: değer `Number.isFinite` değilse o gün hiç kaydedilmiyor, mevsim normaline düşüyor.
+  Doğrulandı — 12-18 Ağustos gerçek tahmin (32/19 … 33/24), 19 Ağustos "mevsim normali".
+
+**Ölçümler**
+- 320 / 360 / 390 / 414 / 768 / 1040 / 1440 px: yatay kaydırma yok, 44 px altında dokunma
+  hedefi yok (7 genişlikte de 0).
+- Koyu tema ve yazdırma (kurallar geçici olarak `screen`'e çevrilip) yeniden ölçüldü.
+- Yazdırmada vurgulu çerçeve `.adres-yerel`'den `.adres-kutu`'ya taşındı.
+
 ### 4 Ağustos 2026 — dokuzuncu oturum
 
 **Konaklamalar netleşti — üç Airbnb siteye işlendi**
