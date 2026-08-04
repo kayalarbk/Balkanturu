@@ -9,8 +9,8 @@
 **Son güncelleme:** 4 Ağustos 2026
 **Depo:** https://github.com/kayalarbk/Balkanturu (`main`)
 **Yayın:** https://kayalarbk.github.io/Balkanturu/ (GitHub Pages, `main` / root — build adımı yok)
-**Son commit:** `35200f4` — Üst gezinme çubuğu, karanlık tema, yazdırma çıktısı ve kayıt yedekleme
-**Çalışma ağacı:** temiz · **Toplam commit:** 15 · **Oturum sayısı:** 7
+**Son commit:** `8366440` + konaklama oturumu — üç Airbnb siteye işlendi
+**Çalışma ağacı:** temiz · **Toplam commit:** 17 · **Oturum sayısı:** 9
 
 ---
 
@@ -48,7 +48,18 @@
 | Dönüş | 20 Ağustos, Pegasus **PC284**, PNR `29BHAE`, 02:15 TIA → 04:50 SAW |
 | Kritik nokta | Dönüş **gece uçuşu** — 19 Ağustos gecesi konaklama yok, ~23:30 havalimanına hareket |
 
-Konaklama: Üsküp 1 gece · Ohrid 3 gece · Dıraç 3 gece — **tesis isimleri hâlâ belirlenecek.**
+**Konaklama (kesin, 4 Ağustos 2026):** üçü de Airbnb, adres ve koordinatlar dâhil işlendi.
+
+| Gece | Şehir | Tesis | Giriş / çıkış |
+|---|---|---|---|
+| 12 Ağu | Üsküp | Universe Hostel & Apartments (özel oda) | 14:00 – 02:00 · çıkış 10:00 |
+| 13-15 Ağu | Ohrid | AGH Elite Studio No. 10 (özel oda) | **13:00 – 19:00** · çıkış 10:00 |
+| 16-18 Ağu | Dıraç | Red Crab deniz kenarında daire (tüm daire) | en erken 15:00 · çıkış 11:00 |
+| 19 Ağu | — | konaklama yok, gece uçuşu | — |
+
+Üçünde de **kendi kendine giriş** var (tuş takımı / kilitli kutu). ⚠️ **Ohrid'e en geç 19:00'da
+varılmalı** — kutu sonrasında kullanılamıyor. Ev sahibi telefonları ve rezervasyon kodları
+hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, yalnızca cihazda.
 
 ---
 
@@ -58,12 +69,12 @@ Konaklama: Üsküp 1 gece · Ohrid 3 gece · Dıraç 3 gece — **tesis isimleri
 
 | Dosya | Satır / boyut | Ne işe yarar |
 |---|---|---|
-| `index.html` | **3.914 satır** (~186 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
-| `sw.js` | 136 satır | Service worker — çevrimdışı çalışma, üç ayrı cache |
+| `index.html` | **4.429 satır** (~209 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
+| `sw.js` | 140 satır | Service worker — çevrimdışı çalışma, üç ayrı cache (`balkan-v2`) |
 | `manifest.json` | — | PWA künyesi: standalone, portrait, tema `#0b2a45`, 2 kısayol (Bugün · Cepte) |
 | `icon.svg` | — | Uygulama ikonu (`any` + `maskable`) |
 | `docs/img/` | 5 kapak + `KAYNAKLAR.md` | Yerele indirilmiş şehir kapakları ve lisans listesi |
-| `PLAN.md` | ~44 KB | Planın tek doğruluk kaynağı + oturum günlüğü |
+| `PLAN.md` | ~57 KB | Planın tek doğruluk kaynağı + oturum günlüğü |
 | `README.md` | ~15 KB | Kurulum, içerik güncelleme, tuzaklar, deploy |
 | `progress.md` | bu dosya | Durum panosu |
 
@@ -72,10 +83,10 @@ Konaklama: Üsküp 1 gece · Ohrid 3 gece · Dıraç 3 gece — **tesis isimleri
 - **Tek dosya, build yok.** `index.html`'e çift tıklamak yeterli; `python -m http.server 8000`
   ile yerel sunucu da çalışır (service worker testi için gerekir).
 - **İçerik ile sunum ayrı.** Bütün metinler dosyanın başındaki tek bir **`const TUR = {...}`**
-  objesinde (satır ~85–1113). HTML gövdesi boş kabuklardan oluşur, sayfa bu objeden JS ile
+  objesinde (satır ~85–1278). HTML gövdesi boş kabuklardan oluşur, sayfa bu objeden JS ile
   render edilir. **Metin değiştirmek için CSS'e veya HTML'e dokunmak gerekmez.**
-- Yerleşim: `TUR` objesi → `<style>` (satır 1116–2265) → boş `<section>` kabukları
-  (2297–2500) → render + davranış JS'i (2536'dan sona).
+- Yerleşim: `TUR` objesi → `<style>` (satır 1281–2572) → boş `<section>` kabukları
+  (2604–2810) → render + davranış JS'i (2845'ten sona).
 - **Tasarım token'ları** CSS'te `:root` altında (renk, boşluk `--s-*`, radius, gölge).
   Karanlık tema bu token'ları `html[data-tema="koyu"]` altında ezerek çalışır.
 
@@ -86,18 +97,18 @@ Konaklama: Üsküp 1 gece · Ohrid 3 gece · Dıraç 3 gece — **tesis isimleri
 | `meta` | Başlık, yolcular, tarih, süre, giriş cümlesi, `kalkisISO` / `donusISO` | ✅ kesin |
 | `ucuslar` | Gidiş/dönüş: havayolu, sefer, PNR, saat, bagaj, gece uçuşu uyarısı | ✅ bilet üzerinden |
 | `rota` | Rota şeridi durakları | ✅ |
-| `konaklama` | Hangi gece hangi şehir, kaç gece, tesis | ⚠️ tesis isimleri boş |
+| `konaklama` | Hangi gece hangi şehir, kaç gece, tesis | ✅ üç tesis girildi |
 | `sehirler` | 5 şehir kartı: tema, rehber tanıtımı, öne çıkanlar, `kapak`, `galeri`, `lezzetler`, `konum` | ✅ (5 şehir haritada) |
-| `gunler` | **9 günlük program**: tarih, başlık, akış, rehber notları, `risk`, gece | ✅ (9 gün, saatler kısmen açık) |
+| `gunler` | **9 günlük program**: tarih, başlık, akış, notlar, `risk`, `uyari`, gece | ✅ (giriş/çıkış saatleri işlendi; otobüs saatleri açık) |
 | `ulasim` | Bacak / süre / yöntem / durum tablosu | ⚠️ saatler "kontrol edilecek" |
 | `harita` | Karo kaynağı, atıf, zoom sınırları, havalimanları, yedek metin | ✅ |
-| `dikkatEdilecekler` | **10 kart**, `seviye`: kritik / önemli / bilgi | ✅ |
-| `cepte` | Uçuş kodları, konaklama, acil numaralar, temel kelimeler | ⚠️ konaklama + sigorta hattı boş |
+| `dikkatEdilecekler` | **12 kart**, `seviye`: kritik / önemli / bilgi | ✅ |
+| `cepte` | Uçuş kodları, üç konaklama (adres/koordinat/giriş), acil numaralar, kelimeler | ⚠️ ev sahibi telefonları, rezervasyon kodları ve sigorta hattı boş |
 | `havaDurumu` | Open-Meteo ayarı, gün→şehir eşlemesi, mevsim normalleri, uyarı eşikleri | ✅ çalışıyor |
 | `yemeIcmeNotlari` | Şehir kartı altındaki yeme-içme kutusu | ✅ |
 | `pratik` | Para, bütçe, elektrik, sağlık, adap, kelimeler | ⚠️ bütçe boş |
 | `kontrolListesi` | **10 maddelik** hazırlık listesi | ✅ (işaretler kullanıcıda) |
-| `belirlenecek` | Sayfa sonundaki açık işler listesi | 5 madde |
+| `belirlenecek` | Sayfa sonundaki açık işler listesi | 7 madde |
 
 ### Harici bağlantılar (ikisi de bozulmaya karşı korumalı)
 
@@ -141,15 +152,18 @@ Konaklama: Üsküp 1 gece · Ohrid 3 gece · Dıraç 3 gece — **tesis isimleri
 | Özellik | Kısa açıklama |
 |---|---|
 | Tek dosya içerik mimarisi | `TUR` objesi + JS render; metin/tasarım ayrımı |
-| 9 günlük program | Akış, rehber notları (En iyi saat / Dikkat / İpucu), günlük risk satırı |
+| 9 günlük program | Akış, rehber notları (En iyi saat / Dikkat / İpucu), günlük risk satırı, kaçırılamaz kısıt kutusu (`uyari`) |
 | 5 şehir kartı | Tema, rehber tanıtımı, öne çıkanlar, kapak + galeri, yerel lezzetler |
 | Yerel lezzetler | Görsel **16:9 tam genişlik bant** (her ekranda ölçülen oran 1.78) |
 | Geri sayım (3 durumlu) | Kalkış öncesi "Yola çıkmaya kalan" → tur içinde "Dönüşe kalan + N. gün / 8" → sonra "Tur tamamlandı" |
-| Bugün ekranı | `tarihISO` sistem tarihiyle eşleşince kart + o günün vurgusu; `?tarih=2026-08-15` ile test edilebilir |
-| Rota haritası | Leaflet, 5 şehir + havalimanları, gün kartlarına bağlı; yedek kutusu var |
+| Bugün ekranı | `tarihISO` eşleşince kart + o günün vurgusu; **o geceki konaklama bloğu** (ya da 19 Ağustos'un "konaklama yok" bloğu); `?tarih=2026-08-15` ile test edilebilir |
+| Rota haritası | Leaflet, 5 şehir + 2 havalimanı + **3 konaklama** işaretçisi (ayrı renk/ikon), gün kartlarına bağlı; yedek kutusu var |
 | Hava durumu şeridi | Open-Meteo `forecast_days=16`, sıcak/yağmur uyarı rozetleri, 3 saat önbellek |
 | Cepte bölümü | Uçuş kodları, acil numaralar (resmî `mfa.gov.tr` kaynaklı), temel kelimeler |
-| Dikkat kartları | 10 kart, kritik / önemli / bilgi seviyeleri |
+| Konaklama kartı | Üç Airbnb: tip, giriş/çıkış, giriş yöntemi, ev sahibi, mesafe/olanak çipleri, güvenlik, puan, ilan bağlantısı |
+| "Taksiciye göster" | Yerel alfabede büyük punto adres + latin karşılığı + Dıraç'ta sözlü tarif; kopyala düğmesi ve **koordinattan** üretilen Maps bağlantısı |
+| Gizli kod alanları | Kapı kodu / kutu şifresi / wifi — kaynak koda yazılmaz, `balkan2026.gizli` altında yalnızca cihazda; "Sil" düğmesi |
+| Dikkat kartları | 12 kart, kritik / önemli / bilgi seviyeleri (yeni: eve giriş pencereleri · konaklama güvenliği) |
 | Hazırlık listesi | 10 madde, `localStorage`, 10/10'da konfeti + kutlama (yalnızca tamamlanma anında) |
 | ♥ İkimizin listesi | 50 kalp düğmesi, şehir başlığında sayaç, altta toplu özet, atış animasyonu |
 | ✍ Anı notları | Her gün kartında `textarea`, 500 ms gecikmeli otomatik kayıt + "✓ kaydedildi" |
@@ -157,7 +171,7 @@ Konaklama: Üsküp 1 gece · Ohrid 3 gece · Dıraç 3 gece — **tesis isimleri
 | Karanlık tema | Token ezme yöntemi; ilk boyamadan önce uygulanır (beyaz parlama yok), sistem tercihini izler |
 | Üst gezinme çubuğu | Yapışkan şerit, IntersectionObserver ile aktif bölüm işareti, tema + yazdırma düğmeleri, "yukarı çık" |
 | Yazdırma / PDF | Token'lar kâğıt setine iner (koyu tema açıkken bile), etkileşimli parçalar gizlenir, **katlı gün kartları açılır** |
-| Kayıt yedekleme | İndir / yükle / panoya kopyala; geri yükleme **ezmez, birleştirir**; yabancı dosya `uygulama` alanından reddedilir |
+| Kayıt yedekleme | İndir / yükle / panoya kopyala; geri yükleme **ezmez, birleştirir**; kodlarda mevcut değer korunur (`birlestir:false`); yabancı dosya `uygulama` alanından reddedilir |
 | PWA + çevrimdışı | `manifest.json` + `sw.js`; app shell ön belleğe alınır, 2 kısayol |
 | Mobil denetimi | 13 bulgu ölçülüp düzeltildi (aşağıda) |
 | Güvenli alan desteği | `viewport-fit=cover` + `env(safe-area-inset-*)` — çentik / Dynamic Island |
@@ -167,8 +181,9 @@ Konaklama: Üsküp 1 gece · Ohrid 3 gece · Dıraç 3 gece — **tesis isimleri
 
 | Özellik | Ne gelince tamamlanır |
 |---|---|
-| "Taksiciye göster" kutusu + otel harita bağlantısı | `TUR.cepte.konaklamalar` doldurulunca **kendiliğinden** çalışır |
-| Haritada otel işaretçisi | Konaklama adresleri belli olunca |
+| Ev sahibi telefonları | `cepte.konaklamalar[].telefonlar` doldurulunca `tel:` bağlantısı **kendiliğinden** çıkar (Üsküp'ün tesis yedek hattı girildi) |
+| Rezervasyon kodları | Airbnb onay kodu girilince kopyalanabilir kod düğmesine dönüşür |
+| Üsküp'te klima | İlanda yazmıyor; ev sahibine sorulup nota yazılacak |
 | Sigorta acil hattı | Poliçe alınıp `TUR.cepte.acil` içine girilince |
 | Bütçe kartı | Toplam / kişi başı günlük bütçe kararı |
 | Ulaşım tablosundaki saatler | Otogar teyitleri (şu an "kontrol edilecek" olarak vurgulu) |
@@ -186,10 +201,16 @@ Hepsi `localStorage`, **sunucuya hiçbir şey gitmez**, cihaza özeldir.
 | `balkan2026.anilar` | Gün kartlarındaki anı notları (anahtar: `YYYY-MM-DD`) |
 | `balkan2026.hava` | Hava yanıtı + zaman damgası (3 saat) |
 | `balkan2026.tema` | Koyu / açık tercih (yoksa sistem tercihi) |
+| `balkan2026.gizli` | Kapı kodu / kilitli kutu şifresi / wifi şifresi (kimlik: `evId::alan`) — **depoda yoktur** |
 
 **Kırılganlık uyarısı:** bir maddenin **metnini** değiştirmek o maddeye verilmiş kalbi
 kaybettirir; `gunler[].tarihISO` değiştirmek eski anı notunu erişilemez yapar;
-`kontrolListesi[].id` değiştirmek o maddenin işaretini sıfırlar.
+`kontrolListesi[].id` değiştirmek o maddenin işaretini sıfırlar; `cepte.konaklamalar[].id`
+değiştirmek o eve kaydedilmiş kodları erişilemez yapar.
+
+**Gizlilik:** kapı ve wifi şifreleri bilinçli olarak kaynak koda konmaz (depo herkese açık).
+Yedek dosyası bu kodları **içerir** — yalnızca kendi cihazlarınızla paylaşın. Yazdırma
+çıktısında kodlar basılır (kâğıt yedeği kapıda işe yarasın diye), silme düğmesi basılmaz.
 
 ---
 
@@ -207,6 +228,10 @@ kaybettirir; `gunler[].tarihISO` değiştirmek eski anı notunu erişilemez yapa
 | Sabit renk yazma | Karanlık tema ve yazdırma bozulur → token kullan |
 | Yeni bölüm ekleme | `NAV_ADLARI`'na satır eklenmezse üst çubukta çıkmaz |
 | Leaflet sürüm yükseltme | SRI hash'i yeniden hesaplanmalı, yoksa harita yedeğe düşer |
+| `.cep-satir` etiket sütunu | Sağdaki değer uzayınca etiket kelimesi ortadan kırılıyordu ("Giri / ş") → etikete `flex:0 0 auto` |
+| Maps bağlantısını adresten üretmek | Adres yazımı yanlış yere düşebiliyor → **koordinattan** üret |
+| Kapı / wifi şifresi | Depo public: `TUR` objesine **asla** yazılmaz, `balkan2026.gizli` altında cihazda kalır |
+| `index.html` değişince | `sw.js` içindeki `CACHE_VERSION` artırılmalı, yoksa kurulu cihazlar eski sürümü görür |
 
 ---
 
@@ -241,6 +266,7 @@ kontrolü yapılmadı.**
 | 6c | 26 Tem 2026 | Lezzet görselleri 16:9 banda çevrildi, favori kalpleri, anı notları, konfeti, galeri gezinmesi |
 | 7 | 29 Tem 2026 | Üst gezinme çubuğu, karanlık tema, yazdırma çıktısı, kayıt yedekleme; **hava tahmini düzeltildi** (`forecast_days=16` eksikti) |
 | 8 | 4 Ağu 2026 | `progress.md` oluşturuldu |
+| 9 | 4 Ağu 2026 | **Konaklamalar işlendi:** üç Airbnb (adres + koordinat), taksiciye göster kutusu, Ohrid 19:00 kritik uyarısı, 19 Ağustos boşluğu, gizli kod alanları, haritada ev pinleri, Dıraç Arkeoloji Müzesi, `sw.js` v2 |
 
 Ayrıntılı oturum günlüğü (sebep–çözüm anlatımıyla): `PLAN.md` → "Yapılanlar".
 
@@ -250,23 +276,29 @@ Ayrıntılı oturum günlüğü (sebep–çözüm anlatımıyla): `PLAN.md` → 
 
 ### Gezi organizasyonu — kararlar (site kodu değil)
 
-- [ ] **Konaklama isimleri ve rezervasyonları** — Üsküp 1, Ohrid 3, Dıraç 3 gece
+- [x] ~~**Konaklama isimleri ve rezervasyonları**~~ — 4 Ağustos'ta üç Airbnb işlendi
+- [ ] **Ev sahibi telefonları ve Airbnb rezervasyon kodları** — üçü için de
+- [ ] **Üsküp'te klima teyidi** — ilanda yazmıyor, bir yorum "klima yok" diyor
 - [ ] **Şehirlerarası otobüs biletleri ve kalkış saatleri** — Priştine–Üsküp, Üsküp–Ohrid,
-      Ohrid–Dıraç, Dıraç–Tiran son minibüs
+      Ohrid–Dıraç, Dıraç–Tiran son minibüs. ⚠️ Üsküp–Ohrid seferi **Ohrid'in 19:00 giriş
+      kısıtına** uymak zorunda (anahtar kutusu sonrasında kapalı)
 - [ ] **Tiran → havalimanı gece transferi** (gece uçuşu için kritik)
 - [ ] Toplam ve kişi başı günlük bütçe
 - [ ] Seyahat sağlık sigortası poliçesi
 - [ ] Sveti Naum tekne saatleri + giriş ücreti; Ohrid tekne turu rezervasyonu (ağustos yoğun)
 - [ ] Dajti teleferiği, Bunk'Art, Dıraç amfitiyatrosu saat ve ücretleri
-- [ ] Tiran'da bagaj emaneti konumu ve saatleri
+- [ ] Dıraç Arkeoloji Müzesi giriş ücreti (saatler biliniyor, müze 17 Ağustos'a kondu)
+- [ ] **Tiran'da bagaj emaneti konumu ve saatleri** — 19 Ağustos'un belkemiği: Dıraç'tan çıkış
+      11:00, uçuş 02:15, arada ~14 saat valizle
 - [ ] Yerel eSIM ya da roaming tarifesi kararı
 - [ ] 20 Ağustos 04:50 SAW inişi sonrası eve dönüş planı
 
 ### Site — veri girilince kendiliğinden çalışacak
 
-- [ ] `TUR.cepte.konaklamalar` doldurulacak → "taksiciye göster" + harita bağlantısı açılır
+- [x] ~~`TUR.cepte.konaklamalar` doldurulacak → "taksiciye göster" + harita bağlantısı~~ — yapıldı
+- [x] ~~Konaklama adresleri belli olunca haritaya otel işaretçisi~~ — üç ev pini eklendi
+- [ ] `cepte.konaklamalar[].telefonlar` içine ev sahibi numaraları → `tel:` bağlantısı açılır
 - [ ] `TUR.cepte.acil` içine sigorta acil hattı
-- [ ] Konaklama adresleri belli olunca haritaya otel işaretçisi
 - [ ] Bilet PDF'lerinin `docs/` altına eklenmesi
 
 ### Site — test ve içerik
@@ -277,6 +309,8 @@ Ayrıntılı oturum günlüğü (sebep–çözüm anlatımıyla): `PLAN.md` → 
 - [ ] Kalan lezzetlere görsel (sac böreği, kebap, Skopsko, deniz mahsulleri) — uygun bulunursa
 - [ ] Bill Clinton Bulvarı, Blloku, Bunk'Art için galeri görseli — uygun bulunursa
 - [ ] Hava durumu penceresi açıldıkça mevsim normallerinin gerçek tahmine dönmesini izle
+- [ ] Kapı ve wifi şifreleri geldiğinde Cepte bölümündeki gizli alanlara **her iki telefonda**
+      girilecek (ya da bir telefonda girilip yedek dosyasıyla taşınacak)
 
 ---
 

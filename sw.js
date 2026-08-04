@@ -11,7 +11,11 @@
      - Hava durumu API → network-first, hata olursa son başarılı yanıt
    ===================================================================== */
 
-const CACHE_VERSION = "balkan-v1";
+/* index.html her değiştiğinde artırılır — yoksa siteyi ana ekrana eklemiş
+   cihazlar eski sürümü görmeye devam eder. Eski cache'ler activate içinde
+   silinir (BIZIM_CACHELER dışındaki her ad temizlenir).
+   v2 — 4 Ağustos 2026: konaklamalar işlendi. */
+const CACHE_VERSION = "balkan-v2";
 const SHELL_CACHE = CACHE_VERSION + "-shell";
 const GORSEL_CACHE = CACHE_VERSION + "-gorsel";
 const HAVA_CACHE = CACHE_VERSION + "-hava";

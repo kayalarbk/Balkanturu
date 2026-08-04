@@ -66,11 +66,11 @@ dokunmak gerekmez.**
 | `rota` | Rota şeridindeki duraklar: ad, gece notu |
 | `konaklama` | Hangi gece hangi şehir, kaç gece, tesis adı |
 | `sehirler` | Şehir kartları: tema, rehber tanıtımı, "Öne çıkanlar", `kapak` görseli, `galeri` dizisi |
-| `gunler` | 9 günlük program: tarih, başlık, özet, akış, rehber notları, `risk`, gece bilgisi |
+| `gunler` | 9 günlük program: tarih, başlık, özet, akış, rehber notları, `risk`, `uyari`, gece bilgisi |
 | `ulasim` | Ulaşım özeti tablosu: bacak, süre, yöntem, durum |
 | `harita` | Harita ayarları: karo kaynağı ve atıf, zoom sınırları, havalimanları, yedek metin |
 | `dikkatEdilecekler` | "Nelere dikkat etmeli" kartları: ikon, başlık, `seviye`, maddeler |
-| `cepte` | Cepte bölümü: uçuş kodları, konaklama, acil numaralar, temel kelimeler |
+| `cepte` | Cepte bölümü: uçuş kodları, konaklamalar (adres/koordinat/giriş/gizli alanlar), acil numaralar, temel kelimeler |
 | `havaDurumu` | Open-Meteo ayarları, gün→şehir eşlemesi, mevsim normalleri, uyarı eşikleri |
 | `yemeIcmeNotlari` | Şehir kartlarının altındaki yeme-içme notları kutusu |
 | `pratik` | Pratik bilgi kartları: para, bütçe, elektrik, sağlık, adap, kelimeler |
@@ -100,7 +100,9 @@ dokunmak gerekmez.**
   `konum: [enlem, boylam]`, `haritaSira`, `haritaGece`, `haritaTarih` ve `haritaGun`
   (gün kartının id'si, ör. `gun-3`) alanlarını ekle. `haritaSira` yoksa şehir haritaya
   çizilmez. **Koordinatı ezberden yazma** — Wikidata'daki `P625` değerini kullan;
-  mevcutların listesi `PLAN.md` bölüm 8'de.
+  mevcutların listesi `PLAN.md` bölüm 8'de. Konaklamalar ayrı ikonla (kum rengi 🏠 kare pin)
+  çizilir ve `cepte.konaklamalar[].konum` alanından okunur; şehir pinleri turkuaz damla,
+  havalimanları lacivert dairedir — yeni bir işaretçi türü eklerken bu üçünden ayrış.
 - **Leaflet sürümü değişirse** SRI hash'i de değişmeli: dosyayı indirip SHA-384'ünü
   hesapla, base64'e çevir, `integrity` değerini güncelle. Hash tutmazsa tarayıcı
   script'i çalıştırmaz ve harita sessizce yedek kutuya düşer.
@@ -121,6 +123,24 @@ dokunmak gerekmez.**
   Tur tarihi Open-Meteo'nun ~16 günlük penceresinin dışındaysa
   `havaDurumu.mevsimNormali` gösterilir — bu normaller elle girilmiş yer tutuculardır.
   Yanıt `localStorage`'da `balkan2026.hava` anahtarında 3 saat önbelleklenir.
+- **Konaklamalar:** `cepte.konaklamalar` her ev için tek kayıt. Zorunlu gibi davranan alanlar:
+  `id` (gizli kod kimliğinin kökü — **değiştirmek kayıtlı kodları erişilemez yapar**),
+  `geceler` (`YYYY-MM-DD` dizisi; Bugün ekranı ve harita popup'ı bunu okur, `TUR.gunler` ile
+  birebir tutarlı olmalı), `konum` (`[enlem, boylam]` — Maps bağlantısı **koordinattan**
+  üretilir, adresten değil; adres yazımı yanlış yere düşebiliyor).
+  `adresYerel` verilirse büyük punto satır o olur ve latin adres altına düşer; yoksa `adres`
+  büyük basılır. `tarif` isteğe bağlı sözlü tarif satırıdır (Dıraç'ta kullanıldı).
+  `telefonlar` dizisindeki değeri "belirlenecek" olan kayıt `tel:` bağlantısı almaz;
+  numara girilince kendiliğinden aranabilir olur. `uyari` doldurulursa kartta sarı kutu çıkar.
+- **🔒 Kapı kodu / kutu şifresi / wifi şifresi ASLA kaynak koda yazılmaz** — depo herkese açık.
+  Bunlar `cepte.konaklamalar[].gizliAlanlar` ile yalnızca *alan tanımı* olarak durur
+  (`{ ad, etiket, bos }`); değerler kullanıcı girdiğinde `localStorage`'a
+  (`balkan2026.gizli`, kimlik `evId::alan`) yazılır. Yedek dosyası bu kodları **içerir**;
+  birleştirmede mevcut değer korunur (`YEDEK_ALANLAR` dördüncü öğesi `{ birlestir:false }`).
+  Yazdırmada kodlar basılır (kâğıt yedeği kapıda işe yarasın diye), silme düğmesi basılmaz.
+- **Günün kaçırılamaz kısıtı:** `gunler[].uyari` (+ isteğe bağlı `uyariIkon`) doldurulursa gün
+  kartının en üstünde riskten daha sert bir kutu çıkar ve Bugün ekranında da görünür.
+  Ohrid'in 19:00 anahtar kutusu ve 19 Ağustos'un konaklamasız gecesi böyle işlendi.
 - **Acil numaralar:** `cepte.acil` içinde değeri "kontrol edilecek" olan maddeler
   `tel:` bağlantısı almaz, vurgulu "belirlenecek" olarak görünür. **Doğrulamadığın bir
   telefon numarasını asla yazma.** Büyükelçilik numaraları `mfa.gov.tr` üzerindeki resmî
@@ -147,6 +167,7 @@ dokunmak gerekmez.**
   | `balkan2026.anilar` | Gün kartlarındaki anı notları |
   | `balkan2026.hava` | Hava durumu yanıtı + zaman damgası (3 saat) |
   | `balkan2026.tema` | Koyu / açık tema tercihi (yoksa sistem tercihi geçerli) |
+  | `balkan2026.gizli` | Kapı kodu / kilitli kutu şifresi / wifi şifresi (kimlik: `evId::alan`) |
 
   Bunlar cihaza özeldir; telefonda işaretlenen bir şey bilgisayarda görünmez —
   taşımak için aşağıdaki yedekleme kutusu var.
@@ -176,6 +197,9 @@ dokunmak gerekmez.**
   mevcut bir `id`'yi değiştirmek o maddenin kaydını sıfırlar.
 - **Rehber notu etiketleri:** `notlar` dizisindeki `tip` alanı "En iyi saat", "Dikkat" veya
   "İpucu" olabilir. "Dikkat" ve "İpucu" ayrı renkle gösterilir.
+- **`index.html` değişince `sw.js` içindeki `CACHE_VERSION` artırılır** — yoksa siteyi ana
+  ekrana eklemiş cihazlar eski sürümü görmeye devam eder. Eski cache'ler `activate` içinde
+  `BIZIM_CACHELER` dışındaki her adı silerek temizlenir.
 - **Tasarım:** renk, boşluk, radius ve gölge değerleri CSS'te `:root` altındaki
   token'larda tanımlıdır. Tema değişikliği için oradan başla.
 

@@ -39,12 +39,82 @@
 
 ## 2. Konaklama (kesin)
 
+Üçü de Airbnb; bilgiler ilan sayfalarından ve haritadan doğrulandı (4 Ağustos 2026).
+
 | Gece | Şehir | Süre | Tesis |
 |---|---|---|---|
-| 12 Ağustos | Üsküp | 1 gece | _belirlenecek_ |
-| 13 · 14 · 15 Ağustos | Ohrid | 3 gece | _belirlenecek_ |
-| 16 · 17 · 18 Ağustos | Dıraç | 3 gece | _belirlenecek_ |
+| 12 Ağustos | Üsküp | 1 gece | Universe Hostel & Apartments — özel oda |
+| 13 · 14 · 15 Ağustos | Ohrid | 3 gece | AGH Elite Studio No. 10 — özel oda |
+| 16 · 17 · 18 Ağustos | Dıraç | 3 gece | Red Crab deniz kenarında daire — tüm daire |
 | 19 Ağustos | — | konaklama yok | gece Tiran havalimanına geçiş |
+
+> 🔒 **Kapı kodu, kilitli kutu şifresi ve Wi-Fi şifresi bu dosyaya da yazılmaz** — depo
+> herkese açık. Onlar sitenin "Cepte" bölümündeki alanlara girilir ve yalnızca cihazda
+> (`localStorage`, `balkan2026.gizli`) durur.
+
+### 2.1 Üsküp — 12 Ağustos Çarşamba · 1 gece
+
+| | |
+|---|---|
+| İlan adı | Evren Rahat Çift Kişilik Özel Tuvaletli |
+| Tesis | **Universe Hostel & Apartments** |
+| Tip | Misafir evi içinde özel oda · 2 misafir · 1 çift kişilik yatak · özel banyo |
+| Adres (latin) | Tome Arsovski 40b, Skopje 1000, Kuzey Makedonya |
+| Adres (kiril) | Томе Арсовски 40б, Скопје 1000 |
+| Koordinat | 41.982601, 21.433764 |
+| Giriş / çıkış | 14:00 – 02:00 · çıkış en geç 10:00 |
+| Giriş yöntemi | Tuş takımıyla kendi kendine giriş |
+| Ev sahibi | Goran — Süper Ev Sahibi · 13 yıl · İngilizce |
+| Telefon | Tesis (yedek hat): **+389 75 383 868** · ev sahibi kişisel: _belirlenecek_ |
+| Mesafe | Otogar ~1,9 km / ~25 dk · merkez ~1,5 km / ~20 dk |
+| Olanaklar | Mutfak, wifi, ücretsiz otopark, saç kurutma makinesi |
+| Güvenlik | Karbonmonoksit alarmı **yok** · duman dedektörü **yok** |
+| Puan | Airbnb 4,68 (82) · Google 4,5 (106) |
+| Airbnb ilan no | 13376578 |
+| Açık kalan | **Klima teyit edilecek** (ilanda yazmıyor, bir yorum "klima yok" diyor) · rezervasyon kodu _belirlenecek_ |
+
+### 2.2 Ohrid — 13, 14, 15 Ağustos · 3 gece
+
+| | |
+|---|---|
+| İlan adı / tesis | **AGH Elite Studio No. 10** |
+| Tip | Site içi konutta özel oda · 2 misafir · 1 queen yatak · özel banyo |
+| Adres (latin) | Bogomilska 47, Ohrid 6000, Kuzey Makedonya |
+| Adres (kiril) | Богомилска 47, Охрид 6000 |
+| Koordinat | 41.116653, 20.805831 |
+| Giriş / çıkış | **13:00 – 19:00 (DAR PENCERE)** · çıkış en geç 10:00 |
+| Giriş yöntemi | Kilitli kutuyla kendi kendine giriş |
+| Ev sahibi | Krste — 8 yıl · İngilizce ve Sırpça |
+| Telefon | _belirlenecek_ |
+| Mesafe | Otogar ~1,2 km / ~15 dk · meydan ~450 m / ~6 dk |
+| Olanaklar | Wifi, klima, çalışma alanı, ücretsiz otopark, TV |
+| Güvenlik | Karbonmonoksit alarmı **yok** · duman dedektörü var · merdiven çıkmak gerekiyor |
+| Puan | Airbnb 4,66 (41) |
+| Airbnb ilan no | 990523740677045006 |
+
+> ⚠️ **KRİTİK — 19:00 kuralı.** Anahtar kutusu 13:00 – 19:00 arası kullanılabiliyor,
+> sonrasında kullanılamaz. **Ohrid'e en geç 19:00'da varılmalı**; Üsküp'ten kalkış saati
+> buna göre seçilecek. Bu kısıt 13 Ağustos gün kartında, konaklama kartında ve
+> "Nelere dikkat etmeli" bölümünde kritik olarak işlendi.
+
+### 2.3 Dıraç — 16, 17, 18 Ağustos · 3 gece
+
+| | |
+|---|---|
+| İlan adı | Merkezi plaj bölgesinde **Red Crab deniz kenarında daire** |
+| Tip | **Tüm daire** · 3 misafir · 1 queen + 1 kanepe + 1 yer yatağı · 1 banyo |
+| Adres | Rruga Taulantia, Durrës 2000, Arnavutluk |
+| Taksiciye tarif | "Vollga, Arkeoloji Müzesi'nin yanı" (Muzeu Arkeologjik, Rruga Taulantia) |
+| Koordinat | 41.311130, 19.439557 |
+| Giriş / çıkış | en erken 15:00 · çıkış en geç 11:00 |
+| Giriş yöntemi | Kilitli kutuyla kendi kendine giriş |
+| Ev sahibi | Slavik — Süper Ev Sahibi · 6 yıl · İngilizce |
+| Telefon | _belirlenecek_ |
+| Yakınlık | Arkeoloji Müzesi ~70 m · amfitiyatro ~650 m · plaj bitişik · Tiran havalimanı taksiyle 30-40 dk |
+| Olanaklar | Mutfak, 220 Mbps wifi, çalışma alanı, ortak plaj erişimi, şehir manzarası |
+| Güvenlik | CO alarmı **yok** · duman dedektörü **yok** · mülkte dış mekân güvenlik kamerası var |
+| Puan | Airbnb 5,0 (31) · "Misafirlerin favorisi" |
+| Airbnb ilan no | 1402205036890877685 |
 
 ---
 
@@ -57,6 +127,7 @@
 - Gün boyu Priştine: NEWBORN anıtı, şehir merkezi, Bill Clinton Bulvarı
 - Öğle/ikindi: kafe turu, Kosova mutfağı — flija
 - Akşamüstü: Priştine → Üsküp otobüsü (~2-2,5 saat)
+- **14:00'ten sonra — Üsküp'te eve giriş:** Universe Hostel, tuş takımıyla (02:00'a kadar mümkün)
 
 **Rehber notları**
 - _En iyi saat:_ merkez öğleden sonra en canlı; NEWBORN için ikindi ışığı daha iyi.
@@ -68,8 +139,11 @@
 
 ### 13 Ağustos Perşembe — Üsküp sabahı, öğleden sonra Ohrid
 **Gece:** Ohrid
-- Sabah Üsküp: Taş Köprü, Eski Çarşı, Üsküp Kalesi, trileçe
+- Erken sabah Üsküp: Taş Köprü, Eski Çarşı, Üsküp Kalesi, trileçe
+- **En geç 10:00 — Üsküp'ten çıkış** (check-out); gezinin kalanı valizlerle
 - Öğleden sonra: Üsküp → Ohrid otobüsü (~3 saat)
+- **13:00 – 19:00 arası — Ohrid'de eve giriş:** AGH Elite Studio No. 10, kilitli kutuyla.
+  ⚠️ 19:00'dan sonra kutu kullanılamıyor
 - Akşam göl kıyısında ilk yürüyüş
 
 **Rehber notları**
@@ -110,8 +184,10 @@
 
 ### 16 Ağustos Pazar — Ohrid → Dıraç
 **Gece:** Dıraç
+- **En geç 10:00 — Ohrid'den çıkış** (check-out)
 - Sabah erken: Ohrid → Dıraç otobüsü (~4-5 saat, Elbasan üzerinden, sınır geçişi dahil)
-- Öğleden sonra varış ve yerleşme
+- Öğleden sonra Dıraç'a varış
+- **15:00'ten sonra — Dıraç'ta eve giriş:** Red Crab dairesi, kilitli kutuyla. Ardından yerleşme
 - Akşamüstü Adriyatik'te ilk yüzme, gün batımı
 
 **Rehber notları**
@@ -126,13 +202,17 @@
 **Gece:** Dıraç
 - Sabah–öğle plaj: yüzme, kumsal
 - Öğle: sahil restoranları
-- İkindi: Dıraç antik Roma amfitiyatrosu
+- Öğleden sonra: **Dıraç Arkeoloji Müzesi** — evden ~70 m; pzt-prş 09:00-16:00,
+  cuma 08:00-14:00, hafta sonu KAPALI (bu yüzden 16 Ağustos pazar değil bugün). Ücret kontrol edilecek
+- İkindi: Dıraç antik Roma amfitiyatrosu (~650 m)
 - Bilinçli olarak boş, tembel bir gün
 
 **Rehber notları**
 - _Dikkat:_ öğlen güneşi sert, 12:00-16:00 gölge; güneş kremini tekrar sür.
 - _En iyi saat:_ deniz 08:00-11:00 arası sakin ve tenha.
-- _İpucu:_ amfitiyatro merkezde, plajdan yürüme mesafesinde. Açılış saati kontrol edilecek.
+- _Dikkat:_ Arkeoloji Müzesi hafta sonu kapalı, cuma 08:00-14:00 — müze bu yüzden pazartesiye kondu.
+- _İpucu:_ müze evin 70 m yanında, sıcağın en sert saatinde kapalı alana kaçmanın en kolay yolu.
+  Amfitiyatro merkezde, plajdan yürüme mesafesinde. Açılış saatleri kontrol edilecek.
 - ⚠️ _Bu günün riski:_ öğlen güneşi + sezon zirvesi. Plajlar sabah dolmaya başlıyor, şezlong
   genelde ücretli ve erken tükeniyor. 12:00-16:00 arası güneş çarpması riski gerçek — o aralığı
   gölgede geçir. Su ve güneş kremi pazarlık konusu değil.
@@ -153,8 +233,8 @@
 
 ### 19 Ağustos Çarşamba — Tiran son günü ve gece uçuşu
 **Gece:** konaklama yok — gece havalimanı 🌙
-- Sabah Dıraç'tan çıkış, valizlerle Tiran'a geçiş
-- Valizler **bagaj emanetine**
+- **En geç 11:00 — Dıraç'tan çıkış** (check-out), valizlerle Tiran'a geçiş
+- Valizler **bagaj emanetine** (yer ve kapanış saati belirlenecek)
 - Dajti teleferiği, Bunk'Art
 - İkindi: Yeni Çarşı (Pazari i Ri), hediyelik alışverişi
 - Akşam yemeği, ~23:30 Nene Tereza Havalimanı'na hareket
@@ -211,6 +291,16 @@
 
 Korkutmak için değil — önceden bilinirse hiçbiri sorun olmaz. Sitede ayrı bölüm olarak duruyor
 (`TUR.dikkatEdilecekler`), seviye etiketleri: **kritik / önemli / bilgi**.
+
+### 🔑 Eve giriş pencereleri — KRİTİK
+- **Ohrid'e en geç 19:00'da varılmalı** — anahtar kutusu 13:00 – 19:00 arası kullanılabiliyor,
+  sonrasında kullanılamaz. Üsküp'ten kalkış saati buna göre seçilecek.
+- Üsküp rahat: giriş 14:00 – 02:00, tuş takımıyla. Priştine otobüsü gecikse bile kapı açılır.
+- Dıraç: giriş en erken 15:00, kilitli kutuyla. Ohrid'den ilk otobüsle çıkılırsa sorun yok.
+- Çıkışlar: Üsküp en geç 10:00 · Ohrid en geç 10:00 · Dıraç en geç 11:00.
+- Üçünde de **kendi kendine giriş** var, karşılayan kimse yok — kod ve kutu şifresi telefonda
+  hazır olsun (sitenin Cepte bölümündeki gizli alanlara girilir, cihazda kalır).
+- Ev sahibi telefonları belirlenecek; rezervasyon onayındaki numarayı yola çıkmadan gir.
 
 ### 🛂 Sınır geçişleri — önemli
 - Rotada tek kara sınırı Ohrid – Dıraç bacağında; otobüsteki bekleme süresi değişken.
@@ -275,6 +365,15 @@ Korkutmak için değil — önceden bilinirse hiçbiri sorun olmaz. Sitede ayrı
 - Küçük ilaç çantası: ağrı kesici, bağırsak ilacı, yara bandı, elektrolit.
 - Seyahat sağlık sigortası kalkıştan önce alınacak.
 
+### 🏠 Konaklama güvenliği — önemli
+- Üç konaklamanın hiçbirinde **karbonmonoksit alarmı yok**; Üsküp ve Dıraç'ta duman dedektörü de
+  yok (Ohrid'de var).
+- Üsküp ve Dıraç'ta mutfak var: ocak ya da şofben kullanırken pencereyi aralık bırak, kullanmadığın
+  anda vanayı kapat.
+- Gaz kokusu alırsan pencereyi aç, ateş yakma, elektrik düğmelerine dokunma, dışarı çık.
+- Dıraç'ta mülkte dış mekân güvenlik kamerası olduğu ilanda belirtilmiş — bilerek bulun.
+- Ohrid'de merdiven çıkmak gerekiyor; ağır valizle ve karanlıkta dikkat.
+
 ---
 
 ## 7. Görsel envanteri
@@ -325,6 +424,15 @@ Sitede `TUR.sehirler[].konum` ve `TUR.harita.havalimanlari[].konum` alanlarında
 | 5 | Tiran | Q19689 | 41.3283, 19.8181 |
 | ✈ | Priştine Adem Yaşari Havalimanı (PRN) | Q643783 | 42.5728, 21.0358 |
 | ✈ | Tiran Nene Tereza Havalimanı (TIA) | Q217226 | 41.4147, 19.7206 |
+
+Konaklama koordinatları — Airbnb ilan haritalarından, `TUR.cepte.konaklamalar[].konum`
+alanında duruyor. Haritada ayrı ikonla (🏠 kum rengi kare pin) çizilir:
+
+| Yer | Koordinat |
+|---|---|
+| 🏠 Universe Hostel (Üsküp) | 41.982601, 21.433764 |
+| 🏠 AGH Elite Studio No. 10 (Ohrid) | 41.116653, 20.805831 |
+| 🏠 Red Crab dairesi (Dıraç) | 41.311130, 19.439557 |
 
 Leaflet 1.9.4 SRI hash'leri (dosyalar indirilip SHA-384 hesaplandı; unpkg ve cdnjs aynı):
 
@@ -390,6 +498,76 @@ açısından beklenen kalıp bu.
 ---
 
 ## Yapılanlar
+
+### 4 Ağustos 2026 — dokuzuncu oturum
+
+**Konaklamalar netleşti — üç Airbnb siteye işlendi**
+- Veri ilan sayfalarından ve haritadan doğrulandı: tesis adı, tip, adres (latin + yerel
+  alfabe), koordinat, giriş/çıkış saatleri, giriş yöntemi, ev sahibi, mesafeler, olanaklar,
+  güvenlik donanımı, puan, ilan numarası. Doğrulanmayan her alana _belirlenecek_ yazıldı.
+- `TUR.konaklama` tablosu ve `TUR.cepte.konaklamalar` dolduruldu. İkincisi zenginleşti ama
+  eski alan adları (`sehir`, `tarih`, `tesis`, `adres`, `rezervasyon`) korundu.
+- Yeni `geceler[]` alanı gün eşlemesi: Bugün ekranı ve harita popup'ı bunu okuyor.
+
+**"Taksiciye göster" kutusu devreye girdi**
+- Yerel alfabedeki adres 1.45rem, kalın, kart zemininden ayrışan yüzey ve kalın çerçeveyle
+  en üstte — telefonu şoföre uzatınca okunacak olan satır bu. Altında latin karşılığı,
+  Dıraç'ta ayrıca sözlü tarif ("Vollga, Arkeoloji Müzesi'nin yanı").
+- Maps bağlantısı **adresten değil koordinattan** üretiliyor: adres yazımı yanlış
+  eşleşebiliyor, koordinat eşleşmiyor.
+- Koyu temada `--c-deep` çerçeve zeminden daha koyu kalıp kayboluyordu; orada turkuaz kenara
+  geçildi (metin kontrastı zaten yüksek).
+- Tuzak: `.cep-satir` etiket sütunu esneyip "Giriş" kelimesi "Giri / ş" diye kırılıyordu
+  (sağdaki değer "dar pencere" rozetiyle uzayınca). Etikete `flex:0 0 auto` verildi.
+
+**Ohrid'in 19:00 kuralı üç yere işlendi**
+- Anahtar kutusu 13:00 – 19:00 arası çalışıyor; sonrası kapalı. Bu yüzden Üsküp'ten kalkış
+  saati bu kısıta göre seçilecek.
+- Yeni `gunler[].uyari` alanı: gün kartının en üstünde, riskten daha sert bir kutu.
+  13 Ağustos'ta 🔑, 19 Ağustos'ta 🌙 ile çıkıyor; Bugün ekranında da görünüyor.
+- Konaklama kartında ayrı uyarı + "dar pencere" rozeti; `dikkatEdilecekler` içine
+  `seviye: "kritik"` "Eve giriş pencereleri" kartı eklendi.
+
+**19 Ağustos boşluğu netleşti**
+- Dıraç'tan çıkış en geç 11:00, uçuş 20 Ağustos 02:15 — arada ~14 saat, valizler elde.
+- Bugün ekranında o güne özel "konaklama yok" bloğu: çıkış, bagaj emaneti (yer
+  _belirlenecek_), ~23:30 hareket, kalkış saati.
+
+**Gizli alanlar — kod kaynak koda yazılmıyor**
+- Depo public olduğu için kapı kodu, kilitli kutu şifresi ve wifi şifresi `TUR` objesine
+  KONMADI. Cepte bölümündeki alanlara girilince `localStorage`'a (`balkan2026.gizli`)
+  yazılıyor, yanında "Sil" düğmesi çıkıyor.
+- Yedekleme akışına dâhil edildi; ama birleştirme kuralı farklı: `birlestir:false` ile
+  **mevcut değer korunuyor**, üstüne yazılmıyor. İki farklı kilit kodunu "———" ile alt alta
+  eklemek anı notunda anlamlı, kapı kodunda değil. Test edildi: yerelde "YERELKOD" varken
+  "GELENKOD" içeren yedek yüklendi — yerel değer kaldı, yalnızca yeni anahtar eklendi.
+- Yedek kutusunun açıklaması güncellendi: dosya kodları da içeriyor, yalnızca kendi
+  cihazlarınızla paylaşın.
+- Yazdırmada kodlar **basılıyor** (kâğıt yedeği kapıda işe yarasın diye), silme düğmesi ve
+  açıklama satırı basılmıyor.
+
+**Harita: üç konaklama işaretçisi**
+- Şehir pinleri turkuaz damla, havalimanları lacivert daire, konaklamalar kum rengi
+  yuvarlatılmış kare (🏠) — üçü birbirinden hem renk hem biçimle ayrılıyor.
+- Popup: ev adı, şehir + geceler, giriş penceresi, çıkış saati, giriş yöntemi, Maps
+  bağlantısı. **Kapı kodu popup'a konmuyor.**
+- Kod mevcut `try` bloğunun içinde; Leaflet yoksa bölüm eskisi gibi `data-durum="hata"`
+  ile yedek kutuya düşüyor. Ölçüldü: 5 durak + 2 havalimanı + 3 ev pini, durum "hazir".
+
+**Dıraç Arkeoloji Müzesi programa girdi**
+- Saatler: pzt-prş 09:00-16:00, cuma 08:00-14:00, hafta sonu kapalı. 16 Ağustos pazar
+  kapalı olduğu için müze **17 Ağustos pazartesiye** kondu; ücret _kontrol edilecek_.
+- Evden ~70 m: öğlen sıcağında kapalı alana kaçmanın en kolay yolu olarak not düşüldü.
+
+**Ölçümler**
+- 320 / 390 / 768 / 1440 px: belge düzeyinde yatay kaydırma yok. Konaklama listesi 320 ve
+  390'da tek sütun, 768 ve 1440'ta üç sütun (`minmax(0,1fr)`).
+- Viewport dışına taşan tek şey kasıtlı yatay şeritlerin içeriği (üst çubuk, hava şeridi).
+- Yazdırma kuralları geçici olarak `screen`'e çevrilip ölçüldü: koyu tema açıkken bile
+  beyaz zemin, siyah metin, gün kartları açık, kodlar görünür, silme düğmesi gizli.
+- `?tarih=2026-08-13` / `-16` / `-19` ile Bugün ekranı doğrulandı.
+- `sw.js` cache sürümü `balkan-v1` → `balkan-v2`; eski cache'ler `activate` içinde
+  `BIZIM_CACHELER` dışındaki her adı silerek temizleniyor (kod okundu, mantık doğru).
 
 ### 4 Ağustos 2026 — sekizinci oturum
 
@@ -674,13 +852,23 @@ her genişlikte blok listesi. Önceki turun mobil düzeltmeleri bozulmadı.
 
 ## Bekleyenler / belirlenecek
 
-- [ ] Konaklama isimleri ve rezervasyonları — Üsküp, Ohrid, Dıraç
+- [x] ~~Konaklama isimleri ve rezervasyonları — Üsküp, Ohrid, Dıraç~~ — 4 Ağustos'ta üç Airbnb
+      siteye işlendi (bölüm 2)
+- [ ] **Üsküp'te klima teyidi** — ilanda yazmıyor, bir yorum "klima yok" diyor; ev sahibine sorulacak
+- [ ] **Ohrid'in 19:00 giriş kısıtına uygun Üsküp → Ohrid otobüsü seçilecek** — anahtar kutusu
+      13:00 – 19:00 arası çalışıyor, sonrası kapalı
+- [ ] **Ev sahibi telefonları ve Airbnb rezervasyon kodları** — üçü için de; girilince sitede
+      `tel:` bağlantısı ve kopyalanabilir kod kendiliğinden çıkar
+      (Üsküp'ün tesis yedek hattı +389 75 383 868 girildi)
 - [ ] Toplam ve kişi başı günlük bütçe
 - [ ] Şehirlerarası otobüs biletleri ve **kalkış saatleri** (Priştine-Üsküp, Üsküp-Ohrid,
       Ohrid-Dıraç, Dıraç-Tiran son minibüs)
-- [ ] Tiran'da bagaj emaneti konumu ve çalışma saatleri
+- [ ] **Tiran'da bagaj emaneti konumu ve çalışma saatleri** — 19 Ağustos'un belkemiği:
+      Dıraç'tan çıkış 11:00, uçuş 02:15, arada ~14 saat valizle
 - [ ] Sveti Naum tekne saatleri ve giriş ücreti
 - [ ] Dajti teleferiği, Bunk'Art, Dıraç amfitiyatrosu açılış saatleri ve ücretleri
+- [ ] Dıraç Arkeoloji Müzesi giriş ücreti (saatler biliniyor: pzt-prş 09:00-16:00,
+      cuma 08:00-14:00, hafta sonu kapalı — müze 17 Ağustos'a kondu)
 - [ ] Seyahat sağlık sigortası poliçesi
 - [ ] 20 Ağustos 04:50 Sabiha Gökçen inişi sonrası eve dönüş planı
 - [ ] Bilet PDF'lerinin `docs/` altına eklenmesi
@@ -690,9 +878,11 @@ her genişlikte blok listesi. Önceki turun mobil düzeltmeleri bozulmadı.
 - [ ] Bill Clinton Bulvarı, Blloku ve Bunk'Art için uygun görsel bulunursa galeriye eklenecek
 - [ ] Site gerçek bir telefonda açılıp gözle kontrol edilecek (ölçümler tarayıcıda yapıldı,
       dokunma hissi cihazda test edilmedi)
-- [ ] Konaklama adresleri belli olunca haritaya otel işaretçisi eklenebilir
-- [ ] Konaklama adresleri ve rezervasyon numaraları `TUR.cepte.konaklamalar` içine girilecek;
-      girilince "taksiciye göster" kutusu ve harita bağlantısı kendiliğinden çalışacak
+- [x] ~~Konaklama adresleri belli olunca haritaya otel işaretçisi eklenebilir~~ — üç ev
+      işaretçisi eklendi (kum rengi 🏠 pin, popup'ta giriş saati ve Maps bağlantısı)
+- [x] ~~Konaklama adresleri `TUR.cepte.konaklamalar` içine girilecek; girilince "taksiciye
+      göster" kutusu ve harita bağlantısı çalışacak~~ — 4 Ağustos'ta yapıldı. Rezervasyon
+      kodları hâlâ bekliyor (yukarıda).
 - [ ] Seyahat sigortası acil hattı `TUR.cepte.acil` içine eklenecek
 - [x] ~~**28 Temmuz 2026'dan sonra** hava durumu şeridinde gerçek tahmin görünmeye
       başlayacak~~ — 29 Temmuz'da kontrol edildi; gelmiyordu, `forecast_days=16` eksikti,
