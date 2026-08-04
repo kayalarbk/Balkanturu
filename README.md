@@ -68,7 +68,7 @@ dokunmak gerekmez.**
 | `sehirler` | Şehir kartları: tema, rehber tanıtımı, "Öne çıkanlar", `kapak` görseli, `galeri` dizisi |
 | `gunler` | 9 günlük program: tarih, başlık, özet, akış, rehber notları, `risk`, `uyari`, gece bilgisi |
 | `ulasim` | Ulaşım özeti tablosu: bacak, süre, yöntem, durum |
-| `harita` | Harita ayarları: karo kaynağı ve atıf, zoom sınırları, havalimanları, yedek metin |
+| `harita` | Harita ayarları: karo kaynağı ve atıf, zoom sınırları, havalimanları, yedek metin, `odak` (şerit metinleri ve zoom seviyeleri), `cevrimdisi` (indirilecek karo tarifi) |
 | `dikkatEdilecekler` | "Nelere dikkat etmeli" kartları: ikon, başlık, `seviye`, maddeler |
 | `cepte` | Cepte bölümü: uçuş kodları, konaklamalar (adres/koordinat/giriş/gizli alanlar), acil numaralar, temel kelimeler |
 | `havaDurumu` | Open-Meteo ayarları, gün→şehir eşlemesi, mevsim normalleri, uyarı eşikleri |
@@ -103,6 +103,9 @@ dokunmak gerekmez.**
   mevcutların listesi `PLAN.md` bölüm 8'de. Konaklamalar ayrı ikonla (kum rengi 🏠 kare pin)
   çizilir ve `cepte.konaklamalar[].konum` alanından okunur; şehir pinleri turkuaz damla,
   havalimanları lacivert dairedir — yeni bir işaretçi türü eklerken bu üçünden ayrış.
+  Bu gece kalınan ev kırmızı halkalı basılır (`.ev-pin.bugun`).
+  **Odak şeridi kendiliğinden kurulur:** yeni bir şehir `haritaSira` alırsa şeride de çipi
+  gelir; o şehirde `cepte.konaklamalar` kaydı varsa çip merkeze değil eve gider.
 - **Leaflet sürümü değişirse** SRI hash'i de değişmeli: dosyayı indirip SHA-384'ünü
   hesapla, base64'e çevir, `integrity` değerini güncelle. Hash tutmazsa tarayıcı
   script'i çalıştırmaz ve harita sessizce yedek kutuya düşer.
@@ -250,8 +253,8 @@ izleyebilirsin. Dört cache olur:
 
 | Cache | Sürümlü mü | İçerik |
 |---|---|---|
-| `balkan-v4-shell` | evet | `index.html`, manifest, ikon, şehir kapakları, Leaflet |
-| `balkan-v4-hava` | evet | Son başarılı Open-Meteo yanıtı |
+| `balkan-v5-shell` | evet | `index.html`, manifest, ikon, şehir kapakları, Leaflet |
+| `balkan-v5-hava` | evet | Son başarılı Open-Meteo yanıtı |
 | `balkan-gorsel` | **hayır** | Wikimedia galeri ve lezzet görselleri |
 | `balkan-karo` | **hayır** | İndirilen OpenStreetMap harita karoları |
 
@@ -270,7 +273,7 @@ ve sayfada **"✨ Yeni sürüm hazır / Yenile"** çubuğu çıkar. Yenile'ye ba
 devralır.
 
 Önbelleklenen dosya listesi değiştiyse (`sw.js` içindeki `APP_SHELL`) ya da eski önbelleğin
-tamamen atılması gerekiyorsa **`CACHE_VERSION` sabitini artır** (`balkan-v3` → `balkan-v4`).
+tamamen atılması gerekiyorsa **`CACHE_VERSION` sabitini artır** (`balkan-v4` → `balkan-v5`).
 Eski cache'ler `activate` sırasında otomatik silinir — `balkan-gorsel` ve `balkan-karo` hariç,
 onlar `BIZIM_CACHELER` içinde ve sürümden bağımsız durur.
 
@@ -288,6 +291,19 @@ Takılırsan: DevTools → Application → Service Workers → *Unregister*, son
 | **Harita — "Çevrimdışına al" ile indirildiyse tam** | İndirilmemişse, daha önce hiç açılmamış bölgeler |
 
 Gelmeyen görsellerin yerine degrade renkli yer tutucu + mekân adı çıkar; sayfa bozulmaz.
+
+### Haritayı yolda kullanmak
+
+| Ne | Nasıl |
+|---|---|
+| **Odak şeridi** | Haritanın üstündeki çipler. Bir şehre dokun → o şehrin evinin kapısına gider (z16); evi yoksa merkeze (z14). Atlamalar ani: hem hızlı hem karo tüketmiyor |
+| **Açılış** | Tur sürerken harita bugünün evinde açılır, o pin kırmızıdır. Tur dışında tüm rota görünür ve "Bugün" çipi çıkmaz |
+| **📍 Konumum** | Nabızlı mavi nokta + doğruluk çemberi, altta **"Bu geceki ev: 420 m · ±12 m"**. GPS internetsiz çalışır — uçak modunda bile. Tekrar basınca kapanır |
+| **⛶ Tam ekran** | Harita ekranı kaplar, Esc kapatır |
+| **Ev popup'ı** | Adres yerel alfabede büyük punto + latin + kopyala + yol tarifi. Kapı/wifi kodları **popup'a konmaz** — onlar Cepte bölümünde ve günün kartında |
+
+Zoom 18'e kadar açılır ama **z16'nın ötesinde karo indirilmez**: Leaflet z16'yı büyütür.
+Bulanık görünür, konumlar doğrudur, veri harcamaz.
 
 ### Haritayı çevrimdışına almak
 

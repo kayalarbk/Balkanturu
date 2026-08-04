@@ -15,8 +15,8 @@
 /* index.html her değiştiğinde artırılır — yoksa siteyi ana ekrana eklemiş
    cihazlar eski sürümü görmeye devam eder. Eski cache'ler activate içinde
    silinir (BIZIM_CACHELER dışındaki her ad temizlenir).
-   v4 — 4 Ağustos 2026: çevrimdışı harita karoları, günün kartı. */
-const CACHE_VERSION = "balkan-v4";
+   v5 — 4 Ağustos 2026: harita odak şeridi, konumum, tam ekran. */
+const CACHE_VERSION = "balkan-v5";
 const SHELL_CACHE = CACHE_VERSION + "-shell";
 const HAVA_CACHE = CACHE_VERSION + "-hava";
 

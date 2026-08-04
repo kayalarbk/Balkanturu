@@ -9,8 +9,8 @@
 **Son güncelleme:** 4 Ağustos 2026
 **Depo:** https://github.com/kayalarbk/Balkanturu (`main`)
 **Yayın:** https://kayalarbk.github.io/Balkanturu/ (GitHub Pages, `main` / root — build adımı yok)
-**Son commit:** `d5c06e4` + çevrimdışı harita ve günün kartı oturumu
-**Çalışma ağacı:** temiz · **Toplam commit:** 19 · **Oturum sayısı:** 11
+**Son commit:** `699e9ee` + harita kullanılabilirlik oturumu
+**Çalışma ağacı:** temiz · **Toplam commit:** 20 · **Oturum sayısı:** 12
 
 ---
 
@@ -69,8 +69,8 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 
 | Dosya | Satır / boyut | Ne işe yarar |
 |---|---|---|
-| `index.html` | **5.078 satır** (~235 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
-| `sw.js` | 168 satır | Service worker — çevrimdışı çalışma, dört cache (ikisi sürümsüz, aşağıda) |
+| `index.html` | **5.534 satır** (~258 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
+| `sw.js` | 174 satır | Service worker — çevrimdışı çalışma, dört cache (ikisi sürümsüz, aşağıda) |
 | `manifest.json` | — | PWA künyesi: standalone, portrait, tema `#0b2a45`, 2 kısayol (Bugün · Cepte) |
 | `icon.svg` | — | Uygulama ikonu (`any` + `maskable`) |
 | `docs/img/` | 5 kapak + `KAYNAKLAR.md` | Yerele indirilmiş şehir kapakları ve lisans listesi |
@@ -104,7 +104,7 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 | `sehirler` | 5 şehir kartı: tema, rehber tanıtımı, öne çıkanlar, `kapak`, `galeri`, `lezzetler`, `konum` | ✅ (5 şehir haritada) |
 | `gunler` | **9 günlük program**: tarih, başlık, akış, notlar, `risk`, `uyari`, gece | ✅ (giriş/çıkış saatleri işlendi; otobüs saatleri açık) |
 | `ulasim` | Bacak / süre / yöntem / durum tablosu | ⚠️ saatler "kontrol edilecek" |
-| `harita` | Karo kaynağı, atıf, zoom sınırları (6–**16**), havalimanları, yedek metin, **`cevrimdisi`** karo tarifi | ✅ |
+| `harita` | Karo kaynağı, atıf, zoom (6–18, karo z16'ya kadar), havalimanları, yedek metin, **`odak`** şeridi metinleri, **`cevrimdisi`** karo tarifi | ✅ |
 | `dikkatEdilecekler` | **12 kart**, `seviye`: kritik / önemli / bilgi | ✅ |
 | `cepte` | Uçuş kodları, üç konaklama (adres/koordinat/giriş), acil numaralar, kelimeler | ⚠️ ev sahibi telefonları, rezervasyon kodları ve sigorta hattı boş |
 | `havaDurumu` | Open-Meteo ayarı, gün→şehir eşlemesi, mevsim normalleri, uyarı eşikleri | ✅ çalışıyor |
@@ -134,6 +134,7 @@ karoları evdeyken indirip tarayıcının Cache Storage'ına yazar.
 | | |
 |---|---|
 | Kapsam | Rota geneli z7–8 · 5 şehir z12–14 · 3 ev z15–16 · 2 havalimanı z13 |
+| Zoom sınırı | Harita z18'e kadar yakınlaşır ama **z16'nın ötesinde karo istemez** (`maxNativeZoom`): Leaflet z16'yı büyütür. Bulanık, konum doğru, veri sıfır |
 | Toplam | **236 karo, ~4,7 MB** (ölçüldü) |
 | Süre | ~1 dakika — 2 eşzamanlı istek, her istekten sonra 200 ms ara |
 | Cache adı | `balkan-karo` — **`index.html` ve `sw.js` arasında ortak, sürümsüz** |
@@ -153,6 +154,23 @@ da karo ister, dar kutu kenarlarda gri bırakıyordu.
 ölçümde (3 eşzamanlı, 90 ms ara) son ~15 karo reddedildi; hız düşürüldü ve reddedilenler için
 tek sıralı, 800 ms aralıklı ikinci tur eklendi. Toplam 236/236 alındı.
 
+### Karo tüketimi (ölçüldü, 390 px)
+
+Karo indirmesi *ilk* açılışı çözüyor; asıl tasarruf haritanın günlük kullanımında.
+
+| Adım | Kümülatif benzersiz karo |
+|---|---|
+| Açılış (bugünün evi, z16) | **6** |
+| + Dıraç'a atla | 10 |
+| + Priştine'ye atla | 14 |
+| + Tüm rota | 20 |
+| + Bugün'e dön | 20 (yeni istek yok) |
+
+Bunu sağlayan dört karar: açılışta tüm rota yerine **bugünün evi** (kuşbakışı 15 karo isterken
+6); şerit atlamaları **ani** — `flyTo` aradaki bütün zoom seviyelerinden karo isterdi;
+`updateWhenIdle` telefonda kaydırma boyunca değil parmak kalkınca ister; `keepBuffer:1` görüş
+alanı dışındaki karo halkasını yarıya indirir.
+
 ---
 
 ## 3. Sitenin bölümleri (12 bölüm)
@@ -170,7 +188,7 @@ tek sıralı, 800 ms aralıklı ikinci tur eklendi. Toplam 236/236 alındı.
 | 5 | `rota` | 🧭 Rota | Mobilde dikey akış, 1040 px üstünde yatay şerit |
 | 6 | `sehirler` | 🏙 Şehirler | 5 kart + galeri + lezzetler + favori kalpleri |
 | 7 | `program` | 🗓 Program | 9 günlük accordion, bugün olan gün vurgulanıp açılır |
-| 8 | `harita-bolumu` | 🗺 Harita | Leaflet; `data-durum` ile bekliyor/tamam/yedek; altında çevrimdışı karo kutusu |
+| 8 | `harita-bolumu` | 🗺 Harita | Leaflet; odak şeridi + 📍konum + ⛶tam ekran; `data-durum` ile bekliyor/tamam/yedek; altında çevrimdışı karo kutusu |
 | 9 | `ulasim` | 🚌 Ulaşım | 700 px altında kart görünümüne dönen tablo |
 | 10 | `dikkat` | ⚠ Dikkat | 10 kart, seviyeye göre kenar rengi ve etiket |
 | 11 | `pratik` | 💡 Pratik | Para, bütçe, elektrik, sağlık, adap, kelimeler |
@@ -190,7 +208,11 @@ tek sıralı, 800 ms aralıklı ikinci tur eklendi. Toplam 236/236 alındı.
 | Yerel lezzetler | Görsel **16:9 tam genişlik bant** (her ekranda ölçülen oran 1.78) |
 | Geri sayım (3 durumlu) | Kalkış öncesi "Yola çıkmaya kalan" → tur içinde "Dönüşe kalan + N. gün / 8" → sonra "Tur tamamlandı" |
 | Bugün ekranı | `tarihISO` eşleşince kart + o günün vurgusu; **o geceki konaklama bloğu** (ya da 19 Ağustos'un "konaklama yok" bloğu); `?tarih=2026-08-15` ile test edilebilir |
-| Rota haritası | Leaflet, 5 şehir + 2 havalimanı + **3 konaklama** işaretçisi (ayrı renk/ikon), gün kartlarına bağlı; yedek kutusu var; zoom 6–16 |
+| Rota haritası | Leaflet, 5 şehir + 2 havalimanı + **3 konaklama** işaretçisi (ayrı renk/ikon), gün kartlarına bağlı; yedek kutusu var |
+| **Harita odak şeridi** | Tüm rota · Bugün · 5 şehir çipi. Şehrin evi varsa doğrudan kapısına gider (z16), yoksa merkeze (z14). Tur sürerken harita **bugünün evinde** açılır, o pin kırmızı |
+| **📍 Konumum** | `watchPosition` + nabızlı nokta + doğruluk çemberi; rozet **"Bu geceki ev: 420 m · ±12 m"** yazar ve yürüdükçe güncellenir. GPS internetsiz çalışır. İzin reddi / zaman aşımı / destek yok için ayrı metinler; sekme arkaya atılınca GPS bırakılır |
+| **⛶ Tam ekran** | Harita sayfa akışından çıkıp ekranı kaplar; Esc kapatır, güvenli alan Leaflet denetimlerine uygulanır |
+| Ev popup'ı | Kartın küçük hâli: adres yerel alfabede büyük punto, latin karşılığı, giriş/çıkış, adres kopyala + yol tarifi. Genişlik kabın enine göre hesaplanır. **Kodlar popup'a konmaz** |
 | **Çevrimdışı harita** | 236 karo (~4,7 MB) tek dokunuşla indirilir; durdurulabilir, eksikler tamamlanabilir, silinebilir; reddedilen karolar için ikinci tur |
 | **Günün kartı** | Üst çubuktaki "Kart" düğmesi — tam ekran, tek bakışlık: o geceki evin adresi (yerel alfabede büyük punto) + kapı kodu + wifi + ev sahibi telefonu + günün ulaşımı + o ülkedeki büyükelçilik + 112; oklarla günler arası gezinti, Esc kapatır |
 | Hava durumu şeridi | Open-Meteo `forecast_days=16`, sıcak/yağmur uyarı rozetleri, 3 saat önbellek |
@@ -277,6 +299,13 @@ Yedek dosyası bu kodları **içerir** — yalnızca kendi cihazlarınızla payl
 | Karo kutusunu rotanın sınırına oturtmak | Leaflet görüş alanının dışından da karo ister; dar kutu kenarlarda gri bırakır → kutu bilerek geniş |
 | OSM'den hızlı toplu çekim | 3 eşzamanlı + 90 ms arayla son ~15 karo reddedildi → 2 eşzamanlı + 200 ms, reddedilenlere ikinci tur |
 | Koyu temada `--c-sand` | `--c-yuzey` ile aynı değere düşüyor; kart içi gömme kutular ayırt edilmiyor → koyuda `--c-cream`'e in |
+| Koyu temada `--c-deep` | Sayfa zeminiyle neredeyse aynı; **seçili** durum (çip, harita düğmesi) kayboluyor → koyuda işaret rengi `--c-teal` |
+| Flex kabındaki yazılı düğme | `flex-shrink` varsayılanı içeriğin altına sıkıştırıp "Ka / rt" diye kırıyor → `flex:0 0 auto` + `white-space:nowrap` |
+| Leaflet popup `maxWidth` | Varsayılan 300 px, 320 px'lik telefonda haritadan taşıyor → `popupopen`'da kabın o anki eninden hesapla (tam ekran ve döndürme de doğru olsun) |
+| Harita kilidinin etiketi | Ortadaydı; harita artık bugünkü evin üstünde açıldığı için tam da görülmesi gereken pini kapatıyordu → etiket altta |
+| Masaüstünde harita kilidi | Kilit yalnızca dokunmatikte gerekli (tek parmak sayfayı değil haritayı sürüklerdi). Farede bedeli var, faydası yok → `if (!L.Browser.mobile) etkinlestir()` |
+| Haritada `flyTo` | Aradaki bütün zoom seviyelerinden karo ister; yurt dışında doğrudan fatura → şerit atlamaları `setView(..., {animate:false})` |
+| Tarayıcıda `data-tema`'yı elle değiştirip ölçmek | Yüklenmiş sayfada attribute'u JS'le değiştirince hesaplanan stil güvenilmez okundu (yanlış "hata" buldurdu) → temayı `balkan2026.tema` ile **yüklenmeden önce** ayarla, sonra ölç |
 | `.gk-satir b` gibi seçiciler | Değerin içinde de `<b>` geçebiliyor; etiket biçimi ona bulaşmasın diye **doğrudan çocuk** (`> b`) yaz |
 
 ---
@@ -313,6 +342,7 @@ kontrolü yapılmadı.**
 | 7 | 29 Tem 2026 | Üst gezinme çubuğu, karanlık tema, yazdırma çıktısı, kayıt yedekleme; **hava tahmini düzeltildi** (`forecast_days=16` eksikti) |
 | 8 | 4 Ağu 2026 | `progress.md` oluşturuldu |
 | 10 | 4 Ağu 2026 | **Tasarım sadeleştirildi:** konaklama kartı yeniden kuruldu, rezervasyon anına ait künyeler (puan, olanaklar) siteden çıkarıldı, Bugün ekranındaki tekrarlar kaldırıldı, hava durumundaki "0°" hatası düzeltildi |
+| 12 | 4 Ağu 2026 | **Harita yolda kullanılacak hâle getirildi:** odak şeridi, 📍konumum (eve mesafe), ⛶tam ekran, işe yarar ev popup'ı; karo tüketimi açılışta 15'ten 6'ya indi |
 | 11 | 4 Ağu 2026 | **Çevrimdışı harita ve günün kartı:** 236 karo indirilebilir hâle geldi (cache'ler sürümsüzleştirildi, OSM hız sınırına göre ayarlandı), üst çubuğa tam ekran "Kart" eklendi |
 | 9 | 4 Ağu 2026 | **Konaklamalar işlendi:** üç Airbnb (adres + koordinat), taksiciye göster kutusu, Ohrid 19:00 kritik uyarısı, 19 Ağustos boşluğu, gizli kod alanları, haritada ev pinleri, Dıraç Arkeoloji Müzesi, `sw.js` v2 |
 
@@ -359,6 +389,10 @@ Ayrıntılı oturum günlüğü (sebep–çözüm anlatımıyla): `PLAN.md` → 
       doğrulanmadı
 - [ ] Günün kartını gerçek telefonda dene: adres puntosu taksicinin okuyacağı kadar büyük mü,
       ekran görüntüsü kilit ekranında okunuyor mu
+- [ ] **📍 Konumum'u gerçek telefonda, gerçek GPS ile dene** — tarayıcıda yalnızca sahte konumla
+      sınandı. Site HTTPS'te (GitHub Pages) olduğu için izin istenebilmeli; ilk sabitleme süresi
+      ve "eve X m" doğruluğu yerinde görülmeli
+- [ ] Tam ekran haritayı çentikli iPhone'da dene — Leaflet denetimleri adanın altında kalmamalı
 - [ ] Kalan lezzetlere görsel (sac böreği, kebap, Skopsko, deniz mahsulleri) — uygun bulunursa
 - [ ] Bill Clinton Bulvarı, Blloku, Bunk'Art için galeri görseli — uygun bulunursa
 - [ ] Hava durumu penceresi açıldıkça mevsim normallerinin gerçek tahmine dönmesini izle

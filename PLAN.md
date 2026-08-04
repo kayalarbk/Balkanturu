@@ -501,6 +501,65 @@ açısından beklenen kalıp bu.
 
 ## Yapılanlar
 
+### 4 Ağustos 2026 — on ikinci oturum
+
+**Harita yolda kullanılacak hâle getirildi**
+- Sorun teşhisi: harita "tüm rotayı seyret" için kuruluydu. Kuşbakışı açılıyor, tek parmakla
+  doğru şehri arayıp yakınlaştırmak gerekiyordu. Oysa yolda sorulan soru tek: *şimdi nereye
+  gideceğim, ev nerede, ben neredeyim.*
+- **Odak şeridi.** Haritanın üstünde çipler: Tüm rota · Bugün · 1 Priştine … 5 Tiran. Bir
+  şehre dokununca o şehrin **evinin kapısına** gidiyor (z16); evi olmayan şehirde merkeze
+  (z14) ve ilgili popup açılıyor. Bugünün durağı çipte turkuaz noktayla işaretli.
+- **Açılış görünümü değişti.** Tur sürerken harita artık bugünün evinde açılıyor, o pin
+  kırmızı halkalı. Tur dışındaki tarihlerde eski davranış (tüm rota) sürüyor ve "Bugün"
+  çipi hiç çıkmıyor.
+- **📍 Konumum.** `watchPosition` ile nabızlı mavi nokta + doğruluk çemberi; rozet
+  **"Bu geceki ev: 420 m · ±12 m"** yazıyor ve yürüdükçe güncelleniyor. Bu geceki ev yoksa
+  en yakın ev ölçülüyor. GPS internet gerektirmiyor — uçak modunda, roaming kapalıyken de
+  çalışır; turun en çok işe yarayacak harita özelliği muhtemelen bu.
+  İzin reddi / zaman aşımı / tarayıcı desteklemiyor için ayrı ve yönlendirici metinler var.
+  Sekme arkaya atılınca GPS bırakılıyor (pil).
+- **⛶ Tam ekran.** 340 px'lik pencerede yön bulunmuyordu; harita sayfa akışından çıkıp ekranı
+  kaplıyor, Esc kapatıyor, güvenli alan Leaflet denetimlerine uygulanıyor.
+- **Ev popup'ı kartın küçük hâli oldu:** adres yerel alfabede büyük punto, latin karşılığı,
+  Dıraç'ta sözlü tarif, giriş/çıkış, "Adresi kopyala" ve "Yol tarifi". Kapı/kutu/wifi kodları
+  popup'a **konmuyor** — açık haritada, herkesin görebileceği bir ekranda durmamalı.
+- **Zoom sınırı 16 → 18, ama tek karo bile fazladan indirmeden.** `maxNativeZoom:16` ile
+  Leaflet z16 karosunu büyütüyor: bulanık, konum doğru, veri sıfır. GPS noktasıyla birlikte
+  "hangi bina" sorusunu cevaplıyor.
+- **Masaüstünde harita kilidi kaldırıldı.** Kilit yalnızca dokunmatikte gerekli (orada tek
+  parmak sayfayı değil haritayı sürüklerdi). Farede sürükleme sayfa kaydırmasını çalmıyor,
+  tekerlek zoom'u zaten kapalı. Dokunmatikte kalan kilit etiketi ortadan alta alındı —
+  harita bugünkü evin üstünde açıldığı için tam da görülmesi gereken pini kapatıyordu.
+
+**Verimlilik — ölçüldü (390 px)**
+
+| Adım | Kümülatif benzersiz karo |
+|---|---|
+| Açılış (bugünün evi) | **6** (eski kuşbakışı açılış 15 istiyordu) |
+| + Dıraç · + Priştine · + Tüm rota | 20 |
+| + Bugün'e dönüş | 20 — yeni istek yok |
+
+Dört karar: açılışta bugünün evi; şerit atlamaları **ani** (`flyTo` aradaki bütün zoom
+seviyelerinden karo isterdi — yurt dışında doğrudan fatura, üstelik 1,5 sn bekletiyordu);
+`updateWhenIdle` telefonda parmak kalkınca ister; `keepBuffer:1` görüş alanı dışındaki karo
+halkasını yarıya indirir.
+
+**Yol boyunca düzeltilenler**
+- Nav'daki "Kart" düğmesi flex kabında sıkışıp "Ka / rt" diye kırılıyordu → `flex:0 0 auto`.
+- Leaflet popup'ı 320 px'lik telefonda haritadan taşıyordu → genişlik `popupopen`'da kabın o
+  anki eninden hesaplanıyor (tam ekran ve ekran döndürme de kendiliğinden doğru).
+- Koyu temada seçili çip ve seçili harita düğmesi kayboluyordu: `--c-deep` sayfa zeminiyle
+  neredeyse aynı → koyuda işaret rengi `--c-teal`.
+- Konum rozeti ile kilit etiketi dar ekranda aynı bandı paylaşıyordu → kilit açıkken rozet
+  yukarı kayıyor.
+- **Ölçüm yöntemi hatası:** yüklenmiş sayfada `data-tema`'yı JS'le değiştirip hesaplanan stili
+  okumak güvenilmez sonuç verdi ve olmayan bir hata buldurdu. Doğrusu: temayı
+  `balkan2026.tema` ile sayfa **yüklenmeden önce** ayarlayıp öyle ölçmek.
+
+**Yapılmayan:** 📍 yalnızca sahte konumla sınandı; gerçek GPS ve tam ekranın çentikli
+telefondaki hâli cihazda görülmedi.
+
 ### 4 Ağustos 2026 — on birinci oturum
 
 **Çevrimdışı harita — karolar telefona indirilebiliyor**

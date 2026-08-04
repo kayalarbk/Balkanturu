@@ -1071,12 +1071,37 @@ const TUR = {
     baslik: "Rota haritası",
     yedekMetin: "Harita yüklenemedi — rota: Priştine → Üsküp → Ohrid → Dıraç → Tiran",
     etkinlestirMetni: "Haritayı etkinleştirmek için dokun",
-    ipucu: "Kaydırmak için haritaya dokun · yakınlaştırmak için iki parmak",
+    ipucu: "Şeritten bir yere dokun · iki parmakla yakınlaştır · 📍 ile kendini bul",
     minZoom: 6,
-    /* 13 idi; evin sokağını görebilmek için 16'ya çıkarıldı. Çevrimdışı
-       karo indirmesi de bu sınıra kadar iner — ikisi birlikte değişir. */
+    /* İndirilen en derin karo seviyesi. Çevrimdışı karo indirmesi de buraya
+       kadar iner — ikisi birlikte değişir. */
     maxZoom: 16,
+    /* Haritanın izin verdiği en derin zoom. 16'nın ötesinde yeni karo
+       İSTENMEZ; Leaflet z16 karosunu büyüterek gösterir (maxNativeZoom).
+       Bulanık ama konumlar doğru — GPS noktasıyla birlikte "hangi bina"
+       sorusunu cevaplıyor ve tek karo bile indirmiyor. */
+    enDerinZoom: 18,
     kenarBosluk: 36,
+
+    /* ---------- ODAK ŞERİDİ ----------
+       Yolda harita "tüm rotayı göster" için değil, "şimdi nereye gideceğim"
+       için açılıyor. Şeritteki her düğme haritayı bir yere uçuruyor; şehrin
+       evi varsa doğrudan eve, yoksa şehir merkezine. */
+    odak: {
+      tumRota: "Tüm rota",
+      bugun: "Bugün",
+      konumum: "Konumum",
+      sehirZoom: 14,
+      evZoom: 16,
+      /* Konum durumları — hepsi kullanıcıya gösterilen metin */
+      konumAraniyor: "Konum alınıyor…",
+      konumYok: "Bu tarayıcı konum paylaşmıyor.",
+      konumRed: "Konum izni verilmedi — telefonun ayarlarından açabilirsin.",
+      konumHata: "Konum alınamadı. Açık havada tekrar dene.",
+      konumIpucu: "GPS internetsiz de çalışır — uçak modunda bile yerini gösterir.",
+      tamEkran: "Tam ekran",
+      tamEkranKapat: "Tam ekranı kapat"
+    },
     karo: {
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       atif: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> katkıcıları'
@@ -2312,19 +2337,131 @@ tbody td:last-child{ padding-bottom:0; }
 .lightbox[data-tekli="1"] .lightbox-sayac{ display:none; }
 
 /* ===================== HARİTA ===================== */
+
+/* ---- odak şeridi: "şimdi nereye bakacağım" ----
+   Yolda tek parmakla kaydırıp doğru şehri aramak yerine tek dokunuş. */
+.harita-odak{
+  display:flex; gap:.35rem; margin-bottom:var(--s-3);
+  overflow-x:auto; overflow-y:hidden; scrollbar-width:none;
+  -webkit-overflow-scrolling:touch; scroll-snap-type:x proximity;
+  /* Şerit kenarlara kadar aksın ama ilk/son çip kenara yapışmasın */
+  padding-bottom:.2rem;
+}
+.harita-odak::-webkit-scrollbar{ display:none; }
+.odak-btn{
+  all:unset; box-sizing:border-box; cursor:pointer; flex:0 0 auto;
+  scroll-snap-align:start;
+  display:inline-flex; align-items:center; gap:.35rem;
+  min-height:44px; padding:.35rem .85rem;
+  background:var(--c-yuzey); border:1px solid var(--c-line); border-radius:var(--r-pill);
+  font-size:.88rem; font-weight:600; color:var(--c-ink);
+  transition:background .15s ease, color .15s ease, border-color .15s ease;
+}
+.odak-btn:hover{ border-color:var(--c-teal-soft); }
+.odak-btn:focus-visible{ outline:3px solid var(--c-teal-soft); outline-offset:2px; }
+.odak-btn[aria-pressed="true"]{ background:var(--c-deep); border-color:var(--c-deep); color:#fff; }
+/* Koyu temada --c-deep sayfa zeminiyle neredeyse aynı; seçili çip
+   kayboluyordu. Orada işaret rengi turkuaz. Aynısı harita düğmeleri için. */
+html[data-tema="koyu"] .odak-btn[aria-pressed="true"],
+html[data-tema="koyu"] .harita-dugme[aria-pressed="true"]{
+  background:var(--c-teal); border-color:var(--c-teal); color:#04222a;
+}
+html[data-tema="koyu"] .odak-btn[aria-pressed="true"] .odak-no{ background:rgba(0,0,0,.22); color:#04222a; }
+.odak-btn .odak-no{
+  display:grid; place-items:center; width:1.35rem; height:1.35rem; border-radius:50%;
+  background:var(--c-sand-2); color:var(--c-ink-soft); font-size:.72rem; font-weight:800;
+}
+.odak-btn[aria-pressed="true"] .odak-no{ background:rgba(255,255,255,.22); color:#fff; }
+/* Bugünün durağı şeritte de belli olsun */
+.odak-btn.bugun{ border-color:var(--c-teal); }
+.odak-btn.bugun::after{
+  content:""; width:.4rem; height:.4rem; border-radius:50%; background:var(--c-teal);
+}
+.odak-btn[aria-pressed="true"].bugun::after{ background:#fff; }
+
 .harita-kutu{
   position:relative; border-radius:var(--r-l); overflow:hidden;
   border:1px solid var(--c-line); box-shadow:var(--sh-2); background:var(--c-sand-2);
 }
-#harita{ height:320px; width:100%; background:var(--c-sand-2); }
+#harita{ height:340px; width:100%; background:var(--c-sand-2); }
 @media(min-width:700px){ #harita{ height:480px; } }
 
+/* ---- tam ekran ----
+   Yolda gerçekten yön bulurken 340 px'lik pencere yetmiyor. Sayfa akışından
+   çıkıp ekranı kaplar; güvenli alan Leaflet denetimlerini çentiğin altında
+   bırakmasın diye padding değil, denetimlere margin verilerek çözülür. */
+.harita-kutu[data-tam="1"]{
+  position:fixed; inset:0; z-index:120; border-radius:0; border:0;
+  box-shadow:none; background:var(--c-cream);
+}
+.harita-kutu[data-tam="1"] #harita{ height:100%; }
+.harita-kutu[data-tam="1"] .leaflet-top{ margin-top:env(safe-area-inset-top); }
+.harita-kutu[data-tam="1"] .leaflet-bottom{ margin-bottom:env(safe-area-inset-bottom); }
+
+/* ---- harita üstü düğmeler ----
+   Leaflet'in kendi denetimleri 800-1000 arasında; bunlar üstte kalmalı ki
+   kilit katmanı (500) da altlarında kalsın. */
+.harita-dugmeler{
+  position:absolute; z-index:1001; display:flex; flex-direction:column; gap:.4rem;
+  top:calc(var(--s-3) + env(safe-area-inset-top));
+  right:calc(var(--s-3) + env(safe-area-inset-right));
+}
+.harita-dugme{
+  all:unset; box-sizing:border-box; cursor:pointer;
+  width:44px; height:44px; display:grid; place-items:center;
+  background:var(--c-yuzey); color:var(--c-ink);
+  border:1px solid var(--c-line); border-radius:var(--r-s);
+  box-shadow:var(--sh-2); font-size:1.05rem; line-height:1;
+}
+.harita-dugme:hover{ background:var(--c-sand); }
+.harita-dugme:focus-visible{ outline:3px solid var(--c-teal-soft); outline-offset:2px; }
+.harita-dugme[aria-pressed="true"]{ background:var(--c-deep); color:#fff; border-color:var(--c-deep); }
+.harita-dugme[data-durum="bekliyor"]{ opacity:.6; }
+
+/* ---- konum rozeti: "evine 420 m" ----
+   Haritanın altında değil ÜSTÜNDE duruyor: tam ekranda da görünmesi gerek. */
+.konum-rozet{
+  position:absolute; z-index:1001;
+  left:calc(var(--s-3) + env(safe-area-inset-left));
+  bottom:calc(var(--s-6) + env(safe-area-inset-bottom));
+  max-width:min(22rem, calc(100% - 5.5rem));
+  padding:.45rem .8rem; border-radius:var(--r-pill);
+  background:var(--c-deep); color:#fff; font-size:.84rem; font-weight:600;
+  box-shadow:var(--sh-2); display:none;
+}
+.konum-rozet[data-acik="1"]{ display:block; }
+/* Kilit etiketi de altta duruyor; ikisi dar ekranda aynı bandı paylaşmasın */
+.harita-kutu[data-etkin="0"] .konum-rozet{ bottom:calc(var(--s-6) + 3.4rem); }
+.konum-rozet b{ font-variant-numeric:tabular-nums; }
+.konum-rozet.hata{ background:var(--c-warn-line); color:#2b1e05; }
+
+/* ---- kendi konumun ----
+   Leaflet divIcon; nabız animasyonu hareket azaltma tercihinde duruyor. */
+.konum-nokta{
+  width:18px; height:18px; border-radius:50%;
+  background:#2a7fff; border:3px solid #fff; box-shadow:0 0 0 1px rgba(0,0,0,.25);
+}
+.konum-nokta::before{
+  content:""; position:absolute; inset:-9px; border-radius:50%;
+  background:rgba(42,127,255,.28); animation:nabiz 2.2s ease-out infinite;
+}
+@keyframes nabiz{
+  0%{ transform:scale(.5); opacity:.9; }
+  100%{ transform:scale(1.6); opacity:0; }
+}
+
 /* Sayfa kaydırırken harita parmağı yakalamasın:
-   dokunulana kadar üstte şeffaf bir katman durur. */
+   dokunulana kadar üstte şeffaf bir katman durur. Odak şeridinden bir yere
+   gidildiğinde kilit kendiliğinden kalkar — kullanıcı zaten haritayla
+   ilgilendiğini söylemiş olur. */
 .harita-kilit{
-  position:absolute; inset:0; z-index:500; display:grid; place-items:center;
-  background:rgba(11,42,69,.28); color:#fff; cursor:pointer;
-  font-weight:700; font-size:.95rem; text-align:center; padding:var(--s-4);
+  position:absolute; inset:0; z-index:500; display:grid;
+  /* Etiket ORTADA DEĞİL, altta: harita artık bugünkü evin üstünde açılıyor
+     ve ortadaki etiket tam da görülmesi gereken pini kapatıyordu. */
+  place-items:end center;
+  background:rgba(11,42,69,.18); color:#fff; cursor:pointer;
+  font-weight:700; font-size:.95rem; text-align:center;
+  padding:var(--s-4) var(--s-4) var(--s-6);
   transition:opacity .2s ease;
 }
 .harita-kilit span{
@@ -2344,8 +2481,11 @@ tbody td:last-child{ padding-bottom:0; }
 }
 .harita-yedek small{ display:block; margin-top:var(--s-2); font-weight:400; color:var(--c-ink-soft); }
 #harita-bolumu[data-durum="hata"] .harita-kutu,
+#harita-bolumu[data-durum="hata"] .harita-odak,
 #harita-bolumu[data-durum="hata"] .harita-ipucu{ display:none; }
 #harita-bolumu[data-durum="hata"] .harita-yedek{ display:block; }
+/* Harita hazır olana kadar odak şeridi boş bir çubuk gibi durmasın */
+#harita-bolumu[data-durum="bekliyor"] .harita-odak{ display:none; }
 
 /* Numaralı durak işaretçisi */
 .durak-pin{
@@ -2366,6 +2506,12 @@ tbody td:last-child{ padding-bottom:0; }
   border:2px solid #fff; box-shadow:var(--sh-2); display:grid; place-items:center;
   font-size:.9rem;
 }
+/* Bu gece kalınan ev — on pin arasından gözle bulunması gereken tek pin */
+.ev-pin.bugun{
+  background:#c0392b;
+  box-shadow:0 0 0 4px rgba(192,57,43,.28), var(--sh-2);
+}
+
 /* Leaflet popup'ını site diline uydur */
 .leaflet-popup-content{ margin:var(--s-3) var(--s-4); font-family:var(--f-body); min-width:12rem; }
 .harita-popup h4{ font-size:1.02rem; margin-bottom:.15rem; }
@@ -2374,9 +2520,20 @@ tbody td:last-child{ padding-bottom:0; }
   display:inline-block; margin:.4rem 0; padding:.14rem .55rem; border-radius:var(--r-pill);
   background:var(--c-teal); color:#fff; font-size:.74rem; font-weight:700;
 }
+.harita-popup .pp-gece.bugun{ background:#c0392b; }
 .harita-popup ul{ margin:.3rem 0 .5rem; padding-left:1.05rem; font-size:.85rem; }
 .harita-popup li{ margin-bottom:.15rem; }
 .harita-popup a{ font-weight:700; color:var(--c-teal); }
+/* Ev popup'ındaki adres — taksiciye telefonu uzatmak için burada da büyük */
+.pp-adres{
+  display:block; margin:.35rem 0 .1rem; padding:.4rem .55rem;
+  background:var(--c-sand); border-left:3px solid var(--c-teal); border-radius:var(--r-s);
+  font-size:1.02rem; font-weight:800; line-height:1.35;
+}
+html[data-tema="koyu"] .pp-adres{ background:var(--c-cream); }
+.pp-adres-latin{ display:block; font-size:.78rem; color:var(--c-ink-soft); margin-bottom:.4rem; }
+.pp-btnler{ display:flex; flex-wrap:wrap; gap:.3rem; margin-top:.4rem; }
+.pp-btnler .btn{ min-height:38px; padding:.3rem .8rem; font-size:.82rem; }
 
 /* ---- çevrimdışı karo indirme kutusu ---- */
 .karo-kutu{
@@ -2512,7 +2669,10 @@ html[data-tema="koyu"] .gk-kod-yok{ color:#e0a54e; }
 /* Kartı açan nav düğmesi — emoji yerine yazı: Segoe UI'da bozuk basılan
    glif riski yok, ne işe yaradığı da okunuyor. */
 .nav-btn-metin{
-  width:auto; min-width:44px; padding-inline:.6rem;
+  /* .nav-arac bir flex kabı; flex-shrink varsayılanı düğmeyi içeriğinin
+     altına sıkıştırıp "Ka / rt" diye kırıyordu. */
+  width:auto; min-width:44px; flex:0 0 auto; white-space:nowrap;
+  padding-inline:.6rem;
   font-size:.82rem; font-weight:700; letter-spacing:.02em;
 }
 
@@ -2693,7 +2853,7 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
   html[data-tema="koyu"] .gorsel-kutu img,
   html[data-tema="koyu"] .leaflet-tile-pane{ filter:none; }
   html, body{ background:#fff !important; color:#000 !important; font-size:10.5pt; }
-  .ust-alan, .yukari, .days-tools, .yedek-kutu, .harita-kutu, .harita-ipucu,
+  .ust-alan, .yukari, .days-tools, .yedek-kutu, .harita-kutu, .harita-odak, .harita-ipucu,
   .lightbox, .kart-katman, .karo-kutu, .kutlama, .fav, .ani, .countdown, .hero::after,
   #hava-bolumu, .check-note, .galeri, .city-kapak, .lezzet-gorsel,
   .kopyala, .bugun-alt .btn{ display:none !important; }
@@ -2909,12 +3069,23 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
     <div class="sec-head">
       <span class="sec-kicker">Nerede, ne zaman</span>
       <h2>Rota haritası</h2>
-      <p>Duraklar sırayla numaralandı; işaretçiye dokununca o şehrin özeti ve gün programına
-         bağlantısı açılır.</p>
+      <p>Şeritten bir yere dokun — o şehrin evi varsa doğrudan kapısına gider. Tur sürerken
+         harita <b>bugünün evinde</b> açılır. 📍 kendi konumunu gösterir ve eve kaç metre
+         kaldığını yazar; GPS internetsiz de çalışır.</p>
     </div>
-    <div class="harita-kutu" data-etkin="0">
+    <!-- Odak şeridi — düğmeler JS ile duraklardan üretilir -->
+    <div class="harita-odak" id="harita-odak" role="group" aria-label="Haritada nereye bakılacağı"></div>
+
+    <div class="harita-kutu" id="harita-kutu" data-etkin="0" data-tam="0">
       <div id="harita"></div>
       <div class="harita-kilit" id="harita-kilit" role="button" tabindex="0"><span></span></div>
+      <div class="harita-dugmeler">
+        <button class="harita-dugme" id="btn-konum" type="button"
+                aria-pressed="false" title="Konumum">📍</button>
+        <button class="harita-dugme" id="btn-tam-ekran" type="button"
+                aria-pressed="false" title="Tam ekran">⛶</button>
+      </div>
+      <div class="konum-rozet" id="konum-rozet" data-acik="0" role="status"></div>
     </div>
     <p class="harita-ipucu"><span aria-hidden="true">🗺</span><span id="harita-ipucu"></span></p>
     <div class="harita-yedek" id="harita-yedek"></div>
@@ -3885,14 +4056,34 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
     }, 2000);
   });
 
+  /* İki koordinat arası kuş uçuşu mesafe (metre) — haversine.
+     "Evine 420 m" yazabilmek için; harici kütüphane gerekmiyor. */
+  function mesafeM(a, b) {
+    const R = 6371000, d = Math.PI / 180;
+    const dLat = (b[0] - a[0]) * d, dLon = (b[1] - a[1]) * d;
+    const s1 = Math.sin(dLat / 2), s2 = Math.sin(dLon / 2);
+    const h = s1 * s1 + Math.cos(a[0] * d) * Math.cos(b[0] * d) * s2 * s2;
+    return 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
+  }
+  /* 420 m / 1,3 km — yürünecek mesafede metre, ötesinde kilometre */
+  const mesafeYaz = (m) =>
+    m < 1000 ? Math.round(m / 10) * 10 + " m" : (m / 1000).toFixed(1).replace(".", ",") + " km";
+
   /* =====================================================================
      HARİTA — Leaflet
      Leaflet yüklenmediyse (internet yok / CDN engelli / SRI uyuşmadı)
      bölüm "hata" durumuna geçer: harita gizlenir, sade yedek kutu çıkar.
      Sitenin geri kalanı bu koddan hiçbir şekilde etkilenmez.
+
+     Tasarım kararı: harita "tüm rotayı seyret" için değil, yolda "şimdi
+     nereye gideceğim" için var. Bu yüzden üç şey eklendi —
+       1) odak şeridi : tek dokunuşla o şehrin evine uçar
+       2) 📍 konumum  : GPS internetsiz de çalışır, eve mesafeyi yazar
+       3) ⛶ tam ekran : 340 px'lik pencerede yön bulunmuyor
      ===================================================================== */
   function haritayiKur() {
     const H = TUR.harita;
+    const O = H.odak;
     const bolum = $("#harita-bolumu");
     $("#harita-ipucu").textContent = H.ipucu;
     $("#harita-yedek").innerHTML =
@@ -3910,6 +4101,15 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
       const duraklar = TUR.sehirler
         .filter((s) => Array.isArray(s.konum) && s.haritaSira)
         .sort((a, b) => a.haritaSira - b.haritaSira);
+      const evler = (TUR.cepte.konaklamalar || []).filter((k) => Array.isArray(k.konum));
+
+      /* Bu fonksiyon window load'da çalışır; etkinISO o an çoktan kurulmuş
+         olur (aynı IIFE'de, yukarıda tanımlı). Bugün turun dışındaysa
+         "bugün" hedefi yok sayılır. */
+      const buISO = etkinISO;
+      const bugunEv = evler.find((k) => (k.geceler || []).indexOf(buISO) > -1) || null;
+      const bugunSehirAdi = TUR.havaDurumu.gunSehir[buISO] || null;
+      const bugunSehir = duraklar.find((s) => s.ad === bugunSehirAdi) || null;
 
       const harita = L.map("harita", {
         scrollWheelZoom: false,   /* sayfa kaydırırken harita zoom yapmasın */
@@ -3917,12 +4117,21 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
         tap: false,
         touchZoom: true,          /* iki parmakla yakınlaştırma hep serbest */
         minZoom: H.minZoom,
-        maxZoom: H.maxZoom
+        maxZoom: H.enDerinZoom
       });
 
       L.tileLayer(H.karo.url, {
         attribution: H.karo.atif,
-        maxZoom: H.maxZoom
+        /* İndirilen en derin seviye 16. Bunun ötesinde YENİ KARO İSTENMEZ;
+           Leaflet z16'yı büyütür. Bulanık ama konum doğru, veri sıfır. */
+        maxNativeZoom: H.maxZoom,
+        maxZoom: H.enDerinZoom,
+        /* Telefonda kaydırma boyunca değil, parmak kalkınca karo iste:
+           yurt dışında her gereksiz istek doğrudan roaming faturası. */
+        updateWhenIdle: L.Browser.mobile,
+        /* Görüş alanı dışında tutulan karo halkası 2'den 1'e: daha az
+           istek, daha az bellek. Çevrimdışı indirme kapsamıyla da uyumlu. */
+        keepBuffer: 1
       }).addTo(harita);
 
       /* Rota çizgisi — şehirleri sırayla birleştirir */
@@ -3931,7 +4140,9 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
         color: "#17879b", weight: 4, opacity: .85, dashArray: "1 8", lineCap: "round"
       }).addTo(harita);
 
-      /* Numaralı durak işaretçileri */
+      /* ---- işaretçiler; odak şeridi bunlara isimle ulaşacak ---- */
+      const sehirPin = {}, evPin = {};
+
       duraklar.forEach((s) => {
         const ikon = L.divIcon({
           className: "",
@@ -3940,7 +4151,7 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
         });
         const oneCikan = (s.oneCikanlar || []).slice(0, 3)
           .map((x) => "<li>" + esc(x) + "</li>").join("");
-        L.marker(s.konum, { icon: ikon, title: s.ad })
+        sehirPin[s.ad] = L.marker(s.konum, { icon: ikon, title: s.ad })
           .addTo(harita)
           .bindPopup(
             '<div class="harita-popup">' +
@@ -3953,33 +4164,46 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
           );
       });
 
-      /* Konaklamalar — şehir pinlerinden ayrı renk ve biçimde.
-         Kapı kodu / kutu şifresi popup'a KONMAZ; onlar yalnızca cihazda. */
-      (TUR.cepte.konaklamalar || []).forEach((k) => {
-        if (!Array.isArray(k.konum)) return;
+      /* Konaklamalar — şehir pinlerinden ayrı renk ve biçimde; bu geceki ev
+         ayrıca kırmızı halkalı. Popup artık kartın küçük hâli: adres yerel
+         alfabede büyük puntoyla, kopyalama ve yol tarifi düğmeleriyle.
+         Kapı kodu / kutu şifresi popup'a KONMAZ; onlar yalnızca cihazda ve
+         herkesin görebileceği bir ekranda açık durmamalı. */
+      evler.forEach((k) => {
+        const buGece = bugunEv && bugunEv.id === k.id;
         const ikon = L.divIcon({
           className: "",
-          html: '<div class="ev-pin">🏠</div>',
+          html: '<div class="ev-pin' + (buGece ? " bugun" : "") + '">🏠</div>',
           iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -16]
         });
         const bag = mapsBag(k.konum);
-        L.marker(k.konum, { icon: ikon, title: k.kisaAd })
+        const panoAdres = k.adresYerel ? k.adresYerel + " — " + k.adres : k.adres;
+        evPin[k.sehir] = L.marker(k.konum, { icon: ikon, title: k.kisaAd })
           .addTo(harita)
           .bindPopup(
             '<div class="harita-popup">' +
               "<h4>🏠 " + esc(k.kisaAd) + "</h4>" +
               '<div class="pp-alt">' + esc(k.sehir) + " · " + esc(k.tarih) + "</div>" +
-              '<span class="pp-gece">Giriş ' + esc(k.girisPencere) + "</span>" +
+              '<span class="pp-gece' + (buGece ? " bugun" : "") + '">' +
+                (buGece ? "bu gece burada" : "Giriş " + esc(k.girisPencere)) + "</span>" +
+              '<span class="pp-adres" lang="' + (k.adresYerel ? "mk" : "sq") + '">' +
+                esc(k.adresYerel || k.adres) + "</span>" +
+              (k.adresYerel ? '<span class="pp-adres-latin">' + esc(k.adres) + "</span>" : "") +
+              (k.tarif ? '<span class="pp-adres-latin">' + esc(k.tarif) + "</span>" : "") +
               "<ul>" +
+                "<li>Giriş: " + esc(k.girisPencere) + " · " + esc(k.girisYontemi) + "</li>" +
                 "<li>Çıkış: " + esc(k.cikisSaat) + "</li>" +
-                "<li>" + esc(k.girisYontemi) + "</li>" +
               "</ul>" +
-              (bag ? '<a href="' + bag + '" target="_blank" rel="noopener">Google Maps\'te aç →</a>' : "") +
+              '<div class="pp-btnler">' +
+                kopyaEtiketli(panoAdres, "Adresi kopyala", "taksiciye göster") +
+                (bag ? '<a class="btn btn-sade" href="' + bag + '" target="_blank" rel="noopener">Yol tarifi</a>' : "") +
+              "</div>" +
             "</div>"
+            /* Genişlik sabit verilmiyor; aşağıdaki popupopen dinleyicisi
+               kabın o anki enine göre ayarlıyor. */
           );
       });
 
-      /* Havalimanları ayrı ikonla */
       (H.havalimanlari || []).forEach((h) => {
         const ikon = L.divIcon({
           className: "",
@@ -3996,14 +4220,23 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
           );
       });
 
-      /* Tüm rotayı kapsayacak şekilde aç */
-      const tumNoktalar = cizgi.concat((H.havalimanlari || []).map((h) => h.konum));
-      harita.fitBounds(L.latLngBounds(tumNoktalar), { padding: [H.kenarBosluk, H.kenarBosluk] });
+      /* Popup genişliği kabın o anki enine göre — 320 px'lik telefonda
+         Leaflet'in 300 px varsayılanı haritadan taşıyordu. popupopen'da
+         hesaplanıyor ki tam ekran ve ekran döndürme de kendiliğinden
+         doğru genişliği alsın. */
+      harita.on("popupopen", (e) => {
+        const enFazla = Math.max(190, Math.min(300, harita.getContainer().clientWidth - 44));
+        if (e.popup.options.maxWidth !== enFazla) {
+          e.popup.options.maxWidth = enFazla;
+          e.popup.update();
+        }
+      });
 
-      /* Dokununca haritayı etkinleştir — tek parmak kaydırması ondan sonra açılır */
-      const kutu = document.querySelector(".harita-kutu");
+      /* ---- kilit: dokununca tek parmak kaydırması açılır ---- */
+      const kutu = $("#harita-kutu");
       const kilit = $("#harita-kilit");
       const etkinlestir = () => {
+        if (kutu.dataset.etkin === "1") return;
         kutu.dataset.etkin = "1";
         harita.dragging.enable();
         harita.invalidateSize();
@@ -4011,6 +4244,203 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
       kilit.addEventListener("click", etkinlestir);
       kilit.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") { e.preventDefault(); etkinlestir(); }
+      });
+      /* Kilit yalnızca dokunmatikte gerekli: orada tek parmak kaydırması
+         sayfayı değil haritayı sürüklerdi. Farede sürükleme sayfa
+         kaydırmasını çalmıyor, tekerlek zoom'u da zaten kapalı — masaüstünde
+         araya bir katman koymanın bedeli var, faydası yok. */
+      if (!L.Browser.mobile) etkinlestir();
+
+      /* ---- odak şeridi ----
+         Her düğme haritayı bir yere götürür. Şehrin evi varsa doğrudan eve:
+         yolda aranan şey şehir değil, kapı. */
+      const odakSerit = $("#harita-odak");
+      const tumNoktalar = cizgi.concat((H.havalimanlari || []).map((h) => h.konum));
+      const tumSinir = L.latLngBounds(tumNoktalar);
+
+      /* Şerit atlamaları ANİ, uçuş animasyonlu değil. İki gerekçe:
+         (1) Veri — Ohrid'den Dıraç'a uçmak aradaki bütün ara zoom
+             seviyelerinden karo ister; ani geçiş yalnızca varış karolarını.
+         (2) Hız — otobüste tek elle kullanılan bir araçta 1,5 saniyelik
+             animasyon beklemek istenmiyor. */
+      const haritayiTasi = (konum, zoom) => harita.setView(konum, zoom, { animate: false });
+
+      const hedefler = [];
+      hedefler.push({
+        id: "tum", etiket: O.tumRota, ikon: "🧭",
+        /* Kuşbakışına dönerken açık popup ekranın yarısını kaplıyordu */
+        git: () => {
+          harita.closePopup();
+          harita.fitBounds(tumSinir, { padding: [H.kenarBosluk, H.kenarBosluk], animate: false });
+        }
+      });
+      /* "Bugün" yalnızca tur tarihlerindeyken anlamlı */
+      if (bugunEv || bugunSehir) {
+        hedefler.push({
+          /* Şehir çipindeki nokta "bugün buradayız" demek; "Bugün" çipinde
+             aynı noktayı tekrar basmak bilgi taşımıyor. */
+          id: "bugun", etiket: O.bugun, ikon: "📌",
+          git: () => {
+            if (bugunEv) { haritayiTasi(bugunEv.konum, O.evZoom); evPin[bugunEv.sehir].openPopup(); }
+            else { haritayiTasi(bugunSehir.konum, O.sehirZoom); sehirPin[bugunSehir.ad].openPopup(); }
+          }
+        });
+      }
+      duraklar.forEach((s) => {
+        const ev = evler.find((k) => k.sehir === s.ad) || null;
+        hedefler.push({
+          id: "sehir-" + s.haritaSira, etiket: s.ad, no: s.haritaSira,
+          bugunMu: bugunSehirAdi === s.ad,
+          git: () => {
+            if (ev) { haritayiTasi(ev.konum, O.evZoom); evPin[ev.sehir].openPopup(); }
+            else { haritayiTasi(s.konum, O.sehirZoom); sehirPin[s.ad].openPopup(); }
+          }
+        });
+      });
+
+      hedefler.forEach((h) => {
+        const b = el("button", "odak-btn" + (h.bugunMu ? " bugun" : ""));
+        b.type = "button";
+        b.setAttribute("aria-pressed", "false");
+        b.dataset.odak = h.id;
+        b.innerHTML = (h.no ? '<span class="odak-no">' + h.no + "</span>" :
+          (h.ikon ? '<span aria-hidden="true">' + h.ikon + "</span>" : "")) + esc(h.etiket);
+        b.addEventListener("click", () => {
+          /* Şeritten bir yere gitmek "haritayla ilgileniyorum" demek:
+             kilidi ayrıca kaldırmaya gerek kalmasın. */
+          etkinlestir();
+          odakSerit.querySelectorAll(".odak-btn").forEach((x) => x.setAttribute("aria-pressed", "false"));
+          b.setAttribute("aria-pressed", "true");
+          h.git();
+        });
+        odakSerit.appendChild(b);
+      });
+
+      /* Açılış görünümü: tur sürüyorsa bugünün yerine, değilse tüm rotaya.
+         Uçmadan, doğrudan — açılışta animasyon gereksiz karo isteği demek. */
+      const acilis = hedefler.find((h) => h.id === "bugun") || hedefler[0];
+      if (acilis.id === "bugun") {
+        if (bugunEv) harita.setView(bugunEv.konum, O.evZoom);
+        else harita.setView(bugunSehir.konum, O.sehirZoom);
+      } else {
+        harita.fitBounds(tumSinir, { padding: [H.kenarBosluk, H.kenarBosluk] });
+      }
+      odakSerit.querySelector('[data-odak="' + acilis.id + '"]').setAttribute("aria-pressed", "true");
+
+      /* ---- tam ekran ---- */
+      const btnTam = $("#btn-tam-ekran");
+      const tamEkranAyarla = (ac) => {
+        kutu.dataset.tam = ac ? "1" : "0";
+        btnTam.setAttribute("aria-pressed", ac ? "true" : "false");
+        btnTam.textContent = ac ? "✕" : "⛶";
+        btnTam.title = ac ? O.tamEkranKapat : O.tamEkran;
+        document.body.style.overflow = ac ? "hidden" : "";
+        if (ac) etkinlestir();   /* tam ekranda kilidin anlamı yok */
+        /* Kutu boyutu değişti; Leaflet'e yeniden ölçtür */
+        setTimeout(() => harita.invalidateSize(), 60);
+      };
+      btnTam.addEventListener("click", () => tamEkranAyarla(kutu.dataset.tam !== "1"));
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && kutu.dataset.tam === "1") tamEkranAyarla(false);
+      });
+
+      /* ---- konumum ----
+         GPS internet gerektirmez: uçak modunda, roaming kapalıyken de
+         çalışır. Turun en çok işe yarayacak harita özelliği bu — "ev şurada,
+         ben buradayım, aramızda 420 m var". */
+      const btnKonum = $("#btn-konum");
+      const rozet = $("#konum-rozet");
+      let konumIzle = null, konumPin = null, konumHale = null, ilkSabitleme = true;
+
+      const rozetYaz = (html, hataMi) => {
+        rozet.innerHTML = html;
+        rozet.classList.toggle("hata", !!hataMi);
+        rozet.dataset.acik = html ? "1" : "0";
+      };
+
+      const konumuBirak = () => {
+        if (konumIzle != null) navigator.geolocation.clearWatch(konumIzle);
+        konumIzle = null;
+        if (konumPin) { harita.removeLayer(konumPin); konumPin = null; }
+        if (konumHale) { harita.removeLayer(konumHale); konumHale = null; }
+        btnKonum.setAttribute("aria-pressed", "false");
+        delete btnKonum.dataset.durum;
+        rozetYaz("");
+      };
+
+      const konumGeldi = (p) => {
+        delete btnKonum.dataset.durum;
+        const nokta = [p.coords.latitude, p.coords.longitude];
+        const dogruluk = p.coords.accuracy || 0;
+        /* Çember en az 10 m yarıçapla çizilir, yoksa noktanın altında kaybolur.
+           Rozette YAZILAN değer ham olan — okuyucuya yanlış hassasiyet
+           bildirmemek için ikisi ayrı. */
+        const halkaR = Math.max(10, dogruluk);
+
+        if (!konumPin) {
+          konumPin = L.marker(nokta, {
+            icon: L.divIcon({ className: "", html: '<div class="konum-nokta"></div>',
+              iconSize: [18, 18], iconAnchor: [9, 9] }),
+            /* Ev ve şehir pinlerinin üstünde dursun */
+            zIndexOffset: 1000, interactive: false
+          }).addTo(harita);
+          konumHale = L.circle(nokta, {
+            radius: halkaR, color: "#2a7fff", weight: 1, fillColor: "#2a7fff",
+            fillOpacity: .1, interactive: false
+          }).addTo(harita);
+        } else {
+          konumPin.setLatLng(nokta);
+          konumHale.setLatLng(nokta).setRadius(halkaR);
+        }
+
+        /* İlk sabitlemede oraya uç; sonrakilerde haritayı kullanıcıdan çalma */
+        if (ilkSabitleme) {
+          ilkSabitleme = false;
+          etkinlestir();
+          harita.flyTo(nokta, Math.max(harita.getZoom(), O.evZoom));
+        }
+
+        /* Rozet: bu gece kalınacak eve mesafe — yoksa en yakın ev */
+        const olcut = bugunEv || evler
+          .map((k) => ({ k: k, m: mesafeM(nokta, k.konum) }))
+          .sort((a, b) => a.m - b.m).map((x) => x.k)[0];
+        if (olcut) {
+          const m = mesafeM(nokta, olcut.konum);
+          rozetYaz(
+            (bugunEv ? "Bu geceki ev" : esc(olcut.sehir) + " evi") +
+            ": <b>" + mesafeYaz(m) + "</b> · ±" + Math.round(dogruluk) + " m"
+          );
+        } else {
+          rozetYaz("Konumun alındı · ±" + Math.round(dogruluk) + " m");
+        }
+      };
+
+      const konumHatasi = (err) => {
+        delete btnKonum.dataset.durum;
+        btnKonum.setAttribute("aria-pressed", "false");
+        const metin = err && err.code === 1 ? O.konumRed : O.konumHata;
+        rozetYaz(esc(metin), true);
+        if (konumIzle != null) { navigator.geolocation.clearWatch(konumIzle); konumIzle = null; }
+      };
+
+      btnKonum.addEventListener("click", () => {
+        if (konumIzle != null) { konumuBirak(); return; }
+        if (!navigator.geolocation) { rozetYaz(esc(O.konumYok), true); return; }
+        btnKonum.setAttribute("aria-pressed", "true");
+        btnKonum.dataset.durum = "bekliyor";
+        rozetYaz(esc(O.konumAraniyor));
+        ilkSabitleme = true;
+        /* watchPosition: yürürken nokta kendiliğinden kayar.
+           maximumAge sıfır değil — son sabitleme birkaç saniyelikse
+           GPS'i yeniden yormaya gerek yok. */
+        konumIzle = navigator.geolocation.watchPosition(konumGeldi, konumHatasi, {
+          enableHighAccuracy: true, maximumAge: 10000, timeout: 25000
+        });
+      });
+
+      /* Sayfa arkaya atıldığında GPS'i bırak — pil bedavaya gitmesin */
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden && konumIzle != null) konumuBirak();
       });
 
       bolum.dataset.durum = "hazir";
