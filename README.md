@@ -246,7 +246,17 @@ python -m http.server 8000
 durdur ve sayfayı yenile. Site açılmaya devam etmeli.
 
 DevTools → Application sekmesinden `Service Workers` ve `Cache Storage` bölümlerini
-izleyebilirsin. Üç cache olur: `balkan-v1-shell`, `balkan-v1-gorsel`, `balkan-v1-hava`.
+izleyebilirsin. Dört cache olur:
+
+| Cache | Sürümlü mü | İçerik |
+|---|---|---|
+| `balkan-v4-shell` | evet | `index.html`, manifest, ikon, şehir kapakları, Leaflet |
+| `balkan-v4-hava` | evet | Son başarılı Open-Meteo yanıtı |
+| `balkan-gorsel` | **hayır** | Wikimedia galeri ve lezzet görselleri |
+| `balkan-karo` | **hayır** | İndirilen OpenStreetMap harita karoları |
+
+Son ikisi bilerek sürümsüzdür: sürüme bağlansalardı her `index.html` güncellemesinde
+`activate` onları silerdi ve kullanıcı evde indirdiği haritayı yolda kaybederdi.
 
 ### Telefona ekleme
 
@@ -260,8 +270,12 @@ ve sayfada **"✨ Yeni sürüm hazır / Yenile"** çubuğu çıkar. Yenile'ye ba
 devralır.
 
 Önbelleklenen dosya listesi değiştiyse (`sw.js` içindeki `APP_SHELL`) ya da eski önbelleğin
-tamamen atılması gerekiyorsa **`CACHE_VERSION` sabitini artır** (`balkan-v1` → `balkan-v2`).
-Eski cache'ler `activate` sırasında otomatik silinir.
+tamamen atılması gerekiyorsa **`CACHE_VERSION` sabitini artır** (`balkan-v3` → `balkan-v4`).
+Eski cache'ler `activate` sırasında otomatik silinir — `balkan-gorsel` ve `balkan-karo` hariç,
+onlar `BIZIM_CACHELER` içinde ve sürümden bağımsız durur.
+
+⚠ `balkan-karo` adı `index.html` ile `sw.js` arasında **ortaktır**. Birinde değiştirirsen
+diğerinde de değiştir; yoksa indirilen karolar okunamaz hâle gelir.
 
 Takılırsan: DevTools → Application → Service Workers → *Unregister*, sonra sert yenileme.
 
@@ -269,11 +283,26 @@ Takılırsan: DevTools → Application → Service Workers → *Unregister*, son
 
 | Çalışır | Çalışmaz |
 |---|---|
-| Tüm program, Cepte, gün kartları, kontrol listesi | Galeri ve lezzet görselleri (Wikimedia'dan hotlink) |
+| Tüm program, Cepte, günün kartı, gün kartları, kontrol listesi | Daha önce hiç görülmemiş galeri / lezzet görselleri |
 | 5 şehir kapak görseli (yerelden servis ediliyor) | Yeni hava durumu verisi (son kayıtlı veri gösterilir) |
-| Harita — Leaflet önbellekten, daha önce görülen karolar | Daha önce hiç açılmamış harita bölgeleri |
+| **Harita — "Çevrimdışına al" ile indirildiyse tam** | İndirilmemişse, daha önce hiç açılmamış bölgeler |
 
 Gelmeyen görsellerin yerine degrade renkli yer tutucu + mekân adı çıkar; sayfa bozulmaz.
+
+### Haritayı çevrimdışına almak
+
+Harita bölümünün altındaki **"Haritayı çevrimdışına al"** düğmesi 236 karo (~4,7 MB) indirir:
+rota geneli (z7–8), beş şehir merkezi (z12–14), üç evin sokağı (z15–16) ve iki havalimanı (z13).
+**Evdeyken, wifi varken yapılmalı.** İndirme durdurulabilir, sonra "Eksikleri indir" ile
+kaldığı yerden sürer; "İndirileni sil" cache'i boşaltır.
+
+Kapsam kod içinde değil, `TUR.harita.cevrimdisi` altında veri olarak durur. Zoom eklemeden
+önce toplam karo sayısını gözden geçir: OpenStreetMap'in karo sunucusu gönüllü bağışla dönüyor
+ve toplu indirmeye açık değil, 250'nin altında kalınıyor. İstekler bilerek yavaş (2 eşzamanlı,
+200 ms ara); reddedilen karolar için tek sıralı ikinci tur var.
+
+Bilinen boşluk: z9–z11 kapsanmıyor, ülke ölçeğinden şehir ölçeğine geçerken kısa süre gri
+görünebilir.
 
 ---
 

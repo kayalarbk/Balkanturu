@@ -9,8 +9,8 @@
 **Son güncelleme:** 4 Ağustos 2026
 **Depo:** https://github.com/kayalarbk/Balkanturu (`main`)
 **Yayın:** https://kayalarbk.github.io/Balkanturu/ (GitHub Pages, `main` / root — build adımı yok)
-**Son commit:** `7d3881b` + tasarım sadeleştirme oturumu
-**Çalışma ağacı:** temiz · **Toplam commit:** 18 · **Oturum sayısı:** 10
+**Son commit:** `d5c06e4` + çevrimdışı harita ve günün kartı oturumu
+**Çalışma ağacı:** temiz · **Toplam commit:** 19 · **Oturum sayısı:** 11
 
 ---
 
@@ -69,8 +69,8 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 
 | Dosya | Satır / boyut | Ne işe yarar |
 |---|---|---|
-| `index.html` | **4.437 satır** (~208 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
-| `sw.js` | 140 satır | Service worker — çevrimdışı çalışma, üç ayrı cache (`balkan-v3`) |
+| `index.html` | **5.078 satır** (~235 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
+| `sw.js` | 168 satır | Service worker — çevrimdışı çalışma, dört cache (ikisi sürümsüz, aşağıda) |
 | `manifest.json` | — | PWA künyesi: standalone, portrait, tema `#0b2a45`, 2 kısayol (Bugün · Cepte) |
 | `icon.svg` | — | Uygulama ikonu (`any` + `maskable`) |
 | `docs/img/` | 5 kapak + `KAYNAKLAR.md` | Yerele indirilmiş şehir kapakları ve lisans listesi |
@@ -104,7 +104,7 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 | `sehirler` | 5 şehir kartı: tema, rehber tanıtımı, öne çıkanlar, `kapak`, `galeri`, `lezzetler`, `konum` | ✅ (5 şehir haritada) |
 | `gunler` | **9 günlük program**: tarih, başlık, akış, notlar, `risk`, `uyari`, gece | ✅ (giriş/çıkış saatleri işlendi; otobüs saatleri açık) |
 | `ulasim` | Bacak / süre / yöntem / durum tablosu | ⚠️ saatler "kontrol edilecek" |
-| `harita` | Karo kaynağı, atıf, zoom sınırları, havalimanları, yedek metin | ✅ |
+| `harita` | Karo kaynağı, atıf, zoom sınırları (6–**16**), havalimanları, yedek metin, **`cevrimdisi`** karo tarifi | ✅ |
 | `dikkatEdilecekler` | **12 kart**, `seviye`: kritik / önemli / bilgi | ✅ |
 | `cepte` | Uçuş kodları, üç konaklama (adres/koordinat/giriş), acil numaralar, kelimeler | ⚠️ ev sahibi telefonları, rezervasyon kodları ve sigorta hattı boş |
 | `havaDurumu` | Open-Meteo ayarı, gün→şehir eşlemesi, mevsim normalleri, uyarı eşikleri | ✅ çalışıyor |
@@ -119,17 +119,47 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 |---|---|---|
 | **Wikimedia Commons** görselleri | Kapak ve galeri fotoğrafları | `onerror` → degrade renkli yer tutucu + mekân adı |
 | **Leaflet 1.9.4** (unpkg, SRI hash'li) | Rota haritası — *tek bilinçli istisna* | Yüklenmezse harita bölümü gizlenir, rotayı yazan sade kutu çıkar |
+| **OpenStreetMap karoları** | Harita zemini | **Önceden indirilebilir** (aşağıda); indirilmemişse ağa muhtaç |
 | **Open-Meteo API** | 16 günlük hava tahmini | Pencere dışıysa mevsim normali; yanıt 3 saat `localStorage`'da |
 
-> Üçü de kopsa sayfanın geri kalanı çevrimdışı sorunsuz çalışır.
+> Hepsi kopsa sayfanın geri kalanı çevrimdışı sorunsuz çalışır.
 > **Leaflet sürümü değişirse SRI hash'i de değişmeli** — tutmazsa harita sessizce yedeğe düşer.
+
+### Çevrimdışı harita karoları
+
+Karolar sitenin internete muhtaç tek parçasıydı: roaming kapalıyken sayfa açılıyor ama harita
+boş gri kutu kalıyordu. Harita bölümündeki **"Haritayı çevrimdışına al"** kutusu gerekli
+karoları evdeyken indirip tarayıcının Cache Storage'ına yazar.
+
+| | |
+|---|---|
+| Kapsam | Rota geneli z7–8 · 5 şehir z12–14 · 3 ev z15–16 · 2 havalimanı z13 |
+| Toplam | **236 karo, ~4,7 MB** (ölçüldü) |
+| Süre | ~1 dakika — 2 eşzamanlı istek, her istekten sonra 200 ms ara |
+| Cache adı | `balkan-karo` — **`index.html` ve `sw.js` arasında ortak, sürümsüz** |
+| Yazan taraf | **Sayfa** (service worker değil): eski bir sw sürümü devredeyse bile doğru cache'e düşer |
+| Okuyan taraf | `sw.js` → yalnızca cache; yoksa bir kez indirip saklar, arka planda tazelemez (roaming faturası) |
+
+**Neden sürümsüz:** cache adı `CACHE_VERSION`'a bağlansaydı her `index.html` güncellemesinde
+`activate` onu silerdi — evde indirilen harita yolda kaybolurdu. Aynı gerekçeyle görsel
+cache'i de sürümsüzleştirildi (`balkan-gorsel`).
+
+**Bilinen boşluk:** z9–z11 kapsanmıyor. Ülke ölçeğinden şehir ölçeğine pinch yapılırken kısa
+süre gri görünebilir; aradaki üç seviyeyi bölge geneli için indirmek karo sayısını üç katına
+çıkarırdı. Kutu, rotanın kendisinden bilerek geniş tutuldu — Leaflet görüş alanının dışından
+da karo ister, dar kutu kenarlarda gri bırakıyordu.
+
+**OSM nezaketi:** karo sunucusu gönüllü bağışla dönüyor ve hızlı toplu çekimi kısıyor. İlk
+ölçümde (3 eşzamanlı, 90 ms ara) son ~15 karo reddedildi; hız düşürüldü ve reddedilenler için
+tek sıralı, 800 ms aralıklı ikinci tur eklendi. Toplam 236/236 alındı.
 
 ---
 
 ## 3. Sitenin bölümleri (12 bölüm)
 
 Üst çubuktaki bağlantılar DOM'daki **görünür** `section[id]`'lerden üretilir; adlar
-`NAV_ADLARI` eşlemesinde (satır ~3688). Yeni bölüm eklenirse oraya bir satır eklenmeli.
+`NAV_ADLARI` eşlemesinde. Yeni bölüm eklenirse oraya bir satır eklenmeli.
+Çubuğun sağ ucundaki araçlar: **Kart** (günün kartı) · 🌙 tema · 🖨 yazdır.
 
 | # | id | Nav | Not |
 |---|---|---|---|
@@ -140,7 +170,7 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 | 5 | `rota` | 🧭 Rota | Mobilde dikey akış, 1040 px üstünde yatay şerit |
 | 6 | `sehirler` | 🏙 Şehirler | 5 kart + galeri + lezzetler + favori kalpleri |
 | 7 | `program` | 🗓 Program | 9 günlük accordion, bugün olan gün vurgulanıp açılır |
-| 8 | `harita-bolumu` | 🗺 Harita | Leaflet; `data-durum` ile bekliyor/tamam/yedek |
+| 8 | `harita-bolumu` | 🗺 Harita | Leaflet; `data-durum` ile bekliyor/tamam/yedek; altında çevrimdışı karo kutusu |
 | 9 | `ulasim` | 🚌 Ulaşım | 700 px altında kart görünümüne dönen tablo |
 | 10 | `dikkat` | ⚠ Dikkat | 10 kart, seviyeye göre kenar rengi ve etiket |
 | 11 | `pratik` | 💡 Pratik | Para, bütçe, elektrik, sağlık, adap, kelimeler |
@@ -160,7 +190,9 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 | Yerel lezzetler | Görsel **16:9 tam genişlik bant** (her ekranda ölçülen oran 1.78) |
 | Geri sayım (3 durumlu) | Kalkış öncesi "Yola çıkmaya kalan" → tur içinde "Dönüşe kalan + N. gün / 8" → sonra "Tur tamamlandı" |
 | Bugün ekranı | `tarihISO` eşleşince kart + o günün vurgusu; **o geceki konaklama bloğu** (ya da 19 Ağustos'un "konaklama yok" bloğu); `?tarih=2026-08-15` ile test edilebilir |
-| Rota haritası | Leaflet, 5 şehir + 2 havalimanı + **3 konaklama** işaretçisi (ayrı renk/ikon), gün kartlarına bağlı; yedek kutusu var |
+| Rota haritası | Leaflet, 5 şehir + 2 havalimanı + **3 konaklama** işaretçisi (ayrı renk/ikon), gün kartlarına bağlı; yedek kutusu var; zoom 6–16 |
+| **Çevrimdışı harita** | 236 karo (~4,7 MB) tek dokunuşla indirilir; durdurulabilir, eksikler tamamlanabilir, silinebilir; reddedilen karolar için ikinci tur |
+| **Günün kartı** | Üst çubuktaki "Kart" düğmesi — tam ekran, tek bakışlık: o geceki evin adresi (yerel alfabede büyük punto) + kapı kodu + wifi + ev sahibi telefonu + günün ulaşımı + o ülkedeki büyükelçilik + 112; oklarla günler arası gezinti, Esc kapatır |
 | Hava durumu şeridi | Open-Meteo `forecast_days=16`, sıcak/yağmur uyarı rozetleri, 3 saat önbellek |
 | Cepte bölümü | Uçuş kodları, acil numaralar (resmî `mfa.gov.tr` kaynaklı), temel kelimeler |
 | Konaklama kartı | Üç Airbnb: şehir/tarih başlığı, ev adı, tip, künye listesi (giriş · çıkış · ev sahibi · telefon · rezervasyon), mesafeler, ilan bağlantısı |
@@ -205,6 +237,7 @@ Hepsi `localStorage`, **sunucuya hiçbir şey gitmez**, cihaza özeldir.
 | `balkan2026.hava` | Hava yanıtı + zaman damgası (3 saat) |
 | `balkan2026.tema` | Koyu / açık tercih (yoksa sistem tercihi) |
 | `balkan2026.gizli` | Kapı kodu / kilitli kutu şifresi / wifi şifresi (kimlik: `evId::alan`) — **depoda yoktur** |
+| `balkan2026.karolar` | Çevrimdışı haritanın en son ne zaman indirildiği (yedeğe dâhil değil — karolar Cache Storage'da) |
 
 **Kırılganlık uyarısı:** bir maddenin **metnini** değiştirmek o maddeye verilmiş kalbi
 kaybettirir; `gunler[].tarihISO` değiştirmek eski anı notunu erişilemez yapar;
@@ -238,7 +271,13 @@ Yedek dosyası bu kodları **içerir** — yalnızca kendi cihazlarınızla payl
 | `<dl>` ızgarasında `column-gap` | Satır ayırıcı çizgi sütunlar arasında kesiliyor → `gap:0` + `dt`'ye sağ padding |
 | Üç sütunu 768 px'te açmak | Sütun 212 px'e düşüp künye satırları kırılıyor, kart 1500 px'e uzuyor → kırılma noktası 1040 px |
 | `Math.round(null)` | Sıfır döndürüyor; Open-Meteo pencere kenarında `null` verince ağustosta "0°" basılıyordu → `Number.isFinite` kontrolü |
-| Segoe UI'da 🗺 | Bozuk glif olarak basılıyor — düğme etiketlerinde emoji kullanmadan önce bak |
+| Segoe UI'da 🗺 | Bozuk glif olarak basılıyor — düğme etiketlerinde emoji kullanmadan önce bak (bu yüzden nav'daki kart düğmesi emoji değil, "Kart" yazısı) |
+| Karo cache'ini sürüme bağlamak | `activate` her güncellemede siler → evde indirilen harita yolda kaybolur. `balkan-karo` ve `balkan-gorsel` **sürümsüz**, `BIZIM_CACHELER` içinde |
+| Karo adresini kendin üretmek | `{s}` alt alan adı Leaflet'inkiyle birebir aynı olmalı (`"abc"[|x+y| % 3]`), yoksa indirilen adres istenenle eşleşmez ve indirme boşa gider |
+| Karo kutusunu rotanın sınırına oturtmak | Leaflet görüş alanının dışından da karo ister; dar kutu kenarlarda gri bırakır → kutu bilerek geniş |
+| OSM'den hızlı toplu çekim | 3 eşzamanlı + 90 ms arayla son ~15 karo reddedildi → 2 eşzamanlı + 200 ms, reddedilenlere ikinci tur |
+| Koyu temada `--c-sand` | `--c-yuzey` ile aynı değere düşüyor; kart içi gömme kutular ayırt edilmiyor → koyuda `--c-cream`'e in |
+| `.gk-satir b` gibi seçiciler | Değerin içinde de `<b>` geçebiliyor; etiket biçimi ona bulaşmasın diye **doğrudan çocuk** (`> b`) yaz |
 
 ---
 
@@ -274,6 +313,7 @@ kontrolü yapılmadı.**
 | 7 | 29 Tem 2026 | Üst gezinme çubuğu, karanlık tema, yazdırma çıktısı, kayıt yedekleme; **hava tahmini düzeltildi** (`forecast_days=16` eksikti) |
 | 8 | 4 Ağu 2026 | `progress.md` oluşturuldu |
 | 10 | 4 Ağu 2026 | **Tasarım sadeleştirildi:** konaklama kartı yeniden kuruldu, rezervasyon anına ait künyeler (puan, olanaklar) siteden çıkarıldı, Bugün ekranındaki tekrarlar kaldırıldı, hava durumundaki "0°" hatası düzeltildi |
+| 11 | 4 Ağu 2026 | **Çevrimdışı harita ve günün kartı:** 236 karo indirilebilir hâle geldi (cache'ler sürümsüzleştirildi, OSM hız sınırına göre ayarlandı), üst çubuğa tam ekran "Kart" eklendi |
 | 9 | 4 Ağu 2026 | **Konaklamalar işlendi:** üç Airbnb (adres + koordinat), taksiciye göster kutusu, Ohrid 19:00 kritik uyarısı, 19 Ağustos boşluğu, gizli kod alanları, haritada ev pinleri, Dıraç Arkeoloji Müzesi, `sw.js` v2 |
 
 Ayrıntılı oturum günlüğü (sebep–çözüm anlatımıyla): `PLAN.md` → "Yapılanlar".
@@ -314,6 +354,11 @@ Ayrıntılı oturum günlüğü (sebep–çözüm anlatımıyla): `PLAN.md` → 
 - [ ] **Gerçek telefonda göz + dokunma kontrolü** (özellikle çentikli iPhone'da yeni tema
       ve üst çubuk) — bütün ölçümler tarayıcıda yapıldı
 - [ ] Siteyi "ana ekrana ekle" ile kurup **gerçek cihazda çevrimdışı** test et
+- [ ] **Her iki telefonda "Haritayı çevrimdışına al"a bas** (evde, wifi'da) ve ardından uçak
+      moduyla haritayı aç — indirmenin doğruluğu tarayıcıda ölçüldü, ağsız açılış cihazda
+      doğrulanmadı
+- [ ] Günün kartını gerçek telefonda dene: adres puntosu taksicinin okuyacağı kadar büyük mü,
+      ekran görüntüsü kilit ekranında okunuyor mu
 - [ ] Kalan lezzetlere görsel (sac böreği, kebap, Skopsko, deniz mahsulleri) — uygun bulunursa
 - [ ] Bill Clinton Bulvarı, Blloku, Bunk'Art için galeri görseli — uygun bulunursa
 - [ ] Hava durumu penceresi açıldıkça mevsim normallerinin gerçek tahmine dönmesini izle

@@ -1009,6 +1009,15 @@ const TUR = {
       },
       { ad: "Seyahat sigortası acil hattı", deger: "kontrol edilecek", not: "Poliçe alınınca buraya yazılacak" }
     ],
+    /* Günün kartında hangi büyükelçilik gösterilecek — bulunulan şehre göre.
+       Değerler acil[].ad ile birebir eşleşmeli. */
+    buyukelcilikSehir: {
+      "Priştine": "T.C. Priştine Büyükelçiliği",
+      "Üsküp":    "T.C. Üsküp Büyükelçiliği",
+      "Ohrid":    "T.C. Üsküp Büyükelçiliği",
+      "Dıraç":    "T.C. Tiran Büyükelçiliği",
+      "Tiran":    "T.C. Tiran Büyükelçiliği"
+    },
     kelimeler: [
       { tr: "Merhaba", sq: "Përshëndetje", sqOku: "pörşendetye", mk: "Здраво", mkOku: "zdravo" },
       { tr: "Teşekkürler", sq: "Faleminderit", sqOku: "faleminderit", mk: "Благодарам", mkOku: "blagodaram" },
@@ -1064,11 +1073,51 @@ const TUR = {
     etkinlestirMetni: "Haritayı etkinleştirmek için dokun",
     ipucu: "Kaydırmak için haritaya dokun · yakınlaştırmak için iki parmak",
     minZoom: 6,
-    maxZoom: 13,
+    /* 13 idi; evin sokağını görebilmek için 16'ya çıkarıldı. Çevrimdışı
+       karo indirmesi de bu sınıra kadar iner — ikisi birlikte değişir. */
+    maxZoom: 16,
     kenarBosluk: 36,
     karo: {
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       atif: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> katkıcıları'
+    },
+
+    /* ---------- ÇEVRİMDIŞI KAROLAR ----------
+       Harita karoları tek gerçek "internet gerektiren" parça: roaming
+       kapalıyken sayfanın geri kalanı çalışır ama harita boş gri kutu olur.
+       Buradaki tarif, evdeyken indirilecek karo kümesini belirler.
+
+       İki tür alan var:
+         kutu          → rota geneli (kuşbakışı); köşe koordinatları arası
+                         bütün karolar, verilen zoom'larda
+         noktaZoomlari → bir noktanın çevresi; r = merkez karodan kaç karo
+                         uzağa gidileceği (r:1 → 3×3 karo)
+
+       Sayı bilerek 250'nin altında tutuldu (~236 karo, ~5 MB): OpenStreetMap'in
+       karo sunucusu gönüllü bağışla dönüyor, toplu indirmeye açık değil.
+       Yeni zoom eklemeden önce toplamı gözden geçir.
+
+       ⚠ Kutu, rotanın kendisinden BİLEREK geniş: Leaflet ekranı doldurmak
+       için görüş alanının dışından da karo ister, dar kutu kenarlarda gri
+       boşluk bırakıyordu (masaüstünde ölçüldü, telefonda daha dar).
+
+       ⚠ Bilinen boşluk: z9–z11 kapsanmıyor. Ülke ölçeği (z7-8) ile şehir
+       ölçeği (z12-14) arasında pinch yapılırsa kısa süre gri görünebilir.
+       Aradaki üç seviyeyi bölge geneli için indirmek karo sayısını üç
+       katına çıkarırdı; yolda işe yarayan iki ölçek zaten uçlardaki. */
+    cevrimdisi: {
+      baslik: "Haritayı çevrimdışına al",
+      aciklama:
+        "Rota geneli, beş şehir merkezi, üç evin sokağı ve iki havalimanı " +
+        "telefona indirilir — yolda internet olmasa da harita açılır. " +
+        "Evdeyken, wifi varken yap. Şehir ve sokak ölçeği tamdır; ülke ile " +
+        "şehir arasındaki ara yakınlıklarda kısa gri boşluk görebilirsin.",
+      kutu: { guneyBati: [40.5, 17.0], kuzeyDogu: [43.2, 22.7], zoomlar: [7, 8] },
+      noktaZoomlari: {
+        sehir:      [{ z: 12, r: 1 }, { z: 13, r: 1 }, { z: 14, r: 1 }],
+        konaklama:  [{ z: 15, r: 1 }, { z: 16, r: 1 }],
+        havalimani: [{ z: 13, r: 1 }]
+      }
     },
     havalimanlari: [
       {
@@ -2329,6 +2378,144 @@ tbody td:last-child{ padding-bottom:0; }
 .harita-popup li{ margin-bottom:.15rem; }
 .harita-popup a{ font-weight:700; color:var(--c-teal); }
 
+/* ---- çevrimdışı karo indirme kutusu ---- */
+.karo-kutu{
+  margin-top:var(--s-4); background:var(--c-yuzey);
+  border:1px solid var(--c-line); border-radius:var(--r-m);
+  padding:var(--s-4) var(--s-5); box-shadow:var(--sh-1);
+}
+.karo-ust{ display:flex; align-items:center; gap:var(--s-3); flex-wrap:wrap; }
+.karo-ust h3{ font-size:1.02rem; }
+.karo-rozet{
+  font-size:.74rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
+  padding:.16rem .6rem; border-radius:var(--r-pill);
+  background:var(--c-sand); color:var(--c-ink-soft);
+}
+.karo-rozet[data-tip="tamam"]{ background:#e3f3ec; color:#1d5c43; }
+html[data-tema="koyu"] .karo-rozet[data-tip="tamam"]{ background:#122a24; color:#6fc9a4; }
+.karo-rozet[data-tip="eksik"]{ background:var(--c-warn-bg); color:var(--c-warn-ink); }
+.karo-aciklama{ margin-top:var(--s-2); font-size:.88rem; color:var(--c-ink-soft); max-width:56ch; }
+.karo-kutu .progress{ margin:var(--s-3) 0; }
+.karo-btnler{ display:flex; flex-wrap:wrap; gap:var(--s-2); margin-top:var(--s-3); }
+.karo-durum{ margin-top:var(--s-3); font-size:.88rem; font-weight:600; color:var(--c-ok); min-height:1.2rem; }
+.karo-durum[data-tip="hata"]{ color:#b03a2e; }
+html[data-tema="koyu"] .karo-durum[data-tip="hata"]{ color:#ff8f7a; }
+.karo-durum[data-tip="notr"]{ color:var(--c-ink-soft); font-weight:400; }
+
+/* =====================================================================
+   GÜNÜN KARTI — tam ekran
+   Yolda tek bakışta lazım olan her şey: o geceki evin adresi (yerel
+   alfabede, taksiciye uzatılacak kadar büyük), kapı kodu, ev sahibi
+   telefonu, o günün ulaşımı ve acil numaralar. Kaydırma gerekmesin diye
+   sıkı; yine de taşarsa kart içinde kaydırılır, sayfa kaydırılmaz.
+   Ekran görüntüsü alınıp kilit ekranına konabilsin diye tek parça.
+   ===================================================================== */
+.kart-katman{
+  position:fixed; inset:0; z-index:110; display:none;
+  background:rgba(11,42,69,.94); backdrop-filter:blur(3px);
+  overscroll-behavior:contain;
+  padding:calc(var(--s-3) + env(safe-area-inset-top))
+          calc(var(--s-3) + env(safe-area-inset-right))
+          calc(var(--s-3) + env(safe-area-inset-bottom))
+          calc(var(--s-3) + env(safe-area-inset-left));
+}
+.kart-katman[data-acik="1"]{ display:grid; place-items:center; }
+.kart-cerceve{
+  width:min(100%,34rem); max-height:100%;
+  display:flex; flex-direction:column; min-height:0;
+  background:var(--c-yuzey); color:var(--c-ink);
+  border-radius:var(--r-l); box-shadow:var(--sh-3); overflow:hidden;
+}
+.kart-arac{
+  flex:0 0 auto; display:flex; align-items:center; gap:var(--s-2);
+  padding:.35rem .4rem; background:var(--c-deep); color:#fff;
+}
+.kart-gez, .kart-kapat{
+  all:unset; box-sizing:border-box; cursor:pointer;
+  width:44px; height:44px; display:grid; place-items:center; border-radius:var(--r-s);
+  color:rgba(255,255,255,.85); font-size:1.35rem; line-height:1;
+}
+.kart-kapat{ font-size:1.1rem; margin-left:auto; }
+.kart-gez:hover, .kart-kapat:hover{ background:rgba(255,255,255,.14); color:#fff; }
+.kart-gez:focus-visible, .kart-kapat:focus-visible{ outline:2px solid var(--c-teal-soft); outline-offset:-2px; }
+.kart-gez[disabled]{ opacity:.3; cursor:default; }
+.kart-gun{ font-size:.86rem; font-weight:700; letter-spacing:.02em; }
+.kart-govde{
+  flex:1 1 auto; min-height:0; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:var(--s-4) var(--s-5) var(--s-5);
+}
+
+/* başlık satırı */
+.gk-ust{ display:flex; align-items:baseline; justify-content:space-between; gap:var(--s-2); flex-wrap:wrap; }
+.gk-tarih{ font-size:1.18rem; font-weight:800; }
+.gk-sehir{
+  font-size:.76rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
+  padding:.16rem .6rem; border-radius:var(--r-pill); background:var(--c-teal); color:#fff;
+}
+.gk-baslik{ margin-top:.2rem; font-size:.9rem; color:var(--c-ink-soft); }
+
+/* blok — kartın içindeki her kutu */
+.gk-blok{
+  margin-top:var(--s-4); padding-top:var(--s-3); border-top:1px solid var(--c-line);
+}
+.gk-blok:first-child{ margin-top:var(--s-3); padding-top:0; border-top:0; }
+.gk-etiket{
+  display:block; font-size:.7rem; font-weight:800; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--c-ink-soft); margin-bottom:.35rem;
+}
+.gk-ad{ font-size:1.02rem; font-weight:700; }
+.gk-satir{
+  display:flex; gap:var(--s-3); align-items:baseline;
+  padding:.3rem 0; font-size:.9rem; border-bottom:1px solid var(--c-line);
+}
+.gk-satir:last-child{ border-bottom:0; }
+/* Doğrudan çocuk seçicisi şart: satır değerinin içinde de <b> geçebiliyor
+   (örn. giriş penceresi), etiket biçimi ona bulaşmamalı. */
+.gk-satir > b{ flex:0 0 auto; min-width:6.2rem; font-weight:600; color:var(--c-ink-soft); font-size:.84rem; }
+.gk-satir > span{ min-width:0; }
+
+/* adres — taksiciye uzatılacak satır, kartın en büyük yazısı */
+.gk-adres{
+  margin-top:var(--s-2); padding:var(--s-3) var(--s-4);
+  background:var(--c-sand); border:1px solid var(--c-line);
+  border-left:4px solid var(--c-teal); border-radius:var(--r-s);
+}
+/* Koyu temada --c-sand ile --c-yuzey aynı değere düşüyor; kutu kart
+   zemininden ayrılsın diye bir tık daha koyu olan sayfa zeminine iner. */
+html[data-tema="koyu"] .gk-adres{ background:var(--c-cream); }
+.gk-adres-yerel{ display:block; font-size:1.24rem; font-weight:800; line-height:1.35; }
+.gk-adres-latin{ display:block; margin-top:.2rem; font-size:.88rem; color:var(--c-ink-soft); }
+
+/* kodlar — yalnızca bu cihazda; boşsa açıkça "kaydedilmedi" der */
+.gk-kod{
+  display:flex; align-items:baseline; gap:var(--s-3);
+  padding:.35rem 0; border-bottom:1px solid var(--c-line);
+}
+.gk-kod:last-child{ border-bottom:0; }
+.gk-kod > b{ flex:0 0 auto; min-width:6.2rem; font-weight:600; color:var(--c-ink-soft); font-size:.84rem; }
+.gk-kod-deger{
+  font-size:1.3rem; font-weight:800; letter-spacing:.06em;
+  font-variant-numeric:tabular-nums;
+}
+.gk-kod-yok{ font-size:.86rem; font-style:italic; color:#a8641a; }
+html[data-tema="koyu"] .gk-kod-yok{ color:#e0a54e; }
+
+.gk-uyari{
+  margin-top:var(--s-3); padding:var(--s-3) var(--s-4);
+  background:var(--c-warn-bg); border:1px solid var(--c-warn-line);
+  border-radius:var(--r-s); font-size:.88rem; color:var(--c-warn-ink); font-weight:600;
+}
+.gk-btnler{ display:flex; flex-wrap:wrap; gap:var(--s-2); margin-top:var(--s-3); }
+.gk-tel{ font-weight:800; color:var(--c-teal); font-variant-numeric:tabular-nums; }
+.gk-not{ margin-top:var(--s-4); font-size:.76rem; color:var(--c-ink-soft); line-height:1.5; }
+
+/* Kartı açan nav düğmesi — emoji yerine yazı: Segoe UI'da bozuk basılan
+   glif riski yok, ne işe yaradığı da okunuyor. */
+.nav-btn-metin{
+  width:auto; min-width:44px; padding-inline:.6rem;
+  font-size:.82rem; font-weight:700; letter-spacing:.02em;
+}
+
 /* ===================== NELERE DİKKAT ETMELİ ===================== */
 .dikkat-grid{ display:grid; gap:var(--s-4); grid-template-columns:minmax(0,1fr); }
 @media(min-width:700px){ .dikkat-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
@@ -2507,7 +2694,7 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
   html[data-tema="koyu"] .leaflet-tile-pane{ filter:none; }
   html, body{ background:#fff !important; color:#000 !important; font-size:10.5pt; }
   .ust-alan, .yukari, .days-tools, .yedek-kutu, .harita-kutu, .harita-ipucu,
-  .lightbox, .kutlama, .fav, .ani, .countdown, .hero::after,
+  .lightbox, .kart-katman, .karo-kutu, .kutlama, .fav, .ani, .countdown, .hero::after,
   #hava-bolumu, .check-note, .galeri, .city-kapak, .lezzet-gorsel,
   .kopyala, .bugun-alt .btn{ display:none !important; }
   /* Kâğıt yedeği kapıda işe yarasın diye kaydedilmiş kodlar BASILIR; ama
@@ -2591,6 +2778,9 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
   <nav class="ana-nav" aria-label="Bölümler">
     <div class="nav-linkler" id="nav-linkler"></div>
     <div class="nav-arac">
+      <button class="nav-btn nav-btn-metin" id="btn-kart" type="button"
+              title="Günün kartı — adres, kapı kodu, telefon, acil numaralar"
+              aria-label="Günün kartını aç">Kart</button>
       <button class="nav-btn" id="btn-tema" type="button" aria-live="polite"
               title="Koyu / açık tema">🌙</button>
       <button class="nav-btn" id="btn-yazdir" type="button"
@@ -2728,6 +2918,23 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
     </div>
     <p class="harita-ipucu"><span aria-hidden="true">🗺</span><span id="harita-ipucu"></span></p>
     <div class="harita-yedek" id="harita-yedek"></div>
+
+    <!-- Çevrimdışı karolar — tarayıcı Cache Storage'ı desteklemiyorsa JS
+         bu kutuyu hiç açmaz, bölümün geri kalanı aynen çalışır. -->
+    <div class="karo-kutu" id="karo-kutu" hidden>
+      <div class="karo-ust">
+        <h3 id="karo-baslik"></h3>
+        <span class="karo-rozet" id="karo-rozet"></span>
+      </div>
+      <p class="karo-aciklama" id="karo-aciklama"></p>
+      <div class="progress" id="karo-bar-kutu" hidden><i id="karo-bar"></i></div>
+      <div class="karo-btnler">
+        <button class="btn" id="btn-karo-indir" type="button">📥 Çevrimdışına al</button>
+        <button class="btn" id="btn-karo-dur" type="button" hidden>Durdur</button>
+        <button class="btn btn-sade" id="btn-karo-sil" type="button" hidden>İndirileni sil</button>
+      </div>
+      <p class="karo-durum" id="karo-durum" role="status"></p>
+    </div>
   </div>
 </section>
 
@@ -2827,6 +3034,24 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
     <figcaption id="lightbox-yazi"></figcaption>
   </figure>
   <span class="lightbox-sayac" id="lightbox-sayac"></span>
+</div>
+
+<!-- ===================== GÜNÜN KARTI =====================
+     Tam ekran, tek bakışlık kart. İçeriği JS ile o günün verisinden
+     kurulur; kapı kodu / wifi yalnızca cihazdaki kayıttan okunur, kaynak
+     kodda durmaz. Oklarla günler arasında gezilir.
+     ===================================================================== -->
+<div class="kart-katman" id="gun-karti" data-acik="0" role="dialog" aria-modal="true"
+     aria-label="Günün kartı">
+  <div class="kart-cerceve">
+    <div class="kart-arac">
+      <button class="kart-gez" id="kart-onceki" type="button" aria-label="Önceki gün">‹</button>
+      <span class="kart-gun" id="kart-gun"></span>
+      <button class="kart-gez" id="kart-sonraki" type="button" aria-label="Sonraki gün">›</button>
+      <button class="kart-kapat" id="kart-kapat" type="button" aria-label="Kartı kapat">✕</button>
+    </div>
+    <div class="kart-govde" id="kart-govde"></div>
+  </div>
 </div>
 
 <!-- ===================== YUKARI ÇIK ===================== -->
@@ -3803,6 +4028,243 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
     window.addEventListener("load", haritayiKur, { once: true });
   }
 
+  /* =====================================================================
+     ÇEVRİMDIŞI HARİTA KAROLARI
+     Karolar sitenin internete muhtaç tek parçası: roaming kapalıyken
+     sayfanın geri kalanı service worker sayesinde açılır, harita boş gri
+     kutu olur. Bu blok gerekli karoları evdeyken indirip tarayıcının Cache
+     Storage'ına yazar; sw.js aynı cache'ten okuduğu için yolda ağ olmadan
+     da harita çalışır.
+
+     ⚠ KARO_CACHE adı sw.js ile ORTAKTIR ve bilerek SÜRÜMSÜZDÜR. Sürüme
+     bağlansaydı her index.html güncellemesinde activate onu silerdi ve
+     indirilen harita yolda kaybolurdu. İki dosyadan birinde ad değişirse
+     diğerinde de değişmeli.
+
+     Cache'e yazan taraf bilerek SAYFADIR (service worker değil): böylece
+     eski bir sw sürümü devrede olsa bile karolar doğru cache'e düşer.
+     ===================================================================== */
+  const KARO_CACHE = "balkan-karo";     /* sw.js içindeki KARO_CACHE ile aynı */
+  const KARO_KEY = "balkan2026.karolar";
+
+  /* Slippy map karo hesabı (OSM standardı) */
+  const karoX = (lon, z) => Math.floor((lon + 180) / 360 * Math.pow(2, z));
+  const karoY = (lat, z) => {
+    const r = lat * Math.PI / 180;
+    return Math.floor((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * Math.pow(2, z));
+  };
+  /* {s} seçimi Leaflet'inkiyle BİREBİR aynı olmalı — farklı olursa indirilen
+     adres haritanın istediği adresle eşleşmez ve indirme boşa gider.
+     Leaflet: subdomains "abc", index = |x + y| % 3. */
+  const karoAdres = (z, x, y) =>
+    TUR.harita.karo.url
+      .replace("{s}", "abc".charAt(Math.abs(x + y) % 3))
+      .replace("{z}", z).replace("{x}", x).replace("{y}", y);
+
+  /* İndirilecek karoların tam listesi — TUR.harita.cevrimdisi tarifinden */
+  function karoListesi() {
+    const H = TUR.harita, CD = H.cevrimdisi;
+    const kume = new Set();
+    const ekle = (z, x, y) => {
+      const n = Math.pow(2, z);
+      if (y < 0 || y >= n) return;              /* kutup dışı karo yok */
+      kume.add(karoAdres(z, ((x % n) + n) % n, y));
+    };
+
+    /* 1) Rota geneli — köşeler arasındaki bütün karolar */
+    const K = CD.kutu;
+    (K.zoomlar || []).forEach((z) => {
+      const xA = karoX(K.guneyBati[1], z), xB = karoX(K.kuzeyDogu[1], z);
+      const yA = karoY(K.kuzeyDogu[0], z), yB = karoY(K.guneyBati[0], z);
+      for (let x = Math.min(xA, xB); x <= Math.max(xA, xB); x++)
+        for (let y = Math.min(yA, yB); y <= Math.max(yA, yB); y++) ekle(z, x, y);
+    });
+
+    /* 2) Nokta çevreleri — şehir merkezleri, evler, havalimanları */
+    const noktalar = []
+      .concat(TUR.sehirler.filter((s) => Array.isArray(s.konum))
+        .map((s) => ({ konum: s.konum, tur: "sehir" })))
+      .concat((TUR.cepte.konaklamalar || []).filter((k) => Array.isArray(k.konum))
+        .map((k) => ({ konum: k.konum, tur: "konaklama" })))
+      .concat((H.havalimanlari || []).filter((h) => Array.isArray(h.konum))
+        .map((h) => ({ konum: h.konum, tur: "havalimani" })));
+
+    noktalar.forEach((n) => {
+      (CD.noktaZoomlari[n.tur] || []).forEach((a) => {
+        const cx = karoX(n.konum[1], a.z), cy = karoY(n.konum[0], a.z);
+        for (let dx = -a.r; dx <= a.r; dx++)
+          for (let dy = -a.r; dy <= a.r; dy++) ekle(a.z, cx + dx, cy + dy);
+      });
+    });
+
+    return Array.from(kume);
+  }
+
+  /* Cache Storage yoksa (çok eski tarayıcı, dosya:// açılışı) kutu hiç açılmaz */
+  if (window.caches && TUR.harita.cevrimdisi) {
+    const CD = TUR.harita.cevrimdisi;
+    const kKutu = $("#karo-kutu");
+    const kRozet = $("#karo-rozet");
+    const kBarKutu = $("#karo-bar-kutu");
+    const kBar = $("#karo-bar");
+    const kDurum = $("#karo-durum");
+    const btnIndir = $("#btn-karo-indir");
+    const btnDur = $("#btn-karo-dur");
+    const btnSil = $("#btn-karo-sil");
+
+    $("#karo-baslik").textContent = CD.baslik;
+    $("#karo-aciklama").textContent = CD.aciklama;
+
+    const tumKarolar = karoListesi();
+    const TOPLAM = tumKarolar.length;
+    /* Karo başına ortalama ~20 KB; kullanıcıya söz verirken yuvarlanır */
+    const kabaMB = (n) => (n * 0.02).toFixed(1).replace(".", ",");
+
+    let iptal = false, calisiyor = false;
+
+    const kYaz = (metin, tip) => {
+      kDurum.textContent = metin;
+      if (tip) kDurum.dataset.tip = tip; else delete kDurum.dataset.tip;
+    };
+
+    /* Kaç karo zaten kayıtlı? — cache anahtarlarıyla listeyi kesiştirir */
+    async function kayitliSay() {
+      try {
+        const cache = await caches.open(KARO_CACHE);
+        const anahtarlar = await cache.keys();
+        const varOlan = new Set(anahtarlar.map((r) => r.url));
+        return tumKarolar.filter((u) => varOlan.has(u)).length;
+      } catch (e) { return 0; }
+    }
+
+    async function kutuyuTazele() {
+      const sayi = await kayitliSay();
+      const tamam = sayi >= TOPLAM;
+      kRozet.textContent = tamam
+        ? "✓ hazır · " + TOPLAM + " karo"
+        : (sayi ? sayi + " / " + TOPLAM + " karo" : "indirilmedi");
+      kRozet.dataset.tip = tamam ? "tamam" : (sayi ? "eksik" : "");
+      btnIndir.textContent = tamam
+        ? "↻ Yeniden indir"
+        : (sayi ? "📥 Eksikleri indir" : "📥 Çevrimdışına al (~" + kabaMB(TOPLAM) + " MB)");
+      btnSil.hidden = sayi === 0;
+      if (!calisiyor && tamam) {
+        /* Tarih sonuna nokta koymak "04.08.2026." gibi çift nokta görüntüsü
+           veriyordu — cümle tarihle bitmesin. */
+        let ne = "";
+        try {
+          const k = JSON.parse(localStorage.getItem(KARO_KEY) || "null");
+          if (k && k.tarih) ne = " — en son " + new Date(k.tarih).toLocaleDateString("tr-TR") + " tarihinde indirildi";
+        } catch (e) { /* yoksay */ }
+        kYaz("Harita çevrimdışı hazır" + ne + ".", "notr");
+      }
+      return sayi;
+    }
+
+    async function karolariIndir() {
+      if (calisiyor) return;
+      if (!navigator.onLine) {
+        kYaz("İnternet yok — indirmek için bağlanman gerekiyor.", "hata");
+        return;
+      }
+      calisiyor = true; iptal = false;
+      btnIndir.hidden = true; btnDur.hidden = false; btnSil.hidden = true;
+      kBarKutu.hidden = false;
+
+      let cache;
+      try { cache = await caches.open(KARO_CACHE); }
+      catch (e) {
+        kYaz("Tarayıcı depolamaya izin vermedi.", "hata");
+        calisiyor = false; btnIndir.hidden = false; btnDur.hidden = true; kBarKutu.hidden = true;
+        return;
+      }
+
+      /* Tarayıcı yer açmak için cache'i silmesin diye kalıcılık iste.
+         Reddedilirse indirme yine yapılır, sadece garanti olmaz. */
+      try { if (navigator.storage && navigator.storage.persist) await navigator.storage.persist(); }
+      catch (e) { /* yoksay */ }
+
+      const varOlan = new Set((await cache.keys()).map((r) => r.url));
+      const kuyruk = tumKarolar.filter((u) => !varOlan.has(u));
+      const hedef = kuyruk.length;
+      let bitti = 0;
+      let dusenler = [];
+
+      const ilerle = () => {
+        const oran = hedef ? Math.round((bitti / hedef) * 100) : 100;
+        kBar.style.width = oran + "%";
+        kYaz("İndiriliyor… " + bitti + " / " + hedef + " karo", "notr");
+      };
+      ilerle();
+
+      const karoAl = async (u) => {
+        try {
+          const yanit = await fetch(u, { credentials: "omit" });
+          if (yanit && yanit.ok) { await cache.put(u, yanit); return true; }
+        } catch (e) { /* aşağıda düşen listesine girer */ }
+        return false;
+      };
+
+      /* İki eşzamanlı istek + her istekten sonra ara. OpenStreetMap'in karo
+         sunucusu gönüllü bağışla dönüyor ve hızlı toplu çekimi kısıyor:
+         ölçülen ilk denemede (3 eşzamanlı, 90 ms ara) son ~15 karo reddedildi.
+         Yavaşlatmak toplam süreyi ~25 saniyeye çıkarıyor — bir kerelik iş. */
+      const isci = async () => {
+        while (!iptal) {
+          const u = kuyruk.pop();
+          if (!u) return;
+          if (!(await karoAl(u))) dusenler.push(u);
+          bitti++;
+          ilerle();
+          await new Promise((r) => setTimeout(r, 200));
+        }
+      };
+      await Promise.all([isci(), isci()]);
+
+      /* Reddedilenler için tek seferlik, tek sıralı, geniş aralıklı ikinci tur.
+         Sunucu kısmışsa nefes aldırmak yetiyor. */
+      if (!iptal && dusenler.length) {
+        const ikinciTur = dusenler.slice();
+        dusenler = [];
+        for (let i = 0; i < ikinciTur.length && !iptal; i++) {
+          kYaz("Reddedilenler yeniden deneniyor… " + (i + 1) + " / " + ikinciTur.length, "notr");
+          if (!(await karoAl(ikinciTur[i]))) dusenler.push(ikinciTur[i]);
+          await new Promise((r) => setTimeout(r, 800));
+        }
+      }
+      const hata = dusenler.length;
+
+      calisiyor = false;
+      btnIndir.hidden = false; btnDur.hidden = true;
+      kBarKutu.hidden = true; kBar.style.width = "0%";
+
+      const sayi = await kutuyuTazele();
+      if (iptal) {
+        kYaz("Durduruldu — " + sayi + " / " + TOPLAM + " karo kayıtlı. Kaldığı yerden sürdürebilirsin.", "notr");
+      } else if (sayi >= TOPLAM) {
+        try {
+          localStorage.setItem(KARO_KEY, JSON.stringify({ tarih: new Date().toISOString(), sayi: sayi }));
+        } catch (e) { /* yoksay */ }
+        kYaz("✓ Harita çevrimdışı hazır — " + sayi + " karo (~" + kabaMB(sayi) + " MB).");
+      } else {
+        kYaz(hata + " karo indirilemedi. Bağlantını kontrol edip \"Eksikleri indir\"e bas.", "hata");
+      }
+    }
+
+    btnIndir.addEventListener("click", karolariIndir);
+    btnDur.addEventListener("click", () => { iptal = true; kYaz("Durduruluyor…", "notr"); });
+    btnSil.addEventListener("click", async () => {
+      if (calisiyor) return;
+      try { await caches.delete(KARO_CACHE); } catch (e) { /* yoksay */ }
+      try { localStorage.removeItem(KARO_KEY); } catch (e) { /* yoksay */ }
+      kYaz("İndirilen karolar silindi.", "notr");
+      kutuyuTazele();
+    });
+
+    kKutu.hidden = false;
+    kutuyuTazele();
+  }
+
   /* ---------- NELERE DİKKAT ETMELİ ---------- */
   const dikkatGrid = $("#dikkat-grid");
   const seviyeEtiketi = { kritik: "kritik", yuksek: "önemli", normal: "bilgi" };
@@ -4064,6 +4526,18 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
 
   const etkinISO = simuleTarih() || bugunISO;
 
+  /* Hangi günün hangi ulaşım bacağı olduğu — Bugün ekranı ve günün kartı
+     aynı eşlemeyi kullanır, ikisi ayrışmasın diye tek yerde durur. */
+  const GUN_BACAK = {
+    "2026-08-12": "Priştine → Üsküp",
+    "2026-08-13": "Üsküp → Ohrid",
+    "2026-08-16": "Ohrid → Dıraç",
+    "2026-08-18": "Dıraç → Tiran",
+    "2026-08-19": "Tiran → İstanbul"
+  };
+  const gunBacagi = (iso) =>
+    GUN_BACAK[iso] ? TUR.ulasim.find((u) => u.bacak === GUN_BACAK[iso]) : null;
+
   function bugunKartiCiz() {
     const i = TUR.gunler.findIndex((g) => g.tarihISO === etkinISO);
     if (i < 0) return false;
@@ -4091,14 +4565,7 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
 
     /* Bugün hangi şehirde kalıyoruz + o günün ulaşım bacağı */
     const sehir = HV.gunSehir[etkinISO] || (sonGun ? "Yolda" : "—");
-    const bacak = TUR.ulasim.find((u) => {
-      if (etkinISO === "2026-08-12") return u.bacak === "Priştine → Üsküp";
-      if (etkinISO === "2026-08-13") return u.bacak === "Üsküp → Ohrid";
-      if (etkinISO === "2026-08-16") return u.bacak === "Ohrid → Dıraç";
-      if (etkinISO === "2026-08-18") return u.bacak === "Dıraç → Tiran";
-      if (etkinISO === "2026-08-19") return u.bacak === "Tiran → İstanbul";
-      return false;
-    });
+    const bacak = gunBacagi(etkinISO);
 
     /* Bu geceki konaklama — geceler[] eşlemesinden bulunur.
        19 Ağustos'ta kayıt yoktur: o gece konaklama yok, yerine boşluk bloğu çıkar. */
@@ -4181,6 +4648,7 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
           '<span class="bugun-yarin">' +
             (yarin ? "<b>Yarın:</b> " + esc(yarin.tarih) + " — " + esc(yarin.baslik) : "<b>Yarın:</b> tur tamamlanıyor 🏠") +
           "</span>" +
+          '<button class="btn" type="button" data-kart-ac="' + etkinISO + '">Günün kartı</button>' +
           '<a class="btn" href="#gun-' + (i + 1) + '">Tam güne git →</a>' +
         "</div>" +
       "</div>";
@@ -4191,6 +4659,204 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
 
   const bugunVarMi = bugunKartiCiz();
   havaBaslat(etkinISO).then(() => { if (bugunVarMi) bugunKartiCiz(); navKur(); });
+
+  /* =====================================================================
+     GÜNÜN KARTI — tam ekran, tek bakışlık acil kart
+     Bugün ekranı sayfanın bir bölümü; bu ise kaydırmadan bakılan, ekran
+     görüntüsü alınıp kilit ekranına konabilen tek parça kart. İçinde
+     yalnızca "o an lazım olan" var: bu geceki evin adresi (taksiciye
+     uzatılacak kadar büyük, yerel alfabede), kapı kodu, ev sahibi telefonu,
+     günün ulaşımı, o ülkedeki büyükelçilik ve 112.
+
+     Kodlar cihazdaki kayıttan (balkan2026.gizli) okunur; kart her açılışta
+     yeniden kurulduğu için Cepte bölümüne az önce yazılan kod hemen görünür.
+     ===================================================================== */
+  const kartKatman = $("#gun-karti");
+  const kartGovde = $("#kart-govde");
+  const kartGunEtiket = $("#kart-gun");
+  const kartOnceki = $("#kart-onceki");
+  const kartSonraki = $("#kart-sonraki");
+  let kartISO = null, kartSonOdak = null;
+
+  /* Kart hangi günü gösterebilir: programdaki 9 gün */
+  const kartGunleri = TUR.gunler.map((g) => g.tarihISO);
+
+  function gkSatir(etiket, deger) {
+    return '<div class="gk-satir"><b>' + esc(etiket) + "</b><span>" + deger + "</span></div>";
+  }
+
+  /* Kapı kodu / kutu şifresi / wifi — boşsa bunu açıkça söyler.
+     "Boş görünüyor" ile "kaydetmeyi unuttuk" ayırt edilebilsin diye. */
+  function gkKodlar(k) {
+    return (k.gizliAlanlar || []).map((a) => {
+      const deger = gizliler[k.id + "::" + a.ad];
+      return '<div class="gk-kod"><b>' + esc(a.etiket) + "</b>" +
+        (deger && String(deger).trim()
+          ? '<span class="gk-kod-deger">' + esc(deger) + "</span>"
+          : '<span class="gk-kod-yok">kaydedilmedi — Cepte bölümünden gir</span>') +
+      "</div>";
+    }).join("");
+  }
+
+  function gunKartiIcerik(iso) {
+    const i = kartGunleri.indexOf(iso);
+    const g = TUR.gunler[i];
+    if (!g) return "<p>Bu gün için kayıt yok.</p>";
+
+    const sehir = HV.gunSehir[iso] || (iso === "2026-08-20" ? "Yolda" : "—");
+    const konak = (C.konaklamalar || []).find((k) => (k.geceler || []).indexOf(iso) > -1);
+    const bacak = gunBacagi(iso);
+    /* Uçuş yalnızca ilgili günlerde: kalkış günü ve dönüş gecesi */
+    const ucus = iso === "2026-08-12" ? C.ucuslar[0]
+      : (iso === "2026-08-19" || iso === "2026-08-20") ? C.ucuslar[1] : null;
+
+    let h = '<div class="gk-ust">' +
+      '<span class="gk-tarih">' + esc(g.tarih) + "</span>" +
+      '<span class="gk-sehir">' + esc(sehir) + "</span>" +
+    "</div>" +
+    '<div class="gk-baslik">' + esc(g.ikon) + " " + esc(g.baslik) + "</div>";
+
+    /* ---- kaçırılamaz kısıt en üstte ---- */
+    if (g.uyari) h += '<div class="gk-uyari">' + markTBD(esc(g.uyari)) + "</div>";
+
+    /* ---- bu geceki ev ---- */
+    if (konak) {
+      const ilkGece = konak.geceler[0] === iso;
+      const sonGece = konak.geceler[konak.geceler.length - 1] === iso;
+      const bag = mapsBag(konak.konum);
+      const panoAdres = konak.adresYerel ? konak.adresYerel + " — " + konak.adres : konak.adres;
+
+      h += '<div class="gk-blok">' +
+        '<span class="gk-etiket">Bu gece · ' + esc(konak.sehir) + "</span>" +
+        '<div class="gk-ad">' + esc(konak.kisaAd) + "</div>" +
+
+        '<div class="gk-adres">' +
+          '<span class="gk-adres-yerel" lang="' + (konak.adresYerel ? "mk" : "sq") + '">' +
+            esc(konak.adresYerel || konak.adres) + "</span>" +
+          (konak.adresYerel ? '<span class="gk-adres-latin">' + esc(konak.adres) + "</span>" : "") +
+          (konak.tarif ? '<span class="gk-adres-latin">' + esc(konak.tarif) + "</span>" : "") +
+        "</div>" +
+
+        '<div class="gk-btnler">' +
+          kopyaEtiketli(panoAdres, "Adresi kopyala", "taksiciye göster") +
+          (bag ? '<a class="btn btn-sade" target="_blank" rel="noopener" href="' + bag + '">Haritada aç</a>' : "") +
+        "</div>" +
+
+        (ilkGece
+          ? gkSatir("Giriş", "<b>" + esc(konak.girisPencere) + "</b> · " + esc(konak.girisYontemi))
+          : gkSatir("Çıkış", esc(konak.cikisTarih) + " · " + esc(konak.cikisSaat) +
+              (sonGece ? " — yarın" : ""))) +
+        (konak.telefonlar || []).map((t) =>
+          gkSatir(t.etiket, belliMi(t.numara)
+            ? '<a class="gk-tel" href="tel:' + esc(String(t.numara).replace(/[\s()]/g, "")) + '">' +
+              esc(t.numara) + "</a>"
+            : markTBD(esc(t.numara)))).join("") +
+        gkKodlar(konak) +
+      "</div>";
+    } else if (iso === "2026-08-19") {
+      /* Turun tek konaklamasız gecesi — kartın işi burada büsbütün artıyor */
+      h += '<div class="gk-blok">' +
+        '<span class="gk-etiket">Bu gece · konaklama yok</span>' +
+        '<div class="gk-ad">🌙 Gece uçuşu</div>' +
+        gkSatir("Çıkış", "Dıraç'tan en geç 11:00 — valizler elde") +
+        gkSatir("Bagaj", markTBD("Emanet gerekiyor — konum ve saat belirlenecek")) +
+        gkSatir("Hareket", "~23:30 merkezden Nene Tereza Havalimanı'na") +
+      "</div>";
+    }
+
+    /* ---- günün ulaşımı ---- */
+    if (bacak) {
+      h += '<div class="gk-blok">' +
+        '<span class="gk-etiket">Bugünkü yol</span>' +
+        '<div class="gk-ad">' + esc(bacak.bacak) + "</div>" +
+        gkSatir("Süre", esc(bacak.sure)) +
+        gkSatir("Yöntem", esc(bacak.yontem)) +
+        gkSatir("Bilet", markTBD(esc(bacak.durum))) +
+      "</div>";
+    }
+
+    /* ---- uçuş ---- */
+    if (ucus) {
+      h += '<div class="gk-blok">' +
+        '<span class="gk-etiket">Uçuş</span>' +
+        '<div class="gk-ad">' + esc(ucus.sefer) + " · " + esc(ucus.rota) + "</div>" +
+        gkSatir("PNR", '<span class="gk-kod-deger">' + esc(ucus.pnr) + "</span>") +
+        gkSatir("Tarih", esc(ucus.tarih)) +
+        (ucus.uyari ? '<div class="gk-uyari">🌙 ' + esc(ucus.uyari) + "</div>" : "") +
+      "</div>";
+    }
+
+    /* ---- acil: 112 + o ülkenin büyükelçiliği ---- */
+    const beAd = (C.buyukelcilikSehir || {})[sehir];
+    const be = beAd ? (C.acil || []).find((a) => a.ad === beAd) : null;
+    const tel = (n) => '<a class="gk-tel" href="tel:' + esc(String(n).replace(/[\s()]/g, "")) + '">' + esc(n) + "</a>";
+
+    h += '<div class="gk-blok">' +
+      '<span class="gk-etiket">Acil</span>' +
+      gkSatir("Acil çağrı", tel("112") + " — polis · ambulans · itfaiye") +
+      (be
+        ? gkSatir("Büyükelçilik", tel(be.deger) +
+            (be.nobetci ? "<br>Nöbetçi " + tel(be.nobetci) : "") +
+            (be.adres ? '<br><span class="gk-adres-latin">' + esc(be.adres) + "</span>" : ""))
+        : "") +
+    "</div>" +
+
+    '<p class="gk-not">Kodlar ve notlar yalnızca bu cihazda saklanır. ' +
+      "Ekran görüntüsü alıp kilit ekranına koyabilirsin.</p>";
+
+    return h;
+  }
+
+  function kartCiz(iso) {
+    kartISO = iso;
+    const i = kartGunleri.indexOf(iso);
+    /* 9 gün kaydı var ama tur 8 gün: son gün (20 Ağustos) İstanbul'a iniş.
+       "8. gün / 8" diye iki kez yazmak yerine son gün ayrıca adlandırılır. */
+    kartGunEtiket.textContent = i < 0 ? "" : (i >= 8 ? "Dönüş" : (i + 1) + ". gün / 8");
+    kartOnceki.disabled = i <= 0;
+    kartSonraki.disabled = i < 0 || i >= kartGunleri.length - 1;
+    kartGovde.innerHTML = gunKartiIcerik(iso);
+    kartGovde.scrollTop = 0;
+  }
+
+  function kartAc(iso) {
+    /* Tur dışındaki bir tarihte açılırsa ilk güne düşülür — düğme her zaman
+       bir şey gösterir, boş kart çıkmaz. */
+    const hedef = kartGunleri.indexOf(iso) > -1 ? iso : kartGunleri[0];
+    kartSonOdak = document.activeElement;
+    kartCiz(hedef);
+    kartKatman.dataset.acik = "1";
+    document.body.style.overflow = "hidden";
+    $("#kart-kapat").focus();
+  }
+  function kartKapat() {
+    kartKatman.dataset.acik = "0";
+    document.body.style.overflow = "";
+    if (kartSonOdak && kartSonOdak.focus) kartSonOdak.focus();
+  }
+  const kartKay = (yon) => {
+    const i = kartGunleri.indexOf(kartISO) + yon;
+    if (i >= 0 && i < kartGunleri.length) kartCiz(kartGunleri[i]);
+  };
+
+  $("#btn-kart").addEventListener("click", () => kartAc(etkinISO));
+  $("#kart-kapat").addEventListener("click", kartKapat);
+  kartOnceki.addEventListener("click", () => kartKay(-1));
+  kartSonraki.addEventListener("click", () => kartKay(1));
+  /* Karartıya dokununca kapan; çerçevenin içine dokunmak kapatmaz */
+  kartKatman.addEventListener("click", (e) => { if (e.target === kartKatman) kartKapat(); });
+  /* Bugün ekranındaki "Günün kartı" düğmesi — kart her yeniden çizildiğinde
+     yeni bir düğme oluştuğu için tek tek değil, kapsayıcıdan dinlenir. */
+  $("#bugun").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-kart-ac]");
+    if (b) kartAc(b.dataset.kartAc);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (kartKatman.dataset.acik !== "1") return;
+    if (e.key === "Escape") { kartKapat(); return; }
+    if (e.key === "ArrowRight") { e.preventDefault(); kartKay(1); return; }
+    if (e.key === "ArrowLeft") { e.preventDefault(); kartKay(-1); }
+  });
 
   /* =====================================================================
      BÖLÜM GEZİNTİSİ

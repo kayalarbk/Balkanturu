@@ -354,7 +354,9 @@ Korkutmak için değil — önceden bilinirse hiçbiri sorun olmaz. Sitede ayrı
 ### 📶 İletişim ve harita — bilgi
 - Yurt dışı roaming pahalı; yerel eSIM ya da otel wifi daha mantıklı.
 - Üç ülke de AB dışında; Türkiye paketleri genelde geçerli değil, tarifeyi kontrol et.
-- Üsküp, Ohrid, Dıraç ve Tiran haritalarını offline indir.
+- Sitedeki harita bölümünden **"Haritayı çevrimdışına al"**a bas (evde, wifi'dayken) — rota,
+  beş şehir ve üç evin sokağı telefona iner, ağsız da açılır. Yine de yedek olarak Google Maps
+  ya da Organic Maps'ten bölge indirmek zarar vermez.
 - Bilet ve rezervasyonların offline kopyasını telefonda tut.
 
 ### 🩺 Sağlık — bilgi
@@ -498,6 +500,58 @@ açısından beklenen kalıp bu.
 ---
 
 ## Yapılanlar
+
+### 4 Ağustos 2026 — on birinci oturum
+
+**Çevrimdışı harita — karolar telefona indirilebiliyor**
+- Sorun: site service worker sayesinde ağsız açılıyordu ama harita karoları harici. Roaming
+  kapalıyken harita boş gri kutu oluyordu — yani yolda en çok lazım olan şey çalışmıyordu.
+- Harita bölümünün altına **"Haritayı çevrimdışına al"** kutusu eklendi. Kapsam
+  `TUR.harita.cevrimdisi` içinde veri olarak duruyor: rota geneli z7–8, beş şehir z12–14,
+  üç ev z15–16, iki havalimanı z13. **236 karo, ~4,7 MB** (ölçüldü).
+- Harita `maxZoom` 13'ten **16**'ya çıkarıldı — evin sokağını görmeden "çevrimdışı harita"
+  demek anlamsız olurdu.
+- **Cache adları sürümsüzleştirildi.** `balkan-karo` ve `balkan-gorsel` artık `CACHE_VERSION`
+  içermiyor; sürüme bağlı olsalardı `activate` her `index.html` güncellemesinde onları
+  silerdi ve evde indirilen harita yolda kaybolurdu. `sw.js` v4.
+- Karolar **sayfa tarafından** cache'e yazılıyor, service worker tarafından değil: eski bir sw
+  sürümü hâlâ devredeyse bile doğru cache'e düşsün diye. `sw.js` karo yolunu *yalnızca cache*
+  stratejisiyle okuyor — arka planda tazeleme yok, çünkü yurt dışında her tazeleme isteği
+  doğrudan roaming faturası.
+- Karo adresi Leaflet'in istediğiyle birebir eşleşmek zorunda; `{s}` alt alan seçimi
+  Leaflet'in formülüyle (`"abc"[|x+y| % 3]`) aynı yazıldı ve ekrandaki gerçek karo
+  adresleriyle karşılaştırılarak doğrulandı.
+- İki ölçüm düzeltmesi: (1) kutu rotanın sınırına oturtulunca Leaflet'in görüş alanı dışından
+  istediği karolar dışarıda kalıyordu — kutu genişletildi; (2) 3 eşzamanlı istek + 90 ms arayla
+  indirmede OSM son ~15 karoyu reddetti — 2 eşzamanlı + 200 ms'e düşürüldü ve reddedilenler
+  için tek sıralı, 800 ms aralıklı ikinci tur eklendi. Sonuç 236/236.
+- Bilinen boşluk kabul edildi ve arayüzde yazıldı: z9–z11 kapsanmıyor, ara yakınlıklarda kısa
+  gri görünebilir. Aradaki üç seviyeyi bölge geneli için indirmek karo sayısını üç katına
+  çıkarırdı; işe yarayan iki ölçek zaten uçlardaki.
+
+**Günün kartı — tam ekran acil kart**
+- "Cepte" bölümü doğru bilgiyi taşıyordu ama bir sayfa bölümüydü: taksinin içinde, gece,
+  valizle kaydırarak adres aranmıyor.
+- Üst çubuğa **"Kart"** düğmesi eklendi (emoji değil yazı — Segoe UI'daki bozuk glif riski).
+  Tam ekran, tek parça: o geceki evin adresi **yerel alfabede büyük puntoyla**, latin karşılığı,
+  kapı/kutu kodu ve wifi (cihazdaki kayıttan), ev sahibi telefonu `tel:` bağlantısıyla, günün
+  ulaşım bacağı, ilgili günlerde uçuş ve PNR, **bulunulan ülkenin** büyükelçiliği ve 112.
+- Büyükelçilik seçimi `TUR.cepte.buyukelcilikSehir` eşlemesinden geliyor: Ohrid'deyken Üsküp,
+  Dıraç'tayken Tiran çıkıyor. Beş numara arasından doğru olanı aramak zorunda kalınmıyor.
+- 19 Ağustos kartı ayrı kuruldu — turun tek konaklamasız gecesi: çıkış 11:00, bagaj emaneti,
+  ~23:30 havalimanına hareket, 02:15 kalkış.
+- Oklarla günler arasında geziliyor, Esc kapatıyor, karartıya dokunmak kapatıyor. Ekran
+  görüntüsü alınıp kilit ekranına konabilsin diye tek parça tasarlandı.
+- Ulaşım bacağı eşlemesi `GUN_BACAK` olarak tek yere alındı — Bugün ekranı ile kart ayrışmasın.
+
+**Ölçüm**
+- 320 / 360 / 390 / 414 px'te kart: belge düzeyinde yatay kaydırma yok, kart içinde taşan öğe
+  yok, adres puntosu ~20 px.
+- Koyu temada `--c-sand` ile `--c-yuzey` aynı değere düşüyor, adres kutusu kart zeminine
+  karışıyordu → koyuda `--c-cream`'e indirildi.
+- Son gün etiketi "8. gün / 8" olarak iki kez çıkıyordu → 20 Ağustos "Dönüş" oldu.
+- **Yapılmayan:** gerçek cihazda ağsız açılış denenmedi. İndirmenin doğruluğu ve cache içeriği
+  tarayıcıda doğrulandı; uçak moduyla gerçek test hâlâ açık madde.
 
 ### 4 Ağustos 2026 — onuncu oturum
 

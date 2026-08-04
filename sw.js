@@ -2,24 +2,36 @@
    Balkan Kaçamağı — Service Worker
    Amaç: yurt dışında internet olmadan da programın açılması.
 
-   Sürüm artırıldığında eski cache'ler activate sırasında silinir.
+   Sürüm artırıldığında eski cache'ler activate sırasında silinir —
+   karo ve görsel cache'leri hariç, onlar bilerek sürümsüzdür (aşağıda).
    Strateji özeti:
      - HTML / gezinme  → network-first, hata olursa cache
      - App shell       → install'da ön belleğe alınır
-     - Görsel & karo   → cache-first + stale-while-revalidate
-     - Leaflet (CDN)   → cache-first + stale-while-revalidate
+     - Harita karoları → yalnızca cache; yoksa bir kez indir, bir daha sorma
+     - Görsel & Leaflet→ cache-first + stale-while-revalidate
      - Hava durumu API → network-first, hata olursa son başarılı yanıt
    ===================================================================== */
 
 /* index.html her değiştiğinde artırılır — yoksa siteyi ana ekrana eklemiş
    cihazlar eski sürümü görmeye devam eder. Eski cache'ler activate içinde
    silinir (BIZIM_CACHELER dışındaki her ad temizlenir).
-   v3 — 4 Ağustos 2026: konaklama kartı sadeleştirildi, hava durumu null düzeltmesi. */
-const CACHE_VERSION = "balkan-v3";
+   v4 — 4 Ağustos 2026: çevrimdışı harita karoları, günün kartı. */
+const CACHE_VERSION = "balkan-v4";
 const SHELL_CACHE = CACHE_VERSION + "-shell";
-const GORSEL_CACHE = CACHE_VERSION + "-gorsel";
 const HAVA_CACHE = CACHE_VERSION + "-hava";
-const BIZIM_CACHELER = [SHELL_CACHE, GORSEL_CACHE, HAVA_CACHE];
+
+/* ⚠ Bu ikisi bilerek SÜRÜMSÜZDÜR.
+   Sürüme bağlansalardı her index.html güncellemesinde activate onları
+   silerdi: kullanıcı evdeyken indirdiği harita karolarını ve yüklenmiş
+   fotoğrafları yolda, roaming kapalıyken kaybederdi. İçerikleri adrese
+   göre değişmez (karo ve Wikimedia görsel adresleri sabittir), o yüzden
+   eskimeleri sorun değil.
+   KARO_CACHE adı index.html içindeki KARO_CACHE ile ORTAKTIR — biri
+   değişirse diğeri de değişmeli, yoksa indirilen karolar okunamaz. */
+const GORSEL_CACHE = "balkan-gorsel";
+const KARO_CACHE = "balkan-karo";
+
+const BIZIM_CACHELER = [SHELL_CACHE, HAVA_CACHE, GORSEL_CACHE, KARO_CACHE];
 
 /* Çevrimdışı açılış için gereken en küçük set */
 const APP_SHELL = [
@@ -37,7 +49,9 @@ const APP_SHELL = [
 ];
 
 const HAVA_HOST = "api.open-meteo.com";
-const GORSEL_HOSTLAR = ["upload.wikimedia.org", "tile.openstreetmap.org", "unpkg.com"];
+const GORSEL_HOSTLAR = ["upload.wikimedia.org", "unpkg.com"];
+/* Karo sunucusu: a/b/c.tile.openstreetmap.org — hepsi aynı kalıba uyar */
+const KARO_HOST = /(^|\.)tile\.openstreetmap\.org$/;
 
 /* ---------- install: app shell'i ön belleğe al ---------- */
 self.addEventListener("install", (e) => {
@@ -85,6 +99,18 @@ async function agOnce(istek, cacheAdi) {
   }
 }
 
+/* Yalnızca cache; yoksa ağdan al ve sakla. Harita karoları için.
+   Tazeleme yapılmaz: karo içeriği değişmez, ama yurt dışında her karo için
+   arka planda atılacak bir istek doğrudan roaming faturası demek. */
+async function karoCache(istek) {
+  const cache = await caches.open(KARO_CACHE);
+  const kayitli = await cache.match(istek);
+  if (kayitli) return kayitli;
+  const yanit = await fetch(istek);
+  if (yanit && yanit.ok) cache.put(istek, yanit.clone());
+  return yanit;
+}
+
 /* Cache önce; arka planda tazele (stale-while-revalidate). Görseller için. */
 async function cacheOnceTazele(istek, cacheAdi) {
   const cache = await caches.open(cacheAdi);
@@ -124,7 +150,14 @@ self.addEventListener("fetch", (e) => {
     return;
   }
 
-  /* 3) Görseller, harita karoları ve Leaflet → cache önce + arka planda tazele */
+  /* 3) Harita karoları → yalnızca cache; yoksa bir kez indir ve sakla.
+        Kullanıcı "Çevrimdışına al" dediyse tamamı burada hazır bekler. */
+  if (KARO_HOST.test(url.hostname)) {
+    e.respondWith(karoCache(istek).catch(() => new Response("", { status: 504 })));
+    return;
+  }
+
+  /* 4) Görseller ve Leaflet → cache önce + arka planda tazele */
   const gorselMi =
     istek.destination === "image" ||
     GORSEL_HOSTLAR.includes(url.hostname) ||
@@ -135,6 +168,6 @@ self.addEventListener("fetch", (e) => {
     return;
   }
 
-  /* 4) Kalan her şey: ağ önce, çevrimdışıysa cache */
+  /* 5) Kalan her şey: ağ önce, çevrimdışıysa cache */
   e.respondWith(agOnce(istek, SHELL_CACHE).catch(() => caches.match(istek)));
 });
