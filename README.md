@@ -19,8 +19,10 @@ mobile-first yazılmıştır (temel stiller mobil için, `min-width` sorgularıy
 > - **Fotoğraflar** Wikimedia Commons'tan yükleniyor; erişilemezse yerine degrade renkli
 >   yer tutucu ve mekân adı çıkar.
 > - **Rota haritası** Leaflet 1.9.4 kullanıyor (unpkg, SRI hash'li) — projedeki
->   "harici bağımlılık yok" kuralına tek ve bilinçli istisna. Yüklenemezse harita bölümü
->   gizlenir, yerine rotayı yazan sade bir kutu çıkar.
+>   "harici bağımlılık yok" kuralına tek ve bilinçli istisna. `<head>`'de yüklenmez;
+>   harita bölümü ekrana yaklaşınca enjekte edilir, böylece oraya inmeyen ziyaretçi
+>   hiçbir şey indirmez. Yüklenemezse harita bölümü gizlenir, yerine rotayı yazan sade
+>   bir kutu çıkar.
 >
 > Her iki durumda da sayfanın geri kalanı çevrimdışı sorunsuz çalışır.
 
@@ -86,8 +88,8 @@ dokunmak gerekmez.**
   Tarih aralık içindeyse o gün kartı vurgulanır ve otomatik açılır.
 - **Görseller:** `kapak` ve `galeri` alanlarında `{ gorsel, alt, kaynak }` şeklinde durur.
   Kaynak olarak Wikimedia Commons'ın `upload.wikimedia.org/.../960px-...` thumb URL'leri
-  kullanılıyor — Wikimedia yalnızca belirli genişliklere izin veriyor, rastgele bir sayı
-  (ör. 800) `400` döndürür. **Yeni görsel eklerken URL'i ezberden yazma:** Commons'ta ara,
+  kullanılıyor — Wikimedia **dosya başına** belirli genişliklere izin veriyor ve bu liste
+  zamanla daralıyor: 640 px bir zamanlar çalışıyordu, artık `400` döndürüyor. **Yeni görsel eklerken URL'i ezberden yazma:** Commons'ta ara,
   `curl -I` ile 200 döndüğünü doğrula, sonra ekle. `kaynak` alanına fotoğrafçı + lisans yaz.
   Yüklenemeyen görsel `onerror` ile degrade yer tutucuya düşer, sayfa bozulmaz.
 - **Lightbox:** `.gorsel-kutu` sınıfı olan her görsel tıklanabilir; Escape ya da boşluğa
@@ -110,7 +112,9 @@ dokunmak gerekmez.**
   hesapla, base64'e çevir, `integrity` değerini güncelle. Hash tutmazsa tarayıcı
   script'i çalıştırmaz ve harita sessizce yedek kutuya düşer.
 - **Lezzetler:** `sehirler[].lezzetler` dizisine `{ ad, yerel, aciklama, ipucu, gorsel?, kaynak? }`
-  ekle. `gorsel` yoksa madde ikonla gösterilir — uydurma URL yazmaktansa boş bırak.
+  ekle. `gorsel` yoksa madde 🍽 ikonuyla gösterilir — uydurma URL yazmaktansa boş bırak.
+  **Şu an hepsi görselsiz:** eski dokuz URL'in kaynak dosyaları Commons'ta yoktu (`404`),
+  4 Ağustos 2026'da kaldırıldı. Ayrıntı: `docs/img/KAYNAKLAR.md`.
   Görsel kartın tam genişliğinde 16:9 bant olarak basılır; yatay (manzara) görseller
   daha iyi durur.
 - **Favoriler:** kalp düğmeleri `sehirAdı::maddeMetni` biçiminde kimlik kullanır. Bir
@@ -253,8 +257,8 @@ izleyebilirsin. Dört cache olur:
 
 | Cache | Sürümlü mü | İçerik |
 |---|---|---|
-| `balkan-v5-shell` | evet | `index.html`, manifest, ikon, şehir kapakları, Leaflet |
-| `balkan-v5-hava` | evet | Son başarılı Open-Meteo yanıtı |
+| `balkan-v6-shell` | evet | `index.html`, manifest, ikon, şehir kapakları, Leaflet |
+| `balkan-v6-hava` | evet | Son başarılı Open-Meteo yanıtı |
 | `balkan-gorsel` | **hayır** | Wikimedia galeri ve lezzet görselleri |
 | `balkan-karo` | **hayır** | İndirilen OpenStreetMap harita karoları |
 
@@ -273,7 +277,7 @@ ve sayfada **"✨ Yeni sürüm hazır / Yenile"** çubuğu çıkar. Yenile'ye ba
 devralır.
 
 Önbelleklenen dosya listesi değiştiyse (`sw.js` içindeki `APP_SHELL`) ya da eski önbelleğin
-tamamen atılması gerekiyorsa **`CACHE_VERSION` sabitini artır** (`balkan-v4` → `balkan-v5`).
+tamamen atılması gerekiyorsa **`CACHE_VERSION` sabitini artır** (`balkan-v5` → `balkan-v6`).
 Eski cache'ler `activate` sırasında otomatik silinir — `balkan-gorsel` ve `balkan-karo` hariç,
 onlar `BIZIM_CACHELER` içinde ve sürümden bağımsız durur.
 

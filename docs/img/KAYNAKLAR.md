@@ -26,6 +26,18 @@ Commons'ın 960 px thumbnail sürümleri olduğu gibi indirildi.
 
 ## Hâlâ hotlink edilenler
 
-Şehir galerisi (13 görsel) ve lezzet görselleri hâlâ `upload.wikimedia.org` üzerinden
-yükleniyor. Çevrimdışıyken bunlar gelmez; yerlerine degrade renkli yer tutucu + ad çıkar.
-Kapak görselleri yerelden geldiği için sayfa çevrimdışıyken de görselli görünür.
+Şehir galerisi (**13 görsel**) hâlâ `upload.wikimedia.org` üzerinden yükleniyor. Çevrimdışıyken
+bunlar gelmez; yerlerine degrade renkli yer tutucu + ad çıkar. Kapak görselleri yerelden
+geldiği için sayfa çevrimdışıyken de görselli görünür.
+
+## Kaldırılan lezzet görselleri (4 Ağustos 2026)
+
+Dokuz lezzet görselinin URL'i **doğrulanmadan yazılmıştı**: 640 px'lik thumb adresleri `400`,
+kaynak dosyalar ise `404` veriyordu — dosyalar Commons'ta hiç yok. Site aylarca yer tutucu
+gösterip her kaydırmada 9 boşa istek attı. URL'ler ve künyeleri `TUR`'dan kaldırıldı;
+lezzetler şimdi bilinçli 🍽 yer tutucusuyla görünüyor.
+
+Yenisi eklenecekse: Commons'ta **ara**, `curl -I` ile 200 doğrula, `kaynak` alanına
+fotoğrafçı + lisans yaz. Wikimedia artık dosya başına yalnızca belirli thumbnail
+genişliklerine izin veriyor (bu dosyalarda 500 ve 1280 geçti; 320/512/640/800/1024 geçmedi) —
+genişliği de ezberden yazma.

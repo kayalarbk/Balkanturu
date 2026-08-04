@@ -9,8 +9,8 @@
 **Son güncelleme:** 4 Ağustos 2026
 **Depo:** https://github.com/kayalarbk/Balkanturu (`main`)
 **Yayın:** https://kayalarbk.github.io/Balkanturu/ (GitHub Pages, `main` / root — build adımı yok)
-**Son commit:** `699e9ee` + harita kullanılabilirlik oturumu
-**Çalışma ağacı:** temiz · **Toplam commit:** 20 · **Oturum sayısı:** 12
+**Son commit:** `71a2658` + telefon optimizasyonu oturumu
+**Çalışma ağacı:** temiz · **Toplam commit:** 21 · **Oturum sayısı:** 13
 
 ---
 
@@ -69,8 +69,8 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 
 | Dosya | Satır / boyut | Ne işe yarar |
 |---|---|---|
-| `index.html` | **5.534 satır** (~258 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
-| `sw.js` | 174 satır | Service worker — çevrimdışı çalışma, dört cache (ikisi sürümsüz, aşağıda) |
+| `index.html` | **5.648 satır** (~262 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
+| `sw.js` | 179 satır | Service worker — çevrimdışı çalışma, dört cache (ikisi sürümsüz, aşağıda) |
 | `manifest.json` | — | PWA künyesi: standalone, portrait, tema `#0b2a45`, 2 kısayol (Bugün · Cepte) |
 | `icon.svg` | — | Uygulama ikonu (`any` + `maskable`) |
 | `docs/img/` | 5 kapak + `KAYNAKLAR.md` | Yerele indirilmiş şehir kapakları ve lisans listesi |
@@ -113,12 +113,45 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 | `kontrolListesi` | **10 maddelik** hazırlık listesi | ✅ (işaretler kullanıcıda) |
 | `belirlenecek` | Sayfa sonundaki açık işler listesi | 7 madde |
 
+### Telefon optimizasyonu (ölçüldü, 390 px)
+
+Telefonda siteyi açan kişi çoğu zaman tek bir şey istiyor: bugünün adresi. Sayfanın geri
+kalanını indirtmemek gerekiyor.
+
+| | Önce | Sonra |
+|---|---|---|
+| Haritaya inilmeyen açılışta alt kaynak isteği | Leaflet CSS (render'ı bloke eden) + JS + **13 karo** | **0** |
+| Başarısız istek (her şehir kaydırmasında) | 9 (kırık lezzet görselleri) | **0** |
+| Tam yerleşim süresi (masaüstü, ~20.000 px sayfa) | 33 ms | **12 ms** |
+
+**1. Leaflet istendiğinde yükleniyor.** Harita 12 bölümün 8'incisi. `<head>`'deki
+`<link rel=stylesheet>` render'ı bloke ediyor, `<script defer>` her açılışta iniyor, harita
+kurulur kurulmaz ~250 KB karo isteniyordu. Artık bölüm yaklaşınca (IntersectionObserver,
+`rootMargin:600px`) enjekte ediliyor. Adresler ve SRI hash'leri `LEAFLET` sabitinde.
+Gözcü sessiz kalırsa diye iki yedek tetikleyici var: `hashchange` (nav bağlantısı) ve harita
+bölümüne `pointerdown`. `sw.js` hâlâ ikisini de app shell'de tutuyor — çevrimdışı bozulmadı.
+
+**2. `content-visibility:auto`** — `.city`, `.cep-kart`, `.dikkat`, `.info` kartlarında.
+Ekran dışındaki kartın stil/yerleşim/boyama işi hiç yapılmıyor. `contain-intrinsic-size`
+değerleri 390 px'te ölçülmüş gerçek ortanca yükseklikler; `auto` anahtar sözcüğü ilk
+render'dan sonra gerçek boyu hatırlatıyor. Yazdırmada kapatılıyor, yoksa ekran dışı kartlar
+kâğıda basılmazdı. `.day` bilerek dışarıda — çapa hedefi onlar.
+
+**Ölçülüp vazgeçilenler** (ikisi de kârlı çıkmadı):
+- *Kapakları yeniden kodlamak:* 987 KB → 750 KB (%24) ama kazancın neredeyse tamamı tek
+  dosyadan (Ohrid 341→156 KB); kalan dördü %3-19 kazanırken hepsi kalite kaybediyor
+  (PSNR 32-46 dB). Kapaklar zaten tembel yükleniyor ve bir kez ön belleğe alınıyor.
+- *Wikimedia görsellerini küçültmek (srcset):* 960 px kaynak, telefonda 310 CSS px'te
+  gösteriliyor — yani ~3x DPR için zaten doğru boy. Üstelik Wikimedia artık yalnızca belirli
+  genişliklere izin veriyor (bu dosyalarda 500 ve 1280 geçti; 320/512/640/800/1024 **400**
+  döndü).
+
 ### Harici bağlantılar (ikisi de bozulmaya karşı korumalı)
 
 | Bağımlılık | Ne için | Yedek davranış |
 |---|---|---|
 | **Wikimedia Commons** görselleri | Kapak ve galeri fotoğrafları | `onerror` → degrade renkli yer tutucu + mekân adı |
-| **Leaflet 1.9.4** (unpkg, SRI hash'li) | Rota haritası — *tek bilinçli istisna* | Yüklenmezse harita bölümü gizlenir, rotayı yazan sade kutu çıkar |
+| **Leaflet 1.9.4** (unpkg, SRI hash'li) | Rota haritası — *tek bilinçli istisna*. **`<head>`'de değil**, harita bölümü yaklaşınca enjekte edilir | Yüklenmezse harita bölümü gizlenir, rotayı yazan sade kutu çıkar |
 | **OpenStreetMap karoları** | Harita zemini | **Önceden indirilebilir** (aşağıda); indirilmemişse ağa muhtaç |
 | **Open-Meteo API** | 16 günlük hava tahmini | Pencere dışıysa mevsim normali; yanıt 3 saat `localStorage`'da |
 
@@ -307,6 +340,11 @@ Yedek dosyası bu kodları **içerir** — yalnızca kendi cihazlarınızla payl
 | Haritada `flyTo` | Aradaki bütün zoom seviyelerinden karo ister; yurt dışında doğrudan fatura → şerit atlamaları `setView(..., {animate:false})` |
 | Tarayıcıda `data-tema`'yı elle değiştirip ölçmek | Yüklenmiş sayfada attribute'u JS'le değiştirince hesaplanan stil güvenilmez okundu (yanlış "hata" buldurdu) → temayı `balkan2026.tema` ile **yüklenmeden önce** ayarla, sonra ölç |
 | `.gk-satir b` gibi seçiciler | Değerin içinde de `<b>` geçebiliyor; etiket biçimi ona bulaşmasın diye **doğrudan çocuk** (`> b`) yaz |
+| Wikimedia thumb genişlikleri | Artık **dosya başına belirli genişlikler** geçerli. 640 px bir zamanlar çalışıyordu, şimdi `400` dönüyor. Eklemeden önce mutlaka doğrula |
+| Görsel URL'ini doğrulamadan eklemek | 9 lezzet görselinin kaynak dosyası Commons'ta hiç yoktu (`404`); site aylarca yer tutucu gösterdi ve her kaydırmada 9 boşa istek attı. **Kural 3 bunun için var** |
+| `content-visibility:auto` | Ekran dışı içerik **yazdırılmaz** → `@media print` içinde `visible` yap. Çapa hedefi olan öğelere (`.day`) verme, tahmini yükseklik çapayı kaydırır |
+| Çapayı katlanır gövdeye koymak | `#gun-3` `.day-body`'deydi; `scroll-margin-top` `.day`'de olduğu için hedef yapışkan çubuğun altına düşüyordu. Çapa **kartın kendisinde**, gövdenin ayrı id'si yalnızca `aria-controls` için |
+| `<head>`'deki üçüncü parti CSS | `<link rel=stylesheet>` render'ı bloke eder. Sayfanın 8. bölümünde kullanılan bir kütüphane için bedeli herkes öder → gerektiğinde enjekte et |
 
 ---
 
@@ -342,6 +380,7 @@ kontrolü yapılmadı.**
 | 7 | 29 Tem 2026 | Üst gezinme çubuğu, karanlık tema, yazdırma çıktısı, kayıt yedekleme; **hava tahmini düzeltildi** (`forecast_days=16` eksikti) |
 | 8 | 4 Ağu 2026 | `progress.md` oluşturuldu |
 | 10 | 4 Ağu 2026 | **Tasarım sadeleştirildi:** konaklama kartı yeniden kuruldu, rezervasyon anına ait künyeler (puan, olanaklar) siteden çıkarıldı, Bugün ekranındaki tekrarlar kaldırıldı, hava durumundaki "0°" hatası düzeltildi |
+| 13 | 4 Ağu 2026 | **Telefon optimizasyonu:** Leaflet ve karolar istendiğinde yükleniyor (açılışta 0 alt kaynak), `content-visibility` ile yerleşim 33→12 ms, **9 kırık lezzet görseli bulundu ve kaldırıldı**, gün çapaları yapışkan çubuğun altından kurtarıldı |
 | 12 | 4 Ağu 2026 | **Harita yolda kullanılacak hâle getirildi:** odak şeridi, 📍konumum (eve mesafe), ⛶tam ekran, işe yarar ev popup'ı; karo tüketimi açılışta 15'ten 6'ya indi |
 | 11 | 4 Ağu 2026 | **Çevrimdışı harita ve günün kartı:** 236 karo indirilebilir hâle geldi (cache'ler sürümsüzleştirildi, OSM hız sınırına göre ayarlandı), üst çubuğa tam ekran "Kart" eklendi |
 | 9 | 4 Ağu 2026 | **Konaklamalar işlendi:** üç Airbnb (adres + koordinat), taksiciye göster kutusu, Ohrid 19:00 kritik uyarısı, 19 Ağustos boşluğu, gizli kod alanları, haritada ev pinleri, Dıraç Arkeoloji Müzesi, `sw.js` v2 |
@@ -393,7 +432,10 @@ Ayrıntılı oturum günlüğü (sebep–çözüm anlatımıyla): `PLAN.md` → 
       sınandı. Site HTTPS'te (GitHub Pages) olduğu için izin istenebilmeli; ilk sabitleme süresi
       ve "eve X m" doğruluğu yerinde görülmeli
 - [ ] Tam ekran haritayı çentikli iPhone'da dene — Leaflet denetimleri adanın altında kalmamalı
-- [ ] Kalan lezzetlere görsel (sac böreği, kebap, Skopsko, deniz mahsulleri) — uygun bulunursa
+- [ ] **Lezzet görselleri tümüyle boş** — eski 9 URL'in kaynak dosyaları Commons'ta yok (404),
+      kaldırıldı. Yenisi eklenecekse Commons'ta **aranarak** bulunmalı, `curl -I` ile 200
+      doğrulanmalı ve `kaynak` alanına fotoğrafçı + lisans yazılmalı. Şu an hepsi 🍽 yer
+      tutucuyla görünüyor — sayfa bozulmuyor, sadece fotoğrafsız
 - [ ] Bill Clinton Bulvarı, Blloku, Bunk'Art için galeri görseli — uygun bulunursa
 - [ ] Hava durumu penceresi açıldıkça mevsim normallerinin gerçek tahmine dönmesini izle
 - [ ] Kapı ve wifi şifreleri geldiğinde Cepte bölümündeki gizli alanlara **her iki telefonda**

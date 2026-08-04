@@ -501,6 +501,51 @@ açısından beklenen kalıp bu.
 
 ## Yapılanlar
 
+### 4 Ağustos 2026 — on üçüncü oturum
+
+**Telefon optimizasyonu — ölçerek**
+
+Çıkış noktası: telefonda siteyi açan kişi çoğu zaman tek şey istiyor, bugünün adresi.
+Ölçüm, sayfanın bunun için gereğinden çok iş yaptığını gösterdi.
+
+| | Önce | Sonra |
+|---|---|---|
+| Haritaya inilmeyen açılışta alt kaynak isteği | Leaflet CSS + JS + **13 karo** | **0** |
+| Başarısız istek (her şehir kaydırmasında) | 9 | **0** |
+| Tam yerleşim süresi (~20.000 px sayfa) | 33 ms | **12 ms** |
+
+- **Leaflet artık `<head>`'de değil.** Harita 12 bölümün 8'incisi; oraya hiç inmeyen biri
+  render'ı bloke eden bir stylesheet, 148 KB JS ve kurulur kurulmaz istenen ~250 KB karo
+  ödüyordu. Dosyalar bölüm yaklaşınca (IntersectionObserver, `rootMargin:600px`) enjekte
+  ediliyor; adres ve SRI hash'leri `LEAFLET` sabitinde. Gözcü sessiz kalırsa diye iki yedek
+  tetikleyici eklendi (`hashchange` ve harita bölümüne `pointerdown`) — üçü de sınandı.
+  `sw.js` hâlâ ikisini app shell'de tutuyor, çevrimdışı davranış bozulmadı (v6).
+- **`content-visibility:auto`** `.city`, `.cep-kart`, `.dikkat`, `.info` kartlarında;
+  `contain-intrinsic-size` değerleri 390 px'te ölçülmüş gerçek yükseklikler. Yazdırmada
+  kapatıldı. `.day` bilerek dışarıda bırakıldı (çapa hedefi).
+
+**Bu sırada bulunan iki hata**
+
+1. **Dokuz lezzet görselinin hepsi kırıktı.** 640 px'lik Wikimedia URL'leri `400`, kaynak
+   dosyalar ise `404` veriyordu — dosyalar Commons'ta hiç yok. Yani bu URL'ler
+   doğrulanmadan yazılmış (kural 3'ün ihlali) ve site aylardır 9 boşa istek atıp yer tutucu
+   gösteriyormuş. URL'ler ve ilgili `kaynak` satırları kaldırıldı; artık hepsi bilinçli 🍽
+   yer tutucusuyla çıkıyor. **Yeni görsel eklenecekse Commons'ta aranıp doğrulanmalı.**
+   Ayrıca öğrenildi: Wikimedia thumb genişlikleri artık dosya başına sınırlı (bu dosyalarda
+   500 ve 1280 geçti, 320/512/640/800/1024 geçmedi).
+2. **Gün çapaları yapışkan çubuğun altında kalıyordu.** `#gun-3` `.day-body`'deydi ama
+   `scroll-margin-top` `.day`'de tanımlı. "Gün programına git →" bağlantısına basınca günün
+   tarihi ve başlığı ekranın dışında kalıyor, gövde de çubuğun altına giriyordu. Çapa artık
+   `.day` üzerinde (`top: 0 → 57 px`), gövdenin ayrı id'si yalnızca `aria-controls` için.
+   Üstelik çapayla gelinen gün kendiliğinden açılıyor — katlı bir başlığa düşülmüyor.
+
+**Ölçülüp vazgeçilenler.** İkisi de "iyi fikir" gibi durup ölçümde kârsız çıktı:
+- *Kapakları yeniden kodlamak:* 987 → 750 KB (%24), ama kazancın neredeyse tamamı tek
+  dosyadan (Ohrid 341→156 KB); kalan dördü %3-19 kazanırken hepsi kalite kaybediyor.
+  Kapaklar zaten tembel yükleniyor ve bir kez ön belleğe alınıyor — değmez.
+- *Wikimedia görsellerini `srcset` ile küçültmek:* 960 px kaynak telefonda 310 CSS px'te
+  gösteriliyor, yani ~3x DPR için zaten doğru boy. Küçültmek kalite düşürürdü.
+
 ### 4 Ağustos 2026 — on ikinci oturum
 
 **Harita yolda kullanılacak hâle getirildi**
