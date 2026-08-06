@@ -6,11 +6,11 @@
 > **İlgili dosyalar:** planın tek doğruluk kaynağı `PLAN.md`, kullanım ve geliştirme
 > kılavuzu `README.md`. Bu dosya onların yerine geçmez; ikisinin üstünde bir *durum panosu*.
 
-**Son güncelleme:** 4 Ağustos 2026
+**Son güncelleme:** 6 Ağustos 2026
 **Depo:** https://github.com/kayalarbk/Balkanturu (`main`)
 **Yayın:** https://kayalarbk.github.io/Balkanturu/ (GitHub Pages, `main` / root — build adımı yok)
-**Son commit:** `71a2658` + telefon optimizasyonu oturumu
-**Çalışma ağacı:** temiz · **Toplam commit:** 21 · **Oturum sayısı:** 13
+**Son commit:** `1743b36` + plan revizyonu oturumu
+**Çalışma ağacı:** temiz · **Toplam commit:** 22 · **Oturum sayısı:** 14
 
 ---
 
@@ -57,8 +57,9 @@
 | 16-18 Ağu | Dıraç | Red Crab deniz kenarında daire (tüm daire) | en erken 15:00 · çıkış 11:00 |
 | 19 Ağu | — | konaklama yok, gece uçuşu | — |
 
-Üçünde de **kendi kendine giriş** var (tuş takımı / kilitli kutu). ⚠️ **Ohrid'e en geç 19:00'da
-varılmalı** — kutu sonrasında kullanılamıyor. Ev sahibi telefonları ve rezervasyon kodları
+Üçünde de **kendi kendine giriş** var (tuş takımı / kilitli kutu). 🔑 Ohrid'in anahtar kutusu
+13:00 – 19:00 arası çalışıyor; **6 Ağustos'ta sabah otobüsüne geçilerek** varış ~13:00'e alındı,
+altı saat pay doğdu — kısıt kritikten önemliye indi. Ev sahibi telefonları ve rezervasyon kodları
 hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, yalnızca cihazda.
 
 ---
@@ -69,12 +70,12 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 
 | Dosya | Satır / boyut | Ne işe yarar |
 |---|---|---|
-| `index.html` | **5.648 satır** (~262 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
+| `index.html` | **5.748 satır** (~268 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
 | `sw.js` | 179 satır | Service worker — çevrimdışı çalışma, dört cache (ikisi sürümsüz, aşağıda) |
 | `manifest.json` | — | PWA künyesi: standalone, portrait, tema `#0b2a45`, 2 kısayol (Bugün · Cepte) |
 | `icon.svg` | — | Uygulama ikonu (`any` + `maskable`) |
 | `docs/img/` | 5 kapak + `KAYNAKLAR.md` | Yerele indirilmiş şehir kapakları ve lisans listesi |
-| `PLAN.md` | ~57 KB | Planın tek doğruluk kaynağı + oturum günlüğü |
+| `PLAN.md` | ~62 KB (1.162 satır) | Planın tek doğruluk kaynağı + oturum günlüğü |
 | `README.md` | ~15 KB | Kurulum, içerik güncelleme, tuzaklar, deploy |
 | `progress.md` | bu dosya | Durum panosu |
 
@@ -102,16 +103,16 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 | `rota` | Rota şeridi durakları | ✅ |
 | `konaklama` | Hangi gece hangi şehir, kaç gece, tesis | ✅ üç tesis girildi |
 | `sehirler` | 5 şehir kartı: tema, rehber tanıtımı, öne çıkanlar, `kapak`, `galeri`, `lezzetler`, `konum` | ✅ (5 şehir haritada) |
-| `gunler` | **9 günlük program**: tarih, başlık, akış, notlar, `risk`, `uyari`, gece | ✅ (giriş/çıkış saatleri işlendi; otobüs saatleri açık) |
-| `ulasim` | Bacak / süre / yöntem / durum tablosu | ⚠️ saatler "kontrol edilecek" |
+| `gunler` | **9 günlük program**: tarih, başlık, akış, notlar, `risk`, `uyari`, `giris`, **`ozel`**, gece | ✅ (6 Ağustos'ta yedi gün baştan yazıldı) |
+| `ulasim` | Bacak / süre / yöntem / durum tablosu | ✅ sefer sıklıkları girildi; tek "önceden alınacak" bacak Ohrid → Dıraç |
 | `harita` | Karo kaynağı, atıf, zoom (6–18, karo z16'ya kadar), havalimanları, yedek metin, **`odak`** şeridi metinleri, **`cevrimdisi`** karo tarifi | ✅ |
 | `dikkatEdilecekler` | **12 kart**, `seviye`: kritik / önemli / bilgi | ✅ |
-| `cepte` | Uçuş kodları, üç konaklama (adres/koordinat/giriş), acil numaralar, kelimeler | ⚠️ ev sahibi telefonları, rezervasyon kodları ve sigorta hattı boş |
+| `cepte` | Uçuş kodları, üç konaklama (adres/koordinat/giriş), **`bagajDolabi`** (19 Ağustos), **`rezervasyon`** (15 Ağustos masası), acil numaralar, kelimeler | ⚠️ ev sahibi telefonları, rezervasyon kodları, 15 Ağustos mekânı ve sigorta hattı boş |
 | `havaDurumu` | Open-Meteo ayarı, gün→şehir eşlemesi, mevsim normalleri, uyarı eşikleri | ✅ çalışıyor |
 | `yemeIcmeNotlari` | Şehir kartı altındaki yeme-içme kutusu | ✅ |
 | `pratik` | Para, bütçe, elektrik, sağlık, adap, kelimeler | ⚠️ bütçe boş |
 | `kontrolListesi` | **10 maddelik** hazırlık listesi | ✅ (işaretler kullanıcıda) |
-| `belirlenecek` | Sayfa sonundaki açık işler listesi | 7 madde |
+| `belirlenecek` | Sayfa sonundaki açık işler listesi | 7 madde (ilk üçü öncelikli) |
 
 ### Telefon optimizasyonu (ölçüldü, 390 px)
 
@@ -236,7 +237,8 @@ alanı dışındaki karo halkasını yarıya indirir.
 | Özellik | Kısa açıklama |
 |---|---|
 | Tek dosya içerik mimarisi | `TUR` objesi + JS render; metin/tasarım ayrımı |
-| 9 günlük program | Akış, rehber notları (En iyi saat / Dikkat / İpucu), günlük risk satırı, kaçırılamaz kısıt kutusu (`uyari`) |
+| 9 günlük program | Akış, rehber notları (En iyi saat / Dikkat / İpucu), günlük risk satırı, kaçırılamaz kısıt kutusu (`uyari`), günün tonunu veren giriş cümlesi (`giris`) |
+| **`gunler[].ozel` — günün kendi anlamı** | Opsiyonel `{ikon, metin}`. Gün kartı başlığında rozet, Bugün ekranında ve tam ekran Kart'ta tam satır; alan yoksa hiçbir yerde iz bırakmaz. Kum zemin + `--c-teal` çerçeve/yazı — koyu temada çerçeve ayırıyor, yazdırmada basılır. Şu an tek kullanıcı: 15 Ağustos 🤍 2. yıl dönümü |
 | 5 şehir kartı | Tema, rehber tanıtımı, öne çıkanlar, kapak + galeri, yerel lezzetler |
 | Yerel lezzetler | Görsel **16:9 tam genişlik bant** (her ekranda ölçülen oran 1.78) |
 | Geri sayım (3 durumlu) | Kalkış öncesi "Yola çıkmaya kalan" → tur içinde "Dönüşe kalan + N. gün / 8" → sonra "Tur tamamlandı" |
@@ -253,7 +255,7 @@ alanı dışındaki karo halkasını yarıya indirir.
 | Konaklama kartı | Üç Airbnb: şehir/tarih başlığı, ev adı, tip, künye listesi (giriş · çıkış · ev sahibi · telefon · rezervasyon), mesafeler, ilan bağlantısı |
 | "Taksiciye göster" | Kartın tek vurgulu bloğu: yerel alfabede büyük punto adres + latin karşılığı + Dıraç'ta sözlü tarif; kopyala düğmesi ve **koordinattan** üretilen Maps bağlantısı |
 | Gizli kod alanları | Kapı kodu / kutu şifresi / wifi — kaynak koda yazılmaz, `balkan2026.gizli` altında yalnızca cihazda; "Sil" düğmesi |
-| Dikkat kartları | 12 kart, kritik / önemli / bilgi seviyeleri (yeni: eve giriş pencereleri · konaklama güvenliği) |
+| Dikkat kartları | 12 kart, kritik / önemli / bilgi seviyeleri. 6 Ağustos'ta üçü yenilendi: eve giriş pencereleri (**kritik → önemli**), otobüs kültürü (hat hat sefer sıklıkları), gece uçuşu (bagaj çözüldü) |
 | Hazırlık listesi | 10 madde, `localStorage`, 10/10'da konfeti + kutlama (yalnızca tamamlanma anında) |
 | ♥ İkimizin listesi | 50 kalp düğmesi, şehir başlığında sayaç, altta toplu özet, atış animasyonu |
 | ✍ Anı notları | Her gün kartında `textarea`, 500 ms gecikmeli otomatik kayıt + "✓ kaydedildi" |
@@ -276,7 +278,8 @@ alanı dışındaki karo halkasını yarıya indirir.
 | Üsküp'te klima | İlanda yazmıyor; ev sahibine sorulup nota yazılacak |
 | Sigorta acil hattı | Poliçe alınıp `TUR.cepte.acil` içine girilince |
 | Bütçe kartı | Toplam / kişi başı günlük bütçe kararı |
-| Ulaşım tablosundaki saatler | Otogar teyitleri (şu an "kontrol edilecek" olarak vurgulu) |
+| 15 Ağustos masası | `cepte.rezervasyon` — mekân seçilip aranınca mekân/saat/telefon dolar, Kart'ta `tel:` bağlantısı kendiliğinden çıkar |
+| Ohrid → Dıraç bileti | Turun tek "önceden alınacak" bacağı; alınınca `ulasim[].durum` "alındı" olur ve tabloda ✅'ye döner |
 
 ---
 
@@ -384,6 +387,25 @@ kontrolü yapılmadı.**
 | 12 | 4 Ağu 2026 | **Harita yolda kullanılacak hâle getirildi:** odak şeridi, 📍konumum (eve mesafe), ⛶tam ekran, işe yarar ev popup'ı; karo tüketimi açılışta 15'ten 6'ya indi |
 | 11 | 4 Ağu 2026 | **Çevrimdışı harita ve günün kartı:** 236 karo indirilebilir hâle geldi (cache'ler sürümsüzleştirildi, OSM hız sınırına göre ayarlandı), üst çubuğa tam ekran "Kart" eklendi |
 | 9 | 4 Ağu 2026 | **Konaklamalar işlendi:** üç Airbnb (adres + koordinat), taksiciye göster kutusu, Ohrid 19:00 kritik uyarısı, 19 Ağustos boşluğu, gizli kod alanları, haritada ev pinleri, Dıraç Arkeoloji Müzesi, `sw.js` v2 |
+| 14 | 6 Ağu 2026 | **Plan revizyonu** — dört yapısal karar (aşağıda), `gunler[].ozel` alanı eklendi, yedi gün baştan yazıldı |
+
+### 6 Ağustos 2026 — plan revizyonu
+
+Bu oturumda kod değil **planın kendisi** değişti; site o değişikliği taşıyacak hâle getirildi.
+Dört yapısal karar:
+
+| # | Karar | Neden |
+|---|---|---|
+| 1 | **Üsküp akşama alındı, Ohrid'e sabah otobüsüyle gidiliyor** | Üsküp–Ohrid seyrek sanılıyordu; aslında günde 16-17 sefer var (05:30–20:30, ~3 sa, ~15 €). Sabah otobüsüyle Ohrid'e 13:00'te varılıyor → 19:00 anahtar kutusu kısıtına 6 saat pay. Eski planda pay 1 saatti. Üsküp valizsiz ve akşam ışığında geziliyor |
+| 2 | **Sveti Naum 15 → 14 Ağustos'a alındı** | 15 Ağustos **2. yıl dönümü**. Eski hâliyle yıl dönümü turun en lojistik günüydü (tam gün tekne, cumartesi = zirve kalabalık). Cuma teknesi daha tenha, cumartesi boşalıyor |
+| 3 | **18 Ağustos'taki Tiran kaçamağı silindi** | Dıraç–Tiran hattı üç kez kullanılıyordu. Tiran'ın tamamı 19 Ağustos'a alındı; o gün zaten 11:00–23:30 arası 12 saat boş. 18 Ağustos tam dinlenme günü oldu |
+| 4 | **Tiran bagaj emaneti çözüldü** | Rruga Ded Gjo Luli, Harri Truman Meydanı karşısı: 7/24 self-servis otomatik dolap, rezervasyon yok, saatlik 150 ALL'den, büyük dolap 98×50×60 cm, nakit ve kart. Kapanış saati riski ortadan kalktı |
+
+Kodda karşılığı: `gunler[]` içinde yedi gün baştan yazıldı (17 ve 20 Ağustos'un gövdesi korundu,
+20'ye tek not eklendi), `ulasim` tablosu sefer sıklıklarıyla yenilendi, `GUN_BACAK`'tan
+18 Ağustos çıkarıldı (o gün ulaşım satırı basılmıyor), üç dikkat kartı yeniden yazıldı,
+`cepte.bagajDolabi` ve `cepte.rezervasyon` eklendi, `havaDurumu.gunSehir` içinde 13 Ağustos
+Üsküp'ten **Ohrid**'e alındı (gün artık 13:00'ten sonra Ohrid'de geçiyor).
 
 Ayrıntılı oturum günlüğü (sebep–çözüm anlatımıyla): `PLAN.md` → "Yapılanlar".
 
@@ -396,17 +418,20 @@ Ayrıntılı oturum günlüğü (sebep–çözüm anlatımıyla): `PLAN.md` → 
 - [x] ~~**Konaklama isimleri ve rezervasyonları**~~ — 4 Ağustos'ta üç Airbnb işlendi
 - [ ] **Ev sahibi telefonları ve Airbnb rezervasyon kodları** — üçü için de
 - [ ] **Üsküp'te klima teyidi** — ilanda yazmıyor, bir yorum "klima yok" diyor
-- [ ] **Şehirlerarası otobüs biletleri ve kalkış saatleri** — Priştine–Üsküp, Üsküp–Ohrid,
-      Ohrid–Dıraç, Dıraç–Tiran son minibüs. ⚠️ Üsküp–Ohrid seferi **Ohrid'in 19:00 giriş
-      kısıtına** uymak zorunda (anahtar kutusu sonrasında kapalı)
+- [ ] ⚠️ **Ohrid → Dıraç otobüs bileti önceden alınacak** — turun tek kıt hattı (günde 3-5 sefer,
+      07:00–17:00). Hedef ~09:00 kalkışı. Diğer üç bacak sık, yerinde/gişeden alınıyor
+- [ ] **Ohrid Yaz Festivali'nin 15 Ağustos programı ve bileti** — `ohridskoleto.com.mk`
+- [ ] **15 Ağustos akşam yemeği rezervasyonu** — yıl dönümü masası; Fisherman's House Kaneo
+      ya da Kajche. 13 Ağustos'ta, Ohrid'e varır varmaz aranacak
 - [ ] **Tiran → havalimanı gece transferi** (gece uçuşu için kritik)
 - [ ] Toplam ve kişi başı günlük bütçe
 - [ ] Seyahat sağlık sigortası poliçesi
 - [ ] Sveti Naum tekne saatleri + giriş ücreti; Ohrid tekne turu rezervasyonu (ağustos yoğun)
 - [ ] Dajti teleferiği, Bunk'Art, Dıraç amfitiyatrosu saat ve ücretleri
 - [ ] Dıraç Arkeoloji Müzesi giriş ücreti (saatler biliniyor, müze 17 Ağustos'a kondu)
-- [ ] **Tiran'da bagaj emaneti konumu ve saatleri** — 19 Ağustos'un belkemiği: Dıraç'tan çıkış
-      11:00, uçuş 02:15, arada ~14 saat valizle
+- [x] ~~**Tiran'da bagaj emaneti konumu ve saatleri**~~ — 6 Ağustos'ta çözüldü: Rruga Ded Gjo
+      Luli, Harri Truman Meydanı karşısı; 7/24 self-servis dolap, rezervasyon yok, saatlik
+      150 ALL'den, nakit ve kart
 - [ ] Yerel eSIM ya da roaming tarifesi kararı
 - [ ] 20 Ağustos 04:50 SAW inişi sonrası eve dönüş planı
 

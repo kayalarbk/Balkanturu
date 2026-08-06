@@ -82,7 +82,7 @@
 | Adres (latin) | Bogomilska 47, Ohrid 6000, Kuzey Makedonya |
 | Adres (kiril) | Богомилска 47, Охрид 6000 |
 | Koordinat | 41.116653, 20.805831 |
-| Giriş / çıkış | **13:00 – 19:00 (DAR PENCERE)** · çıkış en geç 10:00 |
+| Giriş / çıkış | **13:00 – 19:00** · çıkış en geç 10:00 |
 | Giriş yöntemi | Kilitli kutuyla kendi kendine giriş |
 | Ev sahibi | Krste — 8 yıl · İngilizce ve Sırpça |
 | Telefon | _belirlenecek_ |
@@ -92,10 +92,11 @@
 | Puan | Airbnb 4,66 (41) |
 | Airbnb ilan no | 990523740677045006 |
 
-> ⚠️ **KRİTİK — 19:00 kuralı.** Anahtar kutusu 13:00 – 19:00 arası kullanılabiliyor,
-> sonrasında kullanılamaz. **Ohrid'e en geç 19:00'da varılmalı**; Üsküp'ten kalkış saati
-> buna göre seçilecek. Bu kısıt 13 Ağustos gün kartında, konaklama kartında ve
-> "Nelere dikkat etmeli" bölümünde kritik olarak işlendi.
+> 🔑 **19:00 kuralı.** Anahtar kutusu 13:00 – 19:00 arası kullanılabiliyor, sonrasında
+> kullanılamaz. Kısıt duruyor ama artık **sabah otobüsüyle karşılanıyor:** Üsküp'ten
+> 09:00 – 10:00 arası kalkılıyor, Ohrid'e ~13:00'te varılıyor — kutunun kapanmasına altı saat
+> pay kalıyor. Tek kural otobüsü öğleden sonraya bırakmamak. Bu yüzden kısıt 6. bölümde
+> **kritik**ten **önemli**ye indirildi.
 
 ### 2.3 Dıraç — 16, 17, 18 Ağustos · 3 gece
 
@@ -120,83 +121,114 @@
 
 ## 3. Gün gün program
 
-### 12 Ağustos Çarşamba — Uçuş, Priştine, akşam Üsküp'e geçiş
+### 12 Ağustos Çarşamba — Priştine günü, akşam Üsküp
 **Gece:** Üsküp
 - 09:50 İstanbul Sabiha Gökçen'den kalkış (VF101)
-- 10:30 Priştine'ye iniş, şehir merkezine geçiş
-- Gün boyu Priştine: NEWBORN anıtı, şehir merkezi, Bill Clinton Bulvarı
-- Öğle/ikindi: kafe turu, Kosova mutfağı — flija
-- Akşamüstü: Priştine → Üsküp otobüsü (~2-2,5 saat)
-- **14:00'ten sonra — Üsküp'te eve giriş:** Universe Hostel, tuş takımıyla (02:00'a kadar mümkün)
+- 10:30 Priştine'ye iniş, şehir merkezine geçiş (~25 dk)
+- 11:15 – 15:00 Priştine: NEWBORN anıtı, Bill Clinton Bulvarı, merkez, öğle yemeği (flija)
+- ~15:30 Priştine → Üsküp otobüsü (~2 – 2,5 sa)
+- ~18:30 Üsküp'te eve giriş: Universe Hostel, tuş takımıyla
+- **Akşam Üsküp:** Taş Köprü, Makedonya Meydanı, Eski Çarşı — hepsi aydınlatmalı, çarşıda
+  lokantalar açık
 
 **Rehber notları**
-- _En iyi saat:_ merkez öğleden sonra en canlı; NEWBORN için ikindi ışığı daha iyi.
-- _Dikkat:_ Üsküp otobüsünün son sefer saati gün içinde otogardan teyit edilecek.
-- _İpucu:_ havalimanından çıkarken euro nakit bulundur (Kosova euro kullanıyor).
-- ⚠️ _Bu günün riski:_ günün tek kritik kararı akşam otobüsü. Son sefer saati gün içinde
-  otogardan öğrenilecek (kontrol edilecek). Geç kalınırsa Üsküp'e varış gece yarısını bulabilir —
-  otelle geç check-in imkânını önceden konuş.
+- _En iyi saat:_ Üsküp merkezi akşam en iyi hâlinde; köprü ve meydan ışıklı, Eski Çarşı canlı.
+- _Dikkat:_ Priştine merkezi 1,5 km'ye sığıyor, dört saat rahat yetiyor — Graçanitsa ya da
+  Prizren eklemeye kalkma.
+- _İpucu:_ Kosova euro kullanıyor; havalimanından çıkarken bir miktar euro nakit bulundur.
+- _İpucu:_ Üsküp otobüsünün biletini merkeze inmeden değil, öğleden sonra otogara giderken al;
+  hat sık ama ağustosta doluyor.
+- ⚠️ _Bu günün riski:_ valizler gün boyu üstünüzde; Priştine'de dört saat taşınabilir. Asıl mesele
+  öğleden sonraki otobüsü kaçırmamak. Üsküp'te giriş 02:00'a kadar açık olduğu için gecikme
+  konaklamayı riske atmıyor — kaybedilen tek şey akşam gezisi olur.
 
-### 13 Ağustos Perşembe — Üsküp sabahı, öğleden sonra Ohrid
+### 13 Ağustos Perşembe — Sabah Üsküp Kalesi, öğleden önce Ohrid
 **Gece:** Ohrid
-- Erken sabah Üsküp: Taş Köprü, Eski Çarşı, Üsküp Kalesi, trileçe
-- **En geç 10:00 — Üsküp'ten çıkış** (check-out); gezinin kalanı valizlerle
-- Öğleden sonra: Üsküp → Ohrid otobüsü (~3 saat)
-- **13:00 – 19:00 arası — Ohrid'de eve giriş:** AGH Elite Studio No. 10, kilitli kutuyla.
-  ⚠️ 19:00'dan sonra kutu kullanılamıyor
-- Akşam göl kıyısında ilk yürüyüş
+- Erken sabah (opsiyonel): Üsküp Kalesi, trileçe
+- **En geç 10:00 — Üsküp'ten çıkış** (check-out)
+- 09:00 – 10:00 arası Üsküp → Ohrid otobüsü (~3 sa)
+- **~13:00 Ohrid'e varış** — eve giriş penceresinin (13:00 – 19:00) tam başında, kilitli kutuyla
+- Öğleden sonra: yerleşme, göl kıyısında ilk yürüyüş
+- **Bugün ayarlanacak iki şey:** yarınki Sveti Naum teknesi · 15 Ağustos akşam yemeği rezervasyonu
+
+🔑 _Uyarı:_ Ohrid'de anahtar kutusu 13:00 – 19:00 arası çalışıyor. Sabah otobüsü seçildiği sürece
+sorun yok — otobüsü öğleden sonraya bırakma.
 
 **Rehber notları**
-- _En iyi saat:_ Eski Çarşı sabah erken serin ve sakin; kaleye 10:00'dan önce.
-- _Dikkat:_ Ohrid otobüsleri sınırlı sayıda; öğleden sonra seferi sabah teyit edilecek.
-- _İpucu:_ MKD denar bozdur ama fazla bulundurma, üç gece sonra Arnavutluk var.
-- ⚠️ _Bu günün riski:_ Üsküp-Ohrid hattında sefer sayısı sınırlı ve öğleden sonra seyrekleşiyor.
-  Bileti sabah, mümkünse bir gün önceden otogardan garantile. Sefer kaçarsa Ohrid'e varış gece olur
-  ve ilk göl akşamı programdan düşer.
+- _En iyi saat:_ kale sabah erken serin; 08:00 – 09:30 arasına sıkıştır, 10:00 çıkışına yetiş.
+- _Dikkat:_ çıkış 10:00 olduğu için kaleye valizlerle çıkılır. Goran'a çıkıştan sonra bagaj
+  bırakma imkânı sorulursa kale rahatlar.
+- _İpucu:_ MKD denar sadece iki gecelik bozdur; 16'sında Arnavutluk var, denar orada geçmiyor.
+- _İpucu:_ Üsküp – Ohrid hattında günde 16-17 sefer var; bileti sabah gişeden almak yeterli,
+  bir gün önceden garantiye gerek yok.
+- ⚠️ _Bu günün riski:_ düşük. Sabah otobüsüyle Ohrid'e 13:00 civarında varılıyor, anahtar
+  kutusunun kapanmasına altı saat kalıyor. Tek dikkat edilecek şey otobüsü 09:00 – 10:00
+  aralığından seçmek; öğleden sonraya bırakılırsa eski planın dar penceresine geri dönülür.
 
-### 14 Ağustos Cuma — Ohrid, eski şehir günü
+### 14 Ağustos Cuma — Sveti Naum tam günü
 **Gece:** Ohrid
-- Sveti Jovan Kaneo (kayalıktaki kilise)
-- Samuel Kalesi surları ve göl manzarası
-- Eski şehrin taş sokakları
-- Göl kenarında akşam yemeği
+- Sabah: Ohrid Gölü'nde tekne, gölün güneyine Sveti Naum Manastırı
+- Manastır, kaynaklar, çevresinde yüzme
+- Akşamüstü Ohrid'e dönüş, göl kenarında akşam yemeği
 
 **Rehber notları**
-- _En iyi saat:_ Kaneo sabah ışığında en iyi; gün batımı güzel ama kalabalık.
-- _Dikkat:_ yollar dik ve taşlar kaygan, kaymayan ayakkabı.
-- _İpucu:_ Kaneo'dan iskeleye inip merkeze tekneyle dönmek serin bir kısayol.
-- ⚠️ _Bu günün riski:_ düşük — asıl mesele yorgunluk. Kaleye ve Kaneo'ya öğle sıcağında tırmanmak
-  günün kalanını bitirir; sabahı yürüyüşe, öğleyi gölgeye ayır.
+- _En iyi saat:_ sabah teknesi; göl öğleden sonra dalgalanıyor.
+- _Dikkat:_ manastır aktif ibadet yeri — omuz ve diz kapalı. Giriş ücreti ve tekne saatleri
+  _kontrol edilecek_.
+- _İpucu:_ mayo ve havluyu tekneye al; teknenin son dönüş saatini binerken öğren.
+- _İpucu:_ cuma seçildi çünkü cumartesi turlar belirgin şekilde daha kalabalık.
+- ⚠️ _Bu günün riski:_ Sveti Naum gölün ta güneyinde, gidiş-dönüş tam gün istiyor. Son tekneyi
+  kaçırmak kara yoluyla uzun ve pahalı bir dönüş demek. Ağustosta turlar doluyor — yeri
+  13 Ağustos akşamı ayırt.
 
-### 15 Ağustos Cumartesi — Ohrid, göl ve Sveti Naum tam günü
+### 15 Ağustos Cumartesi — Ohrid, alarmsız gün 🤍 **2. yıl dönümü**
 **Gece:** Ohrid
-- Sabah: Ohrid Gölü'nde tekne turu
-- Sveti Naum Manastırı (gölün güneyi, tam gün değer)
-- Plaj / yüzme
+
+_Günün tek kuralı saat bakmamak. Aşağıdakilerin hepsi yirmi dakikalık yürüme mesafesinde._
+
+- Geç kalkış, göl kenarında kahvaltı
+- Sabah: Kaneo'da yüzme, kayalık altındaki tahta yolda yürüyüş; Sveti Jovan Kaneo sabah ışığında
+- 12:00 – 16:00: gölge, eve dönüş, uyku
+- ~17:00: Samuel Kalesi surları, oradan eski şehre inerken Antik Lychnidos Tiyatrosu (giriş serbest)
+- ~19:45 gün batımı: Kaneo kayalıkları
+- Akşam: rezerve edilen masa
 
 **Rehber notları**
-- _En iyi saat:_ Sveti Naum için **sabah teknesi**; göl öğleden sonra dalgalanıyor.
-- _Dikkat:_ manastır aktif ibadet yeri, omuz ve diz kapalı. Giriş ücreti ve tekne saatleri kontrol edilecek.
-- _İpucu:_ mayo ve havluyu tekneye al.
-- ⚠️ _Bu günün riski:_ Sveti Naum gölün ta güneyinde, gidiş-dönüş tam gün istiyor. Teknenin son
-  dönüş saatini binerken öğren; kaçırırsan kara yoluyla dönüş uzun ve pahalı. Ağustosta turlar
-  doluyor, bir gün önceden yer ayırt (saat ve ücret kontrol edilecek).
+- _Dikkat:_ **Ohrid Yaz Festivali 12 Temmuz – 20 Ağustos 2026 arası sürüyor**; konserler Antik
+  Tiyatro ve Aya Sofya'da veriliyor. 15 Ağustos programı `ohridskoleto.com.mk` üzerinden
+  bakılacak, bilet rezervasyonu `tickets@ohridskoleto.com.mk`. Program _kontrol edilecek_.
+- _Dikkat:_ masa rezervasyonu şart. Fisherman's House Kaneo (+389 78 209 413) pazartesileri
+  kapalı ama 15 Ağustos cumartesi 13:00 – 21:30 açık; küçük bir aile işletmesi, suyun kenarında.
+  Kajche (+389 71 231 022) her gün 08:00 – 24:00, eski şehirde göl kıyısında, ön sıra masalar
+  için önceden aranmalı.
+- _İpucu:_ Kajche'de göle en yakın masalarda akşam sivrisinek oluyor; bir sıra geride otur ya da
+  ilaç al.
+- _İpucu:_ Kaneo'da şezlong ikili ~€20; havluyla taşlara serilmek de serbest, denize inen
+  merdiven ortak.
+- _En iyi saat:_ Kaneo sabah tenha ve ışığı iyi; gün batımı güzel ama kalabalık.
+- ⚠️ _Bu günün riski:_ tek risk masasız kalmak. Ağustos cumartesi akşamı Ohrid'de rezervasyonsuz
+  iyi masa yok — 13 Ağustos'ta, Ohrid'e varır varmaz ara.
 
 ### 16 Ağustos Pazar — Ohrid → Dıraç
 **Gece:** Dıraç
 - **En geç 10:00 — Ohrid'den çıkış** (check-out)
-- Sabah erken: Ohrid → Dıraç otobüsü (~4-5 saat, Elbasan üzerinden, sınır geçişi dahil)
-- Öğleden sonra Dıraç'a varış
-- **15:00'ten sonra — Dıraç'ta eve giriş:** Red Crab dairesi, kilitli kutuyla. Ardından yerleşme
+- ~09:00 Ohrid → Dıraç otobüsü (~3 – 4,5 sa, Elbasan üzerinden, sınır geçişi dahil)
+- ~13:00 – 13:30 Dıraç'a varış, öğle yemeği
+- **15:00'ten sonra — Dıraç'ta eve giriş:** Red Crab dairesi, kilitli kutuyla
 - Akşamüstü Adriyatik'te ilk yüzme, gün batımı
 
 **Rehber notları**
-- _En iyi saat:_ günün ilk otobüsü; sınırda bekleme olabilir.
+- _Dikkat:_ **turun tek kıt hattı bu.** Günde 3-5 sefer var, ilki 07:00 civarı, sonuncusu 17:00.
+  Bileti önceden al — Ohrid'e varır varmaz otogara uğra.
+- _Dikkat:_ "günün ilk otobüsünü seç" bu bacakta yanlış tavsiye: 07:00 otobüsü seni 11:00'de,
+  giriş saatinden dört saat önce valizlerle sokakta bırakır. ~09:00 kalkışı hedefle.
 - _Dikkat:_ sınır geçişinde **pasaportlar el altında**, bavulun içinde değil.
-- _İpucu:_ kalan denarı Ohrid'de harca, Arnavutluk lek kullanıyor.
+- _İpucu:_ kalan denarı Ohrid'de harca. Slavik'e erken bagaj bırakma imkânı sorulursa varış saati
+  esnekleşir.
 - ⚠️ _Bu günün riski:_ **turun en riskli günü.** Bu bacakta kara sınırı var ve bekleme süresi
-  öngörülemiyor. Pasaportlar el altında, su ve atıştırmalık yanında, telefonlar şarjlı. Günün ilk
-  otobüsünü seç; aksama olursa akşamüstü denizi kaçırırsın. Otele tahmini varış saatini bildir.
+  öngörülemiyor. Sefer sayısı az olduğu için kaçırılan otobüs bir sonrakini saatler sonraya atar.
+  Pasaportlar el altında, su ve atıştırmalık yanında, telefonlar şarjlı. Ev sahibine tahmini
+  varış saatini bildir.
 
 ### 17 Ağustos Pazartesi — Dıraç, tam gün deniz
 **Gece:** Dıraç
@@ -217,42 +249,55 @@
   genelde ücretli ve erken tükeniyor. 12:00-16:00 arası güneş çarpması riski gerçek — o aralığı
   gölgede geçir. Su ve güneş kremi pazarlık konusu değil.
 
-### 18 Ağustos Salı — Sabah deniz, öğleden sonra Tiran kaçamağı
+### 18 Ağustos Salı — Planlanmamış gün
 **Gece:** Dıraç
-- Sabah denizde bir tur
-- Öğleden sonra Dıraç → Tiran (~40 dk)
-- Skenderbeg Meydanı, Blloku, Piramit
-- Akşam Dıraç'a dönüş
+
+_Bu gün bilerek boş. Program yazılmadı, yazılmayacak._
+
+- Sabah deniz — 08:00 – 11:00 arası sakin ve tenha
+- Uzun öğle yemeği, sahil lokantaları
+- Öğleden sonra: gölge, uyku
+- Akşamüstü Vollga sahilinde yürüyüş, gün batımı
+- İsteyene: Venedik Kulesi ve şehir surları merkezde, on dakika
 
 **Rehber notları**
-- _Dikkat:_ dönüş minibüsünün son saatini gidişte sor (saatler kontrol edilecek).
-- _En iyi saat:_ Tiran'da ikindi-akşam; hava serinliyor, Blloku canlanıyor.
-- _İpucu:_ teleferik ve Bunk'Art'ı yarına bırak, yarın tam gün var.
-- ⚠️ _Bu günün riski:_ dönüş saati kritik — Dıraç'a son minibüsün kalkış saatini gidişte sor
-  (kontrol edilecek). Kaçırırsan taksi tek seçenek ve gece tarifesi devreye girer.
+- _Dikkat:_ Tiran kaçamağı bu günden kaldırıldı; Tiran'ın tamamı 19 Ağustos'a alındı. Böylece
+  Dıraç – Tiran hattı üç kez değil bir kez kullanılıyor ve "son minibüsü kaçırma" riski tamamen
+  kalkıyor.
+- _Dikkat:_ öğlen güneşi sert; 12:00 – 16:00 gölgede, güneş kremini tekrar sür.
+- _İpucu:_ bu günü doldurma dürtüsüne direnç göster. Turun tek gerçek dinlenme günü bu.
+- ⚠️ _Bu günün riski:_ bu günün riski yok — tek mesele öğlen güneşi. Şezlong sabah tükeniyor ve
+  genelde ücretli; erken in ya da havluyla idare et.
 
-### 19 Ağustos Çarşamba — Tiran son günü ve gece uçuşu
-**Gece:** konaklama yok — gece havalimanı 🌙
-- **En geç 11:00 — Dıraç'tan çıkış** (check-out), valizlerle Tiran'a geçiş
-- Valizler **bagaj emanetine** (yer ve kapanış saati belirlenecek)
-- Dajti teleferiği, Bunk'Art
-- İkindi: Yeni Çarşı (Pazari i Ri), hediyelik alışverişi
-- Akşam yemeği, ~23:30 Nene Tereza Havalimanı'na hareket
+### 19 Ağustos Çarşamba — Tiran tam günü ve gece uçuşu
+**Gece:** konaklama yok 🌙
+- **En geç 11:00 — Dıraç'tan çıkış** (check-out), valizlerle Tiran'a (~40 dk; hat 06:00 – 21:15
+  arası 20 dakikada bir)
+- ~12:30 **bagajlar dolaba:** Rruga Ded Gjo Luli, Harri Truman Meydanı karşısı — 7/24 self-servis,
+  rezervasyon gerekmiyor, saatlik 150 ALL'den, büyük dolap 98 × 50 × 60 cm, nakit ve kart geçiyor
+- Öğleden sonra: Dajti teleferiği ve **Bunk'Art 1** — ikisi de teleferiğin alt istasyonunda,
+  tek gidişte
+- İkindi – akşam merkez: Skenderbeg Meydanı, Piramit, Blloku, Pazari i Ri (hediyelik)
+- Akşam yemeği, ~23:00 bagajları al, ~23:30 Nene Tereza Havalimanı'na hareket
+
+🌙 _Uyarı:_ bu gece konaklama yok. Kalkış 20 Ağustos 02:15, havalimanında 00:15'te olunacak.
 
 **Rehber notları**
-- _Dikkat:_ bagaj emaneti günün belkemiği; kapanış saatini bırakırken öğren, yemekten önce
-  valizleri geri al. Emanet konumu ve saatleri kontrol edilecek.
-- _En iyi saat:_ teleferik sabah/öğle en berrak; Bunk'Art öğleden sonra serinlikte.
-- _İpucu:_ havalimanı ulaşımını 23:30 öncesi ayarla, gece toplu taşıma seyrek.
-- ⚠️ _Bu günün riski:_ otelden çıkışla uçuş arasında ~14 saat boşluk ve valizler elde. Tek soru:
-  bagaj nerede duracak? Emanet konumu ve kapanış saati kontrol edilecek; saati bırakırken teyit et,
-  valizleri yemekten ÖNCE geri al. Yedek plan: otelde geç çıkış ya da bagaj kabul eden bir yer.
-  İkinci risk gece havalimanı ulaşımı — transferi gün içinde ayarla.
+- _En iyi saat:_ teleferik öğleden önce en berrak; merkez ikindi-akşam serinleyince canlanıyor.
+- _Dikkat:_ dolap 7/24 çalıştığı için kapanış saati riski yok — ama bagajları yine de yemekten
+  önce al, 23:30 hareketine yükleme.
+- _İpucu:_ havalimanı transferini gün içinde ayarla; gece toplu taşıma seyrek.
+- _İpucu:_ dönüşte 20 kg valiz hakkı var; alışverişi Pazari i Ri'ye bırak.
+- ⚠️ _Bu günün riski:_ çıkışla uçuş arasındaki ~14 saatlik boşluk artık valizsiz geçiyor — günün
+  eski belkemiği sorunu çözüldü. Kalan iki risk: gece havalimanı ulaşımı (gün içinde ayarla) ve
+  uykusuzluk. Telefon ve powerbank tam şarjlı olsun.
 
 ### 20 Ağustos Perşembe — Dönüş 🏠
 - 02:15 Tiran Nene Tereza'dan kalkış (PC284)
 - 04:50 İstanbul Sabiha Gökçen'e iniş
 - _Dikkat:_ takvimde 20 Ağustos, pratikte 19 Ağustos gecesi.
+- _Dikkat:_ 04:50 inişinde metro henüz açık değil. Eve dönüş kararını (bekle / taksi / servis)
+  kalkıştan önce ver.
 - ⚠️ _Bu günün riski:_ 02:15 kalkış = 00:15'te havalimanında olmak. Bu gece uykusuz geçecek,
   iniş sonrası planı hafif tut. Dönüşte 20 kg valiz hakkı var — alışverişi bu bacağa bırak,
   ama 8 kg kabin sınırını unutma.
@@ -264,11 +309,14 @@
 | Bacak | Tahmini süre | Yöntem | Durum |
 |---|---|---|---|
 | İstanbul → Priştine | 1 sa 40 dk | Uçak ✈ AJet VF101 | ✅ alındı |
-| Priştine → Üsküp | ~2-2,5 sa | Otobüs 🚌 | ⏳ bilet alınacak |
-| Üsküp → Ohrid | ~3 sa | Otobüs 🚌 | ⏳ bilet alınacak |
-| Ohrid → Dıraç | ~4-5 sa | Otobüs 🚌 (sınır geçişi) | ⏳ bilet alınacak |
-| Dıraç → Tiran | ~40 dk | Otobüs / minibüs 🚐 | ⏳ yerinde alınır |
+| Priştine → Üsküp | ~2 – 2,5 sa | Otobüs 🚌 | ⏳ gün içinde gişeden |
+| Üsküp → Ohrid | ~3 sa | Otobüs 🚌 (günde 16-17 sefer) | ⏳ sabah gişeden |
+| Ohrid → Dıraç | ~3 – 4,5 sa | Otobüs 🚌 (sınır geçişi, günde 3-5 sefer) | ⏳ **önceden alınacak** |
+| Dıraç → Tiran | ~40 dk | Otobüs / minibüs 🚐 (20 dk'da bir) | ⏳ yerinde alınır |
 | Tiran → İstanbul | 2 sa 35 dk | Uçak ✈ Pegasus PC284 | ✅ alındı |
+
+> Dıraç → Tiran bacağı artık **bir kez** kullanılıyor (19 Ağustos). 18 Ağustos'taki Tiran
+> kaçamağı kaldırıldığı için o gün ulaşım bacağı yok — `GUN_BACAK` eşlemesinde de yok.
 
 ---
 
@@ -292,15 +340,14 @@
 Korkutmak için değil — önceden bilinirse hiçbiri sorun olmaz. Sitede ayrı bölüm olarak duruyor
 (`TUR.dikkatEdilecekler`), seviye etiketleri: **kritik / önemli / bilgi**.
 
-### 🔑 Eve giriş pencereleri — KRİTİK
-- **Ohrid'e en geç 19:00'da varılmalı** — anahtar kutusu 13:00 – 19:00 arası kullanılabiliyor,
-  sonrasında kullanılamaz. Üsküp'ten kalkış saati buna göre seçilecek.
+### 🔑 Eve giriş pencereleri — önemli
+- Ohrid'de anahtar kutusu 13:00 – 19:00 arası çalışıyor. **Üsküp'ten sabah otobüsüyle çıkıldığı
+  için Ohrid'e ~13:00'te varılıyor — altı saat pay var.** Otobüsü öğleden sonraya bırakma.
 - Üsküp rahat: giriş 14:00 – 02:00, tuş takımıyla. Priştine otobüsü gecikse bile kapı açılır.
-- Dıraç: giriş en erken 15:00, kilitli kutuyla. Ohrid'den ilk otobüsle çıkılırsa sorun yok.
-- Çıkışlar: Üsküp en geç 10:00 · Ohrid en geç 10:00 · Dıraç en geç 11:00.
-- Üçünde de **kendi kendine giriş** var, karşılayan kimse yok — kod ve kutu şifresi telefonda
-  hazır olsun (sitenin Cepte bölümündeki gizli alanlara girilir, cihazda kalır).
-- Ev sahibi telefonları belirlenecek; rezervasyon onayındaki numarayı yola çıkmadan gir.
+- Dıraç: giriş **en erken 15:00**. Ohrid'den ~09:00 otobüsüyle çıkılırsa varış 13:00 – 13:30,
+  arada öğle yemeği var.
+- Çıkışlar: Üsküp 10:00 · Ohrid 10:00 · Dıraç 11:00. Üçünde de kendi kendine giriş var,
+  karşılayan kimse yok — kod ve kutu şifresi telefonda hazır olsun.
 
 ### 🛂 Sınır geçişleri — önemli
 - Rotada tek kara sınırı Ohrid – Dıraç bacağında; otobüsteki bekleme süresi değişken.
@@ -314,10 +361,14 @@ Korkutmak için değil — önceden bilinirse hiçbiri sorun olmaz. Sitede ayrı
 - Pasaportun dönüş tarihinden sonra da yeterli geçerliliği olsun.
 
 ### 🚌 Otobüs kültürü — önemli
-- Her hatta online bilet yok; bazı biletler yalnızca otogar gişesinden alınıyor.
-- Bileti bir gün önceden garantiye al — özellikle Üsküp-Ohrid ve Ohrid-Dıraç.
-- Seferler öğleden sonra seyrekleşiyor; son sefer saatini vardığın gün öğren (kontrol edilecek).
-- Otogar–merkez mesafesini hesaba kat; bavul için küçük ek ücret istenebilir, bozuk para taşı.
+- **Hatlar eşit değil, hepsini aynı telaşla planlama:**
+- Üsküp – Ohrid **seyrek değil**: günde 16-17 sefer, 05:30 – 20:30 arası, ~3 saat, ~15 €.
+  Sabah gişeden alınır.
+- Priştine – Üsküp de sık; gün içinde alınabilir.
+- Dıraç – Tiran: 06:00 – 21:15 arası 20 dakikada bir. Yerinde alınır, endişe edilecek bir şey yok.
+- **Tek kıt hat Ohrid – Dıraç:** günde 3-5 sefer, ilki 07:00 civarı, sonuncusu 17:00.
+  **Bu biletin önceden alınması gerekiyor.**
+- Otogar – merkez mesafesini hesaba kat; bavul için küçük ek ücret istenebilir, bozuk para taşı.
 
 ### 💱 Para ve ödeme — önemli
 - Kosova euro (EUR), Kuzey Makedonya denar (MKD), Arnavutluk lek (ALL).
@@ -340,9 +391,11 @@ Korkutmak için değil — önceden bilinirse hiçbiri sorun olmaz. Sitede ayrı
 
 ### 🌙 Gece uçuşu — KRİTİK
 - Kalkış 02:15 → havalimanında 00:15'te olmak gerekiyor; merkezden ~23:30'da çıkılacak.
+- **Bagaj çözüldü:** Rruga Ded Gjo Luli, Harri Truman Meydanı karşısı, 7/24 self-servis dolap.
+  Rezervasyon yok, saatlik 150 ALL'den, büyük dolap tam boy valiz alıyor, nakit ve kart.
+  Kapanış saati riski yok.
 - Tiran merkezden havalimanına gece ulaşım seyrek; transferi gün içinde ayarla.
 - 19 Ağustos gecesi konaklama yok — o gece uykusuz geçecek, planına yaz.
-- Çıkış ile uçuş arasındaki ~14 saatte bagaj emaneti şart (konum ve saat kontrol edilecek).
 - Telefon ve powerbank tam şarjlı olsun.
 
 ### 🧳 Bagaj farkı — bilgi
@@ -500,6 +553,46 @@ açısından beklenen kalıp bu.
 ---
 
 ## Yapılanlar
+
+### 6 Ağustos 2026 — on dördüncü oturum
+
+**Plan revizyonu — dört yapısal karar**
+
+Bu oturumda kod değil planın kendisi değişti; site o planı taşıyacak hâle getirildi.
+
+| # | Karar | Neden |
+|---|---|---|
+| 1 | **Üsküp akşama alındı, Ohrid'e sabah otobüsüyle gidiliyor** | Üsküp–Ohrid seyrek sanılıyordu; aslında günde 16-17 sefer var (05:30–20:30, ~3 sa, ~15 €). Sabah otobüsüyle Ohrid'e 13:00'te varılıyor → 19:00 anahtar kutusu kısıtına altı saat pay. Eski planda pay bir saatti. Üsküp valizsiz ve akşam ışığında geziliyor |
+| 2 | **Sveti Naum 15 → 14 Ağustos'a alındı** | 15 Ağustos **2. yıl dönümü**. Eski hâliyle yıl dönümü turun en lojistik günüydü (tam gün tekne, cumartesi = zirve kalabalık). Cuma teknesi daha tenha, cumartesi boşalıyor |
+| 3 | **18 Ağustos'taki Tiran kaçamağı silindi** | Dıraç–Tiran hattı üç kez kullanılıyordu (18'inde gidiş-dönüş, 19'unda gidiş). Tiran'ın tamamı 19 Ağustos'a alındı; o gün zaten 11:00–23:30 arası 12 saat boş. 18 Ağustos tam dinlenme günü oldu |
+| 4 | **Tiran bagaj emaneti çözüldü** | Rruga Ded Gjo Luli, Harri Truman Meydanı karşısı: 7/24 self-servis otomatik dolap, rezervasyon yok, saatlik 150 ALL'den, büyük dolap 98×50×60 cm, nakit ve kart. Kapanış saati riski ortadan kalktı |
+
+**Kodda karşılığı**
+
+- `gunler[]` içinde yedi gün baştan yazıldı. 17 Ağustos'un gövdesi (müze pazartesi açık olduğu
+  için oraya konmuştu) korundu; 20 Ağustos'a tek not eklendi (04:50 inişinde metro kapalı).
+- **Yeni alan `gunler[].ozel`** — `{ikon, metin}`. Gün kartı başlığında rozet, Bugün ekranında
+  ve tam ekran Kart'ta tam satır olarak çıkar; alanı olmayan günlerde hiçbir yerde iz bırakmaz.
+  Kum zemin + `--c-teal` çerçeve ve yazı; yeni sabit renk yazılmadı. Şu an tek kullanıcısı
+  15 Ağustos (🤍 2. yıl dönümü). Yanında ikinci bir opsiyonel alan var: `giris`, günün tonunu
+  veren tek cümle (15 ve 18 Ağustos'ta kullanıldı).
+- `ulasim` tablosu sefer sıklıklarıyla yenilendi. Tek "önceden alınacak" bacak **Ohrid → Dıraç**.
+- `GUN_BACAK`'tan 18 Ağustos çıkarıldı — o gün Bugün ekranı ve Kart ulaşım satırı basmıyor.
+  19 Ağustos'un bacağı "Tiran → İstanbul" yerine gerçek kara bacağı **Dıraç → Tiran** oldu
+  (uçuş zaten ayrı blokta duruyordu, satır tekrar ediyordu).
+- Üç dikkat kartı yeniden yazıldı: eve giriş pencereleri **kritik → önemli**, otobüs kültürü
+  hat hat sefer sıklıklarıyla, gece uçuşu bagaj maddesi çözülmüş hâlde.
+- `cepte.bagajDolabi` (19 Ağustos) ve `cepte.rezervasyon` (15 Ağustos masası) eklendi.
+  Dolabın koordinatı elde olmadığı için **Maps bağlantısı üretilmedi**, yalnızca adres yazıldı.
+- `havaDurumu.gunSehir` içinde 13 Ağustos Üsküp'ten **Ohrid**'e alındı — gün artık 13:00'ten
+  sonra Ohrid'de geçiyor, hava tahmini ve kartın büyükelçilik seçimi oradan okunuyor.
+
+**Ölçüm:** `?tarih=` ile üç gün tek tek açıldı — 15'inde rozet üç yerde de çıkıyor, 18'inde
+ulaşım satırı basılmıyor, 19'unda bagaj dolabı hem Bugün bloğunda hem Kart'ta ayrı blok olarak
+görünüyor. 320 / 360 / 390 / 414 / 768 / 1040 / 1440 px'te yatay kaydırma yok, rozet hiçbir
+genişlikte taşmıyor ve tek satırda kalıyor. Koyu temada rozetin zemini kart yüzeyiyle aynı ama
+`--c-teal` çerçeve 4,9:1 kontrastla ayırıyor; yazı/zemin oranı da 4,9:1. Yazdırma kuralları
+geçici olarak `screen`'e çevrilip bakıldı: rozet basılıyor, gün gövdeleri açık.
 
 ### 4 Ağustos 2026 — on üçüncü oturum
 
@@ -1062,16 +1155,25 @@ her genişlikte blok listesi. Önceki turun mobil düzeltmeleri bozulmadı.
 - [x] ~~Konaklama isimleri ve rezervasyonları — Üsküp, Ohrid, Dıraç~~ — 4 Ağustos'ta üç Airbnb
       siteye işlendi (bölüm 2)
 - [ ] **Üsküp'te klima teyidi** — ilanda yazmıyor, bir yorum "klima yok" diyor; ev sahibine sorulacak
-- [ ] **Ohrid'in 19:00 giriş kısıtına uygun Üsküp → Ohrid otobüsü seçilecek** — anahtar kutusu
-      13:00 – 19:00 arası çalışıyor, sonrası kapalı
+- [x] ~~**Ohrid'in 19:00 giriş kısıtına uygun Üsküp → Ohrid otobüsü seçilecek**~~ — 6 Ağustos'ta
+      çözüldü: hat günde 16-17 sefer (05:30 – 20:30), sabah otobüsüne geçildi, Ohrid'e ~13:00'te
+      varılıyor. Kısıt kritikten önemliye indi.
+- [ ] **Ohrid → Dıraç otobüs bileti önceden alınacak** — turun tek kıt hattı: günde 3-5 sefer,
+      ilki ~07:00, sonuncusu 17:00. Hedef ~09:00 kalkışı (Dıraç girişi en erken 15:00).
+      **Öncelikli madde.**
+- [ ] **Ohrid Yaz Festivali'nin 15 Ağustos programı ve bileti** — festival 12 Temmuz – 20 Ağustos
+      2026 arası; `ohridskoleto.com.mk`, bilet `tickets@ohridskoleto.com.mk`
+- [ ] **15 Ağustos akşam yemeği rezervasyonu** — yıl dönümü masası; Fisherman's House Kaneo
+      (+389 78 209 413) ya da Kajche (+389 71 231 022). 13 Ağustos'ta, Ohrid'e varır varmaz aranacak
 - [ ] **Ev sahibi telefonları ve Airbnb rezervasyon kodları** — üçü için de; girilince sitede
       `tel:` bağlantısı ve kopyalanabilir kod kendiliğinden çıkar
       (Üsküp'ün tesis yedek hattı +389 75 383 868 girildi)
 - [ ] Toplam ve kişi başı günlük bütçe
-- [ ] Şehirlerarası otobüs biletleri ve **kalkış saatleri** (Priştine-Üsküp, Üsküp-Ohrid,
-      Ohrid-Dıraç, Dıraç-Tiran son minibüs)
-- [ ] **Tiran'da bagaj emaneti konumu ve çalışma saatleri** — 19 Ağustos'un belkemiği:
-      Dıraç'tan çıkış 11:00, uçuş 02:15, arada ~14 saat valizle
+- [x] ~~Dıraç-Tiran son minibüs saati~~ — 6 Ağustos'ta gereksizleşti: 18 Ağustos'taki Tiran
+      kaçamağı kaldırıldı, dönüş bacağı kalmadı. Hat zaten 06:00 – 21:15 arası 20 dk'da bir
+- [x] ~~**Tiran'da bagaj emaneti konumu ve çalışma saatleri**~~ — 6 Ağustos'ta çözüldü:
+      Rruga Ded Gjo Luli, Harri Truman Meydanı karşısı; 7/24 self-servis otomatik dolap,
+      rezervasyon yok, saatlik 150 ALL'den, büyük dolap 98 × 50 × 60 cm, nakit ve kart
 - [ ] Sveti Naum tekne saatleri ve giriş ücreti
 - [ ] Dajti teleferiği, Bunk'Art, Dıraç amfitiyatrosu açılış saatleri ve ücretleri
 - [ ] Dıraç Arkeoloji Müzesi giriş ücreti (saatler biliniyor: pzt-prş 09:00-16:00,
