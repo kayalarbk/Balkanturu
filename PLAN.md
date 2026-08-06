@@ -458,10 +458,40 @@ Genişlik 960 px — Wikimedia yalnızca belirli thumbnail boyutlarına izin ver
 | galeri | Skenderbeg Meydanı | Pudelek · CC BY-SA 4.0 |
 | galeri | Dajti teleferiği | Roy r lindman · CC BY 4.0 |
 | galeri | Piramit | BBB2021 · CC BY-SA 4.0 |
+| lezzet | Flija (Priştine) | Drenisa · CC BY-SA 4.0 |
+| lezzet | Sac böreği (Priştine) | Rrezjaediellit · CC BY-SA 4.0 |
+| lezzet | Kosova usulü kebap (Priştine) | Bdx · CC BY-SA 4.0 |
+| lezzet | Trileçe (Üsküp) | E4024 · CC BY-SA 4.0 |
+| lezzet | Tavče gravče (Üsküp) | Aleksandar Cokrevski · CC BY-SA 4.0 |
+| lezzet | Ajvar (Üsküp) | Mila Atkovska · CC BY-SA 4.0 |
+| lezzet | Skopsko (Üsküp) | David Bailey · CC BY-SA 2.0 |
+| lezzet | Ohrid alabalığı (Ohrid) | Albinfo · CC0 |
+| lezzet | Tavče gravče (Ohrid) | Наташа Величковска · CC BY-SA 4.0 |
+| lezzet | Burek + kefir (Ohrid) | Sharon Hahn Darlin · CC BY 2.0 |
+| lezzet | Yerel şarap (Ohrid) | Tashkoskim · CC BY-SA 4.0 |
+| lezzet | Rakı (Ohrid) | Mutialulu · CC0 |
+| lezzet | Taze deniz mahsulleri (Dıraç) | Berishasinan · CC BY-SA 4.0 |
+| lezzet | Tavë kosi (Dıraç) | MirelaAndoni · CC BY-SA 4.0 |
+| lezzet | Fërgesë (Dıraç) | Rrezjaediellit · CC BY-SA 4.0 |
+| lezzet | Byrek (Dıraç) | RoyalHeritageAlb · CC0 |
+| lezzet | Qofte (Tiran) | MirelaAndoni · CC BY-SA 4.0 |
+| lezzet | Byrek (Tiran) | SualdoDino · CC BY-SA 4.0 |
+| lezzet | Yeni Çarşı ürünleri (Tiran) | Kevin Jasini · CC BY-SA 2.0 |
 
 **Görsel bulunamayan slot yok** — istenen 10 mekânın hepsi karşılandı. Ek olarak Samuel Kalesi,
 Sveti Naum ve Makedonya Meydanı da eklendi. Bill Clinton Bulvarı, Blloku ve Bunk'Art için
 doğrulanabilir uygun görsel seçilmedi; bu maddeler metinde kaldı, galerisiz.
+
+**Lezzet görselleri (6 Ağustos 2026).** 23 lezzetin 19'una görsel bulundu; hepsi Commons
+API'sinden seçilip `curl -I` ile 200 doğrulandı. Görselsiz kalan dört madde 🍽 yer tutucusuyla
+duruyor, çünkü doğrulanabilir ve yanıltmayan bir fotoğraf bulunamadı:
+
+- **Makiato** (Priştine) — Commons'ta yalnızca *latte macchiato* var; Kosova'da içilen kısa
+  makiato o değil, yanıltıcı olurdu.
+- **Eski Çarşı kebabı** (Üsküp) — Makedonya çarşı kebabına ait uygun dosya çıkmadı.
+- **Modern Arnavut mutfağı** (Tiran) — tek bir tabakla temsil edilebilecek bir şey değil.
+- **Raki Rrushi** (Tiran) — Arnavut rakısına ait dosya bulunamadı; Ohrid rakısı fotoğrafı
+  başka ülkeye ait olduğu için buraya konmadı.
 
 ---
 
@@ -553,6 +583,58 @@ açısından beklenen kalıp bu.
 ---
 
 ## Yapılanlar
+
+### 6 Ağustos 2026 — on beşinci oturum
+
+**İki kişilik tema, lezzet görselleri, katlanır "Ne yenir?"**
+
+**1. Tasarım iki temaya bölündü.** Artık "açık/koyu" değil, iki kişiye ait iki tema var:
+
+| Tema | Kime | Palet |
+|---|---|---|
+| `derin` | Derin | Şeker pembesi — koyu ahududu `#8e1e50`, vurgu `#b3145c`, zeminler `#ffdcea` / `#fff5f9` |
+| `baris` | Barış | Koyu lacivert — mevcut karanlık tema olduğu gibi korundu (`#0a1b2a`) |
+
+- Derin'in paleti `:root`'ta, Barış'ınki `html[data-tema="baris"]` altında onu ezerek duruyor.
+- Token **adları** eski Adriyatik paletinden kalma (`--c-teal`, `--c-sand`); anlamları artık
+  "vurgu" ve "yumuşak zemin". Adları değiştirmek dosyadaki yüzlerce kullanımı elden geçirmek
+  demekti, değerleri değiştirmek yetti.
+- Kontrast ölçüldü, hepsi WCAG AA üstü: beyaz/deep 8,6:1 · beyaz/vurgu 6,6:1 ·
+  teal-soft/deep 4,7:1 · vurgu/sand 5,3:1 · ink/zemin 15,5:1.
+- Hero'nun üçüncü gradyan durağı ve iki ışık lekesi sabit lacivert yazılıydı; `--c-deep-3`,
+  `--c-isik-1`, `--c-isik-2` token'larına çevrildi. Perde katmanları (lightbox, tam ekran
+  kart, harita düğmeleri) için `--c-perde` eklendi (rgba içinde kullanılan RGB üçlüsü).
+- Çubuktaki düğme açık olan temanın adını yazıyor: **🤍 Derin** / **💙 Barış**.
+- Sistem tercihi hâlâ geçerli: `prefers-color-scheme: dark` → Barış, değilse Derin.
+- Eski `"koyu"`/`"acik"` kaydı okunurken yeni adlara çevriliyor, kimse temasını kaybetmiyor.
+
+**2. Lezzetlere görsel.** 23 lezzetin 19'una Commons'tan doğrulanmış fotoğraf eklendi
+(bölüm 7). Kalan dördü bilerek 🍽 yer tutucusunda — uydurma ya da yanıltıcı görsel konmadı.
+
+**3. "Ne yenir?" katlanır oldu.** Beş şehrin 23 lezzeti sayfanın en uzun parçasıydı. Artık
+kapalı geliyor, düğmede kaç tat olduğu yazıyor. 390 px'te ölçüldü:
+
+| | Önce | Sonra |
+|---|---|---|
+| Sayfa boyu | 37.774 px | **32.116 px** |
+| Şehirler bölümü | 15.413 px | **9.755 px** (−%37) |
+| Ortanca şehir kartı | 3.045 px | **1.818 px** |
+
+Kapalı gövde `display:none` olduğu için içindeki `loading="lazy"` görseller bölüm açılana
+kadar **hiç istenmiyor** — 19 fotoğraf ilk açılışa yük bindirmiyor. `.city` kartının
+`contain-intrinsic-size` tahmini de 3045 → 1818 px'e güncellendi, yoksa kaydırma çubuğu
+her kartta geriye zıplardı.
+
+**4. Yol üstünde bulunan iki hata düzeltildi**
+
+- `@media print` içindeki kâğıt paleti seçicisi `html` idi; `:root` (0,1,0) düz `html`i
+  (0,0,1) yendiği için **aydınlık temada yazdırma renkleri hiç uygulanmıyordu**. Barış'ın
+  laciverdinde çalışıyordu, o yüzden fark edilmemişti — Derin'in pembesi kâğıda pembe
+  basınca ortaya çıktı. Seçici `:root, :root[data-tema="baris"]` yapıldı.
+- `.nav-btn-metin{width:auto}` kuralı, dosyada daha sonra gelen `.nav-btn{width:2.5rem}`
+  tarafından eziliyordu; düğme 44 px'e sıkışıp metin kutunun dışına taşıyordu. "Kart" kısa
+  olduğu için göze batmamış, "🤍 Derin" yazılınca görülmüştü. Seçici `.nav-btn.nav-btn-metin`
+  yapıldı.
 
 ### 6 Ağustos 2026 — on dördüncü oturum
 

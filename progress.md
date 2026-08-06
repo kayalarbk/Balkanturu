@@ -9,8 +9,8 @@
 **Son güncelleme:** 6 Ağustos 2026
 **Depo:** https://github.com/kayalarbk/Balkanturu (`main`)
 **Yayın:** https://kayalarbk.github.io/Balkanturu/ (GitHub Pages, `main` / root — build adımı yok)
-**Son commit:** `1743b36` + plan revizyonu oturumu
-**Çalışma ağacı:** temiz · **Toplam commit:** 22 · **Oturum sayısı:** 14
+**Son commit:** `c200ddd` + tema/lezzet oturumu
+**Çalışma ağacı:** temiz · **Toplam commit:** 23 · **Oturum sayısı:** 15
 
 ---
 
@@ -70,12 +70,12 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 
 | Dosya | Satır / boyut | Ne işe yarar |
 |---|---|---|
-| `index.html` | **5.748 satır** (~268 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
+| `index.html` | **5.904 satır** (~280 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
 | `sw.js` | 179 satır | Service worker — çevrimdışı çalışma, dört cache (ikisi sürümsüz, aşağıda) |
-| `manifest.json` | — | PWA künyesi: standalone, portrait, tema `#0b2a45`, 2 kısayol (Bugün · Cepte) |
+| `manifest.json` | — | PWA künyesi: standalone, portrait, tema `#0b2a45`, 2 kısayol (Bugün · Cepte). ⚠ `theme_color` iki temaya bölünmeden önceki laciverdi taşıyor; tarayıcı çubuğunun rengini zaten `<meta name=theme-color>` temaya göre canlı ayarlıyor |
 | `icon.svg` | — | Uygulama ikonu (`any` + `maskable`) |
 | `docs/img/` | 5 kapak + `KAYNAKLAR.md` | Yerele indirilmiş şehir kapakları ve lisans listesi |
-| `PLAN.md` | ~62 KB (1.162 satır) | Planın tek doğruluk kaynağı + oturum günlüğü |
+| `PLAN.md` | ~69 KB (1.284 satır) | Planın tek doğruluk kaynağı + oturum günlüğü |
 | `README.md` | ~15 KB | Kurulum, içerik güncelleme, tuzaklar, deploy |
 | `progress.md` | bu dosya | Durum panosu |
 
@@ -89,7 +89,8 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 - Yerleşim: `TUR` objesi → `<style>` (satır 1281–2572) → boş `<section>` kabukları
   (2604–2810) → render + davranış JS'i (2845'ten sona).
 - **Tasarım token'ları** CSS'te `:root` altında (renk, boşluk `--s-*`, radius, gölge).
-  Karanlık tema bu token'ları `html[data-tema="koyu"]` altında ezerek çalışır.
+  Site iki temaya bölündü: Derin'in şeker pembesi `:root`'ta, Barış'ın koyu laciverdi
+  `html[data-tema="baris"]` altında onu ezerek duruyor.
 - **Ayrım ilkesi:** site *yolda işe yarayan* alt kümeyi gösterir, `PLAN.md` tam kaydı tutar.
   Rezervasyon kararı verirken önemli olan (puan, olanak listesi, ev sahibi kıdemi) siteye
   konmaz — kart kalabalıklaşır ve asıl iş (adres, saat, kod) görünmez olur.
@@ -240,7 +241,7 @@ alanı dışındaki karo halkasını yarıya indirir.
 | 9 günlük program | Akış, rehber notları (En iyi saat / Dikkat / İpucu), günlük risk satırı, kaçırılamaz kısıt kutusu (`uyari`), günün tonunu veren giriş cümlesi (`giris`) |
 | **`gunler[].ozel` — günün kendi anlamı** | Opsiyonel `{ikon, metin}`. Gün kartı başlığında rozet, Bugün ekranında ve tam ekran Kart'ta tam satır; alan yoksa hiçbir yerde iz bırakmaz. Kum zemin + `--c-teal` çerçeve/yazı — koyu temada çerçeve ayırıyor, yazdırmada basılır. Şu an tek kullanıcı: 15 Ağustos 🤍 2. yıl dönümü |
 | 5 şehir kartı | Tema, rehber tanıtımı, öne çıkanlar, kapak + galeri, yerel lezzetler |
-| Yerel lezzetler | Görsel **16:9 tam genişlik bant** (her ekranda ölçülen oran 1.78) |
+| Yerel lezzetler | **Katlanır "Ne yenir?"** — kapalı gelir, düğmede kaç tat olduğu yazar. Görsel **16:9 tam genişlik bant** (oran 1.78); 23 lezzetin 19'unda doğrulanmış Commons fotoğrafı, kalan dördü 🍽 yer tutucu |
 | Geri sayım (3 durumlu) | Kalkış öncesi "Yola çıkmaya kalan" → tur içinde "Dönüşe kalan + N. gün / 8" → sonra "Tur tamamlandı" |
 | Bugün ekranı | `tarihISO` eşleşince kart + o günün vurgusu; **o geceki konaklama bloğu** (ya da 19 Ağustos'un "konaklama yok" bloğu); `?tarih=2026-08-15` ile test edilebilir |
 | Rota haritası | Leaflet, 5 şehir + 2 havalimanı + **3 konaklama** işaretçisi (ayrı renk/ikon), gün kartlarına bağlı; yedek kutusu var |
@@ -260,9 +261,9 @@ alanı dışındaki karo halkasını yarıya indirir.
 | ♥ İkimizin listesi | 50 kalp düğmesi, şehir başlığında sayaç, altta toplu özet, atış animasyonu |
 | ✍ Anı notları | Her gün kartında `textarea`, 500 ms gecikmeli otomatik kayıt + "✓ kaydedildi" |
 | Galeri + lightbox | Harici kütüphane yok; Escape / boşluk kapatır, ok tuşlarıyla gezinme |
-| Karanlık tema | Token ezme yöntemi; ilk boyamadan önce uygulanır (beyaz parlama yok), sistem tercihini izler |
+| **İki kişilik tema** | `derin` = şeker pembesi (aydınlık) · `baris` = koyu lacivert (karanlık). Token ezme yöntemi; ilk boyamadan önce uygulanır (beyaz parlama yok), sistem tercihini izler (`dark` → Barış). Çubuktaki düğme açık olan temanın adını yazar; eski `koyu`/`acik` kaydı okunurken çevrilir |
 | Üst gezinme çubuğu | Yapışkan şerit, IntersectionObserver ile aktif bölüm işareti, tema + yazdırma düğmeleri, "yukarı çık" |
-| Yazdırma / PDF | Token'lar kâğıt setine iner (koyu tema açıkken bile), etkileşimli parçalar gizlenir, **katlı gün kartları açılır** |
+| Yazdırma / PDF | Token'lar kâğıt setine iner (hangi tema açık olursa olsun — seçici `:root` olmak zorunda, bkz. tuzaklar), etkileşimli parçalar gizlenir, **katlı gün kartları ve "Ne yenir?" açılır** |
 | Kayıt yedekleme | İndir / yükle / panoya kopyala; geri yükleme **ezmez, birleştirir**; kodlarda mevcut değer korunur (`birlestir:false`); yabancı dosya `uygulama` alanından reddedilir |
 | PWA + çevrimdışı | `manifest.json` + `sw.js`; app shell ön belleğe alınır, 2 kısayol |
 | Mobil denetimi | 13 bulgu ölçülüp düzeltildi (aşağıda) |
@@ -293,7 +294,7 @@ Hepsi `localStorage`, **sunucuya hiçbir şey gitmez**, cihaza özeldir.
 | `balkan2026.favoriler` | ♥ İkimizin listesi (kimlik: `şehirAdı::maddeMetni`) |
 | `balkan2026.anilar` | Gün kartlarındaki anı notları (anahtar: `YYYY-MM-DD`) |
 | `balkan2026.hava` | Hava yanıtı + zaman damgası (3 saat) |
-| `balkan2026.tema` | Koyu / açık tercih (yoksa sistem tercihi) |
+| `balkan2026.tema` | `derin` / `baris` tema tercihi (yoksa sistem tercihi). Eski `koyu`/`acik` değerleri okunurken yeni adlara çevrilir |
 | `balkan2026.gizli` | Kapı kodu / kilitli kutu şifresi / wifi şifresi (kimlik: `evId::alan`) — **depoda yoktur** |
 | `balkan2026.karolar` | Çevrimdışı haritanın en son ne zaman indirildiği (yedeğe dâhil değil — karolar Cache Storage'da) |
 
@@ -348,6 +349,11 @@ Yedek dosyası bu kodları **içerir** — yalnızca kendi cihazlarınızla payl
 | `content-visibility:auto` | Ekran dışı içerik **yazdırılmaz** → `@media print` içinde `visible` yap. Çapa hedefi olan öğelere (`.day`) verme, tahmini yükseklik çapayı kaydırır |
 | Çapayı katlanır gövdeye koymak | `#gun-3` `.day-body`'deydi; `scroll-margin-top` `.day`'de olduğu için hedef yapışkan çubuğun altına düşüyordu. Çapa **kartın kendisinde**, gövdenin ayrı id'si yalnızca `aria-controls` için |
 | `<head>`'deki üçüncü parti CSS | `<link rel=stylesheet>` render'ı bloke eder. Sayfanın 8. bölümünde kullanılan bir kütüphane için bedeli herkes öder → gerektiğinde enjekte et |
+| `@media print` içinde `html{...}` yazmak | `:root` (0,1,0) düz `html`i (0,0,1) yener; kâğıt paleti **aydınlık temada hiç uygulanmıyordu**, tema renkleri olduğu gibi basılıyordu. Koyu temada çalıştığı için yıllarca fark edilmedi → `:root, :root[data-tema="baris"]` |
+| Aynı özgüllükte iki kural, sıraya bakmamak | `.nav-btn-metin{width:auto}` dosyada daha ÖNCE, `.nav-btn{width:2.5rem}` daha SONRA → ikincisi kazanıyordu, düğme 44 px'e sıkışıp metni dışarı taşıyordu. Kısa metinde ("Kart") göze batmıyor → çakışan kuralı `.nav-btn.nav-btn-metin` gibi tek sınıf daha ekleyerek yaz |
+| Commons thumb adresini elle kurmak | `/thumb/<a>/<ab>/…` yolundaki hash öneki MD5'ten geliyor, tahmin edilemez → adresi **API'nin `thumburl` alanından** al, `?utm_…` parametrelerini at, sonra `curl -I` ile doğrula |
+| PNG'yi lezzet görseli seçmek | Commons PNG'lerde 640 px thumb `400` dönebiliyor ve tam boy dosya megabaytlarca olabiliyor (bir örnekte 820 KB) → fotoğraf için JPEG seç |
+| Görseli `loading="lazy"` + `content-visibility:auto` birlikte test etmek | Kart ekran dışındayken hiç render edilmiyor, içindeki lazy görsel de istenmiyor. Tarayıcıda "yüklenmedi" görünmesi **hata değil**, doğru davranış → ölçerken önce öğeyi gerçekten görünür alana getir |
 
 ---
 
@@ -388,6 +394,25 @@ kontrolü yapılmadı.**
 | 11 | 4 Ağu 2026 | **Çevrimdışı harita ve günün kartı:** 236 karo indirilebilir hâle geldi (cache'ler sürümsüzleştirildi, OSM hız sınırına göre ayarlandı), üst çubuğa tam ekran "Kart" eklendi |
 | 9 | 4 Ağu 2026 | **Konaklamalar işlendi:** üç Airbnb (adres + koordinat), taksiciye göster kutusu, Ohrid 19:00 kritik uyarısı, 19 Ağustos boşluğu, gizli kod alanları, haritada ev pinleri, Dıraç Arkeoloji Müzesi, `sw.js` v2 |
 | 14 | 6 Ağu 2026 | **Plan revizyonu** — dört yapısal karar (aşağıda), `gunler[].ozel` alanı eklendi, yedi gün baştan yazıldı |
+| 15 | 6 Ağu 2026 | **İki kişilik tema** (Derin'in şeker pembesi · Barış'ın koyu laciverdi), 19 lezzet görseli, katlanır "Ne yenir?" — sayfa 390 px'te 37.774 → 32.116 px |
+
+### 6 Ağustos 2026 — iki kişilik tema ve kısalan sayfa
+
+- **Tema ikiye bölündü.** `derin` = şeker pembesi (aydınlık), `baris` = koyu lacivert
+  (karanlık, mevcut hâli korundu). Derin'inki `:root`'ta, Barış'ınki onu ezerek. Çubuktaki
+  düğme açık olan temanın adını yazıyor (🤍 Derin / 💙 Barış). Sistem tercihi hâlâ geçerli
+  (`dark` → Barış), eski `koyu`/`acik` kaydı okunurken çevriliyor. Kontrast ölçüldü: en düşük
+  çift 4,7:1, hepsi AA üstü.
+- **Hero ve perde renkleri token'landı** — `--c-deep-3`, `--c-isik-1/2`, `--c-perde`. Bunlar
+  sabit lacivert yazılıydı, pembe temada yanlış görünürlerdi.
+- **19 lezzet görseli** eklendi (bkz. "Bilinen tuzaklar" → görsel doğrulama). Kalan dördü
+  bilerek 🍽 yer tutucuda.
+- **"Ne yenir?" katlanır oldu.** Kapalı gövde `display:none` olduğu için içindeki
+  `loading="lazy"` görseller bölüm açılana kadar hiç istenmiyor. `.city` kartının
+  `contain-intrinsic-size` tahmini 3045 → 1818 px'e güncellendi.
+- **İki sessiz hata düzeltildi:** yazdırma paleti seçicisi `html` yerine `:root` oldu (aydınlık
+  temada kâğıt renkleri hiç uygulanmıyordu), `.nav-btn-metin` seçicisi `.nav-btn.nav-btn-metin`
+  oldu (düğme 44 px'e sıkışıp metin taşıyordu).
 
 ### 6 Ağustos 2026 — plan revizyonu
 
@@ -457,10 +482,11 @@ Ayrıntılı oturum günlüğü (sebep–çözüm anlatımıyla): `PLAN.md` → 
       sınandı. Site HTTPS'te (GitHub Pages) olduğu için izin istenebilmeli; ilk sabitleme süresi
       ve "eve X m" doğruluğu yerinde görülmeli
 - [ ] Tam ekran haritayı çentikli iPhone'da dene — Leaflet denetimleri adanın altında kalmamalı
-- [ ] **Lezzet görselleri tümüyle boş** — eski 9 URL'in kaynak dosyaları Commons'ta yok (404),
-      kaldırıldı. Yenisi eklenecekse Commons'ta **aranarak** bulunmalı, `curl -I` ile 200
-      doğrulanmalı ve `kaynak` alanına fotoğrafçı + lisans yazılmalı. Şu an hepsi 🍽 yer
-      tutucuyla görünüyor — sayfa bozulmuyor, sadece fotoğrafsız
+- [x] ~~**Lezzet görselleri tümüyle boş**~~ — 6 Ağustos'ta 23 lezzetin **19'una** doğrulanmış
+      Commons görseli eklendi (thumb adresi API'nin `thumburl` alanından alındı, `curl -I` ile
+      200 doğrulandı, künye `kaynak` alanına yazıldı). Kalan dört madde (Makiato, Eski Çarşı
+      kebabı, modern Arnavut mutfağı, Raki Rrushi) bilerek 🍽 yer tutucusunda — yanıltıcı
+      görsel konmadı
 - [ ] Bill Clinton Bulvarı, Blloku, Bunk'Art için galeri görseli — uygun bulunursa
 - [ ] Hava durumu penceresi açıldıkça mevsim normallerinin gerçek tahmine dönmesini izle
 - [ ] Kapı ve wifi şifreleri geldiğinde Cepte bölümündeki gizli alanlara **her iki telefonda**

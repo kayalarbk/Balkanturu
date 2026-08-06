@@ -26,9 +26,25 @@ Commons'ın 960 px thumbnail sürümleri olduğu gibi indirildi.
 
 ## Hâlâ hotlink edilenler
 
-Şehir galerisi (**13 görsel**) hâlâ `upload.wikimedia.org` üzerinden yükleniyor. Çevrimdışıyken
-bunlar gelmez; yerlerine degrade renkli yer tutucu + ad çıkar. Kapak görselleri yerelden
-geldiği için sayfa çevrimdışıyken de görselli görünür.
+Şehir galerisi (**13 görsel**) ve lezzet fotoğrafları (**19 görsel**) `upload.wikimedia.org`
+üzerinden yükleniyor — toplam 32. Çevrimdışıyken bunlar gelmez; yerlerine degrade renkli yer
+tutucu + ad çıkar. Kapak görselleri yerelden geldiği için sayfa çevrimdışıyken de görselli
+görünür. Lezzet görselleri katlanmış "Ne yenir?" bölümünün içinde ve `loading="lazy"` — bölüm
+açılmadan tek bayt inmiyor, service worker da yalnızca bir kez indirileni saklıyor.
+
+## Eklenen lezzet görselleri (6 Ağustos 2026)
+
+23 lezzetin **19'una** görsel eklendi. Yöntem, aşağıdaki "kaldırılan görseller" dersine uygun:
+her dosya Commons API'sinde arandı, thumbnail adresi **API'nin kendi `thumburl` alanından**
+alındı (elle `/thumb/…/640px-` uydurulmadı — hash öneki tahmin edilemez) ve `curl -I` ile
+HTTP 200 doğrulandı. Genişlik 960 px. Fotoğrafçı + lisans her maddenin `kaynak` alanında,
+sitede büyütme penceresinde görünüyor. Tam liste: `PLAN.md` → bölüm 7.
+
+İki not:
+- `Byrek from Kosovo.png` seçilmedi: PNG'nin 640 px thumb'ı `400` veriyor, tam boyu 820 KB.
+  Yerine JPEG bir byrek fotoğrafı kondu.
+- Görselsiz kalan dört madde (Makiato, Eski Çarşı kebabı, modern Arnavut mutfağı, Raki Rrushi)
+  bilerek 🍽 yer tutucusunda bırakıldı — yanıltıcı ya da doğrulanamayan görsel konmadı.
 
 ## Kaldırılan lezzet görselleri (4 Ağustos 2026)
 

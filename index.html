@@ -17,30 +17,40 @@
 
 <!-- =====================================================================
      TEMA — ilk boyamadan ÖNCE çalışır
-     Koyu tema tercihini <html data-tema> üzerine yazar. Buraya konmasının
-     sebebi: gövdedeki script'i beklersek koyu temada bir kare beyaz
-     parlama görülür. Kullanıcı seçim yapmadıysa (kayıt yok) işletim
-     sistemi tercihi uygulanır ve sistem teması değişince canlı takip
-     edilir; kullanıcı düğmeye bastığı anda takip biter, seçim kazanır.
+     İki tema var, ikisi de bir kişiye ait:
+       derin → şeker pembesi (aydınlık)      baris → koyu lacivert (karanlık)
+     Tercih <html data-tema> üzerine yazılır. Buraya konmasının sebebi:
+     gövdedeki script'i beklersek Barış temasında bir kare beyaz parlama
+     görülür. Kullanıcı seçim yapmadıysa işletim sistemi tercihi uygulanır
+     (karanlık isteyen sistem → Barış) ve sistem teması değişince canlı
+     takip edilir; düğmeye basıldığı anda takip biter, seçim kazanır.
+
+     Eski sürüm "koyu"/"acik" kaydediyordu; okurken yeni adlara çevriliyor
+     ki güncellemeden önce seçim yapmış olan kişi temasını kaybetmesin.
      ===================================================================== -->
 <script>
 (function () {
   var KEY = "balkan2026.tema";
   var kok = document.documentElement;
+  var ESKI = { koyu: "baris", acik: "derin" };
   var sec;
   try { sec = localStorage.getItem(KEY); } catch (e) { sec = null; }
+  if (ESKI[sec]) {
+    sec = ESKI[sec];
+    try { localStorage.setItem(KEY, sec); } catch (e) {}
+  }
   var sistem = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)");
   function uygula(t) {
     kok.dataset.tema = t;
-    var mavi = t === "koyu" ? "#0a1b2a" : "#0b2a45";
+    var renk = t === "baris" ? "#0a1b2a" : "#8e1e50";
     var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.content = mavi;
+    if (meta) meta.content = renk;
   }
-  uygula(sec === "koyu" || sec === "acik" ? sec : (sistem && sistem.matches ? "koyu" : "acik"));
+  uygula(sec === "baris" || sec === "derin" ? sec : (sistem && sistem.matches ? "baris" : "derin"));
   if (!sec && sistem && sistem.addEventListener) {
     sistem.addEventListener("change", function (e) {
       try { if (localStorage.getItem(KEY)) return; } catch (x) {}
-      uygula(e.matches ? "koyu" : "acik");
+      uygula(e.matches ? "baris" : "derin");
       window.dispatchEvent(new Event("tema-degisti"));
     });
   }
@@ -179,17 +189,23 @@ const TUR = {
         {
           ad: "Flija", yerel: "flia",
           aciklama: "Kat kat dökülüp saatlerce sabırla pişirilen, tepsiyle servis edilen bir hamur işi; Kosova'nın en simgesel yemeği.",
-          ipucu: "Uzun sürdüğü için genelde önceden hazırlanır — öğle saatlerinde sorman daha iyi."
+          ipucu: "Uzun sürdüğü için genelde önceden hazırlanır — öğle saatlerinde sorman daha iyi.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Flia_n%C3%AB_Drenas.jpg/960px-Flia_n%C3%AB_Drenas.jpg",
+          kaynak: "Drenisa · CC BY-SA 4.0 · Wikimedia Commons"
         },
         {
           ad: "Sac böreği", yerel: "byrek",
           aciklama: "Sacda pişen, peynirli ya da etli ince yufka böreği; günün her saatinde bulunur.",
-          ipucu: "Ayaküstü kahvaltı için en pratik seçenek."
+          ipucu: "Ayaküstü kahvaltı için en pratik seçenek.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Byrek_me_djath%C3%AB_dhe_kos.jpg/960px-Byrek_me_djath%C3%AB_dhe_kos.jpg",
+          kaynak: "Rrezjaediellit · CC BY-SA 4.0 · Wikimedia Commons"
         },
         {
           ad: "Kosova usulü kebap", yerel: "qebapa",
           aciklama: "Küçük, baharatlı köfteler; yanında soğan, ekmek ve kaymak benzeri süt ürünleriyle gelir.",
-          ipucu: "Porsiyonlar adetle sayılır; ilk seferde az söyleyip eklemek daha mantıklı."
+          ipucu: "Porsiyonlar adetle sayılır; ilk seferde az söyleyip eklemek daha mantıklı.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Qebapa_in_Prishtina_-_Kosovo_food.jpg/960px-Qebapa_in_Prishtina_-_Kosovo_food.jpg",
+          kaynak: "Bdx · CC BY-SA 4.0 · Wikimedia Commons"
         },
         {
           ad: "Makiato", yerel: "makiato",
@@ -237,17 +253,23 @@ const TUR = {
         {
           ad: "Trileçe", yerel: "trileče",
           aciklama: "Üç sütle ıslatılan, üstü karamelli sünger kek. Anavatanı burası; Türkiye'de bildiğinden daha hafif ve daha ıslak.",
-          ipucu: "Turun tek 'kaçırılmaz tatlısı' buysa şaşırma."
+          ipucu: "Turun tek 'kaçırılmaz tatlısı' buysa şaşırma.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Trileche.jpg/960px-Trileche.jpg",
+          kaynak: "E4024 · CC BY-SA 4.0 · Wikimedia Commons"
         },
         {
           ad: "Tavče gravče", yerel: "тавче гравче",
           aciklama: "Toprak kapta fırınlanan baharatlı kuru fasulye — Kuzey Makedonya'nın ulusal yemeği sayılır.",
-          ipucu: "Tek başına doyurucu; yanına ekmek yeter. Vejetaryen dostu."
+          ipucu: "Tek başına doyurucu; yanına ekmek yeter. Vejetaryen dostu.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/%D0%A2%D0%B0%D0%B2%D1%87%D0%B5_%D0%B3%D1%80%D0%B0%D0%B2%D1%87%D0%B5_%D0%B2%D0%BE_%D0%B7%D0%B5%D0%BC%D1%98%D0%B5%D0%BD_%D1%81%D0%B0%D0%B4.jpg/960px-%D0%A2%D0%B0%D0%B2%D1%87%D0%B5_%D0%B3%D1%80%D0%B0%D0%B2%D1%87%D0%B5_%D0%B2%D0%BE_%D0%B7%D0%B5%D0%BC%D1%98%D0%B5%D0%BD_%D1%81%D0%B0%D0%B4.jpg",
+          kaynak: "Aleksandar Cokrevski · CC BY-SA 4.0 · Wikimedia Commons"
         },
         {
           ad: "Ajvar", yerel: "ајвар",
           aciklama: "Közlenmiş kırmızı biberden yapılan, ekmeğe sürülen bölgesel meze.",
-          ipucu: "Kavanozda satılanı hediyelik olarak iyi gider — ama dönüş bagajını düşün."
+          ipucu: "Kavanozda satılanı hediyelik olarak iyi gider — ama dönüş bagajını düşün.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/%D0%A2%D1%80%D0%B0%D0%B4%D0%B8%D1%86%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D0%BD%D0%BE_%D1%81%D0%B5%D1%80%D0%B2%D0%B8%D1%80%D0%B0%D0%BD_%D0%B0%D1%98%D0%B2%D0%B0%D1%80.jpg/960px-%D0%A2%D1%80%D0%B0%D0%B4%D0%B8%D1%86%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D0%BD%D0%BE_%D1%81%D0%B5%D1%80%D0%B2%D0%B8%D1%80%D0%B0%D0%BD_%D0%B0%D1%98%D0%B2%D0%B0%D1%80.jpg",
+          kaynak: "Mila Atkovska · CC BY-SA 4.0 · Wikimedia Commons"
         },
         {
           ad: "Eski Çarşı kebabı", yerel: "ќебапи",
@@ -257,7 +279,9 @@ const TUR = {
         {
           ad: "Skopsko", yerel: "Скопско",
           aciklama: "Şehrin adını taşıyan yerel bira; sıcak bir günün sonunda çarşı kenarında iyi gider.",
-          ipucu: "Alkolsüz tercih edersen ayran ve boza da her yerde var."
+          ipucu: "Alkolsüz tercih edersen ayran ve boza da her yerde var.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Skopsko_vo_%C4%8Da%C5%A1a.jpg/960px-Skopsko_vo_%C4%8Da%C5%A1a.jpg",
+          kaynak: "David Bailey · CC BY-SA 2.0 · Wikimedia Commons"
         }
       ],
       galeri: [
@@ -313,27 +337,37 @@ const TUR = {
         {
           ad: "Ohrid alabalığı", yerel: "охридска пастрмка",
           aciklama: "Gölün simge balığı; kızartma ya da ızgara, yanında patates ve limonla gelir.",
-          ipucu: "Göl kıyısında akşamüstü, gün batarken yenir. Ohrid alabalığının bazı türleri koruma altında — menüde hangi balık olduğunu sor."
+          ipucu: "Göl kıyısında akşamüstü, gün batarken yenir. Ohrid alabalığının bazı türleri koruma altında — menüde hangi balık olduğunu sor.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Ohrid_Trouts.jpg/960px-Ohrid_Trouts.jpg",
+          kaynak: "Albinfo · CC0 · Wikimedia Commons"
         },
         {
           ad: "Tavče gravče", yerel: "тавче гравче",
           aciklama: "Ohrid'de de her menüde var; göl kenarında sıcak bir öğle yemeği olarak ideal.",
-          ipucu: "Balık pahalıysa bu daha ekonomik ve bir o kadar doyurucu."
+          ipucu: "Balık pahalıysa bu daha ekonomik ve bir o kadar doyurucu.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/%D0%A2%D0%B0%D0%B2%D1%87%D0%B5_%D0%B3%D1%80%D0%B0%D0%B2%D1%87%D0%B5_3.jpg/960px-%D0%A2%D0%B0%D0%B2%D1%87%D0%B5_%D0%B3%D1%80%D0%B0%D0%B2%D1%87%D0%B5_3.jpg",
+          kaynak: "Наташа Величковска · CC BY-SA 4.0 · Wikimedia Commons"
         },
         {
           ad: "Burek + kefir kahvaltısı", yerel: "бурек и кефир",
           aciklama: "Bölgenin klasik sabah ikilisi: sıcak börek yanında ekşi kefir.",
-          ipucu: "Sabah tekne turuna çıkmadan önce en pratik kahvaltı."
+          ipucu: "Sabah tekne turuna çıkmadan önce en pratik kahvaltı.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/%D0%91%D0%BE%D1%81%D0%B0%D0%BD%D1%81%D0%BA%D0%B8_%D0%B1%D1%83%D1%80%D0%B5%D0%BA_%D1%81%D0%BE_%D1%81%D0%B8%D1%80%D0%B5%D1%9A%D0%B5_%28Bosnian_burek_with_cheese%29%2C_Ohrid%2C_North_Macedonia.jpg/960px-%D0%91%D0%BE%D1%81%D0%B0%D0%BD%D1%81%D0%BA%D0%B8_%D0%B1%D1%83%D1%80%D0%B5%D0%BA_%D1%81%D0%BE_%D1%81%D0%B8%D1%80%D0%B5%D1%9A%D0%B5_%28Bosnian_burek_with_cheese%29%2C_Ohrid%2C_North_Macedonia.jpg",
+          kaynak: "Sharon Hahn Darlin · CC BY 2.0 · Wikimedia Commons"
         },
         {
           ad: "Yerel şarap", yerel: "вино",
           aciklama: "Kuzey Makedonya'nın şarapçılığı güçlü; kırmızıda Vranec en bilinen yerel üzüm.",
-          ipucu: "Akşam yemeğinde kadeh usulü denemek en kolayı."
+          ipucu: "Akşam yemeğinde kadeh usulü denemek en kolayı.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Way_of_drinking_wine.jpg/960px-Way_of_drinking_wine.jpg",
+          kaynak: "Tashkoskim · CC BY-SA 4.0 · Wikimedia Commons"
         },
         {
           ad: "Rakı", yerel: "ракија",
           aciklama: "Üzüm ya da erikten damıtılan sert yerel içki; göl manzarasına eşlik eder.",
-          ipucu: "Türkiye'deki anason rakısıyla aynı şey değil — daha çok sert bir eau-de-vie."
+          ipucu: "Türkiye'deki anason rakısıyla aynı şey değil — daha çok sert bir eau-de-vie.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Moonshine-rakija-ohrid-n-macedonia.jpg/960px-Moonshine-rakija-ohrid-n-macedonia.jpg",
+          kaynak: "Mutialulu · CC0 · Wikimedia Commons"
         }
       ],
       galeri: [
@@ -394,22 +428,30 @@ const TUR = {
         {
           ad: "Taze deniz mahsulleri", yerel: "peshk i freskët",
           aciklama: "Liman kenti olduğu için balık ve kalamar sahil boyunca her yerde; genelde kilo hesabıyla satılır.",
-          ipucu: "Fiyat kiloyla verildiği için sipariş ederken balığı tarttır, sonra onaylat."
+          ipucu: "Fiyat kiloyla verildiği için sipariş ederken balığı tarttır, sonra onaylat.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Fruta_deti_mix.jpg/960px-Fruta_deti_mix.jpg",
+          kaynak: "Berishasinan · CC BY-SA 4.0 · Wikimedia Commons"
         },
         {
           ad: "Tavë kosi", yerel: "tavë kosi",
           aciklama: "Yoğurt ve yumurtayla fırınlanan kuzu — Arnavutluk'un ulusal yemeği.",
-          ipucu: "Ağır bir yemek; öğlen sıcağında değil akşam denemek daha iyi."
+          ipucu: "Ağır bir yemek; öğlen sıcağında değil akşam denemek daha iyi.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Tav%C3%AB_kosi.jpg/960px-Tav%C3%AB_kosi.jpg",
+          kaynak: "MirelaAndoni · CC BY-SA 4.0 · Wikimedia Commons"
         },
         {
           ad: "Fërgesë", yerel: "fërgesë",
           aciklama: "Biber, domates ve taze beyaz peynirle yapılan sıcak meze; ekmekle yenir.",
-          ipucu: "Vejetaryen ve paylaşmalık — masaya ilk gelecek şey olsun."
+          ipucu: "Vejetaryen ve paylaşmalık — masaya ilk gelecek şey olsun.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/F%C3%ABrges%C3%AB_me_speca_dhe_gjiz%C3%AB.jpg/960px-F%C3%ABrges%C3%AB_me_speca_dhe_gjiz%C3%AB.jpg",
+          kaynak: "Rrezjaediellit · CC BY-SA 4.0 · Wikimedia Commons"
         },
         {
           ad: "Byrek", yerel: "byrek",
           aciklama: "Arnavutluk'un her köşesinde bulunan yufka böreği; peynirli, ıspanaklı ya da patatesli.",
-          ipucu: "Plaja inmeden önce alınacak en pratik atıştırmalık."
+          ipucu: "Plaja inmeden önce alınacak en pratik atıştırmalık.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Albanian_triangle_byrek.jpg/960px-Albanian_triangle_byrek.jpg",
+          kaynak: "RoyalHeritageAlb · CC0 · Wikimedia Commons"
         }
       ],
       galeri: [
@@ -464,17 +506,23 @@ const TUR = {
         {
           ad: "Qofte", yerel: "qofte",
           aciklama: "Baharatlı Arnavut köftesi; ızgara ya da sulu, yanında ekmek ve salatayla.",
-          ipucu: "Küçük lokantalarda en güvenilir sipariş."
+          ipucu: "Küçük lokantalarda en güvenilir sipariş.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Qofte_sht%C3%ABpie_me_l%C3%ABng.jpg/960px-Qofte_sht%C3%ABpie_me_l%C3%ABng.jpg",
+          kaynak: "MirelaAndoni · CC BY-SA 4.0 · Wikimedia Commons"
         },
         {
           ad: "Byrek", yerel: "byrek",
           aciklama: "Son gün valizle dolaşırken tek elle yenebilecek en iyi şey.",
-          ipucu: "Gece uçuşu öncesi ağır yemekten kaçınmak istersen ideal."
+          ipucu: "Gece uçuşu öncesi ağır yemekten kaçınmak istersen ideal.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Djadhe_i_forte_dhe_Byreke_te_vegjel_me_djathe.jpg/960px-Djadhe_i_forte_dhe_Byreke_te_vegjel_me_djathe.jpg",
+          kaynak: "SualdoDino · CC BY-SA 4.0 · Wikimedia Commons"
         },
         {
           ad: "Yeni Çarşı ürünleri", yerel: "Pazari i Ri",
           aciklama: "Bal, zeytinyağı, kuru baharat, dağ çayı — hediyelik için en iyi yer.",
-          ipucu: "Sıvı ürünleri kabin bagajına koyma; dönüşte 20 kg valiz hakkın var, oraya yerleştir."
+          ipucu: "Sıvı ürünleri kabin bagajına koyma; dönüşte 20 kg valiz hakkın var, oraya yerleştir.",
+          gorsel: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Pazari_i_Ri%2C_Tirana_Albania_2017.jpg/960px-Pazari_i_Ri%2C_Tirana_Albania_2017.jpg",
+          kaynak: "Kevin Jasini · CC BY-SA 2.0 · Wikimedia Commons"
         },
         {
           ad: "Raki Rrushi", yerel: "raki rrushi",
@@ -1337,24 +1385,45 @@ const TUR = {
 /* =====================================================================
    TASARIM TOKEN'LARI
    ===================================================================== */
+/* ---------- DERİN'İN TEMASI — şeker pembesi (aydınlık) ----------
+   Site iki temaya bölündü, ikisi de bir kişiye ait: burası Derin'in,
+   aşağıdaki html[data-tema="baris"] bloğu Barış'ın koyu laciverdi.
+   Derin'inki :root'ta duruyor çünkü varsayılan aydınlık tema bu;
+   Barış'ınki :root'u ezerek çalışıyor.
+
+   ⚠ Token ADLARI eski Adriyatik paletinden kalma (--c-teal, --c-sand).
+   Anlamları artık "vurgu rengi" ve "yumuşak zemin"; Derin'in temasında
+   pembe değerler taşıyorlar. Adları değiştirmek dosyadaki yüzlerce
+   kullanımı dokunmak demekti, değerleri değiştirmek yetti.
+   Kontrast ölçüldü: beyaz/deep 8,6:1 · beyaz/teal 6,6:1 ·
+   teal-soft/deep 4,7:1 · teal/sand 5,3:1 · ink/cream 15,5:1. */
 :root{
-  /* renk — Adriyatik: derin mavi / turkuaz + kum beji */
-  --c-deep:      #0b2a45;
-  --c-deep-2:    #123a5c;
-  --c-teal:      #17879b;
-  --c-teal-soft: #2fb3c4;
-  --c-sand:      #f4ece0;
-  --c-sand-2:    #e9dcc9;
-  --c-sand-3:    #f7f0e6;
-  --c-cream:     #fbf7f1;
-  --c-yuzey:     #ffffff;   /* kart yüzeyi — koyu temada ezilir */
-  --c-ink:       #12222e;
-  --c-ink-soft:  #4a6172;
-  --c-line:      #dfd3c2;
+  /* renk — şeker pembesi: koyu ahududu + pastel pembe zeminler */
+  --c-deep:      #8e1e50;
+  --c-deep-2:    #a63566;
+  --c-teal:      #b3145c;   /* vurgu — pembe (ad eski paletten kalma) */
+  --c-teal-soft: #ffa6c9;
+  --c-sand:      #ffdcea;
+  --c-sand-2:    #ffc2da;
+  --c-sand-3:    #fff0f6;
+  --c-cream:     #fff5f9;
+  --c-yuzey:     #ffffff;   /* kart yüzeyi — Barış temasında ezilir */
+  --c-ink:       #3a0f24;
+  --c-ink-soft:  #7a4a60;
+  --c-line:      #f5c9dc;
   --c-warn-bg:   #fff4e2;
   --c-warn-line: #e0952b;
   --c-warn-ink:  #6f4204;
   --c-ok:        #2f7d5c;
+
+  /* Hero'nun üçüncü durağı ve iki ışık lekesi. Eskiden sabit lacivert
+     yazılıydı; iki tema olunca temaya bağlanmak zorunda kaldı. */
+  --c-deep-3:    #6d1540;
+  --c-isik-1:    rgba(255,166,201,.42);
+  --c-isik-2:    rgba(179,20,92,.34);
+  /* Perde (lightbox, tam ekran kart, harita düğmeleri) — rgba() içinde
+     kullanılmak üzere yalnızca RGB bileşenleri: rgba(var(--c-perde),.92) */
+  --c-perde:     142,30,80;
 
   /* boşluk */
   --s-1:.25rem; --s-2:.5rem; --s-3:.75rem; --s-4:1rem;
@@ -1364,9 +1433,9 @@ const TUR = {
   --r-s:8px; --r-m:14px; --r-l:22px; --r-pill:999px;
 
   /* gölge */
-  --sh-1:0 1px 3px rgba(11,42,69,.07), 0 1px 2px rgba(11,42,69,.05);
-  --sh-2:0 6px 20px rgba(11,42,69,.09);
-  --sh-3:0 16px 40px rgba(11,42,69,.16);
+  --sh-1:0 1px 3px rgba(142,30,80,.09), 0 1px 2px rgba(142,30,80,.06);
+  --sh-2:0 6px 20px rgba(142,30,80,.11);
+  --sh-3:0 16px 40px rgba(142,30,80,.18);
 
   /* tipografi & ölçü */
   --f-body:"Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
@@ -1377,19 +1446,19 @@ const TUR = {
 }
 
 /* =====================================================================
-   KARANLIK TEMA
-   Renkler token'larda toplandığı için koyu tema büyük ölçüde :root
-   değerlerini ezmekle çözülür; geriye kalan birkaç sabit renk
+   BARIŞ'IN TEMASI — koyu lacivert (karanlık)
+   Renkler token'larda toplandığı için tema büyük ölçüde :root (Derin'in
+   pembesi) değerlerini ezmekle çözülür; geriye kalan birkaç sabit renk
    (uyarı rozetleri, favori kalpleri, tamamlanan madde) altta tek tek
    dengelenir.
 
-   Tema <html data-tema="koyu|acik"> ile taşınır ve <head> içindeki
+   Tema <html data-tema="derin|baris"> ile taşınır ve <head> içindeki
    küçük script tarafından ilk boyamadan ÖNCE yazılır — böylece açılışta
    beyaz parlaması olmaz. Kullanıcı seçim yapmadıysa işletim sistemi
-   tercihi (prefers-color-scheme) uygulanır ve tercih değişince
-   canlı takip edilir. Bu yüzden CSS'te tek bir seçici yeterli.
+   tercihi (prefers-color-scheme: dark → Barış) uygulanır ve tercih
+   değişince canlı takip edilir. Bu yüzden CSS'te tek bir seçici yeterli.
    ===================================================================== */
-html[data-tema="koyu"]{
+html[data-tema="baris"]{
   --c-deep:      #0a1b2a;
   --c-deep-2:    #10293f;
   --c-teal:      #1f9db2;
@@ -1407,36 +1476,43 @@ html[data-tema="koyu"]{
   --c-warn-ink:  #f2d9a4;
   --c-ok:        #3f9d76;
 
+  /* Hero'nun üçüncü durağı, ışık lekeleri ve perde — bu değerler
+     tema ayrılmadan önceki hâlin aynısı, Barış'ın görünümü değişmedi. */
+  --c-deep-3:    #0e3450;
+  --c-isik-1:    rgba(47,179,196,.42);
+  --c-isik-2:    rgba(23,135,155,.34);
+  --c-perde:     11,42,69;
+
   --sh-1:0 1px 3px rgba(0,0,0,.4), 0 1px 2px rgba(0,0,0,.3);
   --sh-2:0 6px 20px rgba(0,0,0,.45);
   --sh-3:0 16px 40px rgba(0,0,0,.6);
   color-scheme:dark;
 }
 /* Sabit renkli küçük parçaların koyu zemindeki karşılıkları */
-html[data-tema="koyu"] .tbd{ color:#e0a54e; }
-html[data-tema="koyu"] .status.todo{ color:#e0a54e; }
-html[data-tema="koyu"] .flight.is-night .flight-tag{ color:#e0a54e; }
-html[data-tema="koyu"] .note.t-dikkat{ border-color:#6d5220; }
-html[data-tema="koyu"] .note.t-dikkat b{ color:#2b1e05; }
-html[data-tema="koyu"] .hava-rozet.yagmur{ background:#16344a; color:#9fd2f0; }
-html[data-tema="koyu"] .acil-satir.vurgulu .acil-numara{ color:#ff8f7a; }
-html[data-tema="koyu"] .fav[aria-pressed="true"],
-html[data-tema="koyu"] .ucan-kalp{ color:#ff7a7a; }
-html[data-tema="koyu"] .fav-sayac{ background:#3a1c1c; color:#ffb0b0; border-color:#5c2b2b; }
-html[data-tema="koyu"] .fav-ozet{ border-left-color:#ff7a7a; }
-html[data-tema="koyu"] .dikkat.s-kritik{ border-left-color:#e0685a; }
-html[data-tema="koyu"] .dikkat.s-kritik .dikkat-etiket{ background:#3a1c19; color:#ffb3a7; }
-html[data-tema="koyu"] .check.done{ background:#122a24; border-color:#2c5c4a; }
+html[data-tema="baris"] .tbd{ color:#e0a54e; }
+html[data-tema="baris"] .status.todo{ color:#e0a54e; }
+html[data-tema="baris"] .flight.is-night .flight-tag{ color:#e0a54e; }
+html[data-tema="baris"] .note.t-dikkat{ border-color:#6d5220; }
+html[data-tema="baris"] .note.t-dikkat b{ color:#2b1e05; }
+html[data-tema="baris"] .hava-rozet.yagmur{ background:#16344a; color:#9fd2f0; }
+html[data-tema="baris"] .acil-satir.vurgulu .acil-numara{ color:#ff8f7a; }
+html[data-tema="baris"] .fav[aria-pressed="true"],
+html[data-tema="baris"] .ucan-kalp{ color:#ff7a7a; }
+html[data-tema="baris"] .fav-sayac{ background:#3a1c1c; color:#ffb0b0; border-color:#5c2b2b; }
+html[data-tema="baris"] .fav-ozet{ border-left-color:#ff7a7a; }
+html[data-tema="baris"] .dikkat.s-kritik{ border-left-color:#e0685a; }
+html[data-tema="baris"] .dikkat.s-kritik .dikkat-etiket{ background:#3a1c19; color:#ffb3a7; }
+html[data-tema="baris"] .check.done{ background:#122a24; border-color:#2c5c4a; }
 /* Fotoğraflar ve harita karoları koyu zeminde göz almasın diye kısılır.
    Karo kaynağı OSM'in açık renkli seti; ayrı bir koyu karo servisi
    eklemek yeni bir harici bağımlılık demek olurdu, filtre yeterli. */
-html[data-tema="koyu"] .gorsel-kutu img{ filter:brightness(.9) contrast(1.02); }
-html[data-tema="koyu"] .leaflet-tile-pane{ filter:brightness(.72) saturate(.85) contrast(1.05); }
-html[data-tema="koyu"] .leaflet-popup-content-wrapper,
-html[data-tema="koyu"] .leaflet-popup-tip{ background:var(--c-yuzey); color:var(--c-ink); }
-html[data-tema="koyu"] .leaflet-control-attribution{ background:rgba(13,23,32,.85) !important; color:var(--c-ink-soft); }
-html[data-tema="koyu"] .leaflet-control-attribution a{ color:var(--c-teal-soft); }
-html[data-tema="koyu"] .leaflet-bar a{ background:var(--c-yuzey); color:var(--c-ink); border-color:var(--c-line); }
+html[data-tema="baris"] .gorsel-kutu img{ filter:brightness(.9) contrast(1.02); }
+html[data-tema="baris"] .leaflet-tile-pane{ filter:brightness(.72) saturate(.85) contrast(1.05); }
+html[data-tema="baris"] .leaflet-popup-content-wrapper,
+html[data-tema="baris"] .leaflet-popup-tip{ background:var(--c-yuzey); color:var(--c-ink); }
+html[data-tema="baris"] .leaflet-control-attribution{ background:rgba(13,23,32,.85) !important; color:var(--c-ink-soft); }
+html[data-tema="baris"] .leaflet-control-attribution a{ color:var(--c-teal-soft); }
+html[data-tema="baris"] .leaflet-bar a{ background:var(--c-yuzey); color:var(--c-ink); border-color:var(--c-line); }
 
 /* =====================================================================
    EKRAN DIŞI KARTLARIN RENDER'INI ATLA
@@ -1455,7 +1531,10 @@ html[data-tema="koyu"] .leaflet-bar a{ background:var(--c-yuzey); color:var(--c-
    ⚠ Yazdırmada kapatılıyor (aşağıdaki @media print) — yoksa ekran dışında
    kalan kartlar kâğıda hiç basılmaz.
    ===================================================================== */
-.city{    content-visibility:auto; contain-intrinsic-size:auto 3045px; }
+/* 3045px'ti; "Ne yenir?" katlanır hâle gelince ortanca kart 1818px'e indi
+   (390 px'te yeniden ölçüldü). Eski tahmin kalsaydı kaydırma çubuğu her
+   şehir kartında geriye zıplardı. */
+.city{    content-visibility:auto; contain-intrinsic-size:auto 1818px; }
 .cep-kart{ content-visibility:auto; contain-intrinsic-size:auto 870px; }
 .dikkat{  content-visibility:auto; contain-intrinsic-size:auto 395px; }
 .info{    content-visibility:auto; contain-intrinsic-size:auto 285px; }
@@ -1505,9 +1584,9 @@ section:nth-of-type(even){ background:linear-gradient(180deg,var(--c-sand) 0%,va
 .hero{
   position:relative; overflow:hidden; color:#fff; padding-block:var(--s-8);
   background:
-    radial-gradient(1100px 520px at 88% -12%, rgba(47,179,196,.42), transparent 62%),
-    radial-gradient(700px 420px at 4% 108%, rgba(23,135,155,.34), transparent 60%),
-    linear-gradient(155deg,var(--c-deep) 0%,var(--c-deep-2) 55%,#0e3450 100%);
+    radial-gradient(1100px 520px at 88% -12%, var(--c-isik-1), transparent 62%),
+    radial-gradient(700px 420px at 4% 108%, var(--c-isik-2), transparent 60%),
+    linear-gradient(155deg,var(--c-deep) 0%,var(--c-deep-2) 55%,var(--c-deep-3) 100%);
 }
 .hero::after{
   content:""; position:absolute; inset:auto 0 -1px 0; height:70px;
@@ -1752,7 +1831,7 @@ tbody td:last-child{ padding-bottom:0; }
           calc(var(--s-4) + env(safe-area-inset-right))
           calc(var(--s-4) + env(safe-area-inset-bottom))
           calc(var(--s-4) + env(safe-area-inset-left));
-  background:rgba(11,42,69,.92); backdrop-filter:blur(3px);
+  background:rgba(var(--c-perde),.92); backdrop-filter:blur(3px);
   overscroll-behavior:contain;
 }
 .lightbox[data-acik="1"]{ display:grid; }
@@ -2231,6 +2310,37 @@ tbody td:last-child{ padding-bottom:0; }
 .kelime-yerel i{ font-style:normal; opacity:.75; }
 
 /* =====================================================================
+   KATLANIR BÖLÜM
+   Şehir kartındaki "Ne yenir?" listesi için. Sayfa 20.000 px'ten uzundu
+   ve beş şehrin 23 lezzeti bunun büyük bir kısmıydı; artık kapalı geliyor.
+   Gün kartlarındaki (.day) katlama kalıbının aynısı: data-open kapsayıcıda,
+   aria-expanded düğmede, gövde display:none.
+
+   Kapalı gövde display:none olduğu için içindeki loading="lazy" görseller
+   açılana kadar İSTENMİYOR — 19 lezzet fotoğrafı ilk açılışa yük bindirmez.
+   ===================================================================== */
+.katlanir{
+  margin-top:var(--s-4); border:1px solid var(--c-line);
+  border-radius:var(--r-m); background:var(--c-sand-3); overflow:hidden;
+}
+.katlanir-btn{
+  all:unset; box-sizing:border-box; cursor:pointer; width:100%;
+  display:flex; align-items:center; gap:var(--s-3);
+  padding:var(--s-3) var(--s-4); min-height:44px;
+}
+.katlanir-btn:focus-visible{ outline:3px solid var(--c-teal-soft); outline-offset:-3px; }
+.katlanir-ad{ font-weight:800; font-size:.98rem; }
+.katlanir-adet{
+  font-size:.72rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
+  background:var(--c-sand); color:var(--c-teal);
+  border-radius:var(--r-pill); padding:.15rem .55rem;
+}
+.katlanir-ok{ margin-left:auto; font-size:.9rem; color:var(--c-ink-soft); transition:transform .25s ease; }
+.katlanir[data-open="1"] .katlanir-ok{ transform:rotate(180deg); }
+.katlanir-govde{ display:none; padding:0 var(--s-4) var(--s-4); }
+.katlanir[data-open="1"] .katlanir-govde{ display:block; }
+
+/* =====================================================================
    LEZZETLER
    ===================================================================== */
 .lezzetler{ display:flex; flex-direction:column; gap:var(--s-3); margin-top:var(--s-2); }
@@ -2413,11 +2523,11 @@ tbody td:last-child{ padding-bottom:0; }
 .odak-btn[aria-pressed="true"]{ background:var(--c-deep); border-color:var(--c-deep); color:#fff; }
 /* Koyu temada --c-deep sayfa zeminiyle neredeyse aynı; seçili çip
    kayboluyordu. Orada işaret rengi turkuaz. Aynısı harita düğmeleri için. */
-html[data-tema="koyu"] .odak-btn[aria-pressed="true"],
-html[data-tema="koyu"] .harita-dugme[aria-pressed="true"]{
+html[data-tema="baris"] .odak-btn[aria-pressed="true"],
+html[data-tema="baris"] .harita-dugme[aria-pressed="true"]{
   background:var(--c-teal); border-color:var(--c-teal); color:#04222a;
 }
-html[data-tema="koyu"] .odak-btn[aria-pressed="true"] .odak-no{ background:rgba(0,0,0,.22); color:#04222a; }
+html[data-tema="baris"] .odak-btn[aria-pressed="true"] .odak-no{ background:rgba(0,0,0,.22); color:#04222a; }
 .odak-btn .odak-no{
   display:grid; place-items:center; width:1.35rem; height:1.35rem; border-radius:50%;
   background:var(--c-sand-2); color:var(--c-ink-soft); font-size:.72rem; font-weight:800;
@@ -2510,13 +2620,13 @@ html[data-tema="koyu"] .odak-btn[aria-pressed="true"] .odak-no{ background:rgba(
   /* Etiket ORTADA DEĞİL, altta: harita artık bugünkü evin üstünde açılıyor
      ve ortadaki etiket tam da görülmesi gereken pini kapatıyordu. */
   place-items:end center;
-  background:rgba(11,42,69,.18); color:#fff; cursor:pointer;
+  background:rgba(var(--c-perde),.18); color:#fff; cursor:pointer;
   font-weight:700; font-size:.95rem; text-align:center;
   padding:var(--s-4) var(--s-4) var(--s-6);
   transition:opacity .2s ease;
 }
 .harita-kilit span{
-  background:rgba(11,42,69,.85); border:1px solid rgba(255,255,255,.28);
+  background:rgba(var(--c-perde),.85); border:1px solid rgba(255,255,255,.28);
   border-radius:var(--r-pill); padding:.6rem 1.1rem; min-height:44px;
   display:inline-flex; align-items:center;
 }
@@ -2581,7 +2691,7 @@ html[data-tema="koyu"] .odak-btn[aria-pressed="true"] .odak-no{ background:rgba(
   background:var(--c-sand); border-left:3px solid var(--c-teal); border-radius:var(--r-s);
   font-size:1.02rem; font-weight:800; line-height:1.35;
 }
-html[data-tema="koyu"] .pp-adres{ background:var(--c-cream); }
+html[data-tema="baris"] .pp-adres{ background:var(--c-cream); }
 .pp-adres-latin{ display:block; font-size:.78rem; color:var(--c-ink-soft); margin-bottom:.4rem; }
 .pp-btnler{ display:flex; flex-wrap:wrap; gap:.3rem; margin-top:.4rem; }
 .pp-btnler .btn{ min-height:38px; padding:.3rem .8rem; font-size:.82rem; }
@@ -2600,14 +2710,14 @@ html[data-tema="koyu"] .pp-adres{ background:var(--c-cream); }
   background:var(--c-sand); color:var(--c-ink-soft);
 }
 .karo-rozet[data-tip="tamam"]{ background:#e3f3ec; color:#1d5c43; }
-html[data-tema="koyu"] .karo-rozet[data-tip="tamam"]{ background:#122a24; color:#6fc9a4; }
+html[data-tema="baris"] .karo-rozet[data-tip="tamam"]{ background:#122a24; color:#6fc9a4; }
 .karo-rozet[data-tip="eksik"]{ background:var(--c-warn-bg); color:var(--c-warn-ink); }
 .karo-aciklama{ margin-top:var(--s-2); font-size:.88rem; color:var(--c-ink-soft); max-width:56ch; }
 .karo-kutu .progress{ margin:var(--s-3) 0; }
 .karo-btnler{ display:flex; flex-wrap:wrap; gap:var(--s-2); margin-top:var(--s-3); }
 .karo-durum{ margin-top:var(--s-3); font-size:.88rem; font-weight:600; color:var(--c-ok); min-height:1.2rem; }
 .karo-durum[data-tip="hata"]{ color:#b03a2e; }
-html[data-tema="koyu"] .karo-durum[data-tip="hata"]{ color:#ff8f7a; }
+html[data-tema="baris"] .karo-durum[data-tip="hata"]{ color:#ff8f7a; }
 .karo-durum[data-tip="notr"]{ color:var(--c-ink-soft); font-weight:400; }
 
 /* =====================================================================
@@ -2620,7 +2730,7 @@ html[data-tema="koyu"] .karo-durum[data-tip="hata"]{ color:#ff8f7a; }
    ===================================================================== */
 .kart-katman{
   position:fixed; inset:0; z-index:110; display:none;
-  background:rgba(11,42,69,.94); backdrop-filter:blur(3px);
+  background:rgba(var(--c-perde),.94); backdrop-filter:blur(3px);
   overscroll-behavior:contain;
   padding:calc(var(--s-3) + env(safe-area-inset-top))
           calc(var(--s-3) + env(safe-area-inset-right))
@@ -2692,7 +2802,7 @@ html[data-tema="koyu"] .karo-durum[data-tip="hata"]{ color:#ff8f7a; }
 }
 /* Koyu temada --c-sand ile --c-yuzey aynı değere düşüyor; kutu kart
    zemininden ayrılsın diye bir tık daha koyu olan sayfa zeminine iner. */
-html[data-tema="koyu"] .gk-adres{ background:var(--c-cream); }
+html[data-tema="baris"] .gk-adres{ background:var(--c-cream); }
 .gk-adres-yerel{ display:block; font-size:1.24rem; font-weight:800; line-height:1.35; }
 .gk-adres-latin{ display:block; margin-top:.2rem; font-size:.88rem; color:var(--c-ink-soft); }
 
@@ -2708,7 +2818,7 @@ html[data-tema="koyu"] .gk-adres{ background:var(--c-cream); }
   font-variant-numeric:tabular-nums;
 }
 .gk-kod-yok{ font-size:.86rem; font-style:italic; color:#a8641a; }
-html[data-tema="koyu"] .gk-kod-yok{ color:#e0a54e; }
+html[data-tema="baris"] .gk-kod-yok{ color:#e0a54e; }
 
 .gk-uyari{
   margin-top:var(--s-3); padding:var(--s-3) var(--s-4);
@@ -2721,7 +2831,13 @@ html[data-tema="koyu"] .gk-kod-yok{ color:#e0a54e; }
 
 /* Kartı açan nav düğmesi — emoji yerine yazı: Segoe UI'da bozuk basılan
    glif riski yok, ne işe yaradığı da okunuyor. */
-.nav-btn-metin{
+/* Metinli çubuk düğmesi (Kart · tema adı).
+   ⚠ Seçici `.nav-btn.nav-btn-metin` olmak zorunda: aşağıdaki `.nav-btn`
+   kuralı dosyada DAHA SONRA geliyor ve aynı özgüllükte `width:2.5rem`
+   yazıyor — tek sınıfla yazıldığında width:auto sessizce eziliyor, düğme
+   44 px'e sıkışıp metin kutunun dışına taşıyordu. "Kart" kısa olduğu için
+   göze batmıyordu, "🤍 Derin" yazınca ortaya çıktı. */
+.nav-btn.nav-btn-metin{
   /* .nav-arac bir flex kabı; flex-shrink varsayılanı düğmeyi içeriğinin
      altına sıkıştırıp "Ka / rt" diye kırıyordu. */
   width:auto; min-width:44px; flex:0 0 auto; white-space:nowrap;
@@ -2879,7 +2995,7 @@ section, .day{ scroll-margin-top:calc(var(--h-nav) + env(safe-area-inset-top) + 
   min-height:1.2rem;
 }
 .yedek-durum[data-tip="hata"]{ color:#b03a2e; }
-html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
+html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
 .yedek-ozet{ margin-top:var(--s-2); font-size:.85rem; color:var(--c-ink-soft); }
 
 /* =====================================================================
@@ -2896,11 +3012,16 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
     content-visibility:visible !important;
     contain-intrinsic-size:auto !important;
   }
-  /* Kâğıt her zaman beyazdır: koyu tema açıkken bile bütün renk token'ları
-     mürekkep tasarruflu bir gri-siyah sete indirgenir. Tek tek kutu
-     boyamaktansa token'ları ezmek daha güvenli — yeni eklenen bir kart da
-     kendiliğinden doğru basılır. */
-  html, html[data-tema="koyu"]{
+  /* Kâğıt her zaman beyazdır: hangi tema açık olursa olsun bütün renk
+     token'ları mürekkep tasarruflu bir gri-siyah sete indirgenir. Tek tek
+     kutu boyamaktansa token'ları ezmek daha güvenli — yeni eklenen bir
+     kart da kendiliğinden doğru basılır.
+
+     ⚠ Seçici `html` DEĞİL `:root` olmak zorunda: `:root` (0,1,0) düz
+     `html`i (0,0,1) yener, yani `html{...}` yazıldığında yukarıdaki
+     :root paleti kâğıtta da kazanıyordu ve tema renkleri olduğu gibi
+     basılıyordu. Derin'in pembesiyle bu apaçık görülür hâle geldi. */
+  :root, :root[data-tema="baris"]{
     --c-deep:#000; --c-deep-2:#222; --c-teal:#245b66; --c-teal-soft:#5a8b93;
     --c-sand:#fff; --c-sand-2:#ddd; --c-sand-3:#fff; --c-cream:#fff; --c-yuzey:#fff;
     --c-ink:#000; --c-ink-soft:#333; --c-line:#bbb;
@@ -2908,8 +3029,8 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
     --sh-1:none; --sh-2:none; --sh-3:none;
     color-scheme:light;
   }
-  html[data-tema="koyu"] .gorsel-kutu img,
-  html[data-tema="koyu"] .leaflet-tile-pane{ filter:none; }
+  html[data-tema="baris"] .gorsel-kutu img,
+  html[data-tema="baris"] .leaflet-tile-pane{ filter:none; }
   html, body{ background:#fff !important; color:#000 !important; font-size:10.5pt; }
   .ust-alan, .yukari, .days-tools, .yedek-kutu, .harita-kutu, .harita-odak, .harita-ipucu,
   .lightbox, .kart-katman, .karo-kutu, .kutlama, .fav, .ani, .countdown, .hero::after,
@@ -2934,6 +3055,12 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
     background:#fff !important; break-inside:avoid;
   }
   .day-body{ display:block !important; }   /* katlanmış günler açılır */
+  /* Katlanmış "Ne yenir?" de açılır; oku ve sayaç rozeti kâğıda gerekmez.
+     Lezzet fotoğrafları zaten yukarıda gizlendi (.lezzet-gorsel). */
+  .katlanir-govde{ display:block !important; }
+  .katlanir-ok, .katlanir-adet{ display:none !important; }
+  .katlanir{ border:0 !important; background:none !important; }
+  .katlanir-btn{ padding-left:0 !important; padding-right:0 !important; }
   .day-head{ pointer-events:none; }
   th{ background:#eee !important; color:#000 !important; }
   a{ text-decoration:none; color:#000 !important; }
@@ -2999,8 +3126,8 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
       <button class="nav-btn nav-btn-metin" id="btn-kart" type="button"
               title="Günün kartı — adres, kapı kodu, telefon, acil numaralar"
               aria-label="Günün kartını aç">Kart</button>
-      <button class="nav-btn" id="btn-tema" type="button" aria-live="polite"
-              title="Koyu / açık tema">🌙</button>
+      <button class="nav-btn nav-btn-metin" id="btn-tema" type="button" aria-live="polite"
+              title="Temayı değiştir — Derin'in pembesi / Barış'ın laciverdi">🤍 Derin</button>
       <button class="nav-btn" id="btn-yazdir" type="button"
               title="Programı yazdır veya PDF'e kaydet">🖨</button>
     </div>
@@ -3514,15 +3641,27 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
   }
 
   const cities = $("#cities");
-  TUR.sehirler.forEach((c) => {
+  TUR.sehirler.forEach((c, ci) => {
     const kapak = c.kapak
       ? '<div class="city-kapak">' + gorselKutusu(c.kapak, "figure-16x9", c.ad) +
           '<small class="gorsel-kaynak">📷 ' + esc(c.kapak.kaynak) + "</small></div>"
       : "";
 
-    /* Ne yenir? — her lezzet için ad, açıklama, ipucu ve varsa küçük görsel */
+    /* Ne yenir? — her lezzet için ad, açıklama, ipucu ve varsa küçük görsel.
+       Beş şehrin listesi toplam 23 madde; hepsi açık dururken şehir kartı
+       ekranlarca uzuyordu. Bu yüzden katlanır: kapalı açılır, sayısı
+       düğmenin üstünde yazar. Görseller `loading="lazy"` ve kapalı kapsayıcı
+       display:none olduğu için açılana kadar tek bayt bile inmiyor. */
+    const lezzetId = "lezzet-" + (ci + 1);
     const lezzetler = (c.lezzetler && c.lezzetler.length)
-      ? "<h4>Ne yenir?</h4>" +
+      ? '<div class="katlanir" data-open="0">' +
+        '<button class="katlanir-btn" type="button" aria-expanded="false"' +
+          ' aria-controls="' + lezzetId + '">' +
+          '<span class="katlanir-ad">🍽 Ne yenir?</span>' +
+          '<span class="katlanir-adet">' + c.lezzetler.length + " tat</span>" +
+          '<span class="katlanir-ok" aria-hidden="true">▾</span>' +
+        "</button>" +
+        '<div class="katlanir-govde" id="' + lezzetId + '">' +
         '<div class="lezzetler">' + c.lezzetler.map((y) => {
           const gorsel = y.gorsel
             ? '<div class="gorsel-kutu lezzet-gorsel" data-ad="' + esc(y.ad) + '"' +
@@ -3542,7 +3681,7 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
               '<div class="lezzet-aciklama">' + esc(y.aciklama) + "</div>" +
               (y.ipucu ? '<div class="lezzet-ipucu"><b>İpucu</b> ' + markTBD(esc(y.ipucu)) + "</div>" : "") +
             "</div></div>";
-        }).join("") + "</div>"
+        }).join("") + "</div></div></div>"
       : "";
 
     const galeri = (c.galeri && c.galeri.length)
@@ -3570,6 +3709,17 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
         "<li><span>" + x + "</span>" + favDugmesi(c.ad + "::" + x, x) + "</li>").join("") + "</ul>" +
       lezzetler +
       galeri));
+  });
+
+  /* Katlanır bölümler (şimdilik "Ne yenir?") — düğmeler render sırasında
+     oluştuğu için tek tek değil kapsayıcıdan dinlenir. */
+  cities.addEventListener("click", (e) => {
+    const btn = e.target.closest(".katlanir-btn");
+    if (!btn) return;
+    const kutu = btn.closest(".katlanir");
+    const acik = kutu.dataset.open === "1";
+    kutu.dataset.open = acik ? "0" : "1";
+    btn.setAttribute("aria-expanded", acik ? "false" : "true");
   });
 
   /* Yeme-içme notları kutusu — şehir kartlarının altında */
@@ -5582,13 +5732,19 @@ html[data-tema="koyu"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
      ===================================================================== */
   const TEMA_KEY = "balkan2026.tema";
   const temaBtn = $("#btn-tema");
+  /* Düğme AÇIK OLAN temayı yazar, geçilecek olanı değil — üstünde kimin
+     teması olduğu bir bakışta görünsün diye. Nereye geçileceği aria-label'da. */
+  const TEMA_ADI = { derin: "🤍 Derin", baris: "💙 Barış" };
   function temaBtnTazele() {
-    const koyu = document.documentElement.dataset.tema === "koyu";
-    temaBtn.textContent = koyu ? "☀" : "🌙";
-    temaBtn.setAttribute("aria-label", koyu ? "Açık temaya geç" : "Koyu temaya geç");
+    const t = document.documentElement.dataset.tema === "baris" ? "baris" : "derin";
+    const oteki = t === "baris" ? "derin" : "baris";
+    temaBtn.textContent = TEMA_ADI[t];
+    temaBtn.setAttribute("aria-label",
+      (t === "baris" ? "Barış'ın koyu lacivert teması açık" : "Derin'in şeker pembesi teması açık") +
+      " — " + (oteki === "baris" ? "Barış'ın temasına geç" : "Derin'in temasına geç"));
   }
   temaBtn.addEventListener("click", () => {
-    const yeni = document.documentElement.dataset.tema === "koyu" ? "acik" : "koyu";
+    const yeni = document.documentElement.dataset.tema === "baris" ? "derin" : "baris";
     try { localStorage.setItem(TEMA_KEY, yeni); } catch (e) {}
     if (window.temaUygula) window.temaUygula(yeni);
     temaBtnTazele();
