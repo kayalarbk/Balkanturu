@@ -71,7 +71,7 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 | Dosya | Satır / boyut | Ne işe yarar |
 |---|---|---|
 | `index.html` | **5.904 satır** (~280 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
-| `sw.js` | 179 satır | Service worker — çevrimdışı çalışma, dört cache (ikisi sürümsüz, aşağıda) |
+| `sw.js` | 182 satır | Service worker — çevrimdışı çalışma, dört cache (ikisi sürümsüz, aşağıda). Sürüm **v7** |
 | `manifest.json` | — | PWA künyesi: standalone, portrait, tema `#0b2a45`, 2 kısayol (Bugün · Cepte). ⚠ `theme_color` iki temaya bölünmeden önceki laciverdi taşıyor; tarayıcı çubuğunun rengini zaten `<meta name=theme-color>` temaya göre canlı ayarlıyor |
 | `icon.svg` | — | Uygulama ikonu (`any` + `maskable`) |
 | `docs/img/` | 5 kapak + `KAYNAKLAR.md` | Yerele indirilmiş şehir kapakları ve lisans listesi |

@@ -16,12 +16,15 @@
    cihazlar eski sürümü görmeye devam eder. Eski cache'ler activate içinde
    silinir (BIZIM_CACHELER dışındaki her ad temizlenir).
    v6 — 4 Ağustos 2026: telefon optimizasyonu (Leaflet istendiğinde yükleniyor).
+   v7 — 6 Ağustos 2026: plan revizyonu + iki kişilik tema, 19 lezzet görseli,
+        katlanır "Ne yenir?". İki oturum boyunca artırılmayı atlamıştı; ana
+        ekrana eklemiş cihazlar çevrimdışıyken eski kabuğu görürdü.
 
    ⚠ Leaflet artık index.html'in <head>'inde DEĞİL, harita bölümü yaklaşınca
    enjekte ediliyor. APP_SHELL'de kalması bilinçli: çevrimdışıyken harita
    bölümüne inildiğinde dosyalar cache'ten gelsin diye burada ön belleğe
    alınıyor — yükleme sayfayı yavaşlatmıyor, install arka planda yapıyor. */
-const CACHE_VERSION = "balkan-v6";
+const CACHE_VERSION = "balkan-v7";
 const SHELL_CACHE = CACHE_VERSION + "-shell";
 const HAVA_CACHE = CACHE_VERSION + "-hava";
 
