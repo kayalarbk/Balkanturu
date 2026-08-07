@@ -607,6 +607,75 @@ açısından beklenen kalıp bu.
 
 ## Yapılanlar
 
+### 7 Ağustos 2026 — on yedinci oturum
+
+**"Her sıkıntımızda yanımızda" — çevrimdışı acil donanımı**
+
+Site program olarak çevrimdışı tamdı ama *başımıza iş geldi* anında zayıftı: yedi kelimelik
+sözlük ve dört telefon numarası. Bu oturumda o boşluk kapatıldı.
+
+**1. Yandan açılan gezinme çekmecesi.** Üst çubuktaki yatay kaydırmalı şerit telefonda
+kullanışsızdı — listenin yarısı ekran dışında kalıyordu. Artık çubukta **içinde bulunduğun
+bölümün adı** yazıyor, dokununca çekmece açılıp bölümlerin tamamını tek bakışta veriyor.
+Karartı / ✕ / Esc kapatır, açıkken odak çekmecede döner, gövde kaydırması kilitlenir.
+
+> ⚠ Kurarken çıkan tuzak: `transition`'a `visibility` dâhil edilince açılışta 0,18 sn boyunca
+> `hidden` kalıyor ve tam o anda çağrılan `focus()` sessizce düşüyordu (gizli öğe odak almaz).
+> Doğrusu: açılışta `visibility 0s linear 0s`, kapanışta `0s linear .18s`.
+
+**2. Acil cümle kartı.** 12 cümle, Arnavutça + Makedonca, okunuşlarıyla. Amaç konuşmak değil
+**göstermek**: satıra dokununca cümle tam ekran, ~38 px puntoyla açılıyor ve telefon
+karşıdakine uzatılıyor. "Taksiciye göster" kutusunun acil hâli.
+
+**3. Kişisel sağlık ve acil kişi kartı.** Kan grubu, alerji, sürekli ilaç, sigorta poliçe no
+(kişi başına) + acil durumda aranacak kişi. Kapı kodlarıyla **aynı mekanizma**: yalnızca
+cihazda (`balkan2026.gizli`), depoya asla yazılmaz. Dolu alanlar tam ekran Günün Kartı'nın
+acil bloğunda da çıkıyor — kaza anında Cepte bölümünü aramaya gerek kalmasın.
+
+**4. "İş başa düşerse" akış kartları.** Altı katlanır karar listesi: otobüsü kaçırdım ·
+sınırda takıldık · kilitli kutu açılmıyor · telefon bitti/ayrı düştük · pasaportumu
+kaybettim · kart çalışmıyor. Kısa ve sıralı; panik anında düşünmek zorunda kalmamak için.
+
+**5. Yol koridoru karoları.** Çevrimdışı karolar yalnızca beş şehir merkezini ve üç evi
+kaplıyordu; şehirler ARASI, özellikle Ohrid–Dıraç yolunda ve sınırda harita kullanılabilir
+yakınlıkta boştu. Rota çizgisi boyunca z11'de bir karo genişliğinde şerit eklendi:
+**236 → 316 karo (~6,5 MB)**. z12 seçilseydi 165 karo eklenecekti ve OSM'e karşı gözetilen
+sınır aşılacaktı.
+
+**6. "İndirilen alan" katmanı.** Haritadaki ▦ düğmesi karo inen yerleri çiziyor: bölge
+kutusu (kesik çizgi), yol koridoru (kalın şerit) ve şehir/ev çemberleri. "Harita neden
+burada boş?" sorusunu bitiriyor. Şekiller `TUR.harita.cevrimdisi` tarifiyle aynı kaynaktan
+çizilir — biri değişirse diğeri de değişir.
+
+**7. Hastaneler.** Beş şehrin ana hastanesi, **koordinatları doğrulanmış**: Priştine
+Wikidata'dan (Q30254040), diğer dördü OpenStreetMap'ten (`amenity=hospital`). Cepte'de
+liste + yol tarifi, haritada kırmızı ✚ pini, Günün Kartı'nın acil bloğunda o günkü şehrin
+hastanesi. Karoları zaten çevrimdışı pakette.
+
+| Şehir | Hastane | Koordinat |
+|---|---|---|
+| Priştine | Qendra Klinike Universitare e Kosovës | 42.643120, 21.163243 |
+| Üsküp | Клинички центар „Мајка Тереза" | 41.988648, 21.422304 |
+| Ohrid | Медицински центар Охрид | 41.116639, 20.816909 |
+| Dıraç | Spitali Rajonal Durrës | 41.326462, 19.444381 |
+| Tiran | QSU „Nënë Tereza" | 41.340365, 19.833044 |
+
+**8. "Ayrı düşersek" planı.** Sabit kural (*her tam saatte 10 dakika buluşma noktasında
+bekle*) + şehir başına buluşma noktası alanı. Noktalar ikinizin seçeceği yerler olduğu için
+boş bırakıldı, cihazda doldurulacak.
+
+**9. Kur defteri.** Sabit kur **gömülmedi** — yola çıkana kadar eskir. Kuru bir kez elle
+giriyorsun, çevrimdışı saklanıyor, çarpım tablosu ondan hesaplanıyor (virgüllü yazım da
+kabul: `47,5`). Doğrulandı: 20 € × 47,5 = 950 TL.
+
+**Ek düzeltme:** çubuk düğmeleri 40 px'ti, 44 px'e çıkarıldı — telefonda acil durumda
+basılacak düğmeler dokunma hedefinin altında kalmasın.
+
+**Ölçüm:** 320 / 390 / 768 / 1440 px'te yatay kaydırma yok, JS hatası yok, sekiz Cepte kartı
+ve altı akış kartı her genişlikte kuruluyor. İki temada da çekmece ve acil cümle katmanı
+okunuyor. Yazdırmada çekmece ve tam ekran katman gizli, akış kartları açık, sağlık alanları
+basılıyor. `sw.js` v9.
+
 ### 7 Ağustos 2026 — on altıncı oturum
 
 **Site adı "Balkanlar'da Aşk" oldu, dört bölüm kaldırıldı**
@@ -1304,6 +1373,14 @@ her genişlikte blok listesi. Önceki turun mobil düzeltmeleri bozulmadı.
 - [ ] **Ohrid → Dıraç otobüs bileti önceden alınacak** — turun tek kıt hattı: günde 3-5 sefer,
       ilki ~07:00, sonuncusu 17:00. Hedef ~09:00 kalkışı (Dıraç girişi en erken 15:00).
       **Öncelikli madde.**
+- [ ] ⚠ **Acil cümlelerin çevirisi doğrulanacak** — 12 Arnavutça/Makedonca cümle siteye
+      girildi ama anadili bilen biriyle teyit edilmedi. Kriz anında yanlış çeviri işe yaramaz;
+      yola çıkmadan kontrol ettir
+- [ ] **Sağlık kartı doldurulacak** — kan grubu, alerji, sürekli ilaç (ikiniz için), acil
+      durumda aranacak kişi. Cepte → Sağlık; yalnızca cihazda kalır, iki telefona da girilmeli
+- [ ] **Buluşma noktaları seçilecek** — beş şehir için birer nokta (Cepte → Ayrı düşersek).
+      Kural hazır: her tam saatte 10 dakika bekleme
+- [ ] **Kur girilecek** — yola çıkmadan EUR / MKD / ALL kurları (Cepte → Kur defteri)
 - [ ] **Ohrid Yaz Festivali'nin 15 Ağustos programı ve bileti** — festival 12 Temmuz – 20 Ağustos
       2026 arası; `ohridskoleto.com.mk`, bilet `tickets@ohridskoleto.com.mk`
 - [ ] **15 Ağustos akşam yemeği rezervasyonu** — yıl dönümü masası; Fisherman's House Kaneo

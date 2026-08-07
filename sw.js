@@ -21,12 +21,15 @@
         ekrana eklemiş cihazlar çevrimdışıyken eski kabuğu görürdü.
    v8 — 7 Ağustos 2026: site adı "Balkanlar'da Aşk", dört bölüm kaldırıldı
         (Rota · Ulaşım · Pratik · Cepte'deki uçuş kartı), rota şeridi girişe alındı.
+   v9 — 7 Ağustos 2026: yandan açılan gezinme çekmecesi, acil cümleler,
+        sağlık kartı, "ne yapmalı" akışları, hastaneler, buluşma planı,
+        kur defteri, yol koridoru karoları (236 → 316).
 
    ⚠ Leaflet artık index.html'in <head>'inde DEĞİL, harita bölümü yaklaşınca
    enjekte ediliyor. APP_SHELL'de kalması bilinçli: çevrimdışıyken harita
    bölümüne inildiğinde dosyalar cache'ten gelsin diye burada ön belleğe
    alınıyor — yükleme sayfayı yavaşlatmıyor, install arka planda yapıyor. */
-const CACHE_VERSION = "balkan-v8";
+const CACHE_VERSION = "balkan-v9";
 const SHELL_CACHE = CACHE_VERSION + "-shell";
 const HAVA_CACHE = CACHE_VERSION + "-hava";
 

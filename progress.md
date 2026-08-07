@@ -9,8 +9,8 @@
 **Son güncelleme:** 7 Ağustos 2026
 **Depo:** https://github.com/kayalarbk/Balkanturu (`main`)
 **Yayın:** https://kayalarbk.github.io/Balkanturu/ (GitHub Pages, `main` / root — build adımı yok)
-**Son commit:** `bfef565` + sadeleştirme oturumu
-**Çalışma ağacı:** temiz · **Toplam commit:** 25 · **Oturum sayısı:** 16
+**Son commit:** `64691e6` + çevrimdışı acil donanımı oturumu
+**Çalışma ağacı:** temiz · **Toplam commit:** 26 · **Oturum sayısı:** 17
 
 ---
 
@@ -70,12 +70,12 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 
 | Dosya | Satır / boyut | Ne işe yarar |
 |---|---|---|
-| `index.html` | **5.749 satır** (~272 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
-| `sw.js` | 183 satır | Service worker — çevrimdışı çalışma, dört cache (ikisi sürümsüz, aşağıda). Sürüm **v8** |
+| `index.html` | **6.441 satır** (~305 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
+| `sw.js` | 186 satır | Service worker — çevrimdışı çalışma, dört cache (ikisi sürümsüz, aşağıda). Sürüm **v9** |
 | `manifest.json` | — | PWA künyesi: ad **Balkanlar'da Aşk**, standalone, portrait, tema `#0b2a45`, 2 kısayol (Bugün · Cepte). ⚠ `theme_color` iki temaya bölünmeden önceki laciverdi taşıyor; tarayıcı çubuğunun rengini zaten `<meta name=theme-color>` temaya göre canlı ayarlıyor |
 | `icon.svg` | — | Uygulama ikonu (`any` + `maskable`) |
 | `docs/img/` | 5 kapak + `KAYNAKLAR.md` | Yerele indirilmiş şehir kapakları ve lisans listesi |
-| `PLAN.md` | ~73 KB (1.345 satır) | Planın tek doğruluk kaynağı + oturum günlüğü |
+| `PLAN.md` | ~78 KB (1.422 satır) | Planın tek doğruluk kaynağı + oturum günlüğü |
 | `README.md` | ~15 KB | Kurulum, içerik güncelleme, tuzaklar, deploy |
 | `progress.md` | bu dosya | Durum panosu |
 
@@ -108,11 +108,12 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 | `ulasim` | Bacak / süre / yöntem / durum. **Ayrı bölüm olarak basılmıyor**; Bugün ekranı ve Günün Kartı GUN_BACAK üzerinden buradan okuyor | ✅ tek "önceden alınacak" bacak Ohrid → Dıraç |
 | `harita` | Karo kaynağı, atıf, zoom (6–18, karo z16'ya kadar), havalimanları, yedek metin, **`odak`** şeridi metinleri, **`cevrimdisi`** karo tarifi | ✅ |
 | `dikkatEdilecekler` | **14 kart**, `seviye`: kritik / önemli / bilgi | ✅ (7 Ağustos'ta priz/bahşiş ve sofra kartları eklendi) |
-| `cepte` | Uçuş kodları, üç konaklama (adres/koordinat/giriş), **`bagajDolabi`** (19 Ağustos), **`rezervasyon`** (15 Ağustos masası), acil numaralar, kelimeler | ⚠️ ev sahibi telefonları, rezervasyon kodları, 15 Ağustos mekânı ve sigorta hattı boş |
+| `cepte` | Uçuş kodları, üç konaklama, **`bagajDolabi`**, **`rezervasyon`**, **`hastaneler`** (5 doğrulanmış koordinat), **`saglik`**, **`acilCumleler`** (12), **`bulusma`**, **`kur`**, acil numaralar, kelimeler | ⚠️ ev sahibi telefonları, rezervasyon kodları, 15 Ağustos mekânı ve sigorta hattı boş |
 | `havaDurumu` | Open-Meteo ayarı, gün→şehir eşlemesi, mevsim normalleri, uyarı eşikleri | ✅ çalışıyor |
 | `yemeIcmeNotlari` | Şehir kartı altındaki yeme-içme kutusu | ✅ |
 | `pratik` | Para, bütçe, elektrik, sağlık, adap, kelimeler | ⚠️ bütçe boş |
 | `kontrolListesi` | **10 maddelik** hazırlık listesi | ✅ (işaretler kullanıcıda) |
+| `neYapmali` | **6 katlanır karar kartı** — otobüs kaçtı, sınır, kutu açılmıyor, telefon bitti, pasaport, nakit | ✅ |
 | `belirlenecek` | Sayfa sonundaki açık işler listesi | 7 madde (ilk üçü öncelikli) |
 
 ### Telefon optimizasyonu (ölçüldü, 390 px)
@@ -170,7 +171,7 @@ karoları evdeyken indirip tarayıcının Cache Storage'ına yazar.
 |---|---|
 | Kapsam | Rota geneli z7–8 · 5 şehir z12–14 · 3 ev z15–16 · 2 havalimanı z13 |
 | Zoom sınırı | Harita z18'e kadar yakınlaşır ama **z16'nın ötesinde karo istemez** (`maxNativeZoom`): Leaflet z16'yı büyütür. Bulanık, konum doğru, veri sıfır |
-| Toplam | **236 karo, ~4,7 MB** (ölçüldü) |
+| Toplam | **316 karo, ~6,5 MB** (ölçüldü; 7 Ağustos'ta z11 yol koridoruyla 236'dan çıktı) |
 | Süre | ~1 dakika — 2 eşzamanlı istek, her istekten sonra 200 ms ara |
 | Cache adı | `balkan-karo` — **`index.html` ve `sw.js` arasında ortak, sürümsüz** |
 | Yazan taraf | **Sayfa** (service worker değil): eski bir sw sürümü devredeyse bile doğru cache'e düşer |
@@ -226,6 +227,10 @@ alanı dışındaki karo halkasını yarıya indirir.
 | 8 | `dikkat` | ⚠ Dikkat | 14 kart, seviyeye göre kenar rengi ve etiket |
 | 9 | `hazirlik` | ✔ Hazırlık | 10 maddelik liste + yedekleme kutusu + konfeti |
 
+**Gezinme artık çekmecede.** 7 Ağustos'ta yatay kaydırmalı şerit kaldırıldı: çubukta
+içinde bulunulan bölümün adı yazıyor, dokununca yandan çekmece açılıyor (`#cekmece-perde`,
+odak tuzağı + Esc + karartı). Bağlantılar hâlâ `NAV_ADLARI`'ndan üretiliyor.
+
 **Sekmesi olmayan parça:** rota şeridi. Eskiden `rota` bölümüydü; 7 Ağustos'ta hero'nun
 içine, tek satır akan sık bir şerit olarak alındı (`#hero-rota`, `TUR.rota`'dan çizilir).
 
@@ -255,10 +260,17 @@ tekrarlanmayan maddeleri "🍽 Sofrada" kartına girdi.
 | **📍 Konumum** | `watchPosition` + nabızlı nokta + doğruluk çemberi; rozet **"Bu geceki ev: 420 m · ±12 m"** yazar ve yürüdükçe güncellenir. GPS internetsiz çalışır. İzin reddi / zaman aşımı / destek yok için ayrı metinler; sekme arkaya atılınca GPS bırakılır |
 | **⛶ Tam ekran** | Harita sayfa akışından çıkıp ekranı kaplar; Esc kapatır, güvenli alan Leaflet denetimlerine uygulanır |
 | Ev popup'ı | Kartın küçük hâli: adres yerel alfabede büyük punto, latin karşılığı, giriş/çıkış, adres kopyala + yol tarifi. Genişlik kabın enine göre hesaplanır. **Kodlar popup'a konmaz** |
-| **Çevrimdışı harita** | 236 karo (~4,7 MB) tek dokunuşla indirilir; durdurulabilir, eksikler tamamlanabilir, silinebilir; reddedilen karolar için ikinci tur |
+| **Çevrimdışı harita** | **316 karo (~6,5 MB)** tek dokunuşla indirilir — rota boyunca z11 koridoru dâhil; durdurulabilir, eksikler tamamlanabilir, silinebilir; reddedilen karolar için ikinci tur |
 | **Günün kartı** | Üst çubuktaki "Kart" düğmesi — tam ekran, tek bakışlık: o geceki evin adresi (yerel alfabede büyük punto) + kapı kodu + wifi + ev sahibi telefonu + günün ulaşımı + o ülkedeki büyükelçilik + 112; oklarla günler arası gezinti, Esc kapatır |
 | Hava durumu şeridi | Open-Meteo `forecast_days=16`, sıcak/yağmur uyarı rozetleri, 3 saat önbellek |
-| Cepte bölümü | Uçuş kodları, acil numaralar (resmî `mfa.gov.tr` kaynaklı), temel kelimeler |
+| Cepte bölümü | Acil numaralar (resmî `mfa.gov.tr` kaynaklı), temel kelimeler |
+| **🆘 Acil cümleler** | 12 cümle, Arnavutça + Makedonca + okunuş. Satıra dokununca tam ekran ~38 px puntoyla açılır — konuşmak için değil, telefonu karşıdakine uzatmak için |
+| **🩺 Sağlık ve acil kişi** | Kan grubu, alerji, sürekli ilaç, poliçe no (kişi başına) + acil kişi. Kapı kodlarıyla aynı depo: **yalnızca cihazda**. Dolu alanlar Günün Kartı'nın acil bloğunda da çıkar |
+| **🏥 Hastaneler** | 5 şehrin ana hastanesi, koordinatı doğrulanmış (Wikidata + OSM). Cepte'de liste, haritada ✚ pini, Günün Kartı'nda o günkü şehrinki |
+| **🧭 Ayrı düşersek** | Sabit kural (saat başı 10 dk bekleme) + şehir başına buluşma noktası alanı (cihazda) |
+| **💱 Kur defteri** | Kur elle girilir, çevrimdışı saklanır, çarpım tablosu ondan hesaplanır. Sabit kur bilerek gömülmedi — eskir |
+| **🆘 İş başa düşerse** | 6 katlanır karar kartı: otobüs kaçtı · sınır · kutu açılmıyor · telefon bitti · pasaport · nakit |
+| **▦ İndirilen alan** | Haritada karo inen bölgeyi çizer: bölge kutusu + yol koridoru + şehir/ev çemberleri |
 | Konaklama kartı | Üç Airbnb: şehir/tarih başlığı, ev adı, tip, künye listesi (giriş · çıkış · ev sahibi · telefon · rezervasyon), mesafeler, ilan bağlantısı |
 | "Taksiciye göster" | Kartın tek vurgulu bloğu: yerel alfabede büyük punto adres + latin karşılığı + Dıraç'ta sözlü tarif; kopyala düğmesi ve **koordinattan** üretilen Maps bağlantısı |
 | Gizli kod alanları | Kapı kodu / kutu şifresi / wifi — kaynak koda yazılmaz, `balkan2026.gizli` altında yalnızca cihazda; "Sil" düğmesi |
@@ -355,6 +367,9 @@ Yedek dosyası bu kodları **içerir** — yalnızca kendi cihazlarınızla payl
 | `content-visibility:auto` | Ekran dışı içerik **yazdırılmaz** → `@media print` içinde `visible` yap. Çapa hedefi olan öğelere (`.day`) verme, tahmini yükseklik çapayı kaydırır |
 | Çapayı katlanır gövdeye koymak | `#gun-3` `.day-body`'deydi; `scroll-margin-top` `.day`'de olduğu için hedef yapışkan çubuğun altına düşüyordu. Çapa **kartın kendisinde**, gövdenin ayrı id'si yalnızca `aria-controls` için |
 | `<head>`'deki üçüncü parti CSS | `<link rel=stylesheet>` render'ı bloke eder. Sayfanın 8. bölümünde kullanılan bir kütüphane için bedeli herkes öder → gerektiğinde enjekte et |
+| `transition`'a `visibility` katmak | Açılışta 0,18 sn `hidden` kalıyor; tam o anda çağrılan `focus()` sessizce düşüyor (gizli öğe odak almaz) → açılışta `visibility 0s linear 0s`, kapanışta `0s linear .18s` |
+| Bu sayfada `window.scrollTo` ile ölçmek | Kök öğede `overflow-x:clip` var; programatik kaydırma tutmuyor, gerçek kaydırma çalışıyor. Gözcü/etiket testlerini **gerçek scroll** ile yap, yoksa "bozuk" sanırsın |
+| Yerel sunucu sessizce ölürse | Service worker HTML'i cache'ten verdiği için sayfa açılmaya devam eder ve **eski sürümü** gösterir. "Değişikliğim görünmüyor" derken önce `curl` ile sunucuyu doğrula |
 | `@media print` içinde `html{...}` yazmak | `:root` (0,1,0) düz `html`i (0,0,1) yener; kâğıt paleti **aydınlık temada hiç uygulanmıyordu**, tema renkleri olduğu gibi basılıyordu. Koyu temada çalıştığı için yıllarca fark edilmedi → `:root, :root[data-tema="baris"]` |
 | Aynı özgüllükte iki kural, sıraya bakmamak | `.nav-btn-metin{width:auto}` dosyada daha ÖNCE, `.nav-btn{width:2.5rem}` daha SONRA → ikincisi kazanıyordu, düğme 44 px'e sıkışıp metni dışarı taşıyordu. Kısa metinde ("Kart") göze batmıyor → çakışan kuralı `.nav-btn.nav-btn-metin` gibi tek sınıf daha ekleyerek yaz |
 | Commons thumb adresini elle kurmak | `/thumb/<a>/<ab>/…` yolundaki hash öneki MD5'ten geliyor, tahmin edilemez → adresi **API'nin `thumburl` alanından** al, `?utm_…` parametrelerini at, sonra `curl -I` ile doğrula |
@@ -402,6 +417,23 @@ kontrolü yapılmadı.**
 | 14 | 6 Ağu 2026 | **Plan revizyonu** — dört yapısal karar (aşağıda), `gunler[].ozel` alanı eklendi, yedi gün baştan yazıldı |
 | 15 | 6 Ağu 2026 | **İki kişilik tema** (Derin'in şeker pembesi · Barış'ın koyu laciverdi), 19 lezzet görseli, katlanır "Ne yenir?" — sayfa 390 px'te 37.774 → 32.116 px |
 | 16 | 7 Ağu 2026 | **Ad "Balkanlar'da Aşk" oldu**, dört bölüm kaldırıldı (Rota · Ulaşım · Pratik · Cepte'deki uçuş kartı), rota şeridi girişe alındı — sayfa 390 px'te 32.116 → 26.526 px |
+
+| 17 | 7 Ağu 2026 | **Çevrimdışı acil donanımı:** yandan çekmece, 12 acil cümle, sağlık kartı, 6 akış kartı, 5 hastane, buluşma planı, kur defteri, yol koridoru karoları (236 → 316) |
+
+### 7 Ağustos 2026 — çevrimdışı acil donanımı
+
+Site *program* olarak çevrimdışı tamdı, *başımıza iş geldi* anında zayıftı. Eklenenler:
+
+- **Gezinme çekmecesi** — yatay kaydırmalı şerit gitti; çubukta bulunulan bölümün adı yazıyor,
+  dokununca yandan liste açılıyor (odak tuzağı, Esc, karartı, gövde kilidi).
+- **Acil cümleler** — göster-ve-anlaş; tam ekran, kocaman punto, iki dil + okunuş.
+- **Sağlık kartı** — cihazda; Günün Kartı'nın acil bloğuna da düşüyor.
+- **Akış kartları** — "iş başa düşerse" altı senaryo.
+- **Hastaneler** — koordinatları Wikidata/OSM'den doğrulanmış, haritada pin.
+- **Buluşma planı ve kur defteri** — ikisi de cihazda, kur elle girilip çevrimdışı hesaplanıyor.
+- **Yol koridoru** — Ohrid–Dıraç dâhil şehirler arası yol artık karo kapsamında.
+
+⚠ Açık iş: acil cümlelerin çevirisi anadili bilen biriyle doğrulanmadı (PLAN → Bekleyenler).
 
 ### 7 Ağustos 2026 — sadeleştirme ve yeni ad
 

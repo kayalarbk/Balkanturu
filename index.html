@@ -985,6 +985,104 @@ const TUR = {
       "Dıraç":    "T.C. Tiran Büyükelçiliği",
       "Tiran":    "T.C. Tiran Büyükelçiliği"
     },
+    /* ---------- AYRI DÜŞERSEK ----------
+       Telefonlar bitip haberleşme kesilirse tek çare önceden kararlaştırılmış
+       nokta. Noktalar ikinizin seçeceği yerler olduğu için burada BOŞ; alanlar
+       cihazda doldurulur (kapı kodlarıyla aynı depo). Kural sabit. */
+    bulusma: {
+      baslik: "Ayrı düşersek",
+      kural: "Her tam saatte 10 dakika buluşma noktasında bekle. " +
+             "Saat başını kaçırdıysan bir sonrakini bekle — aramak yerine noktaya git.",
+      sehirler: [
+        { id: "pristine", ad: "Priştine" },
+        { id: "uskup",    ad: "Üsküp" },
+        { id: "ohrid",    ad: "Ohrid" },
+        { id: "dirac",    ad: "Dıraç" },
+        { id: "tiran",    ad: "Tiran" }
+      ]
+    },
+
+    /* ---------- KUR DEFTERİ ----------
+       Sabit kur GÖMÜLMEZ: yola çıkana kadar eskir, yanlış bilgi hiç
+       bilgi olmamasından kötüdür. Kuru bir kez elle giriyorsun, çevrimdışı
+       saklanıyor ve çarpım tablosu ondan hesaplanıyor. */
+    kur: {
+      baslik: "Kur defteri",
+      aciklama: "Kuru bir kez gir, çevrimdışı hesaplasın. Yola çıkmadan tazele.",
+      birimler: [
+        { ad: "eur", etiket: "1 EUR kaç TL?",   simge: "€",   miktarlar: [1, 5, 10, 20, 50, 100] },
+        { ad: "mkd", etiket: "100 MKD kaç TL?", simge: "den", taban: 100, miktarlar: [100, 200, 500, 1000, 2000] },
+        { ad: "all", etiket: "100 ALL kaç TL?", simge: "lek", taban: 100, miktarlar: [100, 500, 1000, 2000, 5000] }
+      ]
+    },
+
+    /* ---------- HASTANELER ----------
+       Her şehrin ana devlet/üniversite hastanesi. Koordinatlar 7 Ağustos
+       2026'da doğrulandı: Priştine Wikidata'dan (Q30254040), diğer dördü
+       OpenStreetMap'ten (amenity=hospital). Maps bağlantısı adresten değil
+       KOORDİNATTAN üretilir. Karoları çevrimdışı pakete zaten giriyor:
+       hepsi şehir merkezi çemberlerinin içinde. */
+    hastaneler: [
+      { sehir: "Priştine", ad: "Qendra Klinike Universitare e Kosovës (QKUK)",
+        not: "Üniversite klinik merkezi — acil servis", konum: [42.643120, 21.163243] },
+      { sehir: "Üsküp", ad: "Клинички центар „Мајка Тереза“",
+        not: "Klinik merkez — acil servis var", konum: [41.988648, 21.422304] },
+      { sehir: "Ohrid", ad: "Медицински центар Охрид",
+        not: "Şehir hastanesi; ayrıca Брза помош (ambulans) 41.1129, 20.8069",
+        konum: [41.116639, 20.816909] },
+      { sehir: "Dıraç", ad: "Spitali Rajonal Durrës",
+        not: "Bölge hastanesi — evden ~1,7 km", konum: [41.326462, 19.444381] },
+      { sehir: "Tiran", ad: "QSU „Nënë Tereza“",
+        not: "Üniversite hastanesi — acil servis var", konum: [41.340365, 19.833044] }
+    ],
+
+    /* ---------- KİŞİSEL SAĞLIK KARTI ----------
+       Biri bayılır ya da kaza olursa karşıdaki sağlıkçının ilk soracağı
+       şeyler. Değerler kapı kodlarıyla AYNI mekanizmada tutuluyor:
+       `balkan2026.gizli` altında, YALNIZCA cihazda — depoya asla yazılmaz.
+       Bu yüzden burada sadece alan tanımları var, değer yok. */
+    saglik: {
+      baslik: "Sağlık ve acil kişi",
+      aciklama: "Sadece bu cihazda saklanır, depoya gitmez. Kaza ya da baygınlıkta " +
+                "sağlık görevlisinin ilk soracağı bilgiler.",
+      kisiler: [
+        { id: "baris", ad: "Barış" },
+        { id: "derin", ad: "Derin" }
+      ],
+      alanlar: [
+        { ad: "kan",     etiket: "Kan grubu",              bos: "ör. 0 Rh+" },
+        { ad: "alerji",  etiket: "Alerjiler",              bos: "yoksa 'yok' yaz" },
+        { ad: "ilac",    etiket: "Sürekli kullanılan ilaç", bos: "yoksa 'yok' yaz" },
+        { ad: "police",  etiket: "Sigorta poliçe no",      bos: "poliçe alınınca gir" }
+      ],
+      ortak: [
+        { ad: "acilKisi", etiket: "Acil durumda aranacak kişi", bos: "ad soyad" },
+        { ad: "acilTel",  etiket: "O kişinin telefonu",         bos: "+90…" }
+      ]
+    },
+
+    /* ---------- ACİL CÜMLELER ----------
+       Kelime tablosu "merhaba / teşekkürler" seviyesinde; bunlar kriz
+       cümleleri. Amaç konuşmak değil GÖSTERMEK: satıra dokununca tam ekran,
+       kocaman puntoyla açılıyor ve telefon karşıdakine uzatılıyor —
+       "taksiciye göster" kutusunun acil hâli.
+
+       ⚠ Çeviriler yola çıkmadan anadili bilen biriyle doğrulanmalı
+       (PLAN.md → Bekleyenler). Yanlış çeviri kriz anında işe yaramaz. */
+    acilCumleler: [
+      { tr: "Yardıma ihtiyacım var", sq: "Kam nevojë për ndihmë", sqOku: "kam nevoyö pör ndihmö", mk: "Ми треба помош", mkOku: "mi treba pomoş" },
+      { tr: "Polis çağırın", sq: "Thirrni policinë", sqOku: "thirni policinö", mk: "Викнете полиција", mkOku: "viknete politsiya" },
+      { tr: "Ambulans çağırın", sq: "Thirrni ambulancën", sqOku: "thirni ambulancön", mk: "Викнете брза помош", mkOku: "viknete brza pomoş" },
+      { tr: "Doktora ihtiyacım var", sq: "Kam nevojë për mjek", sqOku: "kam nevoyö pör myek", mk: "Ми треба лекар", mkOku: "mi treba lekar" },
+      { tr: "En yakın hastane nerede?", sq: "Ku është spitali më i afërt?", sqOku: "ku öştö spitali mö i afört", mk: "Каде е најблиската болница?", mkOku: "kade e naybliskata bolnitsa" },
+      { tr: "Eczane nerede?", sq: "Ku është farmacia?", sqOku: "ku öştö farmatsia", mk: "Каде е аптеката?", mkOku: "kade e aptekata" },
+      { tr: "Alerjim var", sq: "Kam alergji", sqOku: "kam alergyi", mk: "Имам алергија", mkOku: "imam alergiya" },
+      { tr: "Pasaportumu kaybettim", sq: "Kam humbur pasaportën", sqOku: "kam humbur pasaportön", mk: "Го изгубив пасошот", mkOku: "go izgubiv pasoşot" },
+      { tr: "Cüzdanım çalındı", sq: "Më kanë vjedhur portofolin", sqOku: "mö kanö vyedhur portofolin", mk: "Ми го украдоа паричникот", mkOku: "mi go ukradoa pariçnikot" },
+      { tr: "Kayboldum", sq: "Kam humbur rrugën", sqOku: "kam humbur rrugön", mk: "Се загубив", mkOku: "se zagubiv" },
+      { tr: "İngilizce bilen biri var mı?", sq: "A flet dikush anglisht?", sqOku: "a flet dikuş anglişt", mk: "Дали некој зборува англиски?", mkOku: "dali nekoy zboruva angliski" },
+      { tr: "Bu adrese gitmem gerekiyor", sq: "Duhet të shkoj në këtë adresë", sqOku: "duhet tö şkoy nö kötö adresö", mk: "Треба да одам на оваа адреса", mkOku: "treba da odam na ovaa adresa" }
+    ],
     kelimeler: [
       { tr: "Merhaba", sq: "Përshëndetje", sqOku: "pörşendetye", mk: "Здраво", mkOku: "zdravo" },
       { tr: "Teşekkürler", sq: "Faleminderit", sqOku: "faleminderit", mk: "Благодарам", mkOku: "blagodaram" },
@@ -1087,7 +1185,8 @@ const TUR = {
          noktaZoomlari → bir noktanın çevresi; r = merkez karodan kaç karo
                          uzağa gidileceği (r:1 → 3×3 karo)
 
-       Sayı bilerek 250'nin altında tutuldu (~236 karo, ~5 MB): OpenStreetMap'in
+       Sayı bilerek dar tutuluyor (7 Ağustos 2026: 316 karo, ~6,5 MB — yol
+       koridoru eklenince 236'dan çıktı): OpenStreetMap'in
        karo sunucusu gönüllü bağışla dönüyor, toplu indirmeye açık değil.
        Yeni zoom eklemeden önce toplamı gözden geçir.
 
@@ -1102,11 +1201,20 @@ const TUR = {
     cevrimdisi: {
       baslik: "Haritayı çevrimdışına al",
       aciklama:
-        "Rota geneli, beş şehir merkezi, üç evin sokağı ve iki havalimanı " +
-        "telefona indirilir — yolda internet olmasa da harita açılır. " +
+        "Rota geneli, şehirler arası yol koridoru, beş şehir merkezi, üç evin " +
+        "sokağı ve iki havalimanı telefona indirilir — yolda internet olmasa da " +
+        "harita açılır. " +
         "Evdeyken, wifi varken yap. Şehir ve sokak ölçeği tamdır; ülke ile " +
         "şehir arasındaki ara yakınlıklarda kısa gri boşluk görebilirsin.",
       kutu: { guneyBati: [40.5, 17.0], kuzeyDogu: [43.2, 22.7], zoomlar: [7, 8] },
+      /* ---------- YOL KORİDORU ----------
+         Nokta çevreleri yalnızca şehir merkezlerini ve evleri kaplıyordu;
+         iki şehir ARASINDA, özellikle Ohrid–Dıraç yolunda ve sınırda
+         harita kullanılabilir yakınlıkta boştu. Koridor, rota çizgisi
+         boyunca z11'de bir karo genişliğinde şerit indirir:
+         ~80 karo / ~1,6 MB — z12 olsaydı 165 karo ederdi ve toplam,
+         OSM'e karşı gözettiğimiz 250 sınırını aşardı. */
+      koridor: { z: 11, r: 1 },
       noktaZoomlari: {
         sehir:      [{ z: 12, r: 1 }, { z: 13, r: 1 }, { z: 14, r: 1 }],
         konaklama:  [{ z: 15, r: 1 }, { z: 16, r: 1 }],
@@ -1295,6 +1403,75 @@ const TUR = {
         "Gaz kokusu alırsan pencereyi aç, ateş yakma, elektrik düğmelerine dokunma ve dışarı çık.",
         "Dıraç'ta mülkte dış mekân güvenlik kamerası olduğu ilanda belirtilmiş — bilerek bulun.",
         "Ohrid'de merdiven çıkmak gerekiyor; ağır valizle ve karanlıkta dikkat."
+      ]
+    }
+  ],
+
+  /* ---------- NE YAPMALI — çevrimdışı karar kartları ----------
+     "Dikkat" kartları önceden okunmak için; bunlar iş başa düştüğünde
+     açılmak için. Panik anında düşünmek zorunda kalmamak adına her biri
+     kısa ve sıralı: ne yapılacak, kime sorulacak, neye bakılacak.
+     Katlanır geliyor — sayfayı uzatmasın, lazım olunca açılsın. */
+  neYapmali: [
+    {
+      ikon: "🚌",
+      baslik: "Otobüsü kaçırdım",
+      adimlar: [
+        "Gişeye git, sıradaki seferi sor — hatların çoğu sık, Ohrid–Dıraç dışında bekleme kısa.",
+        "Ohrid → Dıraç ise: o gün 3-5 sefer var, sonuncusu 17:00. Sonrasını kaçırdıysan taksi/transfer sor.",
+        "Konaklamaya haber ver: giriş kilitli kutuyla ama Dıraç'ta 15:00 öncesi giremezsin.",
+        "Bir sonraki sefere bilet al ve otogarda kal — şehre dönüp tekrar gelmek vakit kaybı."
+      ]
+    },
+    {
+      ikon: "🛂",
+      baslik: "Sınırda takıldık",
+      adimlar: [
+        "Panik yok: Ohrid–Dıraç hattında bekleme olağan, şoför süreci biliyor.",
+        "Pasaportlar elde, otobüsten inmen istenirse eşyanı bırakma.",
+        "Damganın vurulduğunu kontrol et — eksik çıkış damgası sonraki sınırda sorun olur.",
+        "Su ve atıştırmalık yanında olsun; yakında büfe olmayabilir."
+      ]
+    },
+    {
+      ikon: "🔑",
+      baslik: "Kilitli kutu açılmıyor / eve giremiyorum",
+      adimlar: [
+        "Kodu Cepte bölümünden bir daha oku — kutu şifresi ile wifi şifresi karışıyor olabilir.",
+        "Kutuyu sıfırla ve yavaşça, tek tek çevir; çoğu kutu hızlı çevrildiğinde okumuyor.",
+        "Ev sahibini ara (numara Günün Kartı'nda): Üsküp Goran · Ohrid Krste · Dıraç Slavik.",
+        "Açılmıyorsa Airbnb uygulamasından mesaj at — yazışma kayıt altına da girer.",
+        "Ohrid'de kutu 19:00'da kapanıyor; geciktiysen önce ev sahibini ara, kutuyla uğraşma."
+      ]
+    },
+    {
+      ikon: "🔋",
+      baslik: "Telefon bitti / ayrı düştük",
+      adimlar: [
+        "Önceden karar verilen buluşma noktasına git (aşağıdaki 'Ayrı düşersek' kartı).",
+        "Her tam saatte 10 dakika orada bekle — sürekli beklemek yerine saat başı buluşma kuralı.",
+        "Şarj için kafeler en kolayı; bir kahve söyleyip priz iste.",
+        "Diğerinin telefonu çalışıyorsa tüm bilgiler onda da var — yedeği iki cihaza da yükleyin."
+      ]
+    },
+    {
+      ikon: "📕",
+      baslik: "Pasaportumu kaybettim",
+      adimlar: [
+        "En yakın polis merkezine git, kayıp/çalıntı tutanağı çıkart — büyükelçilik bunu ister.",
+        "Büyükelçiliği ara (numara Günün Kartı'nda, mesai dışı için nöbetçi hat var).",
+        "Yanında: tutanak, kimlik fotokopisi/fotoğrafı, biletin. Geçici pasaport (seyahat belgesi) düzenlenir.",
+        "Uçuşun varsa havayolunu ara; belge çıkana kadar uçuş değişikliği gerekebilir."
+      ]
+    },
+    {
+      ikon: "💳",
+      baslik: "Kart çalışmıyor / nakit bitti",
+      adimlar: [
+        "Bankanın yurt dışı kullanımını açtığından emin ol; çoğu blok bu yüzden.",
+        "ATM'de 'kendi para biriminizle öde' (DCC) çıkarsa reddet, yerel para birimini seç.",
+        "Yedek euro nakit üç ülkede de bozdurulur — döviz bürosu bankadan iyi kur verir.",
+        "İkinizin kartı ayrı bankadaysa diğerini dene; ikisi de olmazsa konaklamaya durumu bildir."
       ]
     }
   ],
@@ -2070,6 +2247,101 @@ tbody td:last-child{ padding-bottom:0; }
 .kopyala:focus-visible{ outline:3px solid var(--c-teal-soft); outline-offset:2px; }
 .kopyala .ipucu{ font-size:.68rem; font-weight:600; letter-spacing:.04em; opacity:.75; }
 .kopyala[data-kopyalandi="1"]{ background:var(--c-ok); }
+/* ---------- NE YAPMALI KARTLARI ---------- */
+.ny-baslik{ margin-top:var(--s-6); font-size:1.1rem; }
+.ny-giris{ margin-top:var(--s-2); font-size:.92rem; color:var(--c-ink-soft); }
+.ny-grid{ display:grid; gap:var(--s-3); margin-top:var(--s-3); grid-template-columns:minmax(0,1fr); }
+@media(min-width:760px){ .ny-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+.ny-kart{ margin-top:0; background:var(--c-yuzey); }
+.ny-kart .katlanir-govde{ padding-top:var(--s-2); }
+.ny-adimlar{ margin:0; padding-left:1.3rem; display:flex; flex-direction:column; gap:.45rem; font-size:.93rem; }
+.ny-adimlar li{ padding-left:.15rem; }
+
+/* ---------- AYRI DÜŞERSEK / KUR ---------- */
+.bulusma-kural{
+  font-size:.9rem; line-height:1.55; background:var(--c-cream);
+  border-left:3px solid var(--c-teal); border-radius:0 var(--r-s) var(--r-s) 0;
+  padding:.55rem .7rem; margin:-.2rem 0 var(--s-3);
+}
+.kur-birim + .kur-birim{ margin-top:var(--s-3); padding-top:var(--s-3); border-top:1px dashed var(--c-line); }
+.kur-tablo{ display:flex; flex-wrap:wrap; gap:.35rem; margin-top:.45rem; }
+.kur-hucre{
+  display:inline-flex; align-items:baseline; gap:.3rem;
+  background:var(--c-sand); border-radius:var(--r-pill); padding:.2rem .6rem; font-size:.84rem;
+}
+.kur-hucre b{ font-weight:800; }
+.kur-hucre i{ font-style:normal; color:var(--c-teal); font-weight:700; }
+.kur-bos{ font-size:.85rem; color:var(--c-ink-soft); font-style:italic; }
+
+/* ---------- HASTANE LİSTESİ ---------- */
+.hastane{ padding:.6rem 0; border-bottom:1px dashed var(--c-line); }
+.hastane:last-child{ border-bottom:0; }
+.hastane-sehir{ font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; font-weight:800; color:var(--c-teal); }
+.hastane-ad{ font-weight:700; font-size:.96rem; margin-top:.1rem; }
+.hastane-not{ font-size:.86rem; color:var(--c-ink-soft); margin:.15rem 0 .4rem; }
+.hastane-pin{
+  width:26px; height:26px; display:grid; place-items:center;
+  background:#c0392b; color:#fff; border:2px solid #fff; border-radius:50%;
+  font-size:.85rem; font-weight:800; box-shadow:0 1px 4px rgba(0,0,0,.4);
+}
+
+/* ---------- SAĞLIK KARTI ---------- */
+.saglik-kisi + .saglik-kisi{ margin-top:var(--s-4); padding-top:var(--s-3); border-top:1px dashed var(--c-line); }
+.saglik-kisi h4{
+  font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--c-teal); font-weight:800; margin-bottom:var(--s-2);
+}
+
+/* ---------- ACİL CÜMLELER ----------
+   Kartta düz bir liste; asıl iş tam ekran katmanda. Punto bilerek büyük:
+   telefon uzatılınca kolun mesafesinden okunmalı. */
+.cep-not{ font-size:.85rem; color:var(--c-ink-soft); margin:-.2rem 0 var(--s-3); }
+.acil-cumleler{ display:flex; flex-direction:column; gap:.3rem; }
+.acil-cumle{
+  all:unset; box-sizing:border-box; cursor:pointer; width:100%;
+  display:flex; align-items:center; justify-content:space-between; gap:var(--s-3);
+  min-height:44px; padding:.5rem .7rem; border-radius:var(--r-s);
+  background:var(--c-cream); border:1px solid var(--c-line);
+  font-size:.94rem; font-weight:600;
+}
+.acil-cumle:hover{ background:var(--c-sand); }
+.acil-cumle:focus-visible{ outline:3px solid var(--c-teal-soft); outline-offset:2px; }
+.acil-cumle-ok{ flex:0 0 auto; color:var(--c-teal); font-size:.9rem; }
+
+.goster-katman{
+  position:fixed; inset:0; z-index:130; display:none;
+  background:rgba(var(--c-perde),.96);
+  padding:calc(var(--s-4) + env(safe-area-inset-top))
+          calc(var(--s-4) + env(safe-area-inset-right))
+          calc(var(--s-4) + env(safe-area-inset-bottom))
+          calc(var(--s-4) + env(safe-area-inset-left));
+}
+.goster-katman[data-acik="1"]{ display:grid; place-items:center; }
+.goster-kutu{
+  position:relative; width:min(100%,40rem); max-height:100%; overflow-y:auto;
+  background:var(--c-yuzey); color:var(--c-ink);
+  border-radius:var(--r-l); box-shadow:var(--sh-3);
+  padding:var(--s-6) var(--s-5) var(--s-5);
+}
+.goster-kapat{
+  all:unset; box-sizing:border-box; cursor:pointer; position:absolute; top:.4rem; right:.4rem;
+  width:44px; height:44px; display:grid; place-items:center; border-radius:var(--r-s);
+  color:var(--c-ink-soft); font-size:1.1rem;
+}
+.goster-kapat:hover{ background:var(--c-sand); color:var(--c-ink); }
+.goster-kapat:focus-visible{ outline:3px solid var(--c-teal-soft); outline-offset:-3px; }
+.goster-tr{
+  font-size:.78rem; letter-spacing:.14em; text-transform:uppercase;
+  font-weight:800; color:var(--c-ink-soft); margin-bottom:var(--s-4);
+}
+.goster-dil + .goster-dil{ margin-top:var(--s-5); padding-top:var(--s-4); border-top:1px dashed var(--c-line); }
+.goster-etiket{
+  display:block; font-size:.7rem; letter-spacing:.12em; text-transform:uppercase;
+  font-weight:800; color:var(--c-teal); margin-bottom:.3rem;
+}
+.goster-cumle{ font-size:clamp(1.5rem,6.5vw,2.4rem); font-weight:800; line-height:1.25; }
+.goster-oku{ margin-top:.35rem; font-size:.95rem; color:var(--c-ink-soft); font-style:italic; }
+
 /* =====================================================================
    KONAKLAMA KARTI
    Geniş ekranda tam satırı alır; içindeki üç ev yan yana dizilir.
@@ -2839,29 +3111,86 @@ footer p + p{ margin-top:var(--s-2); }
   padding-right:calc(var(--s-2) + env(safe-area-inset-right));
   border-bottom:1px solid rgba(255,255,255,.12);
 }
-.nav-linkler{
-  flex:1 1 auto; min-width:0; display:flex; gap:.2rem;
-  overflow-x:auto; overflow-y:hidden; scrollbar-width:none;
-  -webkit-overflow-scrolling:touch; scroll-snap-type:x proximity;
+/* ---------- ÇUBUKTAKİ AÇMA DÜĞMESİ ----------
+   Yatay kaydırmalı şeridin yerini aldı. Üstünde bulunduğun bölümün adı
+   yazar, yani hem "neredeyim" sorusunu cevaplar hem de listeyi açar. */
+.nav-ac{
+  all:unset; box-sizing:border-box; cursor:pointer;
+  flex:1 1 auto; min-width:0;
+  display:flex; align-items:center; gap:.5rem;
+  min-height:44px; padding:.4rem .6rem; border-radius:var(--r-s);
+  color:#fff; font-size:.88rem; font-weight:700;
 }
-.nav-linkler::-webkit-scrollbar{ display:none; }
-.nav-linkler a{
-  flex:0 0 auto; scroll-snap-align:center;
-  display:inline-flex; align-items:center; gap:.32rem;
-  padding:.6rem .6rem; min-height:2.9rem;
-  color:rgba(255,255,255,.72); text-decoration:none;
-  font-size:.82rem; font-weight:600; white-space:nowrap;
-  border-bottom:2px solid transparent;
+.nav-ac:hover{ background:rgba(255,255,255,.12); }
+.nav-ac:focus-visible{ outline:2px solid var(--c-teal-soft); outline-offset:1px; }
+.nav-ac-ikon{ font-size:1.15rem; line-height:1; flex:0 0 auto; }
+.nav-ac-ad{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+/* ---------- YANDAN AÇILAN ÇEKMECE ----------
+   display:none yerine visibility+opacity: böylece açılış/kapanış
+   yumuşak geçebiliyor (display geçişi animasyon almaz). */
+.cekmece-perde{
+  position:fixed; inset:0; z-index:120;
+  background:rgba(var(--c-perde),.55); backdrop-filter:blur(2px);
+  visibility:hidden; opacity:0;
+  /* ⚠ visibility'yi süreye dâhil ETME: geçişe katılırsa açılışta 0,18 sn
+     boyunca hidden kalıyor ve tam o anda çağrılan focus() sessizce
+     düşüyordu (gizli öğe odak almaz). Doğru kalıp: açılışta anında
+     görünür (gecikme 0), kapanışta solma bitince gizlenir (gecikme .18s). */
+  transition:opacity .18s ease, visibility 0s linear .18s;
 }
-.nav-linkler a:hover{ color:#fff; }
-.nav-linkler a[aria-current="true"]{ color:#fff; border-bottom-color:var(--c-teal-soft); }
-.nav-linkler a .ico{ font-size:.95rem; }
+.cekmece-perde[data-acik="1"]{
+  visibility:visible; opacity:1;
+  transition:opacity .18s ease, visibility 0s linear 0s;
+}
+.cekmece{
+  position:absolute; inset-block:0; left:0;
+  width:min(84vw, 20rem); display:flex; flex-direction:column;
+  background:var(--c-yuzey); color:var(--c-ink); box-shadow:var(--sh-3);
+  padding-top:env(safe-area-inset-top);
+  padding-bottom:env(safe-area-inset-bottom);
+  padding-left:env(safe-area-inset-left);
+  transform:translateX(-100%); transition:transform .22s ease;
+  overscroll-behavior:contain;
+}
+.cekmece-perde[data-acik="1"] .cekmece{ transform:none; }
+@media (prefers-reduced-motion:reduce){
+  .cekmece-perde, .cekmece{ transition:none; }
+}
+.cekmece-ust{
+  flex:0 0 auto; display:flex; align-items:center; justify-content:space-between;
+  gap:var(--s-2); padding:var(--s-3) var(--s-3) var(--s-3) var(--s-4);
+  background:var(--c-deep); color:#fff;
+}
+.cekmece-baslik{ font-size:.74rem; letter-spacing:.16em; text-transform:uppercase; font-weight:800; }
+.cekmece-kapat{
+  all:unset; box-sizing:border-box; cursor:pointer;
+  width:44px; height:44px; display:grid; place-items:center; border-radius:var(--r-s);
+  color:rgba(255,255,255,.85); font-size:1.05rem;
+}
+.cekmece-kapat:hover{ background:rgba(255,255,255,.14); color:#fff; }
+.cekmece-kapat:focus-visible{ outline:2px solid var(--c-teal-soft); outline-offset:-2px; }
+.cekmece-linkler{ flex:1 1 auto; overflow-y:auto; padding:var(--s-2); }
+.cekmece-linkler a{
+  display:flex; align-items:center; gap:var(--s-3);
+  min-height:48px; padding:.55rem .8rem; border-radius:var(--r-s);
+  color:var(--c-ink); text-decoration:none; font-size:.98rem; font-weight:600;
+  border-left:3px solid transparent;
+}
+.cekmece-linkler a:hover{ background:var(--c-sand-3); }
+.cekmece-linkler a:focus-visible{ outline:2px solid var(--c-teal); outline-offset:-2px; }
+.cekmece-linkler a[aria-current="true"]{
+  background:var(--c-sand); color:var(--c-teal); border-left-color:var(--c-teal); font-weight:800;
+}
+.cekmece-linkler a .ico{ font-size:1.15rem; flex:0 0 auto; width:1.6rem; text-align:center; }
 .nav-arac{
   flex:0 0 auto; display:flex; gap:.2rem;
   border-left:1px solid rgba(255,255,255,.14); padding-left:.3rem;
 }
 .nav-btn{
-  display:grid; place-items:center; width:2.5rem; height:2.5rem;
+  /* 2.5rem = 40px idi; telefonda acil durumda basılacak düğmeler için
+     44 px'lik dokunma hedefinin altına düşmesin. */
+  display:grid; place-items:center; width:2.75rem; height:2.75rem;
   background:transparent; border:0; border-radius:var(--r-s);
   color:rgba(255,255,255,.8); font-size:1.05rem; cursor:pointer;
   transition:background .15s ease, color .15s ease;
@@ -2944,7 +3273,7 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
   html[data-tema="baris"] .leaflet-tile-pane{ filter:none; }
   html, body{ background:#fff !important; color:#000 !important; font-size:10.5pt; }
   .ust-alan, .yukari, .days-tools, .yedek-kutu, .harita-kutu, .harita-odak, .harita-ipucu,
-  .lightbox, .kart-katman, .karo-kutu, .kutlama, .fav, .ani, .countdown, .hero::after,
+  .lightbox, .kart-katman, .cekmece-perde, .goster-katman, .karo-kutu, .kutlama, .fav, .ani, .countdown, .hero::after,
   #hava-bolumu, .check-note, .galeri, .city-kapak, .lezzet-gorsel,
   .kopyala, .bugun-alt .btn{ display:none !important; }
   /* Kâğıt yedeği kapıda işe yarasın diye kaydedilmiş kodlar BASILIR; ama
@@ -3030,9 +3359,20 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
   </div>
 
   <!-- Bölüm gezintisi — bağlantılar JS ile mevcut bölümlerden üretilir,
-       böylece gizli bölümler (Bugün, Hava) listeye girmez. -->
+       böylece gizli bölümler (Bugün, Hava) listeye girmez.
+
+       Eskiden yatay kaydırmalı bir şeritti: telefonda listenin yarısı
+       ekran dışında kalıyor, aradığın bölümü bulmak için parmakla şeridi
+       sürüklemek gerekiyordu. Artık çubukta yalnızca ŞU AN bulunduğun
+       bölümün adı yazıyor; dokununca yandan çekmece açılıp bölümlerin
+       tamamını tek bakışta veriyor. -->
   <nav class="ana-nav" aria-label="Bölümler">
-    <div class="nav-linkler" id="nav-linkler"></div>
+    <button class="nav-ac" id="nav-ac" type="button"
+            aria-expanded="false" aria-controls="nav-cekmece"
+            aria-label="Bölüm listesini aç">
+      <span class="nav-ac-ikon" aria-hidden="true">☰</span>
+      <span class="nav-ac-ad" id="nav-ac-ad">Bölümler</span>
+    </button>
     <div class="nav-arac">
       <button class="nav-btn nav-btn-metin" id="btn-kart" type="button"
               title="Günün kartı — adres, kapı kodu, telefon, acil numaralar"
@@ -3043,6 +3383,20 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
               title="Programı yazdır veya PDF'e kaydet">🖨</button>
     </div>
   </nav>
+</div>
+
+<!-- Yandan açılan bölüm çekmecesi. Karartıya ya da ✕'e dokununca, Esc'e
+     basınca kapanır; açıkken odak içeride döner (Tab dışarı kaçmaz). -->
+<div class="cekmece-perde" id="cekmece-perde" data-acik="0">
+  <aside class="cekmece" id="nav-cekmece" role="dialog" aria-modal="true"
+         aria-label="Bölümler">
+    <div class="cekmece-ust">
+      <span class="cekmece-baslik">Bölümler</span>
+      <button class="cekmece-kapat" id="cekmece-kapat" type="button"
+              aria-label="Listeyi kapat">✕</button>
+    </div>
+    <div class="cekmece-linkler" id="nav-linkler"></div>
+  </aside>
 </div>
 
 <!-- ===================== BUGÜN ===================== -->
@@ -3162,6 +3516,8 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
       <div class="harita-dugmeler">
         <button class="harita-dugme" id="btn-konum" type="button"
                 aria-pressed="false" title="Konumum">📍</button>
+        <button class="harita-dugme" id="btn-kapsama" type="button"
+                aria-pressed="false" title="İndirilen harita alanını göster">▦</button>
         <button class="harita-dugme" id="btn-tam-ekran" type="button"
                 aria-pressed="false" title="Tam ekran">⛶</button>
       </div>
@@ -3199,6 +3555,11 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
          saat ve ücretler bilerek boş bırakıldı.</p>
     </div>
     <div class="dikkat-grid" id="dikkat-grid"></div>
+
+    <h3 class="ny-baslik">🆘 İş başa düşerse</h3>
+    <p class="ny-giris">Yukarıdakiler önceden okunmak için; bunlar o an açmak için.
+       Başlığa dokun, adımlar açılsın.</p>
+    <div class="ny-grid" id="ny-grid"></div>
   </div>
 </section>
 
@@ -4085,7 +4446,158 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
       "</div>";
     }).join("")));
 
-  /* 4) Temel kelimeler */
+  /* 3b) Hastaneler — koordinatı doğrulanmış, yol tarifi koordinattan */
+  cepteGrid.appendChild(el("article", "cep-kart",
+    "<h3><span aria-hidden='true'>🏥</span> Hastaneler</h3>" +
+    '<p class="cep-not">Her şehrin ana hastanesi. Koordinatları doğrulandı, ' +
+    "haritaları çevrimdışı pakete dâhil.</p>" +
+    (C.hastaneler || []).map((x) => {
+      const bag = mapsBag(x.konum);
+      return '<div class="hastane">' +
+        '<div class="hastane-sehir">' + esc(x.sehir) + "</div>" +
+        '<div class="hastane-ad">' + esc(x.ad) + "</div>" +
+        '<div class="hastane-not">' + esc(x.not) + "</div>" +
+        (bag ? '<a class="btn btn-sade" target="_blank" rel="noopener" href="' + bag + '">Yol tarifi</a>' : "") +
+      "</div>";
+    }).join("")));
+
+  /* 4) Sağlık ve acil kişi — değerler yalnızca cihazda
+        Kapı kodlarıyla aynı `gizliler` deposunu ve aynı delege edilmiş
+        kaydet/sil işleyicilerini kullanır; kimlik öneki "saglik-<kisi>". */
+  const SG = C.saglik;
+  const gizliSatir = (kimlik, etiket, bos) => {
+    const deger = typeof gizliler[kimlik] === "string" ? gizliler[kimlik] : "";
+    const domId = "gizli-" + kimlik.replace("::", "-");
+    return '<div class="gizli-satir" data-dolu="' + (deger ? "1" : "0") + '">' +
+      '<label for="' + esc(domId) + '">' + esc(etiket) + "</label>" +
+      '<div class="gizli-giris">' +
+        '<input id="' + esc(domId) + '" type="text" autocomplete="off" spellcheck="false"' +
+          ' enterkeyhint="done" data-gizli="' + esc(kimlik) + '" value="' + esc(deger) + '"' +
+          ' placeholder="' + esc(bos) + '">' +
+        '<button type="button" class="gizli-sil" data-gizli-sil="' + esc(kimlik) + '"' +
+          ' aria-label="' + esc(etiket) + ' kaydını sil">Sil</button>' +
+      "</div></div>";
+  };
+  cepteGrid.appendChild(el("article", "cep-kart",
+    "<h3><span aria-hidden='true'>🩺</span> " + esc(SG.baslik) + "</h3>" +
+    '<p class="cep-not">' + esc(SG.aciklama) + "</p>" +
+    SG.kisiler.map((k) =>
+      '<div class="saglik-kisi"><h4>' + esc(k.ad) + "</h4>" +
+      SG.alanlar.map((a) => gizliSatir("saglik-" + k.id + "::" + a.ad, a.etiket, a.bos)).join("") +
+      "</div>").join("") +
+    '<div class="saglik-kisi"><h4>İkiniz için ortak</h4>' +
+    SG.ortak.map((a) => gizliSatir("saglik-ortak::" + a.ad, a.etiket, a.bos)).join("") +
+    "</div>"));
+
+  /* 4b) Ayrı düşersek — kural sabit, noktalar cihazda */
+  const BL = C.bulusma;
+  cepteGrid.appendChild(el("article", "cep-kart",
+    "<h3><span aria-hidden='true'>🧭</span> " + esc(BL.baslik) + "</h3>" +
+    '<p class="bulusma-kural">' + esc(BL.kural) + "</p>" +
+    BL.sehirler.map((x) =>
+      gizliSatir("bulusma::" + x.id, x.ad + " buluşma noktası",
+                 "ör. Makedonya Meydanı, saat kulesi önü")).join("")));
+
+  /* 4c) Kur defteri — kur elle girilir, tablo ondan hesaplanır */
+  const KUR = C.kur;
+  const kurKart = el("article", "cep-kart",
+    "<h3><span aria-hidden='true'>💱</span> " + esc(KUR.baslik) + "</h3>" +
+    '<p class="cep-not">' + esc(KUR.aciklama) + "</p>" +
+    KUR.birimler.map((b) =>
+      '<div class="kur-birim" data-birim="' + esc(b.ad) + '">' +
+        gizliSatir("kur::" + b.ad, b.etiket, "sayı yaz") +
+        '<div class="kur-tablo" data-kur-tablo="' + esc(b.ad) + '"></div>' +
+      "</div>").join(""));
+  cepteGrid.appendChild(kurKart);
+
+  /* Tabloyu kayıtlı kurdan (ya da az önce yazılandan) hesapla */
+  function kurTablosuCiz() {
+    KUR.birimler.forEach((b) => {
+      const kutu = kurKart.querySelector('[data-kur-tablo="' + b.ad + '"]');
+      if (!kutu) return;
+      const girisEl = kurKart.querySelector('input[data-gizli="kur::' + b.ad + '"]');
+      const ham = (girisEl && girisEl.value) || gizliler["kur::" + b.ad] || "";
+      /* Virgüllü yazım da kabul: "34,5" → 34.5 */
+      const oran = parseFloat(String(ham).replace(",", "."));
+      if (!isFinite(oran) || oran <= 0) {
+        kutu.innerHTML = '<span class="kur-bos">Kuru gir, tablo çıksın.</span>';
+        return;
+      }
+      const taban = b.taban || 1;
+      kutu.innerHTML = b.miktarlar.map((m) =>
+        '<span class="kur-hucre"><b>' + m + " " + esc(b.simge) + "</b>" +
+        "<i>" + (m / taban * oran).toLocaleString("tr-TR", { maximumFractionDigits: 0 }) + " TL</i></span>"
+      ).join("");
+    });
+  }
+  kurTablosuCiz();
+  kurKart.addEventListener("input", (e) => {
+    if (e.target.matches('input[data-gizli^="kur::"]')) kurTablosuCiz();
+  });
+  kurKart.addEventListener("click", (e) => {
+    if (e.target.closest("button[data-gizli-sil]")) setTimeout(kurTablosuCiz, 0);
+  });
+
+  /* 5) Acil cümleler — dokun, telefonu karşıdakine uzat */
+  cepteGrid.appendChild(el("article", "cep-kart",
+    "<h3><span aria-hidden='true'>🆘</span> Acil cümleler</h3>" +
+    '<p class="cep-not">Satıra dokun: cümle tam ekran, kocaman puntoyla açılır. ' +
+    "Konuşmaya çalışma, telefonu uzat.</p>" +
+    '<div class="acil-cumleler">' +
+    C.acilCumleler.map((c, i) =>
+      '<button type="button" class="acil-cumle" data-cumle="' + i + '">' +
+        "<span>" + esc(c.tr) + "</span>" +
+        '<span class="acil-cumle-ok" aria-hidden="true">⤢</span>' +
+      "</button>").join("") +
+    "</div>"));
+
+  /* ---------- CÜMLEYİ TAM EKRAN GÖSTER ----------
+     Katman gövdeye bir kez kurulur, içeriği her açılışta yenilenir.
+     Karartıya dokun / Esc kapatır; kart katmanıyla aynı kalıp. */
+  const gosterKatman = el("div", "goster-katman");
+  gosterKatman.dataset.acik = "0";
+  gosterKatman.innerHTML =
+    '<div class="goster-kutu" role="dialog" aria-modal="true" aria-label="Acil cümle">' +
+      '<button type="button" class="goster-kapat" aria-label="Kapat">✕</button>' +
+      '<div class="goster-icerik"></div>' +
+    "</div>";
+  document.body.appendChild(gosterKatman);
+  const gosterIcerik = gosterKatman.querySelector(".goster-icerik");
+  let gosterSonOdak = null;
+
+  function cumleGoster(i) {
+    const c = C.acilCumleler[i];
+    if (!c) return;
+    gosterIcerik.innerHTML =
+      '<div class="goster-tr">' + esc(c.tr) + "</div>" +
+      '<div class="goster-dil"><span class="goster-etiket">Arnavutça</span>' +
+        '<div class="goster-cumle" lang="sq">' + esc(c.sq) + "</div>" +
+        '<div class="goster-oku">' + esc(c.sqOku) + "</div></div>" +
+      '<div class="goster-dil"><span class="goster-etiket">Makedonca</span>' +
+        '<div class="goster-cumle" lang="mk">' + esc(c.mk) + "</div>" +
+        '<div class="goster-oku">' + esc(c.mkOku) + "</div></div>";
+    gosterSonOdak = document.activeElement;
+    gosterKatman.dataset.acik = "1";
+    document.body.style.overflow = "hidden";
+    gosterKatman.querySelector(".goster-kapat").focus();
+  }
+  function cumleKapat() {
+    gosterKatman.dataset.acik = "0";
+    document.body.style.overflow = "";
+    if (gosterSonOdak && gosterSonOdak.focus) gosterSonOdak.focus();
+  }
+  cepteGrid.addEventListener("click", (e) => {
+    const b = e.target.closest(".acil-cumle");
+    if (b) cumleGoster(Number(b.dataset.cumle));
+  });
+  gosterKatman.addEventListener("click", (e) => {
+    if (e.target === gosterKatman || e.target.closest(".goster-kapat")) cumleKapat();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (gosterKatman.dataset.acik === "1" && e.key === "Escape") cumleKapat();
+  });
+
+  /* 6) Temel kelimeler */
   cepteGrid.appendChild(el("article", "cep-kart",
     "<h3><span aria-hidden='true'>🗣</span> Temel kelimeler</h3>" +
     '<table class="kelime-tablo"><tbody>' +
@@ -4230,6 +4742,63 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
       L.polyline(cizgi, {
         color: "#17879b", weight: 4, opacity: .85, dashArray: "1 8", lineCap: "round"
       }).addTo(harita);
+
+      /* ---------- İNDİRİLEN ALAN KATMANI ----------
+         "Harita neden burada boş?" sorusunu bitirir: karo indirilen yerleri
+         gösterir. Şekiller karoListesi()'nin tarifiyle AYNI kaynaktan
+         (TUR.harita.cevrimdisi) çizilir — biri değişirse diğeri de değişir.
+         Yarıçaplar karo kenarının kabaca metre karşılığı; kesin sınır değil,
+         "buralar indi / burası inmedi" ayrımı için yeterli. */
+      const kapsamaKatman = L.layerGroup();
+      (function kapsamaCiz() {
+        const CDK = H.cevrimdisi;
+        if (!CDK) return;
+        const stil = { color: "#17879b", weight: 1, opacity: .5,
+                       fillColor: "#17879b", fillOpacity: .10 };
+        /* Bölge kutusu — yalnızca kuşbakışı (z7-8) kapsama */
+        if (CDK.kutu) {
+          L.rectangle([CDK.kutu.guneyBati, CDK.kutu.kuzeyDogu],
+            Object.assign({}, stil, { dashArray: "4 6", fillOpacity: .04 })).addTo(kapsamaKatman);
+        }
+        /* Yol koridoru */
+        if (CDK.koridor) {
+          L.polyline(duraklar.map((x) => x.konum),
+            { color: "#17879b", weight: 26, opacity: .16, lineCap: "round", lineJoin: "round" })
+            .addTo(kapsamaKatman);
+        }
+        /* Ayrıntılı inen noktalar: şehir merkezleri ve evler */
+        const cap = { sehir: 2600, konaklama: 700, havalimani: 1800 };
+        [].concat(
+          duraklar.map((x) => ({ konum: x.konum, tur: "sehir" })),
+          (C.konaklamalar || []).filter((k) => Array.isArray(k.konum))
+            .map((k) => ({ konum: k.konum, tur: "konaklama" })),
+          (H.havalimanlari || []).map((h) => ({ konum: h.konum, tur: "havalimani" }))
+        ).forEach((n) => {
+          L.circle(n.konum, Object.assign({}, stil, { radius: cap[n.tur] || 1000 }))
+            .addTo(kapsamaKatman);
+        });
+      })();
+
+      /* Hastane pinleri — her zaman açık, ayrı ikon */
+      (C.hastaneler || []).filter((x) => Array.isArray(x.konum)).forEach((x) => {
+        L.marker(x.konum, {
+          icon: L.divIcon({ className: "", html: '<div class="hastane-pin">✚</div>',
+                            iconSize: [26, 26], iconAnchor: [13, 24], popupAnchor: [0, -22] }),
+          title: x.sehir + " — " + x.ad
+        }).addTo(harita).bindPopup(
+          '<div class="harita-popup"><b>🏥 ' + esc(x.ad) + "</b>" +
+          '<div class="pp-adres">' + esc(x.sehir) + " · " + esc(x.not) + "</div></div>");
+      });
+
+      const btnKapsama = $("#btn-kapsama");
+      btnKapsama.addEventListener("click", () => {
+        const acik = btnKapsama.getAttribute("aria-pressed") === "true";
+        if (acik) harita.removeLayer(kapsamaKatman);
+        else kapsamaKatman.addTo(harita);
+        btnKapsama.setAttribute("aria-pressed", acik ? "false" : "true");
+        btnKapsama.title = acik ? "İndirilen harita alanını göster"
+                                : "İndirilen alan gösterimini kapat";
+      });
 
       /* ---- işaretçiler; odak şeridi bunlara isimle ulaşacak ---- */
       const sehirPin = {}, evPin = {};
@@ -4697,6 +5266,27 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
       });
     });
 
+    /* 3) Yol koridoru — ardışık şehirler arasındaki doğru boyunca şerit.
+          Gerçek karayolu değil kuş uçuşu hat; sapmaları r=1 tamponu yutuyor. */
+    const KR = CD.koridor;
+    if (KR) {
+      const sirali = TUR.sehirler
+        .filter((x) => Array.isArray(x.konum))
+        .slice()
+        .sort((a, b) => (a.haritaSira || 0) - (b.haritaSira || 0));
+      for (let i = 0; i < sirali.length - 1; i++) {
+        const a = sirali[i].konum, b = sirali[i + 1].konum;
+        const ADIM = 200;
+        for (let t = 0; t <= ADIM; t++) {
+          const lat = a[0] + (b[0] - a[0]) * t / ADIM;
+          const lon = a[1] + (b[1] - a[1]) * t / ADIM;
+          const cx = karoX(lon, KR.z), cy = karoY(lat, KR.z);
+          for (let dx = -KR.r; dx <= KR.r; dx++)
+            for (let dy = -KR.r; dy <= KR.r; dy++) ekle(KR.z, cx + dx, cy + dy);
+        }
+      }
+    }
+
     return Array.from(kume);
   }
 
@@ -4876,6 +5466,32 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
         '<span class="dikkat-etiket">' + (seviyeEtiketi[sev] || sev) + "</span>" +
       "</div>" +
       "<ul>" + d.maddeler.map((x) => "<li>" + markTBD(x) + "</li>").join("") + "</ul>"));
+  });
+
+  /* ---------- NE YAPMALI ----------
+     Katlanır kartlar; "Ne yenir?" ile aynı .katlanir kalıbı ama kendi
+     kapsayıcısında, kendi delege edilmiş tıklama işleyicisiyle. */
+  const nyGrid = $("#ny-grid");
+  TUR.neYapmali.forEach((n, i) => {
+    nyGrid.appendChild(el("article", "katlanir ny-kart",
+      '<button class="katlanir-btn" type="button" aria-expanded="false" aria-controls="ny-' + (i + 1) + '">' +
+        '<span class="katlanir-ad">' + n.ikon + " " + esc(n.baslik) + "</span>" +
+        '<span class="katlanir-ok" aria-hidden="true">▾</span>' +
+      "</button>" +
+      '<div class="katlanir-govde" id="ny-' + (i + 1) + '">' +
+        '<ol class="ny-adimlar">' +
+          n.adimlar.map((a) => "<li>" + markTBD(esc(a)) + "</li>").join("") +
+        "</ol>" +
+      "</div>"));
+    nyGrid.lastChild.dataset.open = "0";
+  });
+  nyGrid.addEventListener("click", (e) => {
+    const btn = e.target.closest(".katlanir-btn");
+    if (!btn) return;
+    const kutu = btn.closest(".katlanir");
+    const acik = kutu.dataset.open === "1";
+    kutu.dataset.open = acik ? "0" : "1";
+    btn.setAttribute("aria-expanded", acik ? "false" : "true");
   });
 
   /* Pratik bilgiler bölümü kaldırıldı — para, su/sağlık ve kelimeler zaten
@@ -5433,11 +6049,44 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
     h += '<div class="gk-blok">' +
       '<span class="gk-etiket">Acil</span>' +
       gkSatir("Acil çağrı", tel("112") + " — polis · ambulans · itfaiye") +
+      /* Bulunulan şehrin hastanesi — kaza anında aranacak ikinci şey */
+      (() => {
+        const hst = (C.hastaneler || []).find((x) => x.sehir === sehir);
+        if (!hst) return "";
+        const bag = mapsBag(hst.konum);
+        return gkSatir("Hastane", esc(hst.ad) +
+          (bag ? ' · <a class="gk-tel" target="_blank" rel="noopener" href="' + bag + '">haritada aç</a>' : ""));
+      })() +
       (be
         ? gkSatir("Büyükelçilik", tel(be.deger) +
             (be.nobetci ? "<br>Nöbetçi " + tel(be.nobetci) : "") +
             (be.adres ? '<br><span class="gk-adres-latin">' + esc(be.adres) + "</span>" : ""))
         : "") +
+      /* Sağlık bilgisi kartta da dursun: kaza anında telefonu uzatan kişi
+         Cepte bölümünü aramakla uğraşmasın. Yalnızca DOLU alanlar basılır —
+         hiçbiri girilmemişse tek satırlık hatırlatma çıkar. */
+      (() => {
+        const SGK = C.saglik;
+        if (!SGK) return "";
+        const satirlar = [];
+        SGK.kisiler.forEach((k) => {
+          const dolu = SGK.alanlar
+            .map((a) => ({ a, v: gizliler["saglik-" + k.id + "::" + a.ad] }))
+            .filter((x) => x.v && String(x.v).trim());
+          if (dolu.length) {
+            satirlar.push(gkSatir(k.ad,
+              dolu.map((x) => esc(x.a.etiket) + ": <b>" + esc(x.v) + "</b>").join("<br>")));
+          }
+        });
+        const kisi = gizliler["saglik-ortak::acilKisi"], ktel = gizliler["saglik-ortak::acilTel"];
+        if (kisi || ktel) {
+          satirlar.push(gkSatir("Acil kişi",
+            (kisi ? esc(kisi) + " " : "") + (ktel ? tel(ktel) : "")));
+        }
+        return satirlar.length
+          ? satirlar.join("")
+          : gkSatir("Sağlık", markTBD("kan grubu ve alerji belirlenecek — Cepte bölümünden gir"));
+      })() +
     "</div>" +
 
     '<p class="gk-not">Kodlar ve notlar yalnızca bu cihazda saklanır. ' +
@@ -5517,7 +6166,54 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
     "hazirlik":      ["✔", "Hazırlık"]
   };
   const navKutu = $("#nav-linkler");
+  const navAdi = $("#nav-ac-ad");
   let navGozcu = null;
+
+  /* ---------- ÇEKMECE ----------
+     Kart katmanıyla aynı kalıp: karartıya dokun / Esc / ✕ kapatır, açıkken
+     gövde kaydırması kilitlenir. Ek olarak odak tuzağı var — Tab çekmecenin
+     içinde döner, arkadaki bağlantılara kaçmaz. */
+  const cekmecePerde = $("#cekmece-perde");
+  const cekmeceAc = $("#nav-ac");
+  let cekmeceSonOdak = null;
+
+  const odaklanabilir = () =>
+    Array.from(cekmecePerde.querySelectorAll('a[href], button:not([disabled])'))
+      .filter((e) => e.offsetParent !== null);
+
+  function cekmeceAcik(evet) {
+    cekmecePerde.dataset.acik = evet ? "1" : "0";
+    cekmeceAc.setAttribute("aria-expanded", evet ? "true" : "false");
+    document.body.style.overflow = evet ? "hidden" : "";
+    if (evet) {
+      cekmeceSonOdak = document.activeElement;
+      const isaretli = navKutu.querySelector('a[aria-current="true"]');
+      (isaretli || odaklanabilir()[0] || $("#cekmece-kapat")).focus();
+    } else if (cekmeceSonOdak && cekmeceSonOdak.focus) {
+      cekmeceSonOdak.focus();
+    }
+  }
+
+  cekmeceAc.addEventListener("click", () => cekmeceAcik(true));
+  $("#cekmece-kapat").addEventListener("click", () => cekmeceAcik(false));
+  /* Yalnızca karartının kendisi kapatır; çekmecenin içine dokunmak kapatmaz */
+  cekmecePerde.addEventListener("click", (e) => {
+    if (e.target === cekmecePerde) cekmeceAcik(false);
+  });
+  /* Bir bölüme gidilince çekmece kapanır — yoksa hedefin üstünde durur */
+  navKutu.addEventListener("click", (e) => {
+    if (e.target.closest("a")) cekmeceAcik(false);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (cekmecePerde.dataset.acik !== "1") return;
+    if (e.key === "Escape") { cekmeceAcik(false); return; }
+    if (e.key !== "Tab") return;
+    const sira = odaklanabilir();
+    if (!sira.length) return;
+    const ilk = sira[0], son = sira[sira.length - 1];
+    if (e.shiftKey && document.activeElement === ilk) { e.preventDefault(); son.focus(); }
+    else if (!e.shiftKey && document.activeElement === son) { e.preventDefault(); ilk.focus(); }
+  });
 
   function navKur() {
     const bolumler = Array.from(document.querySelectorAll("section[id]"))
@@ -5545,12 +6241,8 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
         if (!link || link.getAttribute("aria-current") === "true") return;
         navKutu.querySelectorAll("a[aria-current]").forEach((x) => x.removeAttribute("aria-current"));
         link.setAttribute("aria-current", "true");
-        /* İşaretli bağlantı şeridin dışında kaldıysa görünür yere getir */
-        const kutuSol = navKutu.scrollLeft, kutuSag = kutuSol + navKutu.clientWidth;
-        if (link.offsetLeft < kutuSol || link.offsetLeft + link.offsetWidth > kutuSag) {
-          navKutu.scrollTo({ left: link.offsetLeft - navKutu.clientWidth / 2 + link.offsetWidth / 2,
-                             behavior: "smooth" });
-        }
+        /* Çubuktaki düğme her zaman içinde olduğumuz bölümün adını yazar */
+        navAdi.textContent = NAV_ADLARI[g.target.id][1];
       });
     }, { rootMargin: "-15% 0px -70% 0px", threshold: 0 });
     bolumler.forEach((s) => navGozcu.observe(s));
