@@ -1,6 +1,6 @@
-# Balkan Kaçamağı 🏖
+# Balkanlar'da Aşk 🤍
 
-Barış Kaya & Derin Beyza Günal'ın **12 – 20 Ağustos 2026** Balkan turu için hazırlanmış
+Barış Kaya & Derin Beyza Günal'ın **12 – 20 Ağustos 2026** Balkan yolculuğu için hazırlanmış
 tek sayfalık tur programı sitesi.
 
 **Rota:** İstanbul → Priştine → Üsküp → Ohrid → Dıraç → Tiran → İstanbul

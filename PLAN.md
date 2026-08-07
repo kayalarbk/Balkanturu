@@ -1,4 +1,4 @@
-# Balkan Kaçamağı — Tur Planı
+# Balkanlar'da Aşk — Tur Planı
 
 > **Tek doğruluk kaynağı.** Bu dosya ile `index.html` içindeki `TUR` objesi birebir tutarlı
 > olmalıdır. Biri değişirse diğeri aynı commit'te güncellenir.
@@ -306,6 +306,11 @@ _Bu gün bilerek boş. Program yazılmadı, yazılmayacak._
 
 ## 4. Ulaşım özeti
 
+> ℹ️ **Sitede artık ayrı bir "Ulaşım" bölümü yok** (7 Ağustos'ta kaldırıldı) — bacaklar zaten
+> gün gün programda saatiyle ve "🚌 Otobüs kültürü" kartında sefer sıklıklarıyla yazıyor.
+> `TUR.ulasim` verisi duruyor: Bugün ekranındaki "Sıradaki ulaşım" satırı ve Günün Kartı'ndaki
+> "Bugünkü yol" bloğu bu tablodan okuyor. Aşağısı planın kaydı olarak kalıyor.
+
 | Bacak | Tahmini süre | Yöntem | Durum |
 |---|---|---|---|
 | İstanbul → Priştine | 1 sa 40 dk | Uçak ✈ AJet VF101 | ✅ alındı |
@@ -321,6 +326,11 @@ _Bu gün bilerek boş. Program yazılmadı, yazılmayacak._
 ---
 
 ## 5. Pratik bilgiler
+
+> ℹ️ **Sitede artık ayrı bir "Pratik" bölümü yok** (7 Ağustos'ta kaldırıldı). Para, su/sağlık
+> ve kelimeler zaten 6. bölümdeki kartlarda ve Cepte'deki kelime tablosunda vardı; yalnızca
+> hiçbir yerde tekrarlanmayan **priz/elektrik** ve **bahşiş-adap** maddeleri 6. bölüme
+> "🔌 Priz, bahşiş ve adap" kartı olarak taşındı. Aşağısı planın kaydı olarak kalıyor.
 
 - **Para:** Kosova EUR · Kuzey Makedonya MKD denar · Arnavutluk ALL lek.
   Denar ve lek ülke dışında geçmiyor, çıkmadan bitir. Yedek nakit euro taşı.
@@ -411,6 +421,19 @@ Korkutmak için değil — önceden bilinirse hiçbiri sorun olmaz. Sitede ayrı
   beş şehir ve üç evin sokağı telefona iner, ağsız da açılır. Yine de yedek olarak Google Maps
   ya da Organic Maps'ten bölge indirmek zarar vermez.
 - Bilet ve rezervasyonların offline kopyasını telefonda tut.
+
+### 🔌 Priz, bahşiş ve adap — bilgi
+- Priz tipi C / F — Türkiye ile aynı, adaptör gerekmiyor. 230 V, 50 Hz.
+- Çoklu priz ya da çift çıkışlı şarj aleti iki kişi için işi kolaylaştırır.
+- Restoranda bahşiş hesabın %5-10'u ya da yukarı yuvarlama; kafede bozuk parayı bırakmak yeterli.
+- Dini mekânlarda (Sveti Naum, camiler) omuz ve diz kapalı kıyafet.
+- Türkçe bölgede sanılandan yaygın — özellikle Kosova'da ve Üsküp çarşısında işe yarıyor.
+
+### 🍽 Sofrada — bilgi
+- Akşam yemeği geç yenir — restoranlar 20:00-22:00 arası dolar.
+- Kahve sosyal bir ritüel; tek fincanla saatlerce oturmak normal.
+- Vejetaryen seçenek her menüde var: fërgesë, tavče gravče, byrek, ajvar, salatalar.
+- Spesifik mekân önerisi bilerek yazılmadı — fiyat ve saatler değişken, gidince bakılacak.
 
 ### 🩺 Sağlık — bilgi
 - Acil durum numarası: 112 (üç ülkede de geçerli).
@@ -583,6 +606,44 @@ açısından beklenen kalıp bu.
 ---
 
 ## Yapılanlar
+
+### 7 Ağustos 2026 — on altıncı oturum
+
+**Site adı "Balkanlar'da Aşk" oldu, dört bölüm kaldırıldı**
+
+**1. Ad ve ton.** Site adı **Balkan Kaçamağı → Balkanlar'da Aşk**. Giriş cümlesi turun bir aşk
+tatili olduğunu söyleyecek şekilde yeniden yazıldı ve 15 Ağustos yıl dönümü metne girdi.
+Başlık, og etiketleri, manifest ve altbilgi de yeni adı taşıyor; hero rozeti "🤍 … · aşk tatili".
+
+> ⚠ Yedek dosyalarındaki `uygulama: "balkan-kacamagi"` kimliği **bilerek değiştirilmedi** —
+> daha önce alınmış yedekler bu değeri taşıyor, değiştirilseydi hepsi "yedek değil" diye
+> reddedilirdi. Yalnızca kullanıcıya gösterilen hata metni yeni adı kullanıyor.
+
+**2. Dört bölüm kaldırıldı.** Hepsi tekrardı; kaldırılırken bilgi kaybı olmaması gözetildi:
+
+| Kaldırılan | Neden | Bilgi nereye gitti |
+|---|---|---|
+| Cepte → **Uçuşlar** kartı | Aynı bilgi en üstteki "Uçuş" bölümünde, o da çevrimdışı çalışıyor | — (veri duruyor, Günün Kartı PNR'ı oradan okuyor) |
+| **Rota** bölümü | Şerit girişe alındı | Şerit → hero; konaklama dağılımı tablosu → Cepte'deki üç konaklama kartında zaten var |
+| **Ulaşım özeti** | Bacaklar gün programında ve "🚌 Otobüs kültürü" kartında yazıyor | — (`TUR.ulasim` duruyor, Bugün/Kart okuyor) |
+| **Pratik bilgiler** + şehirlerdeki **yeme-içme notları** | Para, su, sağlık, kelimeler zaten Dikkat kartlarında ve Cepte'de | Tekrarlanmayan maddeler → yeni "🔌 Priz, bahşiş ve adap" ve "🍽 Sofrada" kartları |
+
+**3. Rota şeridi girişte.** Ayrı bölüm yerine hero'nun içinde, tek satır akan sık bir şerit:
+her durak adı + gecesi, aralarında ok, uçlar (İstanbul kalkış/iniş) kesik çerçeveyle sönük.
+Hero'daki "Priştine · Üsküp · …" rozeti kaldırıldı, aynı şeyi yazıyordu.
+
+**Ölçüm (390 px, content-visibility kapalı — önceki oturumlarla karşılaştırılabilir):**
+
+| | Önce | Sonra |
+|---|---|---|
+| Sayfa boyu | 32.116 px | **26.526 px** (−%17) |
+| Bölüm sayısı | 12 | **8** |
+| Çubuktaki sekme | 11 | **8** |
+| Dikkat kartı | 12 | **14** |
+
+Ölü kalan CSS ve veri de temizlendi: `.route*`, `.info*`, `.yeme-notlar`, `.cep-ucus*`,
+`.table-wrap` kuralları ile `TUR.konaklama`, `TUR.pratik`, `TUR.yemeIcmeNotlari` alanları.
+320 / 390 / 768 / 1440 px'te yatay kaydırma yok, JS hatası yok.
 
 ### 6 Ağustos 2026 — on beşinci oturum
 

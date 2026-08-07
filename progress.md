@@ -1,4 +1,4 @@
-# Balkan Kaçamağı — Proje Durumu (progress.md)
+# Balkanlar'da Aşk — Proje Durumu (progress.md)
 
 > **Bu dosya nedir?** Sitenin teknik ve içerik durumunun tek bakışta özeti: ne var, nasıl
 > çalışıyor, ne kadar tamam, sırada ne var ve çalışırken hangi kurallara uyuluyor.
@@ -6,11 +6,11 @@
 > **İlgili dosyalar:** planın tek doğruluk kaynağı `PLAN.md`, kullanım ve geliştirme
 > kılavuzu `README.md`. Bu dosya onların yerine geçmez; ikisinin üstünde bir *durum panosu*.
 
-**Son güncelleme:** 6 Ağustos 2026
+**Son güncelleme:** 7 Ağustos 2026
 **Depo:** https://github.com/kayalarbk/Balkanturu (`main`)
 **Yayın:** https://kayalarbk.github.io/Balkanturu/ (GitHub Pages, `main` / root — build adımı yok)
-**Son commit:** `c200ddd` + tema/lezzet oturumu
-**Çalışma ağacı:** temiz · **Toplam commit:** 23 · **Oturum sayısı:** 15
+**Son commit:** `bfef565` + sadeleştirme oturumu
+**Çalışma ağacı:** temiz · **Toplam commit:** 25 · **Oturum sayısı:** 16
 
 ---
 
@@ -70,12 +70,12 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 
 | Dosya | Satır / boyut | Ne işe yarar |
 |---|---|---|
-| `index.html` | **5.904 satır** (~280 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
-| `sw.js` | 182 satır | Service worker — çevrimdışı çalışma, dört cache (ikisi sürümsüz, aşağıda). Sürüm **v7** |
-| `manifest.json` | — | PWA künyesi: standalone, portrait, tema `#0b2a45`, 2 kısayol (Bugün · Cepte). ⚠ `theme_color` iki temaya bölünmeden önceki laciverdi taşıyor; tarayıcı çubuğunun rengini zaten `<meta name=theme-color>` temaya göre canlı ayarlıyor |
+| `index.html` | **5.749 satır** (~272 KB) | Sitenin tamamı: içerik + CSS + JS tek dosyada |
+| `sw.js` | 183 satır | Service worker — çevrimdışı çalışma, dört cache (ikisi sürümsüz, aşağıda). Sürüm **v8** |
+| `manifest.json` | — | PWA künyesi: ad **Balkanlar'da Aşk**, standalone, portrait, tema `#0b2a45`, 2 kısayol (Bugün · Cepte). ⚠ `theme_color` iki temaya bölünmeden önceki laciverdi taşıyor; tarayıcı çubuğunun rengini zaten `<meta name=theme-color>` temaya göre canlı ayarlıyor |
 | `icon.svg` | — | Uygulama ikonu (`any` + `maskable`) |
 | `docs/img/` | 5 kapak + `KAYNAKLAR.md` | Yerele indirilmiş şehir kapakları ve lisans listesi |
-| `PLAN.md` | ~69 KB (1.284 satır) | Planın tek doğruluk kaynağı + oturum günlüğü |
+| `PLAN.md` | ~73 KB (1.345 satır) | Planın tek doğruluk kaynağı + oturum günlüğü |
 | `README.md` | ~15 KB | Kurulum, içerik güncelleme, tuzaklar, deploy |
 | `progress.md` | bu dosya | Durum panosu |
 
@@ -101,13 +101,13 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 |---|---|---|
 | `meta` | Başlık, yolcular, tarih, süre, giriş cümlesi, `kalkisISO` / `donusISO` | ✅ kesin |
 | `ucuslar` | Gidiş/dönüş: havayolu, sefer, PNR, saat, bagaj, gece uçuşu uyarısı | ✅ bilet üzerinden |
-| `rota` | Rota şeridi durakları | ✅ |
+| `rota` | Rota şeridi durakları — artık girişte (hero) çiziliyor | ✅ |
 | `konaklama` | Hangi gece hangi şehir, kaç gece, tesis | ✅ üç tesis girildi |
 | `sehirler` | 5 şehir kartı: tema, rehber tanıtımı, öne çıkanlar, `kapak`, `galeri`, `lezzetler`, `konum` | ✅ (5 şehir haritada) |
 | `gunler` | **9 günlük program**: tarih, başlık, akış, notlar, `risk`, `uyari`, `giris`, **`ozel`**, gece | ✅ (6 Ağustos'ta yedi gün baştan yazıldı) |
-| `ulasim` | Bacak / süre / yöntem / durum tablosu | ✅ sefer sıklıkları girildi; tek "önceden alınacak" bacak Ohrid → Dıraç |
+| `ulasim` | Bacak / süre / yöntem / durum. **Ayrı bölüm olarak basılmıyor**; Bugün ekranı ve Günün Kartı GUN_BACAK üzerinden buradan okuyor | ✅ tek "önceden alınacak" bacak Ohrid → Dıraç |
 | `harita` | Karo kaynağı, atıf, zoom (6–18, karo z16'ya kadar), havalimanları, yedek metin, **`odak`** şeridi metinleri, **`cevrimdisi`** karo tarifi | ✅ |
-| `dikkatEdilecekler` | **12 kart**, `seviye`: kritik / önemli / bilgi | ✅ |
+| `dikkatEdilecekler` | **14 kart**, `seviye`: kritik / önemli / bilgi | ✅ (7 Ağustos'ta priz/bahşiş ve sofra kartları eklendi) |
 | `cepte` | Uçuş kodları, üç konaklama (adres/koordinat/giriş), **`bagajDolabi`** (19 Ağustos), **`rezervasyon`** (15 Ağustos masası), acil numaralar, kelimeler | ⚠️ ev sahibi telefonları, rezervasyon kodları, 15 Ağustos mekânı ve sigorta hattı boş |
 | `havaDurumu` | Open-Meteo ayarı, gün→şehir eşlemesi, mevsim normalleri, uyarı eşikleri | ✅ çalışıyor |
 | `yemeIcmeNotlari` | Şehir kartı altındaki yeme-içme kutusu | ✅ |
@@ -208,7 +208,7 @@ alanı dışındaki karo halkasını yarıya indirir.
 
 ---
 
-## 3. Sitenin bölümleri (12 bölüm)
+## 3. Sitenin bölümleri (8 bölüm)
 
 Üst çubuktaki bağlantılar DOM'daki **görünür** `section[id]`'lerden üretilir; adlar
 `NAV_ADLARI` eşlemesinde. Yeni bölüm eklenirse oraya bir satır eklenmeli.
@@ -218,16 +218,22 @@ alanı dışındaki karo halkasını yarıya indirir.
 |---|---|---|---|
 | 1 | `bugun` | 📌 Bugün | Yalnızca tarih 12–20 Ağustos 2026 aralığındayken görünür (`hidden`) |
 | 2 | `ucuslar` | ✈ Uçuş | PNR, saat, bagaj, gece uçuşu uyarısı |
-| 3 | `cepte` | 📱 Cepte | Uçuş kodları, konaklama, acil numaralar, temel kelimeler |
+| 3 | `cepte` | 📱 Cepte | Konaklama, acil numaralar, temel kelimeler (uçuş kartı 7 Ağustos'ta çıkarıldı — 2. bölümde zaten var) |
 | 4 | `hava-bolumu` | 🌤 Hava | Veri gelmezse gizli kalır (`hidden`), gelince nav yeniden kurulur |
-| 5 | `rota` | 🧭 Rota | Mobilde dikey akış, 1040 px üstünde yatay şerit |
-| 6 | `sehirler` | 🏙 Şehirler | 5 kart + galeri + lezzetler + favori kalpleri |
-| 7 | `program` | 🗓 Program | 9 günlük accordion, bugün olan gün vurgulanıp açılır |
-| 8 | `harita-bolumu` | 🗺 Harita | Leaflet; odak şeridi + 📍konum + ⛶tam ekran; `data-durum` ile bekliyor/tamam/yedek; altında çevrimdışı karo kutusu |
-| 9 | `ulasim` | 🚌 Ulaşım | 700 px altında kart görünümüne dönen tablo |
-| 10 | `dikkat` | ⚠ Dikkat | 10 kart, seviyeye göre kenar rengi ve etiket |
-| 11 | `pratik` | 💡 Pratik | Para, bütçe, elektrik, sağlık, adap, kelimeler |
-| 12 | `hazirlik` | ✔ Hazırlık | 10 maddelik liste + yedekleme kutusu + konfeti |
+| 5 | `sehirler` | 🏙 Şehirler | 5 kart + galeri + katlanır lezzetler + favori kalpleri |
+| 6 | `program` | 🗓 Program | 9 günlük accordion, bugün olan gün vurgulanıp açılır |
+| 7 | `harita-bolumu` | 🗺 Harita | Leaflet; odak şeridi + 📍konum + ⛶tam ekran; `data-durum` ile bekliyor/tamam/yedek; altında çevrimdışı karo kutusu |
+| 8 | `dikkat` | ⚠ Dikkat | 14 kart, seviyeye göre kenar rengi ve etiket |
+| 9 | `hazirlik` | ✔ Hazırlık | 10 maddelik liste + yedekleme kutusu + konfeti |
+
+**Sekmesi olmayan parça:** rota şeridi. Eskiden `rota` bölümüydü; 7 Ağustos'ta hero'nun
+içine, tek satır akan sık bir şerit olarak alındı (`#hero-rota`, `TUR.rota`'dan çizilir).
+
+**7 Ağustos'ta kaldırılan bölümler:** `rota` (şerit girişe taşındı, konaklama tablosu
+Cepte'de zaten vardı) · `ulasim` (bacaklar gün programında ve otobüs kartında) ·
+`pratik` (para/su/sağlık/kelimeler Dikkat ve Cepte'de; priz ve bahşiş maddeleri Dikkat'e
+yeni kart olarak taşındı). Şehir kartlarının altındaki yeme-içme kutusu da kaldırıldı,
+tekrarlanmayan maddeleri "🍽 Sofrada" kartına girdi.
 
 ---
 
@@ -395,6 +401,20 @@ kontrolü yapılmadı.**
 | 9 | 4 Ağu 2026 | **Konaklamalar işlendi:** üç Airbnb (adres + koordinat), taksiciye göster kutusu, Ohrid 19:00 kritik uyarısı, 19 Ağustos boşluğu, gizli kod alanları, haritada ev pinleri, Dıraç Arkeoloji Müzesi, `sw.js` v2 |
 | 14 | 6 Ağu 2026 | **Plan revizyonu** — dört yapısal karar (aşağıda), `gunler[].ozel` alanı eklendi, yedi gün baştan yazıldı |
 | 15 | 6 Ağu 2026 | **İki kişilik tema** (Derin'in şeker pembesi · Barış'ın koyu laciverdi), 19 lezzet görseli, katlanır "Ne yenir?" — sayfa 390 px'te 37.774 → 32.116 px |
+| 16 | 7 Ağu 2026 | **Ad "Balkanlar'da Aşk" oldu**, dört bölüm kaldırıldı (Rota · Ulaşım · Pratik · Cepte'deki uçuş kartı), rota şeridi girişe alındı — sayfa 390 px'te 32.116 → 26.526 px |
+
+### 7 Ağustos 2026 — sadeleştirme ve yeni ad
+
+- **Ad ve ton:** site "Balkanlar'da Aşk", giriş cümlesi turun aşk tatili olduğunu söylüyor,
+  15 Ağustos yıl dönümü metne girdi. Yedek dosyası kimliği (`balkan-kacamagi`) bilerek
+  değişmedi — eski yedekler reddedilmesin diye.
+- **Dört bölüm kaldırıldı,** hepsi tekrardı; kaldırılırken tekrarlanmayan maddeler
+  Dikkat bölümüne iki yeni kart olarak taşındı (🔌 Priz, bahşiş ve adap · 🍽 Sofrada).
+- **Rota şeridi girişe alındı** — ayrı sekme yerine hero'da tek satır akan sık bir şerit.
+- **Veri korundu:** `TUR.ulasim` ve `cepte.ucuslar` silinmedi; Bugün ekranı ve Günün Kartı
+  bunlardan okuyor. Silinen alanlar yalnızca gerçekten okuyucusu kalmayanlar:
+  `TUR.konaklama`, `TUR.pratik`, `TUR.yemeIcmeNotlari`.
+- **Ölü CSS temizlendi:** `.route*`, `.info*`, `.yeme-notlar`, `.cep-ucus*`, `.table-wrap`.
 
 ### 6 Ağustos 2026 — iki kişilik tema ve kısalan sayfa
 

@@ -1,7 +1,7 @@
 {
-  "name": "Balkan Kaçamağı",
+  "name": "Balkanlar'da Aşk",
   "short_name": "Balkan",
-  "description": "12-20 Ağustos 2026 Balkan turu programı: Priştine, Üsküp, Ohrid, Dıraç ve Tiran. Çevrimdışı çalışır.",
+  "description": "12-20 Ağustos 2026, Derin & Barış'ın Balkan yolculuğu: Priştine, Üsküp, Ohrid, Dıraç ve Tiran. Çevrimdışı çalışır.",
   "lang": "tr",
   "dir": "ltr",
   "start_url": "./",
@@ -10,7 +10,10 @@
   "orientation": "portrait-primary",
   "theme_color": "#0b2a45",
   "background_color": "#fbf7f1",
-  "categories": ["travel", "lifestyle"],
+  "categories": [
+    "travel",
+    "lifestyle"
+  ],
   "icons": [
     {
       "src": "./icon.svg",
