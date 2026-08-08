@@ -210,6 +210,14 @@ dokunmak gerekmez.**
   olarak basılır. Punto tek sayfaya sığacak şekilde otomatik seçilir (13,5 → 8 pt);
   sığmazsa en az öncelikli blok, acil cümleler, düşer. Kâğıt token kullanmaz, doğrudan
   siyah-beyaz yazar — iki tema da birebir aynı çıktıyı verir.
+- **Kartın PNG'si:** Günün Kartı'nın üst çubuğundaki **"⬇ Görsel"** düğmesi kartı
+  1080 × 1920 PNG olarak indirir (`balkan-2026-08-15.png`). Canvas'a **elle** çizilir,
+  harici kütüphane yoktur; metinler `measureText` ile kutuya sığdırılır, sığmayan tek
+  kelime harf harf kırılır. Amacı kartı tarayıcıdan bağımsız kılmak: galeriye iner,
+  kilit ekranına konur, çevrimdışı açılır. **Renkleri temaya bağlı değildir** (koyu zemin +
+  açık yazı, her iki temada aynı) — gerekçesi `progress.md` bölüm 5'teki istisna tablosunda.
+  ⚠ Kart HTML'i değişince bu fonksiyon **kendiliğinden değişmez**, elle güncellenmeli
+  (`gunKartiPNG`).
 - **Veri tutarlılık denetimi:** `?kontrol=1`. `TUR` objesini gezip sekiz grupta rapor
   basar: gün dizisi (`tarihISO` biçim · aralık · boşluksuz sıra), koordinatlar (hepsi
   Balkan kutusunda mı), kimlik tekrarları, `GUN_BACAK` ↔ `ulasim[].bacak`, hava

@@ -645,6 +645,70 @@ açısından beklenen kalıp bu.
 
 ## Yapılanlar
 
+### 8 Ağustos 2026 — yirmi üçüncü oturum
+
+**Günün Kartı → PNG (`⬇ Görsel`)**
+
+**1. Neden.** Günün Kartı HTML olduğu sürece üç şeye bağlı: tarayıcının açılmasına, service
+worker'ın kabuğu vermesine ve sekmenin yaşıyor olmasına. Batarya tasarrufu sekmeyi
+öldürdüğünde, tarayıcı çöktüğünde ya da telefon kilitliyken taksiciye uzatılacak bir şey
+kalmıyor. **PNG bunların hiçbirine bağlı değil:** galeriye iner, kilit ekranı duvar kâğıdı
+olur, mesajla gönderilir, çevrimdışı açılır.
+
+**2. Canvas'a ELLE çizildi — kütüphane yok.** `html2canvas` ve benzerleri Kural 4'e
+takılıyor; kart 1080 × 1920 tuvale doğrudan çiziliyor. Bunun bedeli açıkça yazıldı: yerleşim
+artık iki yerde tarif ediliyor (HTML kartı + `gunKartiPNG`), kart HTML'i değişince PNG
+kendiliğinden değişmez, elle güncellenmeli.
+
+**3. Yerleşim — öncelik sırasıyla.**
+
+| Bölge | İçerik |
+|---|---|
+| Üst | Tarih (64 px) + şehir rozeti; altında günün başlığı, varsa günün "özel" satırı (15 Ağustos → 2. yıl dönümü) |
+| Orta (ana öğe) | **Yerel alfabede adres**, kartın en büyük puntosu (108 → 48 px arası); altında latin karşılığı ya da sözlü tarif; sonra kapı kodu / kutu şifresi / wifi / ev sahibi telefonu / giriş-çıkış |
+| Orta (ikincil) | Bugünkü yol (bacak + kalkış otogarı) ve uçuş (sefer · rota · PNR) — yalnızca yer kaldıysa |
+| Alt | **Acil paneli sayfanın dibine SABİT**: 112, o ülkenin büyükelçiliği + nöbetçi hattı, o şehrin hastanesi |
+
+Özel günler: **19 Ağustos**'ta (turun tek konaklamasız gecesi) adresin yerini bagaj dolabı
+alır; **20 Ağustos**'ta ne ev ne dolap olduğu için uçuş bloğu büyüyüp ana öğe olur.
+
+**4. Yazı tipi ölçümü.** Bütün metinler `ctx.measureText` ile ölçülüp kutuya sığdırılıyor:
+punto merdiveni büyükten küçüğe deneniyor, satır sayısı sınırı aşılmıyorsa o punto
+seçiliyor. Kelime kelime sarılıyor; tek kelime kutuya sığmıyorsa **harf harf kırılıyor**
+(`Автобуска` gibi uzun Kiril kelimeleri kutudan taşıyordu). Orta blok **iki geçişte**
+kuruluyor: önce ölçülüyor, adres puntosu kalan boşluğa göre seçiliyor, sonra çiziliyor —
+tek geçişte punto tahmin edildiğinde kartın dibinde 300 px boşluk kalıyordu.
+
+**5. RENKLER TEMAYA BAĞLI DEĞİL — bilinçli Kural 6 istisnası.** Koyu lacivert zemin
+(`#0a1a2b` → `#0f2537`) + beyaz yazı + turkuaz etiket + kırmızı acil, hepsi sabit yazıldı.
+Gerekçe: görsel kilit ekranında, güneş altında, bilinmeyen bir parlaklıkta okunacak; token
+kullanılsaydı Derin'in şeker pembesi kilit ekranında okunaksız bir çıktı verirdi. İki temada
+da **birebir aynı** PNG üretiliyor. (Acil kâğıdındaki `#000/#fff` istisnasıyla aynı mantık,
+ters yönde.)
+
+**6. Emoji bilerek basılmıyor.** Canvas'ta emoji yazı tipi sisteme göre değişiyor ve bazı
+kurulumlarda boş kutu çıkıyor; günün "özel" satırı 🤍 olmadan, yalnızca metinle basılıyor.
+
+**7. Dosya adı** `balkan-2026-08-15.png` biçiminde; `toBlob` + object URL + `<a download>` —
+sitede `.ics` ve yedek dosyasında zaten kullanılan kalıbın aynısı.
+
+**8. Dokuz günün hepsi üretilip göz kontrolünden geçirildi.** Kiril (`Томе Арсовски 40б,
+Скопје 1000`, `Автобуска станица Охрид`, `Медицински центар Охрид`) ve Arnavutça
+(`Durrës`, `Autobusëve Prishtinë`, `Kosovës`, `QSU „Nënë Tereza“`) glifleri doğru basıyor.
+Üç düzeltme bu kontrolden çıktı: 15 Ağustos'ta dipteki 500 px boşluk (boşluk dağıtımı),
+20 Ağustos'ta havada asılı kalan ayırıcı çizgi (üstünde bir şey yoksa çizgi de yok) ve yine
+20 Ağustos'ta tek satırlık boş kart (uçuş ana öğe oldu).
+
+**9. Açık kalan (test ortamı kısıtı).** İndirmenin kendisi otomasyon oturumunda
+doğrulanamadı: bu Chrome profilinde site indirmeleri engellendiği için **sitede zaten
+çalışan `.ics` indirmesi de** dosya üretmedi. PNG aynı blob + `<a download>` kalıbını
+kullanıyor. Görseller tuvalden doğrudan alınıp incelendi. **Gerçek telefonda bir kez
+denenmeli.**
+
+`CACHE_VERSION` → `balkan-v15`.
+
+---
+
 ### 8 Ağustos 2026 — yirmi ikinci oturum
 
 **Veri tutarlılık denetimi — `?kontrol=1`**

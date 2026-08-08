@@ -9,8 +9,8 @@
 **Son güncelleme:** 8 Ağustos 2026
 **Depo:** https://github.com/kayalarbk/Balkanturu (`main`)
 **Yayın:** https://kayalarbk.github.io/Balkanturu/ (GitHub Pages, `main` / root — build adımı yok)
-**Son commit:** `0163588` + veri denetimi oturumu
-**Çalışma ağacı:** temiz · **Toplam commit:** 31 · **Oturum sayısı:** 22
+**Son commit:** `62ff142` + kart PNG'si oturumu
+**Çalışma ağacı:** temiz · **Toplam commit:** 32 · **Oturum sayısı:** 23
 
 ---
 
@@ -269,6 +269,7 @@ tekrarlanmayan maddeleri "🍽 Sofrada" kartına girdi.
 | **🏥 Hastaneler** | 5 şehrin ana hastanesi, koordinatı doğrulanmış (Wikidata + OSM). Cepte'de liste, haritada ✚ pini, Günün Kartı'nda o günkü şehrinki |
 | **🚌 Otogarlar** | 5 şehrin ana otogarı, koordinatı doğrulanmış (Wikidata + OSM, kaynak her kartta yazılı). Cepte'de liste, haritada turuncu 🚌 pini, Günün Kartı'nda o günün **kalkış otogarı** |
 | **📅 Takvim dosyası** | Hazırlık bölümünden inen **balkanlarda-ask.ics** — 11 etkinlik, alarmlar dosyanın içinde. iOS'ta PWA bildirimi güvenilmez olduğu için telefonun kendi takvim alarmına devrediliyor: site hiç açılmasa da çalar. Saatler **UTC + Z** (VTIMEZONE yok — gerekçesi aşağıda) |
+| **⬇ Kartın PNG'si** | Günün Kartı'nda "⬇ Görsel" — kart **1080 × 1920 PNG** olarak canvas'a **elle** çizilip iner (`balkan-2026-08-15.png`). Kütüphane yok. Tarayıcıya, service worker'a ve sekmenin yaşamasına bağlı olmayan tek kopya: galeriye iner, kilit ekranına konur. **Renkler temaya bağlı değil** (bilinçli istisna, aşağıda) |
 | **🔎 Veri tutarlılık denetimi** | `?kontrol=1` — `TUR` objesini gezip 8 grupta rapor basar: gün dizisi · koordinatlar (Balkan kutusu) · kimlikler · gün ↔ ulaşım · hava eşlemesi · yer tutucular · görseller · şehir ↔ harita. ❌ / ⚠️ / ✅ ve tam alan yolu. Normal render'a hiç dokunmaz. **İlk çalıştırma: 0 hata, 19 açık yer tutucu** |
 | **🖨 Acil çıktı kâğıdı** | `?yazdir=acil` — tek A4: üç adres (yerel alfabede büyük punto) + kapı kodu/wifi · iki uçuş (sefer · PNR · saat) · 112 + üç büyükelçilik + sigorta · sağlık kartı · buluşma noktaları · dört acil cümle. Boş alanlar **çizgi** basılır, "belirlenecek" yazmaz. Punto tek sayfaya sığacak şekilde otomatik seçilir; aydınlık ve koyu temada **birebir aynı** basar |
 | **🧭 Ayrı düşersek** | Sabit kural (saat başı 10 dk bekleme) + şehir başına buluşma noktası alanı (cihazda) |
@@ -324,6 +325,17 @@ Hepsi `localStorage`, **sunucuya hiçbir şey gitmez**, cihaza özeldir.
 kaybettirir; `gunler[].tarihISO` değiştirmek eski anı notunu erişilemez yapar;
 `kontrolListesi[].id` değiştirmek o maddenin işaretini sıfırlar; `cepte.konaklamalar[].id`
 değiştirmek o eve kaydedilmiş kodları erişilemez yapar.
+
+**⚠ Kural 6'nın (renk sabiti yazma, token kullan) İKİ BİLİNÇLİ İSTİSNASI var** — ikisi de
+sitenin DIŞINA çıkan çıktılar, ikisinin de renkleri sabittir:
+
+| Çıktı | Renk | Gerekçe |
+|---|---|---|
+| Acil kâğıdı (`?yazdir=acil`) | `#000` / `#fff` | Kâğıt her zaman beyazdır; token kullanılsaydı Derin'in pembesi ile Barış'ın laciverdi iki farklı çıktı verirdi |
+| Kartın PNG'si (`⬇ Görsel`) | koyu lacivert zemin + açık yazı | Görsel kilit ekranında, güneş altında, bilinmeyen parlaklıkta okunacak; pembe zemin orada okunaksız |
+
+İkisi de "hangi tema açıksa o" değil, **her zaman aynı** basar. Sitenin İÇİNDEKİ hiçbir şey
+bu istisnaya girmez — orada token kuralı aynen geçerli.
 
 **Gizlilik:** kapı ve wifi şifreleri bilinçli olarak kaynak koda konmaz (depo herkese açık).
 Yedek dosyası bu kodları **içerir** — yalnızca kendi cihazlarınızla paylaşın. Yazdırma
@@ -383,6 +395,10 @@ Yedek dosyası bu kodları **içerir** — yalnızca kendi cihazlarınızla payl
 | PNG'yi lezzet görseli seçmek | Commons PNG'lerde 640 px thumb `400` dönebiliyor ve tam boy dosya megabaytlarca olabiliyor (bir örnekte 820 KB) → fotoğraf için JPEG seç |
 | "Denetim 0 hata verdi" deyip geçmek | Sıfır sonucu denetimin ÇALIŞTIĞINI kanıtlamaz. `index.html`'in bilerek bozulmuş bir kopyasını ayrı porttan sun ve her kontrolün gerçekten ateşlendiğini gör (8 bozulma → 14 ❌ yakalandı) |
 | Render'dan önce dönen bir moda, aşağıda `const` ile tanımlanmış bir şeyi okutmak | `GUN_BACAK` render'ın ortasındaydı; denetim ondan önce döndüğü için ölü bölgeye düşerdi → tanımı dosyanın başına taşı, eski yerine yönlendiren not bırak |
+| Canvas'ta uzun tek kelime | Kelime kelime sarmak yetmiyor: `Автобуска` gibi tek kelime kutudan taşıyordu → sığmayan kelimeyi `measureText` ile **harf harf kır** |
+| Canvas yerleşimini tek geçişte kurmak | Ana öğenin puntosunu tahmin etmek 1080 × 1920'lik kartın dibinde 300 px boşluk bıraktı → önce ölçüm geçişi (çizmeden), punto seçimi, sonra çizim |
+| Canvas'ta emoji | Emoji yazı tipi sisteme göre değişiyor, bazı kurulumlarda boş kutu çıkıyor → görsele giren metinlerde emoji kullanma |
+| Tarayıcı otomasyonunda indirmeyi "çalışmıyor" sanmak | Chrome profili site indirmelerini engellediğinde **sitede zaten çalışan** `.ics` indirmesi de dosya üretmiyor. Yeni indirme kodunu suçlamadan önce bilinen-çalışan bir indirmeyi dene |
 | Kâğıda basılan ayrı bir sayfayı sitenin içine kurmak | Genel stiller sızıyor: `section:nth-of-type(even)` gradyanı **pembe zemin** bastı, `table{min-width:34rem}` tabloyu kâğıdın dışına taşırdı, `section{padding-block:10pt !important}` altı bloğa yalnızca **kâğıtta** 10'ar pt ekleyip sığdırma hesabını bozdu → kâğıdın kökünde sert sıfırlama (`.ay-sayfa *`) + genel yazdırma bloğundaki `!important`ları ismen geri alma |
 | Dikey flex'te `flex:1 1 4em` | `flex-basis` **ana eksendir**: sütun yönlü kapta 4em genişlik değil 4em **yükseklik** olur, `height` da onu yenemez → doldurma çizgisi satırı üç katına çıkardı; sütun yönlü kapta `flex:0 0 auto` + `min-width` yaz |
 | Yazdırma düzenini `!important` kuralın üstüne inline stille ölçmek | `.ay-sayfa{width:auto !important}` inline `style.width`'i yeniyor; ölçüm sessizce **viewport genişliğinde** yapıldı ve "kâğıt daha kısa" diye yanlış sonuç verdi → `setProperty(..., 'important')` ile ölç |
@@ -434,8 +450,42 @@ kontrolü yapılmadı.**
 | 18 | 8 Ağu 2026 | **Saat farkı riski kapatıldı** (🕐 kritik kart + iki gün uyarısı + iki kod hatası), **Cepte yedi sekmeye bölündü**, **kur defteri kaldırıldı**, `sw.js` v10 |
 | 19 | 8 Ağu 2026 | **Haritaya beş otogar:** koordinatlar Wikidata + OSM'den doğrulandı, Cepte'de 🚌 sekmesi, turuncu harita pini, Günün Kartı'nda kalkış otogarı, karolar 316 → 390, `sw.js` v11 |
 | 20 | 8 Ağu 2026 | **İndirilebilir .ics takvimi** (11 etkinlik, UTC damgalı, alarmlı) ve **Cepte yatay sekmeden alt alta akordeona** çevrildi, `sw.js` v12 |
+| 23 | 8 Ağu 2026 | **Kartın PNG'si** — Günün Kartı 1080 × 1920 PNG olarak canvas'a elle çiziliyor; dokuz günün hepsi üretilip göz kontrolünden geçti, `sw.js` v15 |
 | 22 | 8 Ağu 2026 | **Veri tutarlılık denetimi** — `?kontrol=1`, 8 grup, ❌/⚠️/✅ raporu; denetimin kendisi bozulmuş kopyayla doğrulandı, `sw.js` v14 |
 | 21 | 8 Ağu 2026 | **Acil çıktı kâğıdı** — `?yazdir=acil` tek A4'e sığan kâğıt yedeği (adres · PNR · acil numara · sağlık · buluşma · cümleler), boş alanlar çizgi, punto otomatik, iki temada aynı çıktı, `sw.js` v13 |
+
+### 8 Ağustos 2026 — Günün Kartı'nın PNG'si
+
+**1. Sorun.** Kart HTML olduğu sürece tarayıcıya, service worker'a ve sekmenin yaşamasına
+bağlı. Batarya tasarrufu sekmeyi öldürürse taksiciye uzatılacak bir şey kalmıyor.
+
+**2. Çözüm.** "⬇ Görsel" düğmesi kartı **1080 × 1920 PNG** olarak üretiyor; dosya adı
+`balkan-2026-08-15.png`. Canvas'a **elle** çiziliyor — `html2canvas` ve benzeri Kural 4'e
+takılıyor. Bedeli açık: yerleşim artık iki yerde tarif ediliyor, kart HTML'i değişince PNG
+kendiliğinden değişmez.
+
+**3. Yerleşim.** Üstte tarih + şehir + günün başlığı (varsa "özel" satırı); ortada **yerel
+alfabede adres** kartın en büyük puntosuyla (108 → 48 px), altında latin karşılığı, kapı
+kodu / wifi / telefon / giriş-çıkış; sonra yer kalırsa yol ve uçuş; **dipte sabit acil
+paneli** (112 · büyükelçilik + nöbetçi · hastane). 19 Ağustos'ta adresin yerini bagaj
+dolabı, 20 Ağustos'ta uçuş alır.
+
+**4. Ölçüm.** Her metin `measureText` ile kutuya sığdırılıyor; punto merdiveni denenip
+sığan en büyüğü seçiliyor, sığmayan tek kelime harf harf kırılıyor. Orta blok iki geçişte
+(önce ölçüm, sonra çizim) kuruluyor.
+
+**5. Renkler sabit — Kural 6 istisnası.** Gerekçe ve tablo yukarıda, "Tarayıcıda saklanan
+veriler" bölümünün sonunda.
+
+**6. Dokuz günün hepsi üretilip bakıldı.** Kiril ve Arnavutça glifleri doğru basıyor. Üç
+düzeltme bu kontrolden çıktı: 15 Ağustos'ta dipteki büyük boşluk, 20 Ağustos'ta havada
+asılı kalan ayırıcı çizgi ve tek satırlık boş kart.
+
+**7. Açık kalan:** indirmenin kendisi otomasyon oturumunda doğrulanamadı — o Chrome
+profilinde site indirmeleri engelli, **sitede zaten çalışan `.ics` indirmesi de** dosya
+üretmedi. Görseller tuvalden alınıp incelendi; **gerçek telefonda bir kez denenmeli.**
+
+---
 
 ### 8 Ağustos 2026 — veri tutarlılık denetimi (`?kontrol=1`)
 

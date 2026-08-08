@@ -38,12 +38,15 @@
    v14 — 8 Ağustos 2026: ?kontrol=1 — TUR objesini gezip 8 grupta rapor basan
         veri tutarlılık denetimi (gün dizisi, koordinatlar, kimlikler, gün ↔
         ulaşım, hava eşlemesi, yer tutucular, görseller, şehir ↔ harita).
+   v15 — 8 Ağustos 2026: Günün Kartı'nda "⬇ Görsel" — kart 1080 × 1920 PNG
+        olarak canvas'a elle çizilip indiriliyor (kütüphane yok). Kilit
+        ekranına konsun diye renkler temaya bağlı DEĞİL.
 
    ⚠ Leaflet artık index.html'in <head>'inde DEĞİL, harita bölümü yaklaşınca
    enjekte ediliyor. APP_SHELL'de kalması bilinçli: çevrimdışıyken harita
    bölümüne inildiğinde dosyalar cache'ten gelsin diye burada ön belleğe
    alınıyor — yükleme sayfayı yavaşlatmıyor, install arka planda yapıyor. */
-const CACHE_VERSION = "balkan-v14";
+const CACHE_VERSION = "balkan-v15";
 const SHELL_CACHE = CACHE_VERSION + "-shell";
 const HAVA_CACHE = CACHE_VERSION + "-hava";
 

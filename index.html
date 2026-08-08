@@ -3062,7 +3062,16 @@ html[data-tema="baris"] .karo-durum[data-tip="hata"]{ color:#ff8f7a; }
   width:44px; height:44px; display:grid; place-items:center; border-radius:var(--r-s);
   color:rgba(255,255,255,.85); font-size:1.35rem; line-height:1;
 }
-.kart-kapat{ font-size:1.1rem; margin-left:auto; }
+.kart-png{
+  all:unset; box-sizing:border-box; cursor:pointer; margin-left:auto;
+  min-height:44px; display:flex; align-items:center; gap:.3em;
+  padding:0 .7em; border-radius:var(--r-s); white-space:nowrap;
+  color:rgba(255,255,255,.9); font-size:.84rem; font-weight:700;
+  border:1px solid rgba(255,255,255,.28);
+}
+.kart-png:hover{ background:rgba(255,255,255,.14); color:#fff; }
+.kart-png:focus-visible{ outline:2px solid var(--c-teal-soft); outline-offset:-2px; }
+.kart-kapat{ font-size:1.1rem; margin-left:.35rem; }
 .kart-gez:hover, .kart-kapat:hover{ background:rgba(255,255,255,.14); color:#fff; }
 .kart-gez:focus-visible, .kart-kapat:focus-visible{ outline:2px solid var(--c-teal-soft); outline-offset:-2px; }
 .kart-gez[disabled]{ opacity:.3; cursor:default; }
@@ -4000,6 +4009,8 @@ section.dn-grup{
       <button class="kart-gez" id="kart-onceki" type="button" aria-label="Önceki gün">‹</button>
       <span class="kart-gun" id="kart-gun"></span>
       <button class="kart-gez" id="kart-sonraki" type="button" aria-label="Sonraki gün">›</button>
+      <button class="kart-png" id="kart-png" type="button"
+              title="Kartı PNG olarak indir — kilit ekranına koyabilirsin">⬇ Görsel</button>
       <button class="kart-kapat" id="kart-kapat" type="button" aria-label="Kartı kapat">✕</button>
     </div>
     <div class="kart-govde" id="kart-govde"></div>
@@ -7275,6 +7286,391 @@ section.dn-grup{
     return h;
   }
 
+  /* =====================================================================
+     GÜNÜN KARTI → PNG (1080 × 1920)
+     Neden var: kart HTML olduğu sürece bir tarayıcıya, bir service worker'a
+     ve bir "sayfayı açabiliyor olmaya" bağlı. Batarya tasarrufu sekmeyi
+     öldürdüğünde, tarayıcı çöktüğünde ya da telefon kilitliyken taksiciye
+     gösterilecek bir şey kalmıyor. PNG bunlardan hiçbirine bağlı değil:
+     galeriye iner, kilit ekranına konur, mesajla gönderilir.
+
+     ⚠ HARİCİ KÜTÜPHANE YOK. html2canvas benzeri bir şey getirmek yerine
+     canvas'a elle çiziliyor (Kural 4). Bunun bedeli: yerleşim burada ikinci
+     kez, ayrı bir dilde tarif ediliyor — kart HTML'i değişince bu fonksiyon
+     kendiliğinden değişmez, elle güncellenmeli.
+
+     ⚠ RENKLER TEMAYA BAĞLI DEĞİL — bilinçli istisna (Kural 6). Görsel kilit
+     ekranında, güneş altında, bilinmeyen bir parlaklıkta okunacak; koyu
+     zemin + açık yazı her iki temada da aynı basılır. Token kullanılsaydı
+     Derin'in pembesi kilit ekranında okunaksız bir çıktı verirdi.
+     ===================================================================== */
+  const PNG_EN = 1080, PNG_BOY = 1920, PNG_KENAR = 72;
+  /* Kiril (Скопје) ve Arnavutça (Durrës, Qemali) glifleri bu yığının
+     hepsinde var; canvas sistem yazı tipini kullanır, indirme yapmaz. */
+  const PNG_FONT = '"Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif';
+  const PNG_RENK = {
+    zemin: "#0a1a2b", zeminAlt: "#0f2537",
+    panel: "#14314a", cizgi: "#2b4c69",
+    ink: "#ffffff", soft: "#a9c4da",
+    vurgu: "#5fd0c0",     /* etiketler ve kod değerleri */
+    acil: "#ff7b6b"       /* 112 ve uyarı */
+  };
+
+  function gunKartiPNG(iso) {
+    const i = kartGunleri.indexOf(iso);
+    const g = TUR.gunler[i];
+    if (!g) return null;
+
+    const sehir = HV.gunSehir[iso] || (iso === "2026-08-20" ? "Yolda" : "—");
+    const konak = (C.konaklamalar || []).find((k) => (k.geceler || []).indexOf(iso) > -1);
+    const bacak = gunBacagi(iso);
+    const ucus = iso === "2026-08-12" ? C.ucuslar[0]
+      : (iso === "2026-08-19" || iso === "2026-08-20") ? C.ucuslar[1] : null;
+    const beAd = (C.buyukelcilikSehir || {})[sehir];
+    const be = beAd ? (C.acil || []).find((a) => a.ad === beAd) : null;
+
+    const tuval = document.createElement("canvas");
+    tuval.width = PNG_EN;
+    tuval.height = PNG_BOY;
+    const x = tuval.getContext("2d");
+
+    /* ---------- çizim yardımcıları ----------
+       `ciziyor` false iken hiçbir şey boyanmaz, yalnızca yükseklik döner.
+       Orta blok iki geçişte kuruluyor: önce ölçüm, sonra çizim (aşağıda). */
+    let ciziyor = true;
+    const font = (agirlik, punto) => agirlik + " " + punto + "px " + PNG_FONT;
+
+    /* Kelime kelime sar; tek kelime kutuya sığmıyorsa harf harf kır
+       (Автобуска gibi uzun tek kelimeler kutudan taşıyordu). */
+    function sar(metin, en) {
+      const cikti = [];
+      String(metin).split(/\s+/).filter(Boolean).forEach((k) => {
+        let kelime = k;
+        while (x.measureText(kelime).width > en && kelime.length > 1) {
+          let n = 1;
+          while (n < kelime.length && x.measureText(kelime.slice(0, n + 1)).width <= en) n++;
+          cikti.push(kelime.slice(0, n));
+          kelime = kelime.slice(n);
+        }
+        const son = cikti.length - 1;
+        if (son >= 0 && x.measureText(cikti[son] + " " + kelime).width <= en &&
+            cikti[son].length && !cikti[son].endsWith("-")) {
+          cikti[son] = cikti[son] + " " + kelime;
+        } else cikti.push(kelime);
+      });
+      return cikti.length ? cikti : [""];
+    }
+
+    /* Metni verilen genişliğe sığdırıp yazar. `puntolar` büyükten küçüğe
+       denenir, `enFazlaSatir`'ı aşmayan ilk punto seçilir.
+       `ciz:false` ile yalnızca yükseklik ölçülür (yerleşim provası). */
+    function metin(s, o) {
+      const puntolar = o.puntolar || [o.punto];
+      let secili = null;
+      for (let p = 0; p < puntolar.length; p++) {
+        x.font = font(o.agirlik || 600, puntolar[p]);
+        const satirlar = sar(s, o.en);
+        if (satirlar.length <= (o.enFazlaSatir || 99)) { secili = { punto: puntolar[p], satirlar }; break; }
+      }
+      if (!secili) {
+        const p = puntolar[puntolar.length - 1];
+        x.font = font(o.agirlik || 600, p);
+        secili = { punto: p, satirlar: sar(s, o.en).slice(0, o.enFazlaSatir || 99) };
+      }
+      const aral = Math.round(secili.punto * (o.aralik || 1.16));
+      if (ciziyor) {
+        x.fillStyle = o.renk || PNG_RENK.ink;
+        x.textBaseline = "top";
+        x.font = font(o.agirlik || 600, secili.punto);
+        secili.satirlar.forEach((satir, n) => x.fillText(satir, o.x, o.y + n * aral));
+      }
+      return secili.satirlar.length * aral;
+    }
+
+    /* Küçük büyük-harf etiket (BU GECE · ÜSKÜP) — harf arası elle açılır,
+       canvas'ta letter-spacing yok. */
+    function etiket(s, ex, ey, renk) {
+      if (!ciziyor) return 34;
+      x.font = font(700, 26);
+      x.fillStyle = renk || PNG_RENK.vurgu;
+      x.textBaseline = "top";
+      let ix = ex;
+      String(s).toLocaleUpperCase("tr").split("").forEach((h) => {
+        x.fillText(h, ix, ey);
+        ix += x.measureText(h).width + 3.2;
+      });
+      return 34;
+    }
+
+    /* Etiket + değer satırı (Kapı kodu · 4821#) */
+    function satir(et, deger, sy, o) {
+      o = o || {};
+      const etGen = 300;
+      if (ciziyor) {
+        x.font = font(600, 28);
+        x.fillStyle = PNG_RENK.soft;
+        x.textBaseline = "top";
+        x.fillText(et, PNG_KENAR, sy + 8);
+      }
+      const h = metin(deger, {
+        x: PNG_KENAR + etGen, y: sy, en: PNG_EN - PNG_KENAR * 2 - etGen,
+        puntolar: o.puntolar || [40, 34, 30], agirlik: 700,
+        renk: o.renk || PNG_RENK.ink, enFazlaSatir: o.enFazlaSatir || 2
+      });
+      return Math.max(h, 44) + 14;
+    }
+
+    function ayirac(sy) {
+      if (ciziyor) {
+        x.fillStyle = PNG_RENK.cizgi;
+        x.fillRect(PNG_KENAR, sy, PNG_EN - PNG_KENAR * 2, 2);
+      }
+      return 2;
+    }
+
+    /* ---------- zemin ---------- */
+    const bg = x.createLinearGradient(0, 0, 0, PNG_BOY);
+    bg.addColorStop(0, PNG_RENK.zemin);
+    bg.addColorStop(1, PNG_RENK.zeminAlt);
+    x.fillStyle = bg;
+    x.fillRect(0, 0, PNG_EN, PNG_BOY);
+
+    const EN = PNG_EN - PNG_KENAR * 2;
+    let y = PNG_KENAR;
+
+    /* ---------- 1) ÜST: tarih + şehir ---------- */
+    x.font = font(800, 64);
+    x.fillStyle = PNG_RENK.ink;
+    x.textBaseline = "top";
+    x.fillText(g.tarih, PNG_KENAR, y);
+    const tarihGen = x.measureText(g.tarih).width;
+
+    /* Şehir rozeti tarihin sağında; sığmazsa alt satıra iner */
+    (function () {
+      x.font = font(800, 30);
+      const yazi = String(sehir).toLocaleUpperCase("tr");
+      const gen = x.measureText(yazi).width + 44;
+      const rx = PNG_EN - PNG_KENAR - gen;
+      if (rx > PNG_KENAR + tarihGen + 24) {
+        x.fillStyle = PNG_RENK.vurgu;
+        const ry = y + 12, rh = 50;
+        x.beginPath();
+        x.roundRect(rx, ry, gen, rh, rh / 2);
+        x.fill();
+        x.fillStyle = PNG_RENK.zemin;
+        x.fillText(yazi, rx + 22, ry + 11);
+      }
+    })();
+    y += 78;
+    y += metin(g.baslik, {
+      x: PNG_KENAR, y, en: EN, puntolar: [32, 28], agirlik: 500,
+      renk: PNG_RENK.soft, enFazlaSatir: 2
+    });
+    /* Günün kendi anlamı (yalnızca `ozel` alanı olan günlerde). Emoji
+       BİLEREK basılmıyor: canvas'ta emoji yazı tipi sisteme göre değişiyor
+       ve bazı kurulumlarda boş kutu çıkıyor — metin her yerde okunur. */
+    if (g.ozel && g.ozel.metin) {
+      y += 10;
+      y += metin(g.ozel.metin, {
+        x: PNG_KENAR, y, en: EN, puntolar: [34, 30], agirlik: 700,
+        renk: PNG_RENK.vurgu, enFazlaSatir: 1
+      });
+    }
+    y += 22;
+    y += ayirac(y) + 30;
+
+    /* ---------- Alt blok (acil) önce ölçülür ----------
+       Acil bilgisi sayfanın DİBİNE sabitlenir: kart ne kadar dolu olursa
+       olsun 112 ve büyükelçilik aynı yerde durur, kilit ekranında göz
+       aramaz. Ortadaki blok kalan boşluğa sığdırılır. */
+    const acilSatirlari = [];
+    acilSatirlari.push(["Acil çağrı", "112 — polis · ambulans · itfaiye", PNG_RENK.acil]);
+    if (be) {
+      acilSatirlari.push([beAd.replace(/^T\.C\. /, ""), be.deger, null]);
+      if (be.nobetci) acilSatirlari.push(["Nöbetçi", be.nobetci, null]);
+    }
+    const hst = (C.hastaneler || []).find((h) => h.sehir === sehir);
+    if (hst) acilSatirlari.push(["Hastane", hst.ad, null]);
+
+    const acilYuksek = 34 + 16 + acilSatirlari.length * 58 + 24;
+    const altSinir = PNG_BOY - PNG_KENAR - 46 - acilYuksek;
+
+    /* ---------- 2) ORTA: kartın ana öğesi ----------
+       Öncelik sırası: bu geceki evin adresi > kodlar > yol / uçuş.
+
+       İKİ GEÇİŞ: blok önce `ciziyor=false` ile ÖLÇÜLÜR, adres puntosu
+       kalan boşluğa sığan en büyük değere ayarlanır, sonra ÇİZİLİR.
+       Tek geçişte punto tahmin edildiğinde kartın dibinde 300 px'lik bir
+       boşluk kalıyordu — adres kartın ana öğesi, boşluk onun olmalı. */
+    const ADRES_PUNTOLARI = [108, 100, 92, 84, 76, 68, 60, 54, 48];
+
+    /* Dönüş günü (20 Ağustos) gibi ne evi ne bagaj dolabı olan günlerde
+       kartın ana öğesi kalmıyor; o zaman uçuş bloğu büyüyüp onun yerine
+       geçer, yoksa sayfa tek satırla boş kalıyordu. */
+    const anaVar = !!konak || (iso === "2026-08-19" && !!C.bagajDolabi);
+
+    function ortaBlok(y0, adresPunto) {
+      let yy = y0;
+
+      if (konak) {
+        yy += etiket("Bu gece · " + konak.sehir, PNG_KENAR, yy);
+        yy += 6;
+        yy += metin(konak.kisaAd, {
+          x: PNG_KENAR, y: yy, en: EN, puntolar: [40, 34], agirlik: 700,
+          renk: PNG_RENK.soft, enFazlaSatir: 1
+        });
+        yy += 14;
+
+        /* ADRES — kartın en büyük puntosu, yerel alfabede */
+        yy += metin(konak.adresYerel || konak.adres, {
+          x: PNG_KENAR, y: yy, en: EN, puntolar: [adresPunto], agirlik: 800,
+          renk: PNG_RENK.ink, aralik: 1.08, enFazlaSatir: 5
+        });
+        yy += 10;
+        const alt = konak.adresYerel ? konak.adres : konak.tarif;
+        if (alt) {
+          yy += metin(alt, {
+            x: PNG_KENAR, y: yy, en: EN, puntolar: [34, 30, 26], agirlik: 500,
+            renk: PNG_RENK.soft, enFazlaSatir: 3
+          });
+        }
+        yy += 26;
+
+        /* Kodlar — boşsa "kaydedilmedi" yazar, sessizce atlanmaz:
+           "kod yok" ile "kaydetmeyi unuttuk" ayırt edilebilsin. */
+        (konak.gizliAlanlar || []).forEach((a) => {
+          const deger = gizliler[konak.id + "::" + a.ad];
+          const dolu = deger && String(deger).trim();
+          yy += satir(a.etiket, dolu ? String(deger).trim() : "kaydedilmedi",
+            yy, dolu ? {} : { renk: PNG_RENK.soft, puntolar: [30] });
+        });
+        (konak.telefonlar || []).forEach((t) => {
+          if (belliMi(t.numara)) yy += satir(t.etiket, t.numara, yy);
+        });
+        yy += satir(konak.geceler[0] === iso ? "Giriş" : "Çıkış",
+          konak.geceler[0] === iso
+            ? konak.girisPencere + " · " + konak.girisYontemi
+            : konak.cikisSaat + " · " + konak.cikisTarih,
+          yy, { puntolar: [32, 28] });
+
+      } else if (iso === "2026-08-19" && C.bagajDolabi) {
+        /* Turun tek konaklamasız gecesi: adresin yerini bagaj dolabı alır */
+        yy += etiket("Bu gece · konaklama yok", PNG_KENAR, yy);
+        yy += 6;
+        yy += metin("Gece uçuşu — valizler elde", {
+          x: PNG_KENAR, y: yy, en: EN, puntolar: [44], agirlik: 700,
+          renk: PNG_RENK.acil, enFazlaSatir: 2
+        });
+        yy += 26;
+        yy += etiket(C.bagajDolabi.etiket, PNG_KENAR, yy);
+        yy += 6;
+        yy += metin(C.bagajDolabi.adres, {
+          x: PNG_KENAR, y: yy, en: EN, puntolar: [Math.min(adresPunto, 84)], agirlik: 800,
+          renk: PNG_RENK.ink, aralik: 1.08, enFazlaSatir: 5
+        });
+        yy += 12;
+        yy += metin(C.bagajDolabi.not, {
+          x: PNG_KENAR, y: yy, en: EN, puntolar: [30, 26], agirlik: 500,
+          renk: PNG_RENK.soft, enFazlaSatir: 3
+        });
+        yy += 22;
+        yy += satir("Çıkış", "Dıraç'tan en geç 11:00", yy, { puntolar: [34] });
+        yy += satir("Hareket", "~23:30 havalimanına", yy, { puntolar: [34] });
+      }
+
+      /* ---------- 3) Yol / uçuş — yer kaldıysa ---------- */
+      if (bacak && yy + 150 < altSinir) {
+        /* Üstünde bir şey yoksa ayırıcı da yok: 20 Ağustos'ta havada asılı
+           kalan bir çizgi çıkıyordu. */
+        if (yy > y0) { yy += 8; yy += ayirac(yy) + 22; }
+        yy += etiket("Bugünkü yol", PNG_KENAR, yy);
+        yy += 4;
+        yy += metin(bacak.bacak, {
+          x: PNG_KENAR, y: yy, en: EN, puntolar: [46, 40], agirlik: 800,
+          renk: PNG_RENK.ink, enFazlaSatir: 2
+        });
+        yy += 8;
+        const kalkis = String(bacak.bacak).split("→")[0].trim();
+        const otogar = (C.otogarlar || []).find((o) => o.sehir === kalkis);
+        if (otogar && yy + 110 < altSinir) {
+          yy += satir("Otogar", otogar.ad, yy, { puntolar: [36, 32, 28] });
+        }
+        if (yy + 60 < altSinir) yy += satir("Süre", bacak.sure + " · " + bacak.durum, yy, { puntolar: [30] });
+      }
+      if (ucus && yy + 130 < altSinir) {
+        if (yy > y0) { yy += 8; yy += ayirac(yy) + 22; }
+        yy += etiket("Uçuş", PNG_KENAR, yy);
+        yy += 4;
+        yy += metin(ucus.sefer, {
+          x: PNG_KENAR, y: yy, en: EN,
+          puntolar: anaVar ? [42, 36, 32] : [Math.min(adresPunto, 84), 72, 60, 50],
+          agirlik: 800, renk: PNG_RENK.ink, aralik: 1.08, enFazlaSatir: 2
+        });
+        yy += 6;
+        yy += metin(ucus.rota, {
+          x: PNG_KENAR, y: yy, en: EN,
+          puntolar: anaVar ? [34, 30] : [56, 48, 40, 34],
+          agirlik: 600, renk: anaVar ? PNG_RENK.soft : PNG_RENK.ink,
+          aralik: 1.1, enFazlaSatir: 2
+        });
+        yy += 10;
+        yy += satir("PNR", ucus.pnr, yy,
+          { renk: PNG_RENK.vurgu, puntolar: anaVar ? [40, 34] : [52, 44, 36] });
+        if (!anaVar) yy += satir("Tarih", ucus.tarih, yy, { puntolar: [34, 30] });
+      }
+
+      return yy - y0;
+    }
+
+    ciziyor = false;
+    let adresPunto = ADRES_PUNTOLARI[ADRES_PUNTOLARI.length - 1];
+    for (let p = 0; p < ADRES_PUNTOLARI.length; p++) {
+      if (y + ortaBlok(y, ADRES_PUNTOLARI[p]) <= altSinir - 20) { adresPunto = ADRES_PUNTOLARI[p]; break; }
+    }
+    /* Kalan boşluğu dağıt: içeriği az olan günlerde (15 Ağustos gibi — yol
+       yok, uçuş yok) en büyük punto bile kartın dibinde 500 px boşluk
+       bırakıyordu. Acil bloğu dipte SABİT kalır (göz onu hep aynı yerde
+       arasın), ortadaki blok boşluğun bir kısmı kadar aşağı iner. */
+    const artan = altSinir - (y + ortaBlok(y, adresPunto));
+    ciziyor = true;
+    ortaBlok(y + (artan > 160 ? Math.min(artan * 0.42, 260) : 0), adresPunto);
+
+    /* ---------- 4) ALT: acil — sayfanın dibine sabit ---------- */
+    let ay = altSinir;
+    x.fillStyle = PNG_RENK.panel;
+    x.beginPath();
+    x.roundRect(PNG_KENAR - 24, ay - 20, EN + 48, acilYuksek + 8, 22);
+    x.fill();
+    ay += etiket("Acil", PNG_KENAR, ay, PNG_RENK.acil);
+    ay += 8;
+    acilSatirlari.forEach(([et, deger, renk]) => {
+      ay += satir(et, deger, ay, { renk: renk || PNG_RENK.ink, puntolar: [38, 32, 28], enFazlaSatir: 1 });
+    });
+
+    /* ---------- 5) Alt künye ---------- */
+    x.font = font(500, 24);
+    x.fillStyle = PNG_RENK.soft;
+    x.textBaseline = "alphabetic";
+    x.fillText("Balkanlar'da Aşk · " + iso, PNG_KENAR, PNG_BOY - PNG_KENAR + 10);
+
+    return tuval;
+  }
+
+  /* PNG'yi indir. toBlob eşzamansız; dosya adı balkan-YYYY-AA-GG.png. */
+  function gunKartiIndir(iso) {
+    const tuval = gunKartiPNG(iso);
+    if (!tuval) return;
+    tuval.toBlob((blob) => {
+      if (!blob) return;
+      const bag = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = bag;
+      a.download = "balkan-" + iso + ".png";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(bag), 1000);
+    }, "image/png");
+  }
+
   function kartCiz(iso) {
     kartISO = iso;
     const i = kartGunleri.indexOf(iso);
@@ -7309,6 +7705,7 @@ section.dn-grup{
 
   $("#btn-kart").addEventListener("click", () => kartAc(etkinISO));
   $("#kart-kapat").addEventListener("click", kartKapat);
+  $("#kart-png").addEventListener("click", () => gunKartiIndir(kartISO));
   kartOnceki.addEventListener("click", () => kartKay(-1));
   kartSonraki.addEventListener("click", () => kartKay(1));
   /* Karartıya dokununca kapan; çerçevenin içine dokunmak kapatmaz */
