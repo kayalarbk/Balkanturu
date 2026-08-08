@@ -6,11 +6,11 @@
 > **İlgili dosyalar:** planın tek doğruluk kaynağı `PLAN.md`, kullanım ve geliştirme
 > kılavuzu `README.md`. Bu dosya onların yerine geçmez; ikisinin üstünde bir *durum panosu*.
 
-**Son güncelleme:** 7 Ağustos 2026
+**Son güncelleme:** 8 Ağustos 2026
 **Depo:** https://github.com/kayalarbk/Balkanturu (`main`)
 **Yayın:** https://kayalarbk.github.io/Balkanturu/ (GitHub Pages, `main` / root — build adımı yok)
-**Son commit:** `64691e6` + çevrimdışı acil donanımı oturumu
-**Çalışma ağacı:** temiz · **Toplam commit:** 26 · **Oturum sayısı:** 17
+**Son commit:** `f55150b` + saat farkı / Cepte sekmeleri oturumu
+**Çalışma ağacı:** temiz · **Toplam commit:** 27 · **Oturum sayısı:** 18
 
 ---
 
@@ -107,8 +107,8 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 | `gunler` | **9 günlük program**: tarih, başlık, akış, notlar, `risk`, `uyari`, `giris`, **`ozel`**, gece | ✅ (6 Ağustos'ta yedi gün baştan yazıldı) |
 | `ulasim` | Bacak / süre / yöntem / durum. **Ayrı bölüm olarak basılmıyor**; Bugün ekranı ve Günün Kartı GUN_BACAK üzerinden buradan okuyor | ✅ tek "önceden alınacak" bacak Ohrid → Dıraç |
 | `harita` | Karo kaynağı, atıf, zoom (6–18, karo z16'ya kadar), havalimanları, yedek metin, **`odak`** şeridi metinleri, **`cevrimdisi`** karo tarifi | ✅ |
-| `dikkatEdilecekler` | **14 kart**, `seviye`: kritik / önemli / bilgi | ✅ (7 Ağustos'ta priz/bahşiş ve sofra kartları eklendi) |
-| `cepte` | Uçuş kodları, üç konaklama, **`bagajDolabi`**, **`rezervasyon`**, **`hastaneler`** (5 doğrulanmış koordinat), **`saglik`**, **`acilCumleler`** (12), **`bulusma`**, **`kur`**, acil numaralar, kelimeler | ⚠️ ev sahibi telefonları, rezervasyon kodları, 15 Ağustos mekânı ve sigorta hattı boş |
+| `dikkatEdilecekler` | **15 kart**, `seviye`: kritik / önemli / bilgi | ✅ (8 Ağustos'ta 🕐 saat farkı kartı en başa eklendi) |
+| `cepte` | Uçuş kodları, üç konaklama, **`bagajDolabi`**, **`rezervasyon`**, **`hastaneler`** (5 doğrulanmış koordinat), **`saglik`**, **`acilCumleler`** (12), **`bulusma`**, acil numaralar, kelimeler — **yedi sekme** | ⚠️ ev sahibi telefonları, rezervasyon kodları, 15 Ağustos mekânı ve sigorta hattı boş<br>ℹ️ `kur` 8 Ağustos'ta kaldırıldı |
 | `havaDurumu` | Open-Meteo ayarı, gün→şehir eşlemesi, mevsim normalleri, uyarı eşikleri | ✅ çalışıyor |
 | `yemeIcmeNotlari` | Şehir kartı altındaki yeme-içme kutusu | ✅ |
 | `pratik` | Para, bütçe, elektrik, sağlık, adap, kelimeler | ⚠️ bütçe boş |
@@ -219,12 +219,12 @@ alanı dışındaki karo halkasını yarıya indirir.
 |---|---|---|---|
 | 1 | `bugun` | 📌 Bugün | Yalnızca tarih 12–20 Ağustos 2026 aralığındayken görünür (`hidden`) |
 | 2 | `ucuslar` | ✈ Uçuş | PNR, saat, bagaj, gece uçuşu uyarısı |
-| 3 | `cepte` | 📱 Cepte | Konaklama, acil numaralar, temel kelimeler (uçuş kartı 7 Ağustos'ta çıkarıldı — 2. bölümde zaten var) |
+| 3 | `cepte` | 📱 Cepte | **Yedi sekme** (8 Ağustos): konaklama, acil numaralar, hastaneler, sağlık, ayrı düşersek, acil cümleler, kelimeler. Uçuş kartı 7 Ağustos'ta, kur defteri 8 Ağustos'ta çıkarıldı |
 | 4 | `hava-bolumu` | 🌤 Hava | Veri gelmezse gizli kalır (`hidden`), gelince nav yeniden kurulur |
 | 5 | `sehirler` | 🏙 Şehirler | 5 kart + galeri + katlanır lezzetler + favori kalpleri |
 | 6 | `program` | 🗓 Program | 9 günlük accordion, bugün olan gün vurgulanıp açılır |
 | 7 | `harita-bolumu` | 🗺 Harita | Leaflet; odak şeridi + 📍konum + ⛶tam ekran; `data-durum` ile bekliyor/tamam/yedek; altında çevrimdışı karo kutusu |
-| 8 | `dikkat` | ⚠ Dikkat | 14 kart, seviyeye göre kenar rengi ve etiket |
+| 8 | `dikkat` | ⚠ Dikkat | 15 kart, seviyeye göre kenar rengi ve etiket; ilki 🕐 saat farkı (kritik) |
 | 9 | `hazirlik` | ✔ Hazırlık | 10 maddelik liste + yedekleme kutusu + konfeti |
 
 **Gezinme artık çekmecede.** 7 Ağustos'ta yatay kaydırmalı şerit kaldırıldı: çubukta
@@ -268,7 +268,7 @@ tekrarlanmayan maddeleri "🍽 Sofrada" kartına girdi.
 | **🩺 Sağlık ve acil kişi** | Kan grubu, alerji, sürekli ilaç, poliçe no (kişi başına) + acil kişi. Kapı kodlarıyla aynı depo: **yalnızca cihazda**. Dolu alanlar Günün Kartı'nın acil bloğunda da çıkar |
 | **🏥 Hastaneler** | 5 şehrin ana hastanesi, koordinatı doğrulanmış (Wikidata + OSM). Cepte'de liste, haritada ✚ pini, Günün Kartı'nda o günkü şehrinki |
 | **🧭 Ayrı düşersek** | Sabit kural (saat başı 10 dk bekleme) + şehir başına buluşma noktası alanı (cihazda) |
-| **💱 Kur defteri** | Kur elle girilir, çevrimdışı saklanır, çarpım tablosu ondan hesaplanır. Sabit kur bilerek gömülmedi — eskir |
+| **Cepte sekmeleri** | Yedi kart alt alta değil sekmede: 🏨 Konaklama · 🆘 Acil numaralar · 🏥 Hastaneler · 🩺 Sağlık · 🧭 Ayrı düşersek · 💬 Acil cümleler · 🗣 Kelimeler. Ok tuşları + Home/End, 44 px hedef; **yazdırmada hepsi birden basılır** |
 | **🆘 İş başa düşerse** | 6 katlanır karar kartı: otobüs kaçtı · sınır · kutu açılmıyor · telefon bitti · pasaport · nakit |
 | **▦ İndirilen alan** | Haritada karo inen bölgeyi çizer: bölge kutusu + yol koridoru + şehir/ev çemberleri |
 | Konaklama kartı | Üç Airbnb: şehir/tarih başlığı, ev adı, tip, künye listesi (giriş · çıkış · ev sahibi · telefon · rezervasyon), mesafeler, ilan bağlantısı |
@@ -343,6 +343,9 @@ Yedek dosyası bu kodları **içerir** — yalnızca kendi cihazlarınızla payl
 | Leaflet sürüm yükseltme | SRI hash'i yeniden hesaplanmalı, yoksa harita yedeğe düşer |
 | `.cep-satir` etiket sütunu | Sağdaki değer uzayınca etiket kelimesi ortadan kırılıyordu ("Giri / ş") → etikete `flex:0 0 auto` |
 | Maps bağlantısını adresten üretmek | Adres yazımı yanlış yere düşebiliyor → **koordinattan** üret |
+| Tarih damgasına gelişigüzel ofset yazmak | Kalkış İstanbul'dan (**+03:00**), dönüş Tiran'dan (**+02:00**) — ikisi aynı değil. `donusISO` +03:00 yazıldığında geri sayım bir saat erken bitiyordu |
+| Gün eşleşmesine sabit saat dilimi varsaymak | `tarihISO` **bulunulan yerin** takvim günü; cihazın yerel tarihiyle karşılaştır. `+03:00` varsayılırsa cihaz UTC+2'deyken 00:00 – 01:00 arası bir gün ileri kayar |
+| Gün sayısını milisaniye farkından bulmak | Gün, kalkış saatinde döner (09:50'de) → **takvim gününden** hesapla (`gunFarki`) |
 | Kapı / wifi şifresi | Depo public: `TUR` objesine **asla** yazılmaz, `balkan2026.gizli` altında cihazda kalır |
 | `index.html` değişince | `sw.js` içindeki `CACHE_VERSION` artırılmalı, yoksa kurulu cihazlar eski sürümü görür |
 | `<dl>` ızgarasında `column-gap` | Satır ayırıcı çizgi sütunlar arasında kesiliyor → `gap:0` + `dt`'ye sağ padding |
@@ -419,6 +422,35 @@ kontrolü yapılmadı.**
 | 16 | 7 Ağu 2026 | **Ad "Balkanlar'da Aşk" oldu**, dört bölüm kaldırıldı (Rota · Ulaşım · Pratik · Cepte'deki uçuş kartı), rota şeridi girişe alındı — sayfa 390 px'te 32.116 → 26.526 px |
 
 | 17 | 7 Ağu 2026 | **Çevrimdışı acil donanımı:** yandan çekmece, 12 acil cümle, sağlık kartı, 6 akış kartı, 5 hastane, buluşma planı, kur defteri, yol koridoru karoları (236 → 316) |
+| 18 | 8 Ağu 2026 | **Saat farkı riski kapatıldı** (🕐 kritik kart + iki gün uyarısı + iki kod hatası), **Cepte yedi sekmeye bölündü**, **kur defteri kaldırıldı**, `sw.js` v10 |
+
+### 8 Ağustos 2026 — saat farkı, Cepte sekmeleri, kur defterinin kaldırılması
+
+**Saat farkı.** Türkiye UTC+3, üç durak ülkesi de yaz saatinde UTC+2 — tur boyunca saat
+**1 saat geri**. Sitede bu konuda tek satır uyarı yoktu. Eklendi: `dikkatEdilecekler`'in
+başına 🕐 **kritik** kart, 12 Ağustos gününe `uyari` satırı (inince saat geri gidiyor),
+20 Ağustos gününe not (02:15 TIA kalkışı yerel saat, Türkiye'de 03:15).
+
+**Kod denetimi — istenen dört nokta:**
+
+| Ne | Sonuç |
+|---|---|
+| `donusISO` | ❌ **Hataydı:** `+03:00` yazıyordu ama 02:15 Tiran'ın yerel saati → `+02:00` oldu. Geri sayım bir saat erken bitiyor, uçak kalkmadan "Tur tamamlandı" yazıyordu |
+| `kalkisISO` | ✅ Doğru: `+03:00`, İstanbul kalkışı. Dokunulmadı |
+| Geri sayım "Turun N. günü" | ❌ **Hataydı:** milisaniye farkından hesaplanıyordu, gün 09:50'de dönüyordu (13 Ağustos 08:00'de hâlâ "1. gün"). Takvim gününe çevrildi (`gunFarki`), gün 00:00'da dönüyor |
+| `tarihISO` eşleşmesi (Bugün ekranı, program, Günün Kartı) | ✅ **Denetlendi, sorun yok.** Eşleşme cihazın **yerel** takvim gününden yapılıyor; `tarihISO` zaten bulunulan yerin takvim günü olduğu için cihaz UTC+2'deyken 00:00 – 01:00 arası da doğru gün çıkıyor. Sabit `+03:00` varsayılsaydı o aralık bir gün ileri kayardı. Gerekçe koda yorum olarak yazıldı |
+| Hava durumu "N gün sonra tahmin" | Sabit `+03:00` kullanıyordu, aynı takvim günü hesabına çevrildi. Dosyada başka sabit saat dilimi kalmadı |
+
+**Cepte sekmelere bölündü.** Yedi kart alt alta çok uzun bir sütundu. Artık yatay kaydırılan
+sekme çubuğu, aynı anda tek kart açık. Kartlar DOM'da yerinde kalıyor (yalnızca `hidden`),
+yani delege edilmiş dinleyiciler ve cihazda saklanan alanlar aynen çalışıyor. Sekme çubuğunu
+JS kuruyor — **JS kapalıysa bölüm eski uzun listesine dönüyor**. Yazdırmada çubuk gizli,
+yedi kartın hepsi basılıyor.
+
+**Kur defteri kaldırıldı.** Telefondaki para uygulamaları aynı işi güncel kurla yapıyor; elle
+girilen kur eskiyip yanıltıyordu. Veri, kart, hesap fonksiyonu ve `.kur-*` CSS'i silindi;
+hazırlık listesindeki "Kur girilecek" maddesi de kalktı. Cihazda kalmış `kur::*` kayıtları
+zararsız. Para bilgisi **💱 Para ve ödeme** kartında duruyor.
 
 ### 7 Ağustos 2026 — çevrimdışı acil donanımı
 
@@ -431,6 +463,7 @@ Site *program* olarak çevrimdışı tamdı, *başımıza iş geldi* anında zay
 - **Akış kartları** — "iş başa düşerse" altı senaryo.
 - **Hastaneler** — koordinatları Wikidata/OSM'den doğrulanmış, haritada pin.
 - **Buluşma planı ve kur defteri** — ikisi de cihazda, kur elle girilip çevrimdışı hesaplanıyor.
+  _(Kur defteri 8 Ağustos'ta kaldırıldı; buluşma planı duruyor.)_
 - **Yol koridoru** — Ohrid–Dıraç dâhil şehirler arası yol artık karo kapsamında.
 
 ⚠ Açık iş: acil cümlelerin çevirisi anadili bilen biriyle doğrulanmadı (PLAN → Bekleyenler).
@@ -510,6 +543,9 @@ Ayrıntılı oturum günlüğü (sebep–çözüm anlatımıyla): `PLAN.md` → 
       Luli, Harri Truman Meydanı karşısı; 7/24 self-servis dolap, rezervasyon yok, saatlik
       150 ALL'den, nakit ve kart
 - [ ] Yerel eSIM ya da roaming tarifesi kararı
+- [ ] 🕐 **12 Ağustos'ta inince iki telefonun da saat dilimini doğrula** — UTC+3 → UTC+2;
+      otomatik güncellemediyse elle "Orta Avrupa Yaz Saati". Alarmlar ve otobüs saatleri
+      buna bağlı (sitede 🕐 kritik kart olarak yazılı)
 - [ ] 20 Ağustos 04:50 SAW inişi sonrası eve dönüş planı
 
 ### Site — veri girilince kendiliğinden çalışacak

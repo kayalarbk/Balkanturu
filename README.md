@@ -72,7 +72,7 @@ dokunmak gerekmez.**
 | `ulasim` | Ulaşım özeti tablosu: bacak, süre, yöntem, durum |
 | `harita` | Harita ayarları: karo kaynağı ve atıf, zoom sınırları, havalimanları, yedek metin, `odak` (şerit metinleri ve zoom seviyeleri), `cevrimdisi` (indirilecek karo tarifi) |
 | `dikkatEdilecekler` | "Nelere dikkat etmeli" kartları: ikon, başlık, `seviye`, maddeler |
-| `cepte` | Cepte bölümü: uçuş kodları, konaklamalar (adres/koordinat/giriş/gizli alanlar), acil numaralar, temel kelimeler |
+| `cepte` | Cepte bölümü: uçuş kodları, konaklamalar (adres/koordinat/giriş/gizli alanlar), hastaneler, sağlık, buluşma, acil cümleler, acil numaralar, temel kelimeler. Kartlar sekmelere bölünür — sekme adı/ikonu kartı eklerken `cepKartEkle(ikon, etiket, kart)` çağrısında verilir |
 | `havaDurumu` | Open-Meteo ayarları, gün→şehir eşlemesi, mevsim normalleri, uyarı eşikleri |
 | `yemeIcmeNotlari` | Şehir kartlarının altındaki yeme-içme notları kutusu |
 | `pratik` | Pratik bilgi kartları: para, bütçe, elektrik, sağlık, adap, kelimeler |

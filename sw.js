@@ -29,7 +29,7 @@
    enjekte ediliyor. APP_SHELL'de kalması bilinçli: çevrimdışıyken harita
    bölümüne inildiğinde dosyalar cache'ten gelsin diye burada ön belleğe
    alınıyor — yükleme sayfayı yavaşlatmıyor, install arka planda yapıyor. */
-const CACHE_VERSION = "balkan-v9";
+const CACHE_VERSION = "balkan-v10";
 const SHELL_CACHE = CACHE_VERSION + "-shell";
 const HAVA_CACHE = CACHE_VERSION + "-hava";
 

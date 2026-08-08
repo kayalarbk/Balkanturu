@@ -11,6 +11,13 @@
 
 ## 1. Uçuşlar (bilet üzerinden, kesin)
 
+> 🕐 **Bu dosyadaki ve sitedeki bütün saatler YEREL saattir.** Türkiye UTC+3; Kosova, Kuzey
+> Makedonya ve Arnavutluk yaz saatinde UTC+2 — yani tur boyunca saat Türkiye'den **1 saat
+> geri**. 09:50 SAW kalkışı Türkiye saati, 10:30 PRN inişi Kosova saatidir (uçuş 1 sa 40 dk,
+> tabloda görünen 40 dakika değil). Aynı şekilde 02:15 TIA kalkışı Arnavutluk saatidir,
+> Türkiye'de 03:15 eder. `index.html` içindeki `kalkisISO`/`donusISO` damgaları bu yüzden
+> **farklı ofset taşır** (+03:00 / +02:00) — geri sayım mutlak anı oradan okur.
+
 ### Gidiş — 12 Ağustos 2026, Çarşamba
 | | |
 |---|---|
@@ -135,6 +142,8 @@
 - _En iyi saat:_ Üsküp merkezi akşam en iyi hâlinde; köprü ve meydan ışıklı, Eski Çarşı canlı.
 - _Dikkat:_ Priştine merkezi 1,5 km'ye sığıyor, dört saat rahat yetiyor — Graçanitsa ya da
   Prizren eklemeye kalkma.
+- 🕐 _Dikkat:_ Priştine'ye inince saat **1 saat geri** gidiyor (Türkiye UTC+3 → Kosova UTC+2).
+  Bugünden itibaren bütün saatler yerel saat. Uçak modundan çıkınca telefonun saatini doğrula.
 - _İpucu:_ Kosova euro kullanıyor; havalimanından çıkarken bir miktar euro nakit bulundur.
 - _İpucu:_ Üsküp otobüsünün biletini merkeze inmeden değil, öğleden sonra otogara giderken al;
   hat sık ama ağustosta doluyor.
@@ -296,6 +305,8 @@ _Bu gün bilerek boş. Program yazılmadı, yazılmayacak._
 - 02:15 Tiran Nene Tereza'dan kalkış (PC284)
 - 04:50 İstanbul Sabiha Gökçen'e iniş
 - _Dikkat:_ takvimde 20 Ağustos, pratikte 19 Ağustos gecesi.
+- 🕐 _Dikkat:_ 02:15 TIA kalkışı **yerel saattir** (Arnavutluk UTC+2) — Türkiye'de 03:15 eder.
+  İstanbul'a inince saat 1 saat ileri gidiyor; 04:50 inişi de yerel, yani Türkiye saati.
 - _Dikkat:_ 04:50 inişinde metro henüz açık değil. Eve dönüş kararını (bekle / taksi / servis)
   kalkıştan önce ver.
 - ⚠️ _Bu günün riski:_ 02:15 kalkış = 00:15'te havalimanında olmak. Bu gece uykusuz geçecek,
@@ -349,6 +360,17 @@ _Bu gün bilerek boş. Program yazılmadı, yazılmayacak._
 
 Korkutmak için değil — önceden bilinirse hiçbiri sorun olmaz. Sitede ayrı bölüm olarak duruyor
 (`TUR.dikkatEdilecekler`), seviye etiketleri: **kritik / önemli / bilgi**.
+
+### 🕐 Saat farkı — KRİTİK
+- Kosova, Kuzey Makedonya ve Arnavutluk yaz saatinde **UTC+2**; Türkiye **UTC+3**. Üç ülkede de
+  yerel saat Türkiye'den **1 saat geri**.
+- 12 Ağustos'ta Priştine'ye inince saat geri, 20 Ağustos'ta İstanbul'a inince ileri gidiyor.
+  Türkiye'de 11:30 iken Ohrid'de 10:30.
+- Sitedeki ve bu plandaki **tüm saatler yerel saattir**: otobüs saatleri, Ohrid anahtar kutusu
+  penceresi (13:00 – 19:00), giriş-çıkış saatleri ve uçuş saatleri dâhil.
+- Telefon saat dilimini otomatik güncelliyorsa **uçak modundan çıkar çıkmaz kontrol et** —
+  güncellenmediyse bütün alarmlar bir saat kayar.
+- Otomatik güncellemeye güvenme: dilimi elle "Orta Avrupa Yaz Saati (UTC+2)" yapmak en garantisi.
 
 ### 🔑 Eve giriş pencereleri — önemli
 - Ohrid'de anahtar kutusu 13:00 – 19:00 arası çalışıyor. **Üsküp'ten sabah otobüsüyle çıkıldığı
@@ -607,6 +629,61 @@ açısından beklenen kalıp bu.
 
 ## Yapılanlar
 
+### 8 Ağustos 2026 — on sekizinci oturum
+
+**Saat farkı riski kapatıldı, Cepte sekmelere bölündü, kur defteri kaldırıldı**
+
+**1. Saat farkı — turun sessiz riski.** Türkiye UTC+3, üç durak ülkesi de yaz saatinde UTC+2.
+12 Ağustos'ta inince telefon bir saat geri gidiyor ve sitede bu konuda **tek satır uyarı
+yoktu**. Kapatılan yerler:
+
+| Nereye | Ne yazıldı |
+|---|---|
+| `TUR.dikkatEdilecekler` | Yeni **🕐 Saat farkı — kritik** kartı, listenin en başında (beş madde) |
+| 12 Ağustos günü (`uyari`) | "Priştine'ye inince saat 1 saat GERİ gidiyor… bütün saatler yerel saattir" |
+| 20 Ağustos günü (`notlar`) | "02:15 TIA kalkışı YEREL saattir (UTC+2) — Türkiye'de 03:15 eder" |
+| `PLAN.md` §1 | Uçuş tablolarının başına yerel saat kutusu; §6'ya aynı kart |
+
+**2. Kod denetimi — iki gerçek hata bulundu, ikisi de çözüldü.**
+
+- ⚠️ **`donusISO` yanlış ofset taşıyordu:** `2026-08-20T02:15:00+03:00`. Ama 02:15 Tiran'ın
+  yerel saati, yani `+02:00`. Geri sayım **bir saat erken** bitiyordu: uçak daha kalkmadan
+  "Tur tamamlandı 🏠" yazacaktı. Düzeltildi. `kalkisISO` (+03:00, İstanbul) doğruydu, duruyor.
+- ⚠️ **"Turun N. günü" milisaniye farkından hesaplanıyordu:** `(simdi - kalkis) / 86400000`.
+  Kalkış 09:50 olduğu için gün 09:50'de dönüyordu — 13 Ağustos sabah 08:00'de hâlâ "1. gün"
+  yazıyordu; 12 Ağustos'taki UTC+3 → UTC+2 geçişi kaymayı bir saat daha büyütüyordu. Artık
+  **takvim gününden** hesaplanıyor (`gunFarki`), gün 00:00'da dönüyor.
+- ✅ **`tarihISO` eşleşmesi (Bugün ekranı, gün gün program, Günün Kartı): sorun yok.** Eşleşme
+  cihazın **yerel** takvim gününden yapılıyor ve bu doğrusu: `tarihISO` bulunulan yerin takvim
+  günüdür, "13 Ağustos" Ohrid'de 13 Ağustos demektir. Cihaz UTC+2'deyken 00:00 – 01:00 arası
+  da doğru günü gösteriyor. Sabit `+03:00` varsayılsaydı o saat aralığı **bir gün ileri**
+  kayardı — tam da kaçınılan hata. Gerekçe koda yorum olarak yazıldı (`yerelISO`).
+- Hava durumundaki "N gün sonra gerçek tahmin gelecek" sayacı sabit `+03:00` kullanıyordu;
+  aynı takvim günü hesabına çevrildi. Dosyada başka sabit saat dilimi kalmadı.
+
+**3. Cepte sekmelere bölündü.** Yedi kart alt alta dizildiği için bölüm telefonda çok uzun
+bir sütundu; aranan kart kaydırmayla bulunuyordu. Artık üstte yatay kaydırılan bir sekme
+çubuğu var, aynı anda tek kart açık: 🏨 Konaklama · 🆘 Acil numaralar · 🏥 Hastaneler ·
+🩺 Sağlık · 🧭 Ayrı düşersek · 💬 Acil cümleler · 🗣 Kelimeler.
+
+- Kartlar DOM'da yerinde kalıyor, yalnızca `hidden` alıyor — delege edilmiş dinleyiciler ve
+  cihazda saklanan alanlar aynen çalışıyor.
+- `role="tablist" / tab / tabpanel`, ok tuşları + Home/End ile gezinme, 44 px dokunma hedefi.
+- Sekme çubuğunu JS kuruyor: **JS kapalıysa hiçbir kart gizlenmiyor**, bölüm eski uzun
+  listesine dönüyor.
+- **Yazdırmada sekme çubuğu gizli, yedi kartın hepsi basılıyor** — çıktının bütün olayı
+  kapıda elde kalan kâğıt olması.
+
+**4. Kur defteri kaldırıldı.** Telefondaki her para uygulaması aynı işi güncel kurla yapıyordu;
+elle girilen kur eskiyip yanıltma riski taşıyordu. `TUR.cepte.kur`, kart, hesap fonksiyonu ve
+`.kur-*` CSS'i silindi. Cihazda kalmış `kur::*` kayıtları zararsız (yedek dosyasında görünür).
+Hazırlık listesindeki "Kur girilecek" maddesi de kalktı. Para bilgisi **💱 Para ve ödeme**
+kartında duruyor.
+
+**Ölçüm:** üç inline script sözdizimi temiz, konsolda hata yok, yedi sekme kuruluyor ve
+tıklama/ok tuşu/Home/End ile doğru panele geçiyor, etkin sekme çubuk içinde görünür kalıyor.
+`?tarih=2026-08-13` ile Bugün ekranı doğru günü açıyor. `sw.js` **v10**.
+
 ### 7 Ağustos 2026 — on yedinci oturum
 
 **"Her sıkıntımızda yanımızda" — çevrimdışı acil donanımı**
@@ -667,6 +744,7 @@ boş bırakıldı, cihazda doldurulacak.
 **9. Kur defteri.** Sabit kur **gömülmedi** — yola çıkana kadar eskir. Kuru bir kez elle
 giriyorsun, çevrimdışı saklanıyor, çarpım tablosu ondan hesaplanıyor (virgüllü yazım da
 kabul: `47,5`). Doğrulandı: 20 € × 47,5 = 950 TL.
+_(→ 8 Ağustos'ta **kaldırıldı**; aşağıya bak.)_
 
 **Ek düzeltme:** çubuk düğmeleri 40 px'ti, 44 px'e çıkarıldı — telefonda acil durumda
 basılacak düğmeler dokunma hedefinin altında kalmasın.
@@ -1380,7 +1458,6 @@ her genişlikte blok listesi. Önceki turun mobil düzeltmeleri bozulmadı.
       durumda aranacak kişi. Cepte → Sağlık; yalnızca cihazda kalır, iki telefona da girilmeli
 - [ ] **Buluşma noktaları seçilecek** — beş şehir için birer nokta (Cepte → Ayrı düşersek).
       Kural hazır: her tam saatte 10 dakika bekleme
-- [ ] **Kur girilecek** — yola çıkmadan EUR / MKD / ALL kurları (Cepte → Kur defteri)
 - [ ] **Ohrid Yaz Festivali'nin 15 Ağustos programı ve bileti** — festival 12 Temmuz – 20 Ağustos
       2026 arası; `ohridskoleto.com.mk`, bilet `tickets@ohridskoleto.com.mk`
 - [ ] **15 Ağustos akşam yemeği rezervasyonu** — yıl dönümü masası; Fisherman's House Kaneo
