@@ -32,12 +32,15 @@
    v12 — 8 Ağustos 2026: indirilebilir .ics takvim dosyası (11 etkinlik, UTC
         damgalı, alarmlı) ve Cepte'nin yatay sekme şeridi alt alta akordeona
         çevrildi.
+   v13 — 8 Ağustos 2026: ?yazdir=acil — tek A4'e sığan acil çıktı kâğıdı
+        (adresler, PNR'lar, acil numaralar, sağlık kartı, buluşma noktaları,
+        acil cümleler). Sayfanın geri kalanı bu modda hiç kurulmuyor.
 
    ⚠ Leaflet artık index.html'in <head>'inde DEĞİL, harita bölümü yaklaşınca
    enjekte ediliyor. APP_SHELL'de kalması bilinçli: çevrimdışıyken harita
    bölümüne inildiğinde dosyalar cache'ten gelsin diye burada ön belleğe
    alınıyor — yükleme sayfayı yavaşlatmıyor, install arka planda yapıyor. */
-const CACHE_VERSION = "balkan-v12";
+const CACHE_VERSION = "balkan-v13";
 const SHELL_CACHE = CACHE_VERSION + "-shell";
 const HAVA_CACHE = CACHE_VERSION + "-hava";
 

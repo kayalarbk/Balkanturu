@@ -645,6 +645,64 @@ açısından beklenen kalıp bu.
 
 ## Yapılanlar
 
+### 8 Ağustos 2026 — yirmi birinci oturum
+
+**Acil çıktı kâğıdı — `?yazdir=acil`**
+
+**1. Neden.** Sitenin yazdırma çıktısı bugüne kadar **bütün siteyi** basıyordu (8-10 sayfa:
+program, şehirler, hazırlık, Cepte kartlarının tamamı). Kâğıt yedeğinin asıl senaryosu ise
+tek ve dar: **telefon ölür ya da çalınır**. O anda cepteki kâğıt tek yedek olur ve o kâğıdın
+katlanıp cüzdana girmesi, tek bakışta okunması gerekir. Sekiz sayfalık dosya bu işi görmez.
+
+**2. Ayrı bir mod, ayrı bir sayfa.** `?yazdir=acil` parametresiyle açıldığında render
+betiği gövdeyi boşaltıp yerine tek bir A4 kâğıdı koyuyor ve **oradan çıkıyor** — harita,
+hava durumu, geri sayım, galeri, service worker güncelleme şeridi, hiçbiri kurulmuyor.
+Ekranda görünen şey kâğıdın kendisi (aynı kutu, aynı ölçü, aynı renkler); üstünde yalnızca
+"🖨 Yazdır" düğmesi ve siteye dönüş bağlantısı var, ikisi de çıktıda gizleniyor.
+
+**3. İçerik — bir A4'e sığacak kadarı, öncelik sırasıyla.**
+
+| Blok | İçerik |
+|---|---|
+| Konaklama | Üç ev yan yana: **yerel alfabede adres büyük puntoyla**, altında latin karşılığı (Dıraç'ta sözlü tarif), kapı kodu / kutu şifresi / wifi, varsa tesis telefonu |
+| Uçuşlar | Gidiş ve dönüş: sefer, rota + saat, PNR, tarih; dönüşte gece uçuşu uyarısı |
+| Acil numaralar | 112 çerçeveli ve iri; Priştine · Üsküp · Tiran büyükelçilikleri santral + nöbetçi; seyahat sigortası hattı |
+| Sağlık | Kan grubu · alerji · sürekli ilaç · poliçe no — Barış / Derin sütunları; altında acil durumda aranacak kişi ve telefonu |
+| Ayrı düşersek | Beş şehrin buluşma noktası + saat başı kuralı |
+| Acil cümleler | Dört cümle, TR · Arnavutça · Makedonca (sığmazsa **ilk düşen blok budur**) |
+
+**4. Boş alan "belirlenecek" diye basılmaz, ÇİZGİ basılır.** Kapı kodları, sağlık bilgisi ve
+buluşma noktaları yalnızca cihazdaki `balkan2026.gizli` deposunda duruyor (depoya asla
+yazılmaz). Kayıtlıysa değer basılıyor; değilse elle doldurulacak bir çizgi. Aynı kural
+TUR'daki `belirlenecek` / `kontrol edilecek` yer tutucuları için de geçerli — sigorta hattı
+henüz alınmadığı için çizgi olarak basılıyor. Kâğıdın amacı "eksik bilgi bildirmek" değil,
+**eksiği elde doldurtmak**.
+
+**5. Tek sayfaya sığdırma otomatik.** Kâğıdın bütün ölçüleri tek bir `--ay-punto`
+değişkenine bağlı (`em`). Render'dan sonra 13,5 pt'den 8 pt'ye inen bir merdiven deneniyor
+ve **sığan ilk (en iri) punto** seçiliyor; A4'ün yazı alanı 182 × 269 mm (`@page margin
+14 mm`). En küçük puntoda bile taşıyorsa acil cümleler bloğu düşürülüyor ve merdiven baştan
+deneniyor. Bugünkü içerik **12,8 pt**'de sığıyor, ~20 mm boşluk kalıyor.
+
+**6. Doğrulandı (Chrome, yerel sunucu).** Aydınlık (Derin) ve karanlık (Barış) temada
+çıktı **birebir aynı**: kâğıt token kullanmıyor, doğrudan `#000` / `#fff` yazıyor. Yazdırma
+kuralları `@media print` → `all` yapılarak ekranda simüle edildi; kenar boşluğu kırpması yok,
+yatay taşma yok, içerik 182 mm'nin içinde. Boş ve dolu (kayıtlı kod) hâlleri, bir de yapay
+olarak şişirilmiş içerikle düşürme yolu ayrı ayrı denendi.
+
+**7. Yol boyunca çıkan üç tuzak** (üçü de progress.md → Tuzaklar'a eklendi):
+`section:nth-of-type(even)` gradyanı kâğıda pembe zemin basıyordu; genel `table{min-width:34rem}`
+sağlık tablosunu kâğıdın dışına taşırıyordu; genel yazdırma bloğundaki
+`section{padding-block:10pt !important}` altı bloğa kâğıtta 10'ar pt ekleyip sığdırma
+hesabını bozuyordu.
+
+**8. Giriş noktası.** Cepte bölümünün girişine bir satır eklendi:
+"Telefon ölür ya da çalınırsa cepteki kâğıt tek yedek olur: tek sayfalık acil kâğıdını aç →".
+
+`CACHE_VERSION` → `balkan-v13`.
+
+---
+
 ### 8 Ağustos 2026 — yirminci oturum
 
 **Takvim dosyası (.ics) ve Cepte akordeonu**

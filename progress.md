@@ -9,8 +9,8 @@
 **Son güncelleme:** 8 Ağustos 2026
 **Depo:** https://github.com/kayalarbk/Balkanturu (`main`)
 **Yayın:** https://kayalarbk.github.io/Balkanturu/ (GitHub Pages, `main` / root — build adımı yok)
-**Son commit:** `2eb5d24` + takvim / akordeon oturumu
-**Çalışma ağacı:** temiz · **Toplam commit:** 29 · **Oturum sayısı:** 20
+**Son commit:** `6af1489` + acil çıktı kâğıdı oturumu
+**Çalışma ağacı:** temiz · **Toplam commit:** 30 · **Oturum sayısı:** 21
 
 ---
 
@@ -269,6 +269,7 @@ tekrarlanmayan maddeleri "🍽 Sofrada" kartına girdi.
 | **🏥 Hastaneler** | 5 şehrin ana hastanesi, koordinatı doğrulanmış (Wikidata + OSM). Cepte'de liste, haritada ✚ pini, Günün Kartı'nda o günkü şehrinki |
 | **🚌 Otogarlar** | 5 şehrin ana otogarı, koordinatı doğrulanmış (Wikidata + OSM, kaynak her kartta yazılı). Cepte'de liste, haritada turuncu 🚌 pini, Günün Kartı'nda o günün **kalkış otogarı** |
 | **📅 Takvim dosyası** | Hazırlık bölümünden inen **balkanlarda-ask.ics** — 11 etkinlik, alarmlar dosyanın içinde. iOS'ta PWA bildirimi güvenilmez olduğu için telefonun kendi takvim alarmına devrediliyor: site hiç açılmasa da çalar. Saatler **UTC + Z** (VTIMEZONE yok — gerekçesi aşağıda) |
+| **🖨 Acil çıktı kâğıdı** | `?yazdir=acil` — tek A4: üç adres (yerel alfabede büyük punto) + kapı kodu/wifi · iki uçuş (sefer · PNR · saat) · 112 + üç büyükelçilik + sigorta · sağlık kartı · buluşma noktaları · dört acil cümle. Boş alanlar **çizgi** basılır, "belirlenecek" yazmaz. Punto tek sayfaya sığacak şekilde otomatik seçilir; aydınlık ve koyu temada **birebir aynı** basar |
 | **🧭 Ayrı düşersek** | Sabit kural (saat başı 10 dk bekleme) + şehir başına buluşma noktası alanı (cihazda) |
 | **Cepte sekmeleri** | Yedi kart alt alta değil sekmede: 🏨 Konaklama · 🆘 Acil numaralar · 🏥 Hastaneler · 🩺 Sağlık · 🧭 Ayrı düşersek · 💬 Acil cümleler · 🗣 Kelimeler. Ok tuşları + Home/End, 44 px hedef; **yazdırmada hepsi birden basılır** |
 | **🆘 İş başa düşerse** | 6 katlanır karar kartı: otobüs kaçtı · sınır · kutu açılmıyor · telefon bitti · pasaport · nakit |
@@ -283,7 +284,7 @@ tekrarlanmayan maddeleri "🍽 Sofrada" kartına girdi.
 | Galeri + lightbox | Harici kütüphane yok; Escape / boşluk kapatır, ok tuşlarıyla gezinme |
 | **İki kişilik tema** | `derin` = şeker pembesi (aydınlık) · `baris` = koyu lacivert (karanlık). Token ezme yöntemi; ilk boyamadan önce uygulanır (beyaz parlama yok), sistem tercihini izler (`dark` → Barış). Çubuktaki düğme açık olan temanın adını yazar; eski `koyu`/`acik` kaydı okunurken çevrilir |
 | Üst gezinme çubuğu | Yapışkan şerit, IntersectionObserver ile aktif bölüm işareti, tema + yazdırma düğmeleri, "yukarı çık" |
-| Yazdırma / PDF | Token'lar kâğıt setine iner (hangi tema açık olursa olsun — seçici `:root` olmak zorunda, bkz. tuzaklar), etkileşimli parçalar gizlenir, **katlı gün kartları ve "Ne yenir?" açılır** |
+| Yazdırma / PDF (tüm site) | Token'lar kâğıt setine iner (hangi tema açık olursa olsun — seçici `:root` olmak zorunda, bkz. tuzaklar), etkileşimli parçalar gizlenir, **katlı gün kartları ve "Ne yenir?" açılır** |
 | Kayıt yedekleme | İndir / yükle / panoya kopyala; geri yükleme **ezmez, birleştirir**; kodlarda mevcut değer korunur (`birlestir:false`); yabancı dosya `uygulama` alanından reddedilir |
 | PWA + çevrimdışı | `manifest.json` + `sw.js`; app shell ön belleğe alınır, 2 kısayol |
 | Mobil denetimi | 13 bulgu ölçülüp düzeltildi (aşağıda) |
@@ -315,7 +316,7 @@ Hepsi `localStorage`, **sunucuya hiçbir şey gitmez**, cihaza özeldir.
 | `balkan2026.anilar` | Gün kartlarındaki anı notları (anahtar: `YYYY-MM-DD`) |
 | `balkan2026.hava` | Hava yanıtı + zaman damgası (3 saat) |
 | `balkan2026.tema` | `derin` / `baris` tema tercihi (yoksa sistem tercihi). Eski `koyu`/`acik` değerleri okunurken yeni adlara çevrilir |
-| `balkan2026.gizli` | Kapı kodu / kilitli kutu şifresi / wifi şifresi (kimlik: `evId::alan`) — **depoda yoktur** |
+| `balkan2026.gizli` | Kapı kodu / kilitli kutu şifresi / wifi şifresi (`evId::alan`), sağlık kartı (`saglik-<kişi>::alan`), buluşma noktaları (`bulusma::şehir`) — **depoda yoktur**. Acil çıktı kâğıdı da buradan okur |
 | `balkan2026.karolar` | Çevrimdışı haritanın en son ne zaman indirildiği (yedeğe dâhil değil — karolar Cache Storage'da) |
 
 **Kırılganlık uyarısı:** bir maddenin **metnini** değiştirmek o maddeye verilmiş kalbi
@@ -379,6 +380,9 @@ Yedek dosyası bu kodları **içerir** — yalnızca kendi cihazlarınızla payl
 | Aynı özgüllükte iki kural, sıraya bakmamak | `.nav-btn-metin{width:auto}` dosyada daha ÖNCE, `.nav-btn{width:2.5rem}` daha SONRA → ikincisi kazanıyordu, düğme 44 px'e sıkışıp metni dışarı taşıyordu. Kısa metinde ("Kart") göze batmıyor → çakışan kuralı `.nav-btn.nav-btn-metin` gibi tek sınıf daha ekleyerek yaz |
 | Commons thumb adresini elle kurmak | `/thumb/<a>/<ab>/…` yolundaki hash öneki MD5'ten geliyor, tahmin edilemez → adresi **API'nin `thumburl` alanından** al, `?utm_…` parametrelerini at, sonra `curl -I` ile doğrula |
 | PNG'yi lezzet görseli seçmek | Commons PNG'lerde 640 px thumb `400` dönebiliyor ve tam boy dosya megabaytlarca olabiliyor (bir örnekte 820 KB) → fotoğraf için JPEG seç |
+| Kâğıda basılan ayrı bir sayfayı sitenin içine kurmak | Genel stiller sızıyor: `section:nth-of-type(even)` gradyanı **pembe zemin** bastı, `table{min-width:34rem}` tabloyu kâğıdın dışına taşırdı, `section{padding-block:10pt !important}` altı bloğa yalnızca **kâğıtta** 10'ar pt ekleyip sığdırma hesabını bozdu → kâğıdın kökünde sert sıfırlama (`.ay-sayfa *`) + genel yazdırma bloğundaki `!important`ları ismen geri alma |
+| Dikey flex'te `flex:1 1 4em` | `flex-basis` **ana eksendir**: sütun yönlü kapta 4em genişlik değil 4em **yükseklik** olur, `height` da onu yenemez → doldurma çizgisi satırı üç katına çıkardı; sütun yönlü kapta `flex:0 0 auto` + `min-width` yaz |
+| Yazdırma düzenini `!important` kuralın üstüne inline stille ölçmek | `.ay-sayfa{width:auto !important}` inline `style.width`'i yeniyor; ölçüm sessizce **viewport genişliğinde** yapıldı ve "kâğıt daha kısa" diye yanlış sonuç verdi → `setProperty(..., 'important')` ile ölç |
 | Görseli `loading="lazy"` + `content-visibility:auto` birlikte test etmek | Kart ekran dışındayken hiç render edilmiyor, içindeki lazy görsel de istenmiyor. Tarayıcıda "yüklenmedi" görünmesi **hata değil**, doğru davranış → ölçerken önce öğeyi gerçekten görünür alana getir |
 
 ---
@@ -427,6 +431,46 @@ kontrolü yapılmadı.**
 | 18 | 8 Ağu 2026 | **Saat farkı riski kapatıldı** (🕐 kritik kart + iki gün uyarısı + iki kod hatası), **Cepte yedi sekmeye bölündü**, **kur defteri kaldırıldı**, `sw.js` v10 |
 | 19 | 8 Ağu 2026 | **Haritaya beş otogar:** koordinatlar Wikidata + OSM'den doğrulandı, Cepte'de 🚌 sekmesi, turuncu harita pini, Günün Kartı'nda kalkış otogarı, karolar 316 → 390, `sw.js` v11 |
 | 20 | 8 Ağu 2026 | **İndirilebilir .ics takvimi** (11 etkinlik, UTC damgalı, alarmlı) ve **Cepte yatay sekmeden alt alta akordeona** çevrildi, `sw.js` v12 |
+| 21 | 8 Ağu 2026 | **Acil çıktı kâğıdı** — `?yazdir=acil` tek A4'e sığan kâğıt yedeği (adres · PNR · acil numara · sağlık · buluşma · cümleler), boş alanlar çizgi, punto otomatik, iki temada aynı çıktı, `sw.js` v13 |
+
+### 8 Ağustos 2026 — acil çıktı kâğıdı (`?yazdir=acil`)
+
+**1. Sorun.** Yazdırma düğmesi **bütün siteyi** basıyordu — program, şehirler, hazırlık,
+Cepte kartlarının tamamı; 8-10 sayfa. Oysa kâğıt yedeğinin tek bir senaryosu var: **telefon
+ölür ya da çalınır.** O anda cepteki kâğıt tek yedek olur; katlanıp cüzdana girmesi ve tek
+bakışta okunması gerekir.
+
+**2. Çözüm — ayrı bir mod.** `?yazdir=acil` ile açıldığında render betiği gövdeyi boşaltıp
+tek bir A4 kâğıdı koyuyor ve **oradan çıkıyor**: harita, hava durumu, geri sayım, galeri,
+güncelleme şeridi hiç kurulmuyor. Ekranda görünen şey kâğıdın kendisi; üstünde yalnızca
+"🖨 Yazdır" ve siteye dönüş var, ikisi de çıktıda gizli. Giriş noktası Cepte bölümünün
+girişindeki satır.
+
+**3. İçerik (öncelik sırasıyla):** üç konaklama (yerel alfabede adres büyük punto + latin
+karşılığı + kapı/kutu kodu + wifi + telefon) · iki uçuş (sefer · rota-saat · PNR · tarih ·
+gece uçuşu uyarısı) · 112 + Priştine/Üsküp/Tiran büyükelçilikleri (santral + nöbetçi) +
+sigorta hattı · sağlık kartı (kan grubu · alerji · ilaç · poliçe, Barış/Derin sütunları +
+acil kişi) · beş şehrin buluşma noktası + saat başı kuralı · dört acil cümle (TR ·
+Arnavutça · Makedonca).
+
+**4. Boş alan = çizgi.** Kodlar ve sağlık bilgisi yalnızca `balkan2026.gizli` deposunda
+duruyor. Kayıtlıysa değer basılıyor, değilse **elle doldurulacak çizgi**. Aynı kural
+`belirlenecek` / `kontrol edilecek` yer tutucuları için de geçerli (sigorta hattı henüz yok
+→ çizgi). Kâğıdın işi eksiği bildirmek değil, eksiği doldurtmak.
+
+**5. Sığdırma otomatik.** Bütün ölçüler tek bir `--ay-punto` değişkenine bağlı (`em`).
+Render'dan sonra 13,5 → 8 pt merdiveni deneniyor, **sığan ilk (en iri) punto** seçiliyor;
+sınır A4'ün yazı alanı 182 × 269 mm (`@page margin 14 mm` — o kural tüm site çıktısıyla
+ORTAK, biri değişirse diğeri de değişmeli). Hiçbiri sığmazsa acil cümleler düşüyor ve
+merdiven baştan deneniyor. Bugünkü içerik **12,8 pt**'de sığıyor.
+
+**6. Doğrulama.** Chrome + yerel sunucu. Aydınlık (Derin) ve koyu (Barış) temada çıktı
+birebir aynı — kâğıt token kullanmıyor, doğrudan `#000`/`#fff` yazıyor. `@media print`
+kuralları CSSOM'dan `all`'a çevrilerek ekranda simüle edildi: kenar kırpması yok, yatay
+taşma yok, tek sayfa. Boş / dolu / yapay şişirilmiş içerik ayrı ayrı denendi; normal sayfada
+gerileme yok (konsol temiz, 9 gün · 8 Cepte kartı · 5 şehir yerinde).
+
+---
 
 ### 8 Ağustos 2026 — takvim dosyası ve Cepte akordeonu
 
@@ -476,7 +520,8 @@ dilimi zaten yok. Takvim başlığına bilgi olarak `X-WR-TIMEZONE:Europe/Tirane
 | Kontrol | Sonuç |
 |---|---|
 | Satır sonları CRLF | ✅ tek başına `
-` veya `` yok, dosya sonu da CRLF |
+` veya `
+` yok, dosya sonu da CRLF |
 | 75 oktet sınırı | ✅ en uzun satır tam **75 oktet**; 34 devam satırı katlanmış. Katlama **kod noktası kod noktası** yürüyor, Kiril ve Türkçe harfler bölünmüyor (bozuk karakter kontrolü temiz) |
 | UID benzersizliği | ✅ 11 UID, 11 benzersiz |
 | VEVENT bütünlüğü | ✅ 11 açılış / 11 kapanış, her birinde UID + DTSTAMP + DTSTART |

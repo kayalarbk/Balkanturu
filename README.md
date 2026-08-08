@@ -202,6 +202,14 @@ dokunmak gerekmez.**
   kâğıda uygun bir sete indirgenir (koyu tema açıkken bile), etkileşimli parçalar
   (harita, sayaç, galeri, düğmeler, notlar) gizlenir ve **katlanmış gün kartları açılır**.
   Sınırda ya da internetsiz resepsiyonda kâğıt yedeği için.
+- **Acil çıktı kâğıdı:** `?yazdir=acil` (Cepte bölümünün girişinde bağlantısı var). Bütün
+  siteyi değil **tek bir A4** basar: üç adres (yerel alfabede büyük punto) + kapı kodu ve
+  wifi, iki uçuş (sefer · PNR · saat), 112 + üç büyükelçilik + sigorta hattı, sağlık kartı,
+  buluşma noktaları ve dört acil cümle. Bu modda sayfanın geri kalanı hiç kurulmaz.
+  Cihazda kayıtlı olmayan alanlar "belirlenecek" diye değil **elle doldurulacak çizgi**
+  olarak basılır. Punto tek sayfaya sığacak şekilde otomatik seçilir (13,5 → 8 pt);
+  sığmazsa en az öncelikli blok, acil cümleler, düşer. Kâğıt token kullanmaz, doğrudan
+  siyah-beyaz yazar — iki tema da birebir aynı çıktıyı verir.
 - **Kontrol listesi:** işaretler tarayıcının `localStorage`'ında `balkan2026.hazirlik`
   anahtarıyla saklanır. Liste 10/10 olunca konfeti ve kutlama kutusu çıkar — yalnızca
   tamamlanma anında, her açılışta değil. Yeni madde eklerken `id` alanının benzersiz olmasına dikkat et;

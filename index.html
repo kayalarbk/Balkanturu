@@ -3363,7 +3363,10 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
    gün kartları zorla açılır ki katlanmış içerik kâğıda düşmesin.
    ===================================================================== */
 @media print{
-  @page{ margin:14mm; }
+  /* @page seçiciyle daraltılamaz — bu tek kural HEM tüm site çıktısı HEM de
+     ?yazdir=acil kâğıdı için geçerlidir. Acil kâğıdının ölçüsü (182 × 269 mm)
+     buradaki 14 mm'den türetilir; biri değişirse diğeri de değişmeli. */
+  @page{ size:A4; margin:14mm; }
   /* Ekran dışı kartların render'ı atlanıyordu; kâğıda hepsi basılmalı */
   .city, .cep-kart, .dikkat{
     content-visibility:visible !important;
@@ -3428,6 +3431,163 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
   a{ text-decoration:none; color:#000 !important; }
   .sec-head > p, .day-sum{ color:#333 !important; }
   .tbd{ color:#000 !important; text-decoration:underline; }
+}
+
+/* =====================================================================
+   ACİL ÇIKTI — ?yazdir=acil (tek A4)
+   Ekrandaki önizleme ile kâğıt AYNI şeydir: aynı kutu, aynı ölçü, aynı
+   renkler. Bu yüzden kâğıt token kullanmaz — doğrudan #000 / #fff yazar.
+   Tema token'ları kullanılsaydı Derin'in pembesi ile Barış'ın laciverdi
+   iki farklı çıktı verirdi; burada ikisi de birebir aynı basılıyor.
+
+   Punto `--ay-punto` üzerinden JS ile küçültülür (bkz. sigdir()); içerideki
+   bütün ölçüler `em` olduğu için tek değişkeni kısmak sayfanın tamamını
+   orantılı daraltır.
+   ===================================================================== */
+.ay-perde{ padding:var(--s-4); overflow-x:auto; }
+:root[data-yazdir="acil"] body{ background:var(--c-sand-2); }
+
+.ay-arac{
+  position:sticky; top:0; z-index:5;
+  display:flex; flex-wrap:wrap; align-items:center; gap:var(--s-3);
+  padding:var(--s-3) var(--s-4);
+  background:var(--c-yuzey); border-bottom:1px solid var(--c-line);
+}
+.ay-btn{
+  font:inherit; font-weight:700; cursor:pointer;
+  padding:.6em 1.1em; border-radius:var(--r-2); min-height:44px;
+  border:0; background:var(--c-teal); color:#fff;
+}
+.ay-don{ color:var(--c-ink-soft); text-decoration:none; font-weight:600; }
+.ay-ipucu{ flex:1 1 16ch; margin:0; font-size:.85rem; color:var(--c-ink-soft); }
+
+/* ---- kâğıdın kendisi: A4 yazı alanı (210 × 297 − 2×14 mm kenar) ---- */
+.ay-sayfa{
+  width:182mm; min-height:269mm; margin:0 auto;
+  background:#fff; color:#000;
+  font-size:var(--ay-punto, 10.2pt); line-height:1.28;
+  box-shadow:0 2px 18px rgba(0,0,0,.25);
+}
+/* Sert sıfırlama: kâğıdın içindeki <section> / <h1> / <table> etiketleri
+   sitenin genel stillerini (bölüm dolgusu, pembe tablo başlığı, gölge,
+   başlık boşlukları) miras alıyordu ve tek sayfayı üçe çıkarıyordu. Kâğıt
+   siteden bağımsızdır: her şey burada sıfırlanır, aşağıdaki kurallar
+   gerekeni geri verir. */
+.ay-sayfa *{
+  margin:0; padding:0; border:0; box-shadow:none;
+  background:transparent; color:#000; font-family:inherit;
+}
+/* `section:nth-of-type(even)` (0,1,1) yukarıdaki `*` kuralını yeniyordu:
+   bölümlerin bir kısmı kâğıda pembe zeminli basılıyordu. */
+.ay-sayfa section{ background:none; }
+
+.ay-ust{
+  display:flex; align-items:baseline; justify-content:space-between; gap:1em;
+  border-bottom:2pt solid #000; padding-bottom:.3em; margin-bottom:.5em;
+}
+.ay-ust h1{ margin:0; font-size:1.5em; letter-spacing:.06em; }
+.ay-ust-meta{ display:flex; flex-direction:column; align-items:flex-end; font-size:.9em; }
+
+.ay-blok{ margin-bottom:.55em; break-inside:avoid; }
+.ay-blok h2{
+  margin:0 0 .25em; font-size:.82em; font-weight:700;
+  text-transform:uppercase; letter-spacing:.09em;
+  border-bottom:.5pt solid #000; padding-bottom:.1em;
+}
+.ay-ikili{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:.9em; }
+.ay-ikili > *{ min-width:0; }
+
+/* Boş alanlar: "belirlenecek" yerine elle doldurulacak çizgi */
+.ay-cizgi{
+  flex:1 1 4em; min-width:4em; align-self:flex-end;
+  border-bottom:.6pt solid #000; height:1.05em;
+}
+
+/* etiket + değer satırı — hem kodlarda hem buluşmada hem ortak sağlıkta */
+.ay-kod{ display:flex; flex-wrap:wrap; align-items:baseline; gap:.4em; margin-top:.18em; }
+.ay-kod > span:first-child{
+  flex:0 0 auto; font-size:.85em; text-transform:uppercase; letter-spacing:.04em;
+}
+
+/* ---- konaklama: üç ev yan yana ---- */
+.ay-evler{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:.7em; }
+.ay-ev{ border:.6pt solid #000; padding:.4em .5em; }
+.ay-ev-basi{ display:flex; justify-content:space-between; gap:.4em; font-size:.85em; }
+.ay-ev-basi b{ text-transform:uppercase; letter-spacing:.04em; white-space:nowrap; }
+.ay-adres{ font-size:1.22em; font-weight:700; line-height:1.2; margin:.2em 0 .05em; }
+.ay-adres-alt{ font-size:.85em; }
+
+/* ---- uçuşlar ---- */
+.ay-ucus{ display:flex; flex-wrap:wrap; align-items:baseline; gap:.15em .7em; padding:.15em 0; }
+.ay-ucus + .ay-ucus{ border-top:.4pt dotted #000; }
+.ay-ucus-et{ flex:0 0 4.5em; font-size:.85em; text-transform:uppercase; letter-spacing:.04em; }
+.ay-ucus-ana{ font-size:1.05em; }
+.ay-ucus-pnr{ font-size:1.05em; }
+.ay-ucus-tarih{ font-size:.85em; }
+.ay-ucus-uyari{ flex:1 0 100%; font-size:.85em; font-weight:700; }
+
+/* ---- acil numaralar ---- */
+.ay-acil{ display:flex; justify-content:space-between; align-items:baseline; gap:.5em; padding:.12em 0; }
+.ay-acil + .ay-acil{ border-top:.4pt dotted #000; }
+.ay-acil-ad{ font-size:.9em; }
+.ay-acil-no{ display:flex; flex-direction:column; align-items:flex-end; font-weight:700; white-space:nowrap; }
+.ay-acil-no i{ font-style:normal; font-weight:400; font-size:.8em; }
+/* Dikey flex'te `flex-basis` ANA EKSENDİR: çizgi burada 4em GENİŞLİK değil
+   4em YÜKSEKLİK alıp satırı üç katına çıkarıyordu (sigorta hattı satırı). */
+.ay-acil-no .ay-cizgi{ flex:0 0 auto; height:1.05em; min-width:8em; }
+.ay-acil.ay-vurgu{ border:.8pt solid #000; padding:.2em .35em; margin-bottom:.2em; }
+.ay-acil.ay-vurgu .ay-acil-no{ font-size:1.3em; }
+
+/* ---- sağlık kartı ---- */
+/* min-width:0 şart: genel `table{ min-width:34rem }` (dar ekranda tabloları
+   kaydırılabilir yapan kural) burada tabloyu kâğıdın dışına taşırıyordu. */
+.ay-saglik{ width:100%; min-width:0; table-layout:fixed; border-collapse:collapse; }
+.ay-saglik th, .ay-saglik td{
+  border:.4pt solid #000; padding:.15em .3em; text-align:left; vertical-align:bottom;
+  background:#fff;
+}
+.ay-saglik thead th{ font-size:.8em; text-transform:uppercase; letter-spacing:.04em; }
+.ay-saglik tbody th{ font-size:.82em; font-weight:400; width:30%; }
+.ay-saglik td{ height:1.5em; }
+.ay-saglik td .ay-cizgi{ display:block; border:0; min-width:0; }
+.ay-ortak{ margin-top:.2em; }
+
+/* ---- buluşma ---- */
+.ay-bulusma-liste{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:0 1em; }
+.ay-kural{ margin:.25em 0 0; font-size:.82em; }
+
+/* ---- acil cümleler — sığmazsa düşen blok ---- */
+.ay-cumle{
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) minmax(0,1.2fr);
+  gap:.6em; padding:.12em 0; font-size:.95em;
+}
+.ay-cumle + .ay-cumle{ border-top:.4pt dotted #000; }
+.ay-cumle-tr{ font-weight:700; }
+.ay-sayfa.ay-dus .ay-b-cumle{ display:none; }
+
+@media(max-width:699.98px){
+  .ay-perde{ padding:var(--s-3); }
+}
+
+@media print{
+  /* ⚠ Seçici `html` DEĞİL `:root` — bkz. yukarıdaki @media print notu:
+     düz `html` (0,0,1) sayfanın :root paletini yenemez. */
+  :root[data-yazdir="acil"], :root[data-yazdir="acil"][data-tema="baris"]{
+    background:#fff !important; color:#000 !important; color-scheme:light;
+  }
+  :root[data-yazdir="acil"] body{ background:#fff !important; margin:0; }
+  /* ⚠ Yukarıdaki genel yazdırma bloğu `section{ padding-block:10pt !important }`
+     ve `th{ background:#eee !important }` diyor. Altı bloğun her birine 10pt
+     dolgu ekranda YOK, kâğıtta VAR demek: sığdırma hesabı tutmaz ve kâğıt
+     ikinci sayfaya taşardı. Kâğıt bunların hepsini geri alır. */
+  :root[data-yazdir="acil"] .ay-blok{ padding-block:0 !important; }
+  :root[data-yazdir="acil"] .ay-saglik th{ background:#fff !important; color:#000 !important; }
+  .ay-arac{ display:none !important; }
+  .ay-perde{ padding:0 !important; overflow:visible !important; }
+  .ay-sayfa{
+    width:auto !important; min-height:0 !important;
+    box-shadow:none !important; margin:0 !important;
+  }
 }
 
 /* =====================================================================
@@ -3574,6 +3734,9 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
       <p>Konaklama, acil numaralar, hastaneler, otogarlar, sağlık kartı ve temel kelimeler — sekmelere
          bölündü, aradığını tek dokunuşla aç. Bu bölüm tamamen çevrimdışı çalışır;
          kodlara dokununca panoya kopyalanır. Yazdırırsan hepsi birden basılır.</p>
+      <p>Telefon ölür ya da çalınırsa cepteki kâğıt tek yedek olur:
+         <a href="?yazdir=acil">tek sayfalık acil kâğıdını aç →</a>
+         (adresler, PNR'lar, acil numaralar, sağlık bilgisi — bir A4'e sığar).</p>
     </div>
     <div class="cepte-grid" id="cepte-grid"></div>
   </div>
@@ -3798,6 +3961,12 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
     if (html != null) n.innerHTML = html;
     return n;
   };
+  /* HTML kaçışı. Burada, en tepede duruyor: acil çıktı kâğıdı (?yazdir=acil)
+     sayfanın geri kalanı hiç render edilmeden önce dönüyor ve esc'e ihtiyacı
+     var — aşağıda tanımlansa `const` ölü bölgesine düşerdi. */
+  const esc = (s) => String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
   /* =====================================================================
      TARİH YARDIMCILARI — saat dilimi notu
      Cihaz tur boyunca UTC+2'de (Kosova / K. Makedonya / Arnavutluk), öncesinde
@@ -3822,6 +3991,200 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
   const markTBD = (t) =>
     String(t).replace(/(belirlenecek|kontrol edilecek|bilet alınacak|alınacak|yerinde alınır)/gi,
       '<span class="tbd">$1</span>');
+
+  /* =====================================================================
+     ACİL ÇIKTI — ?yazdir=acil
+     Neden var: normal yazdırma bütün siteyi basıyor (8-10 sayfa). Telefon
+     ölür ya da çalınırsa cepteki kâğıt TEK yedek olacak; o kâğıdın tek
+     sayfa olması ve katlanıp cüzdana girmesi lazım.
+
+     Bu mod sayfanın geri kalanını hiç kurmaz: gövde boşaltılır, yerine tek
+     bir A4 kâğıdı konur, sonra render'dan çıkılır. Böylece harita, hava
+     durumu, sayaç, service worker güncelleme şeridi — hiçbiri çalışmaz.
+
+     Kâğıt HER ZAMAN beyaz zemin/siyah mürekkeptir; renkler token'dan değil
+     doğrudan yazılır, yani Derin'in pembesi ile Barış'ın laciverdi aynı
+     çıktıyı verir (ekrandaki önizleme de kâğıdın kendisidir).
+
+     Kodlar ve sağlık bilgisi yalnızca cihazdaki `balkan2026.gizli` deposunda
+     durur; boş olanlar "belirlenecek" diye BASILMAZ — elle doldurulacak
+     çizgi basılır.
+     ===================================================================== */
+  function acilKagidiKur() {
+    const C = TUR.cepte;
+    let gizli = {};
+    try { gizli = JSON.parse(localStorage.getItem("balkan2026.gizli") || "{}") || {}; } catch (e) { gizli = {}; }
+
+    const cizgi = () => '<span class="ay-cizgi" aria-label="elle doldur"></span>';
+    /* Cihazda kayıtlı değer varsa o, yoksa çizgi */
+    const kayit = (kimlik) => {
+      const v = gizli[kimlik];
+      return typeof v === "string" && v.trim() ? esc(v.trim()) : cizgi();
+    };
+    /* TUR'daki yer tutucu ifadeler de çizgiye düşer */
+    const kesin = (v) =>
+      v && !/belirlenecek|kontrol edilecek|alınacak/i.test(String(v)) ? esc(v) : null;
+
+    /* ---- 1) Konaklama: yerel alfabede adres büyük, altında kod + wifi ---- */
+    const KOD_AD = { kapi: "Kapı kodu", kutu: "Kutu şifresi", wifi: "Wi-Fi" };
+    const evler = (C.konaklamalar || []).map((k) => {
+      const yerel = k.adresYerel || k.adres;
+      const altSatir = k.adresYerel ? k.adres : (k.tarif || null);
+      const tel = (k.telefonlar || []).map((t) => kesin(t.numara)).filter(Boolean)[0];
+      return '<div class="ay-ev">' +
+        '<div class="ay-ev-basi"><b>' + esc(k.sehir) + "</b><span>" + esc(k.tarih) + "</span></div>" +
+        '<div class="ay-adres" lang="' + (k.adresYerel ? "mk" : "sq") + '">' + esc(yerel) + "</div>" +
+        (altSatir ? '<div class="ay-adres-alt">' + esc(altSatir) + "</div>" : "") +
+        (k.gizliAlanlar || []).map((a) =>
+          '<div class="ay-kod"><span>' + esc(KOD_AD[a.ad] || a.etiket) + "</span>" +
+          kayit(k.id + "::" + a.ad) + "</div>").join("") +
+        (tel ? '<div class="ay-kod"><span>Telefon</span>' + tel + "</div>" : "") +
+      "</div>";
+    }).join("");
+
+    /* ---- 2) Uçuşlar: sefer + PNR + saat ---- */
+    const ucuslar = (C.ucuslar || []).map((u) =>
+      '<div class="ay-ucus">' +
+        '<span class="ay-ucus-et">' + esc(u.etiket) + "</span>" +
+        '<span class="ay-ucus-ana"><b>' + esc(u.sefer) + "</b> " + esc(u.rota) + "</span>" +
+        '<span class="ay-ucus-pnr">PNR <b>' + esc(u.pnr) + "</b></span>" +
+        '<span class="ay-ucus-tarih">' + esc(u.tarih) + "</span>" +
+        (u.uyari ? '<span class="ay-ucus-uyari">⚠ ' + esc(u.uyari) + "</span>" : "") +
+      "</div>").join("");
+
+    /* ---- 3) Acil numaralar: 112 + üç büyükelçilik + sigorta ---- */
+    const kisaAd = (s) => String(s)
+      .replace(/^Acil çağrı.*/, "ACİL ÇAĞRI — polis · ambulans · itfaiye")
+      .replace(/^T\.C\. /, "");
+    const numaralar = (C.acil || []).map((a) => {
+      const no = kesin(a.deger);
+      return '<div class="ay-acil' + (a.vurgulu ? " ay-vurgu" : "") + '">' +
+        '<span class="ay-acil-ad">' + esc(kisaAd(a.ad)) + "</span>" +
+        '<span class="ay-acil-no">' + (no || cizgi()) +
+          (a.nobetci ? '<i>nöbetçi ' + esc(a.nobetci) + "</i>" : "") +
+        "</span>" +
+      "</div>";
+    }).join("");
+
+    /* ---- 4) Sağlık kartı: iki kişi yan yana, boşlar çizgi ---- */
+    const SG = C.saglik;
+    const saglikSatir = (a) =>
+      "<tr><th>" + esc(a.etiket) + "</th>" +
+      SG.kisiler.map((k) => "<td>" + kayit("saglik-" + k.id + "::" + a.ad) + "</td>").join("") +
+      "</tr>";
+    const saglik =
+      '<table class="ay-saglik"><thead><tr><th></th>' +
+        SG.kisiler.map((k) => "<th>" + esc(k.ad) + "</th>").join("") +
+      "</tr></thead><tbody>" +
+        SG.alanlar.map(saglikSatir).join("") +
+      "</tbody></table>" +
+      '<div class="ay-ortak">' +
+        SG.ortak.map((a) =>
+          '<div class="ay-kod"><span>' + esc(a.etiket) + "</span>" +
+          kayit("saglik-ortak::" + a.ad) + "</div>").join("") +
+      "</div>";
+
+    /* ---- 5) Buluşma noktaları — şehir başına bir satır ---- */
+    const BL = C.bulusma;
+    const bulusma =
+      '<div class="ay-bulusma-liste">' +
+        (BL.sehirler || []).map((x) =>
+          '<div class="ay-kod"><span>' + esc(x.ad) + "</span>" +
+          kayit("bulusma::" + x.id) + "</div>").join("") +
+      "</div>" +
+      '<p class="ay-kural">' + esc(BL.kural) + "</p>";
+
+    /* ---- 6) En altta acil cümleler (sığmazsa ilk düşen blok bu) ---- */
+    const SECILI = ["Yardıma ihtiyacım var", "Ambulans çağırın", "Polis çağırın",
+                    "En yakın hastane nerede?"];
+    const cumleler = SECILI
+      .map((t) => (C.acilCumleler || []).find((c) => c.tr === t))
+      .filter(Boolean)
+      .map((c) =>
+        '<div class="ay-cumle">' +
+          '<span class="ay-cumle-tr">' + esc(c.tr) + "</span>" +
+          '<span lang="sq">' + esc(c.sq) + "</span>" +
+          '<span lang="mk">' + esc(c.mk) + "</span>" +
+        "</div>").join("");
+
+    const blok = (baslik, icerik, sinif) =>
+      '<section class="ay-blok' + (sinif ? " " + sinif : "") + '">' +
+        "<h2>" + esc(baslik) + "</h2>" + icerik +
+      "</section>";
+
+    const sayfa = el("div", "ay-sayfa");
+    sayfa.id = "ay-sayfa";
+    sayfa.innerHTML =
+      '<header class="ay-ust">' +
+        "<h1>ACİL KÂĞIDI</h1>" +
+        '<div class="ay-ust-meta">' +
+          "<b>" + esc((C.yolcular || []).join(" · ")) + "</b>" +
+          "<span>" + esc(TUR.meta.tarihAraligi) + "</span>" +
+        "</div>" +
+      "</header>" +
+      blok("Konaklama", '<div class="ay-evler">' + evler + "</div>", "ay-b-konak") +
+      blok("Uçuşlar", ucuslar, "ay-b-ucus") +
+      '<div class="ay-ikili">' +
+        blok("Acil numaralar", numaralar, "ay-b-acil") +
+        blok(SG.baslik, saglik, "ay-b-saglik") +
+      "</div>" +
+      blok(BL.baslik, bulusma, "ay-b-bulusma") +
+      blok("Acil cümleler — TR · Arnavutça · Makedonca", cumleler, "ay-b-cumle");
+
+    const arac = el("div", "ay-arac");
+    arac.innerHTML =
+      '<button type="button" id="ay-yazdir" class="ay-btn">🖨 Yazdır</button>' +
+      '<a class="ay-don" href="./">← Siteye dön</a>' +
+      '<p class="ay-ipucu">Tek A4. Boş kalan yerler elle doldurmak için çizgili basılır — ' +
+      "kapı kodlarını ve sağlık bilgisini Cepte'de bu cihaza kaydedersen doluyor.</p>";
+
+    /* Perde: kâğıt A4 genişliğinde sabittir, dar ekranda yatay kaydırılır */
+    const perde = el("div", "ay-perde");
+    perde.appendChild(sayfa);
+    document.body.replaceChildren(arac, perde);
+    document.documentElement.dataset.yazdir = "acil";
+    document.title = "Acil kâğıdı — Balkanlar'da Aşk";
+
+    /* ---------- TEK SAYFAYA SIĞDIR ----------
+       A4'ün yazı alanı 182 × 269 mm (@page margin 14 mm). Punto kademe
+       kademe küçültülür; en küçük puntoda bile taşıyorsa en az öncelikli
+       blok (acil cümleler) düşürülür. Ölçü ekranda yapılır ama geçerlidir:
+       mm de pt de CSS'te 96 dpi'ye sabittir, yani ekrandaki 182 mm ile
+       kâğıttaki 182 mm aynı oranı verir. */
+    const olcu = el("div");
+    olcu.style.cssText = "position:absolute;visibility:hidden;width:1mm;height:100mm;";
+    document.body.appendChild(olcu);
+    const mmPx = olcu.getBoundingClientRect().height / 100;
+    olcu.remove();
+    const enFazla = 269 * mmPx;
+
+    /* Büyükten küçüğe: sığan İLK punto seçilir, yani kâğıt her zaman
+       okunabilecek en iri puntoyla basılır. */
+    const PUNTOLAR = [13.5, 12.8, 12.2, 11.6, 11, 10.5, 10, 9.5, 9, 8.5, 8];
+    function sigdir() {
+      const dene = () => PUNTOLAR.some((pt) => {
+        sayfa.style.setProperty("--ay-punto", pt + "pt");
+        return sayfa.getBoundingClientRect().height <= enFazla + 1;
+      });
+      sayfa.classList.remove("ay-dus");
+      if (dene()) return;
+      /* En küçük puntoda bile taşıyor: en az öncelikli blok (acil cümleler)
+         düşer ve merdiven baştan denenir — böylece kalan içerik yine
+         okunabilecek en iri puntoyu alır. */
+      sayfa.classList.add("ay-dus");
+      dene();
+    }
+    sigdir();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(sigdir);
+    window.addEventListener("beforeprint", sigdir);
+
+    $("#ay-yazdir").addEventListener("click", () => window.print());
+  }
+
+  if (new URLSearchParams(location.search).get("yazdir") === "acil") {
+    acilKagidiKur();
+    return;   /* sayfanın geri kalanı hiç kurulmaz */
+  }
 
   /* ---------- HERO ---------- */
   const m = TUR.meta;
@@ -3993,9 +4356,9 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
      GÖRSELLER — kapak + galeri
      Kaynak: Wikimedia Commons. URL'ler TUR objesinde, HTML'e gömülü değil.
      Görsel yüklenemezse onerror ile degrade yer tutucuya düşer.
+     (esc() yukarı, dosyanın başına taşındı — acil çıktı kâğıdı ona daha
+     erken ihtiyaç duyuyor.)
      ===================================================================== */
-  const esc = (s) => String(s == null ? "" : s)
-    .replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
   /* =====================================================================
      FAVORİLER — "ikimizin listesi"
