@@ -24,12 +24,17 @@
    v9 — 7 Ağustos 2026: yandan açılan gezinme çekmecesi, acil cümleler,
         sağlık kartı, "ne yapmalı" akışları, hastaneler, buluşma planı,
         kur defteri, yol koridoru karoları (236 → 316).
+   v10 — 8 Ağustos 2026: saat farkı kartı, Cepte sekmelere bölündü, kur defteri
+        kaldırıldı.
+   v11 — 8 Ağustos 2026: beş otogar (Priştine · Üsküp · Ohrid · Dıraç · Tiran)
+        — Cepte kartı, harita pini, Günün Kartı'nda kalkış otogarı ve
+        otogar karoları (316 → 390).
 
    ⚠ Leaflet artık index.html'in <head>'inde DEĞİL, harita bölümü yaklaşınca
    enjekte ediliyor. APP_SHELL'de kalması bilinçli: çevrimdışıyken harita
    bölümüne inildiğinde dosyalar cache'ten gelsin diye burada ön belleğe
    alınıyor — yükleme sayfayı yavaşlatmıyor, install arka planda yapıyor. */
-const CACHE_VERSION = "balkan-v10";
+const CACHE_VERSION = "balkan-v11";
 const SHELL_CACHE = CACHE_VERSION + "-shell";
 const HAVA_CACHE = CACHE_VERSION + "-hava";
 

@@ -9,8 +9,8 @@
 **Son güncelleme:** 8 Ağustos 2026
 **Depo:** https://github.com/kayalarbk/Balkanturu (`main`)
 **Yayın:** https://kayalarbk.github.io/Balkanturu/ (GitHub Pages, `main` / root — build adımı yok)
-**Son commit:** `f55150b` + saat farkı / Cepte sekmeleri oturumu
-**Çalışma ağacı:** temiz · **Toplam commit:** 27 · **Oturum sayısı:** 18
+**Son commit:** `a3b1966` + otogar oturumu
+**Çalışma ağacı:** temiz · **Toplam commit:** 28 · **Oturum sayısı:** 19
 
 ---
 
@@ -108,7 +108,7 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 | `ulasim` | Bacak / süre / yöntem / durum. **Ayrı bölüm olarak basılmıyor**; Bugün ekranı ve Günün Kartı GUN_BACAK üzerinden buradan okuyor | ✅ tek "önceden alınacak" bacak Ohrid → Dıraç |
 | `harita` | Karo kaynağı, atıf, zoom (6–18, karo z16'ya kadar), havalimanları, yedek metin, **`odak`** şeridi metinleri, **`cevrimdisi`** karo tarifi | ✅ |
 | `dikkatEdilecekler` | **15 kart**, `seviye`: kritik / önemli / bilgi | ✅ (8 Ağustos'ta 🕐 saat farkı kartı en başa eklendi) |
-| `cepte` | Uçuş kodları, üç konaklama, **`bagajDolabi`**, **`rezervasyon`**, **`hastaneler`** (5 doğrulanmış koordinat), **`saglik`**, **`acilCumleler`** (12), **`bulusma`**, acil numaralar, kelimeler — **yedi sekme** | ⚠️ ev sahibi telefonları, rezervasyon kodları, 15 Ağustos mekânı ve sigorta hattı boş<br>ℹ️ `kur` 8 Ağustos'ta kaldırıldı |
+| `cepte` | Uçuş kodları, üç konaklama, **`bagajDolabi`**, **`rezervasyon`**, **`hastaneler`** (5 doğrulanmış koordinat), **`otogarlar`** (5 doğrulanmış koordinat), **`saglik`**, **`acilCumleler`** (12), **`bulusma`**, acil numaralar, kelimeler — **sekiz sekme** | ⚠️ ev sahibi telefonları, rezervasyon kodları, 15 Ağustos mekânı ve sigorta hattı boş<br>ℹ️ `kur` 8 Ağustos'ta kaldırıldı |
 | `havaDurumu` | Open-Meteo ayarı, gün→şehir eşlemesi, mevsim normalleri, uyarı eşikleri | ✅ çalışıyor |
 | `yemeIcmeNotlari` | Şehir kartı altındaki yeme-içme kutusu | ✅ |
 | `pratik` | Para, bütçe, elektrik, sağlık, adap, kelimeler | ⚠️ bütçe boş |
@@ -169,9 +169,9 @@ karoları evdeyken indirip tarayıcının Cache Storage'ına yazar.
 
 | | |
 |---|---|
-| Kapsam | Rota geneli z7–8 · 5 şehir z12–14 · 3 ev z15–16 · 2 havalimanı z13 |
+| Kapsam | Rota geneli z7–8 · yol koridoru z11 · 5 şehir z12–14 · 3 ev z15–16 · **5 otogar z15–16** · 2 havalimanı z13 |
 | Zoom sınırı | Harita z18'e kadar yakınlaşır ama **z16'nın ötesinde karo istemez** (`maxNativeZoom`): Leaflet z16'yı büyütür. Bulanık, konum doğru, veri sıfır |
-| Toplam | **316 karo, ~6,5 MB** (ölçüldü; 7 Ağustos'ta z11 yol koridoruyla 236'dan çıktı) |
+| Toplam | **390 karo, ~7,8 MB** (`karoListesi()` gerçek koduyla ölçüldü; 7 Ağustos'ta z11 yol koridoruyla 236 → 316, 8 Ağustos'ta beş otogarla 316 → 390) |
 | Süre | ~1 dakika — 2 eşzamanlı istek, her istekten sonra 200 ms ara |
 | Cache adı | `balkan-karo` — **`index.html` ve `sw.js` arasında ortak, sürümsüz** |
 | Yazan taraf | **Sayfa** (service worker değil): eski bir sw sürümü devredeyse bile doğru cache'e düşer |
@@ -260,13 +260,14 @@ tekrarlanmayan maddeleri "🍽 Sofrada" kartına girdi.
 | **📍 Konumum** | `watchPosition` + nabızlı nokta + doğruluk çemberi; rozet **"Bu geceki ev: 420 m · ±12 m"** yazar ve yürüdükçe güncellenir. GPS internetsiz çalışır. İzin reddi / zaman aşımı / destek yok için ayrı metinler; sekme arkaya atılınca GPS bırakılır |
 | **⛶ Tam ekran** | Harita sayfa akışından çıkıp ekranı kaplar; Esc kapatır, güvenli alan Leaflet denetimlerine uygulanır |
 | Ev popup'ı | Kartın küçük hâli: adres yerel alfabede büyük punto, latin karşılığı, giriş/çıkış, adres kopyala + yol tarifi. Genişlik kabın enine göre hesaplanır. **Kodlar popup'a konmaz** |
-| **Çevrimdışı harita** | **316 karo (~6,5 MB)** tek dokunuşla indirilir — rota boyunca z11 koridoru dâhil; durdurulabilir, eksikler tamamlanabilir, silinebilir; reddedilen karolar için ikinci tur |
+| **Çevrimdışı harita** | **390 karo (~7,8 MB)** tek dokunuşla indirilir — rota boyunca z11 koridoru dâhil; durdurulabilir, eksikler tamamlanabilir, silinebilir; reddedilen karolar için ikinci tur |
 | **Günün kartı** | Üst çubuktaki "Kart" düğmesi — tam ekran, tek bakışlık: o geceki evin adresi (yerel alfabede büyük punto) + kapı kodu + wifi + ev sahibi telefonu + günün ulaşımı + o ülkedeki büyükelçilik + 112; oklarla günler arası gezinti, Esc kapatır |
 | Hava durumu şeridi | Open-Meteo `forecast_days=16`, sıcak/yağmur uyarı rozetleri, 3 saat önbellek |
 | Cepte bölümü | Acil numaralar (resmî `mfa.gov.tr` kaynaklı), temel kelimeler |
 | **🆘 Acil cümleler** | 12 cümle, Arnavutça + Makedonca + okunuş. Satıra dokununca tam ekran ~38 px puntoyla açılır — konuşmak için değil, telefonu karşıdakine uzatmak için |
 | **🩺 Sağlık ve acil kişi** | Kan grubu, alerji, sürekli ilaç, poliçe no (kişi başına) + acil kişi. Kapı kodlarıyla aynı depo: **yalnızca cihazda**. Dolu alanlar Günün Kartı'nın acil bloğunda da çıkar |
 | **🏥 Hastaneler** | 5 şehrin ana hastanesi, koordinatı doğrulanmış (Wikidata + OSM). Cepte'de liste, haritada ✚ pini, Günün Kartı'nda o günkü şehrinki |
+| **🚌 Otogarlar** | 5 şehrin ana otogarı, koordinatı doğrulanmış (Wikidata + OSM, kaynak her kartta yazılı). Cepte'de liste, haritada turuncu 🚌 pini, Günün Kartı'nda o günün **kalkış otogarı** |
 | **🧭 Ayrı düşersek** | Sabit kural (saat başı 10 dk bekleme) + şehir başına buluşma noktası alanı (cihazda) |
 | **Cepte sekmeleri** | Yedi kart alt alta değil sekmede: 🏨 Konaklama · 🆘 Acil numaralar · 🏥 Hastaneler · 🩺 Sağlık · 🧭 Ayrı düşersek · 💬 Acil cümleler · 🗣 Kelimeler. Ok tuşları + Home/End, 44 px hedef; **yazdırmada hepsi birden basılır** |
 | **🆘 İş başa düşerse** | 6 katlanır karar kartı: otobüs kaçtı · sınır · kutu açılmıyor · telefon bitti · pasaport · nakit |
@@ -423,6 +424,45 @@ kontrolü yapılmadı.**
 
 | 17 | 7 Ağu 2026 | **Çevrimdışı acil donanımı:** yandan çekmece, 12 acil cümle, sağlık kartı, 6 akış kartı, 5 hastane, buluşma planı, kur defteri, yol koridoru karoları (236 → 316) |
 | 18 | 8 Ağu 2026 | **Saat farkı riski kapatıldı** (🕐 kritik kart + iki gün uyarısı + iki kod hatası), **Cepte yedi sekmeye bölündü**, **kur defteri kaldırıldı**, `sw.js` v10 |
+| 19 | 8 Ağu 2026 | **Haritaya beş otogar:** koordinatlar Wikidata + OSM'den doğrulandı, Cepte'de 🚌 sekmesi, turuncu harita pini, Günün Kartı'nda kalkış otogarı, karolar 316 → 390, `sw.js` v11 |
+
+### 8 Ağustos 2026 — beş otogar
+
+Haritada şehir, ev, havalimanı ve hastane pini vardı, **otogar yoktu** — turun dört bacağı
+otobüsle ve otogar aramak valizle, roamingsiz, tekrarlayan bir andı.
+
+**Koordinat doğrulaması.** İki kaynak ayrı ayrı sorgulandı: Wikidata SPARQL
+(`P31/P279* → Q494829`, Kosova + Kuzey Makedonya + Arnavutluk) ve Overpass API
+(`amenity=bus_station`). Sonuç:
+
+| Şehir | Otogar | Koordinat | Kaynak |
+|---|---|---|---|
+| Priştine | Stacioni i Autobusëve Prishtinë | 42.649845, 21.146782 | Wikidata **Q90292447** + OSM way/133420082 — iki kaynak, ~50 m fark |
+| Üsküp | Автобуска станица Скопје | 41.990749, 21.445646 | Wikidata **Q106638816** + OSM way/1512281050 — ~130 m fark |
+| Ohrid | Автобуска станица Охрид | 41.124576, 20.812164 | OSM way/722996637 — Wikidata'da öğe yok |
+| Dıraç | Stacioni i Autobusave Durrës | 41.317825, 19.453756 | OSM way/172317078 — Wikidata'da öğe yok |
+| Tiran | Terminali i Autobusave të Jugut dhe Veriut | 41.345260, 19.776992 | OSM relation/20983464 — Wikidata'da öğe yok |
+
+> Yazılan değer her yerde **OSM poligon merkezi**. Wikidata öğesi olan ikisinde iki kaynak
+> birbirini doğruluyor; kalan üçünde Wikidata'da otogar öğesi yok, o yüzden tek kaynak —
+> ama hepsi doğrulandı, hiçbiri _belirlenecek_ kalmadı.
+
+> Tiran'da birden çok terminal var (Doğu terminali, Uluslararası/Kosova terminali). Rotanın
+> kullandığı **Güney ve Kuzey Terminali**: Dıraç otobüsü buraya iniyor.
+
+**Ne eklendi.**
+
+| Nereye | Ne |
+|---|---|
+| `TUR.cepte.otogarlar` | Hastaneler alanıyla aynı yapı: şehir · ad (yerel alfabe) · `adLatin` · not · koordinat · **kaynak** |
+| Cepte | 🚌 **Otogarlar** sekmesi — yerel alfabede iri ad, adres kopyala, yol tarifi, altında kaynak satırı |
+| Harita | Turuncu yuvarlak 🚌 pin (`--c-otogar`, iki temada da aynı). Popup **ev popup'ının kalıbı**: yerel ad iri, latin altta, kopyalama + **koordinattan üretilmiş** Maps bağlantısı |
+| Günün Kartı | O gün `GUN_BACAK`'ta bacak varsa (12 · 13 · 16 · 19 Ağu) "Bugünkü yol" bloğuna **kalkış otogarı** — bacak adının okundan önceki şehirden bulunuyor |
+| Çevrimdışı karolar | `noktaZoomlari.otogar = z15-16, r:1` (evle aynı ölçek) → **+74 karo, 316 → 390 (~7,8 MB)**. "İndirilen alan" katmanına 700 m otogar çemberleri |
+
+**Ölçüm tahmin değil:** yeni toplam, `index.html`'deki `karoListesi()` fonksiyonu Node'da
+gerçek `TUR` verisiyle çalıştırılarak sayıldı (değişiklikten önce 316 çıkıyordu — mevcut
+kayıtla birebir).
 
 ### 8 Ağustos 2026 — saat farkı, Cepte sekmeleri, kur defterinin kaldırılması
 

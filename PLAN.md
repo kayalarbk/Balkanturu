@@ -555,6 +555,22 @@ Sitede `TUR.sehirler[].konum` ve `TUR.harita.havalimanlari[].konum` alanlarında
 | ✈ | Priştine Adem Yaşari Havalimanı (PRN) | Q643783 | 42.5728, 21.0358 |
 | ✈ | Tiran Nene Tereza Havalimanı (TIA) | Q217226 | 41.4147, 19.7206 |
 
+Otogar koordinatları — turun dört bacağı otobüsle, kalkış/varış noktaları
+`TUR.cepte.otogarlar[].konum` alanında duruyor. Haritada 🚌 turuncu yuvarlak pinle çizilir.
+Hepsi 8 Ağustos 2026'da doğrulandı; yazılan değer her yerde **OSM poligon merkezidir**,
+Wikidata öğesi olan ikisinde iki kaynak birbirini doğruluyor:
+
+| Şehir | Otogar | Koordinat | Kaynak |
+|---|---|---|---|
+| Priştine | Stacioni i Autobusëve Prishtinë | 42.649845, 21.146782 | Wikidata Q90292447 + OSM way/133420082 (~50 m fark) |
+| Üsküp | Автобуска станица Скопје | 41.990749, 21.445646 | Wikidata Q106638816 + OSM way/1512281050 (~130 m fark) |
+| Ohrid | Автобуска станица Охрид | 41.124576, 20.812164 | OSM way/722996637 — Wikidata'da öğe yok |
+| Dıraç | Stacioni i Autobusave Durrës | 41.317825, 19.453756 | OSM way/172317078 — Wikidata'da öğe yok |
+| Tiran | Terminali i Autobusave të Jugut dhe Veriut | 41.345260, 19.776992 | OSM relation/20983464 — Wikidata'da öğe yok |
+
+> Tiran'da birden çok terminal var (Doğu terminali, Uluslararası/Kosova terminali). Rotanın
+> kullandığı **Güney ve Kuzey Terminali**: Dıraç otobüsü buraya iniyor.
+
 Konaklama koordinatları — Airbnb ilan haritalarından, `TUR.cepte.konaklamalar[].konum`
 alanında duruyor. Haritada ayrı ikonla (🏠 kum rengi kare pin) çizilir:
 
@@ -628,6 +644,45 @@ açısından beklenen kalıp bu.
 ---
 
 ## Yapılanlar
+
+### 8 Ağustos 2026 — on dokuzuncu oturum
+
+**Haritaya beş otogar eklendi**
+
+Haritada şehir, ev, havalimanı ve hastane pini vardı; **otogar yoktu**. Turun dört bacağı
+otobüsle ve otogar aramak valizle, roamingsiz, tekrarlayan bir andı. Beş şehrin ana otogarı
+eklendi — koordinatların hepsi doğrulandı, hiçbiri "belirlenecek" kalmadı.
+
+**1. Koordinat doğrulaması.** Wikidata SPARQL (`P31/P279* → Q494829`, üç ülke) ve Overpass
+API (`amenity=bus_station`) ayrı ayrı sorgulandı. Priştine ile Üsküp'ün **iki kaynakta da**
+öğesi var ve değerler ~50 m / ~130 m içinde örtüşüyor; Ohrid, Dıraç ve Tiran için Wikidata'da
+otogar öğesi **yok**, o üçü yalnızca OSM'den. Yazılan değer her yerde OSM poligon merkezi.
+Tam tablo §8'de.
+
+**2. `TUR.cepte.otogarlar`.** Hastaneler alanıyla **aynı yapı**: şehir · ad (yerel alfabede) ·
+`adLatin` (Makedon olan ikisinde) · not · koordinat · kaynak. Cepte'de kendi sekmesi
+(🚌 Otogarlar): yerel alfabedeki ad büyük puntoyla, "Adresi kopyala" düğmesi ve yol tarifi.
+Kaynak satırı her kartın altında yazıyor — bir yıl sonra "bu koordinat nereden geldi"
+sorusuna cevap.
+
+**3. Harita pini.** Turuncu yuvarlak 🚌 pin, kırmızı ✚ hastane pininden ayrı. Popup **ev
+popup'ının kalıbı**: yerel alfabedeki ad iri, altında latin karşılığı, kopyalama düğmesi ve
+**koordinattan üretilmiş** Maps bağlantısı (adresten değil — adres yazımı yanlış eşleşebiliyor,
+koordinat eşleşmiyor). Pin rengi tema tokenı `--c-otogar`; hastane kırmızısı gibi iki temada
+da aynı kalıyor, çünkü haritadaki renk ayrımı temadan bağımsız okunmalı.
+
+**4. Günün Kartı — kalkış otogarı.** `GUN_BACAK`'ta o gün bir bacak varsa (12, 13, 16, 19
+Ağustos) "Bugünkü yol" bloğuna **kalkış otogarı** ekleniyor: bacak adı `"Priştine → Üsküp"`
+kalıbında, ok sabit, ilk parça kalkış şehri; o şehrin otogarı adı, kopyalama düğmesi ve
+harita bağlantısıyla basılıyor. Sabah valizle çıkarken sorulan tek soru buydu.
+
+**5. Çevrimdışı karolar: 316 → 390 (~7,8 MB).** Otogarlar evle aynı ölçekte indiriliyor
+(`noktaZoomlari.otogar = z15-16, r:1`) — "hangi kapı" sorusu sokak seviyesinde cevaplanmalı.
++74 karo. Sayı tahmin değil, `karoListesi()` gerçek koduyla ölçüldü. "İndirilen alan"
+katmanına da otogar çemberleri (700 m) eklendi; iki gösterim tek kaynaktan çizilmeye
+devam ediyor.
+
+---
 
 ### 8 Ağustos 2026 — on sekizinci oturum
 
@@ -717,7 +772,7 @@ kaybettim · kart çalışmıyor. Kısa ve sıralı; panik anında düşünmek z
 kaplıyordu; şehirler ARASI, özellikle Ohrid–Dıraç yolunda ve sınırda harita kullanılabilir
 yakınlıkta boştu. Rota çizgisi boyunca z11'de bir karo genişliğinde şerit eklendi:
 **236 → 316 karo (~6,5 MB)**. z12 seçilseydi 165 karo eklenecekti ve OSM'e karşı gözetilen
-sınır aşılacaktı.
+sınır aşılacaktı. *(8 Ağustos'ta beş otogarın z15-16 çevresiyle 390'a çıktı — aşağıya bak.)*
 
 **6. "İndirilen alan" katmanı.** Haritadaki ▦ düğmesi karo inen yerleri çiziyor: bölge
 kutusu (kesik çizgi), yol koridoru (kalın şerit) ve şehir/ev çemberleri. "Harita neden
