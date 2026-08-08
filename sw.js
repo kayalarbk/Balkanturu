@@ -35,12 +35,15 @@
    v13 — 8 Ağustos 2026: ?yazdir=acil — tek A4'e sığan acil çıktı kâğıdı
         (adresler, PNR'lar, acil numaralar, sağlık kartı, buluşma noktaları,
         acil cümleler). Sayfanın geri kalanı bu modda hiç kurulmuyor.
+   v14 — 8 Ağustos 2026: ?kontrol=1 — TUR objesini gezip 8 grupta rapor basan
+        veri tutarlılık denetimi (gün dizisi, koordinatlar, kimlikler, gün ↔
+        ulaşım, hava eşlemesi, yer tutucular, görseller, şehir ↔ harita).
 
    ⚠ Leaflet artık index.html'in <head>'inde DEĞİL, harita bölümü yaklaşınca
    enjekte ediliyor. APP_SHELL'de kalması bilinçli: çevrimdışıyken harita
    bölümüne inildiğinde dosyalar cache'ten gelsin diye burada ön belleğe
    alınıyor — yükleme sayfayı yavaşlatmıyor, install arka planda yapıyor. */
-const CACHE_VERSION = "balkan-v13";
+const CACHE_VERSION = "balkan-v14";
 const SHELL_CACHE = CACHE_VERSION + "-shell";
 const HAVA_CACHE = CACHE_VERSION + "-hava";
 

@@ -210,6 +210,13 @@ dokunmak gerekmez.**
   olarak basılır. Punto tek sayfaya sığacak şekilde otomatik seçilir (13,5 → 8 pt);
   sığmazsa en az öncelikli blok, acil cümleler, düşer. Kâğıt token kullanmaz, doğrudan
   siyah-beyaz yazar — iki tema da birebir aynı çıktıyı verir.
+- **Veri tutarlılık denetimi:** `?kontrol=1`. `TUR` objesini gezip sekiz grupta rapor
+  basar: gün dizisi (`tarihISO` biçim · aralık · boşluksuz sıra), koordinatlar (hepsi
+  Balkan kutusunda mı), kimlik tekrarları, `GUN_BACAK` ↔ `ulasim[].bacak`, hava
+  eşlemesi, "belirlenecek / kontrol edilecek / alınacak" geçen bütün alanlar, kapak ve
+  galeri görselleri, şehir ↔ harita (sıra, gün çapası, ev/otogar/hastane merkeze uzaklık).
+  ❌ hata · ⚠️ bakılmalı · ✅ tamam; her satırda alanın tam yolu yazar. Normal render'a
+  dokunmaz, hiçbir şeyi değiştirmez — veriye dokunduktan sonra bir kez çalıştır.
 - **Kontrol listesi:** işaretler tarayıcının `localStorage`'ında `balkan2026.hazirlik`
   anahtarıyla saklanır. Liste 10/10 olunca konfeti ve kutlama kutusu çıkar — yalnızca
   tamamlanma anında, her açılışta değil. Yeni madde eklerken `id` alanının benzersiz olmasına dikkat et;

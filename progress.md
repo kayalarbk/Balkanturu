@@ -9,8 +9,8 @@
 **Son güncelleme:** 8 Ağustos 2026
 **Depo:** https://github.com/kayalarbk/Balkanturu (`main`)
 **Yayın:** https://kayalarbk.github.io/Balkanturu/ (GitHub Pages, `main` / root — build adımı yok)
-**Son commit:** `6af1489` + acil çıktı kâğıdı oturumu
-**Çalışma ağacı:** temiz · **Toplam commit:** 30 · **Oturum sayısı:** 21
+**Son commit:** `0163588` + veri denetimi oturumu
+**Çalışma ağacı:** temiz · **Toplam commit:** 31 · **Oturum sayısı:** 22
 
 ---
 
@@ -269,6 +269,7 @@ tekrarlanmayan maddeleri "🍽 Sofrada" kartına girdi.
 | **🏥 Hastaneler** | 5 şehrin ana hastanesi, koordinatı doğrulanmış (Wikidata + OSM). Cepte'de liste, haritada ✚ pini, Günün Kartı'nda o günkü şehrinki |
 | **🚌 Otogarlar** | 5 şehrin ana otogarı, koordinatı doğrulanmış (Wikidata + OSM, kaynak her kartta yazılı). Cepte'de liste, haritada turuncu 🚌 pini, Günün Kartı'nda o günün **kalkış otogarı** |
 | **📅 Takvim dosyası** | Hazırlık bölümünden inen **balkanlarda-ask.ics** — 11 etkinlik, alarmlar dosyanın içinde. iOS'ta PWA bildirimi güvenilmez olduğu için telefonun kendi takvim alarmına devrediliyor: site hiç açılmasa da çalar. Saatler **UTC + Z** (VTIMEZONE yok — gerekçesi aşağıda) |
+| **🔎 Veri tutarlılık denetimi** | `?kontrol=1` — `TUR` objesini gezip 8 grupta rapor basar: gün dizisi · koordinatlar (Balkan kutusu) · kimlikler · gün ↔ ulaşım · hava eşlemesi · yer tutucular · görseller · şehir ↔ harita. ❌ / ⚠️ / ✅ ve tam alan yolu. Normal render'a hiç dokunmaz. **İlk çalıştırma: 0 hata, 19 açık yer tutucu** |
 | **🖨 Acil çıktı kâğıdı** | `?yazdir=acil` — tek A4: üç adres (yerel alfabede büyük punto) + kapı kodu/wifi · iki uçuş (sefer · PNR · saat) · 112 + üç büyükelçilik + sigorta · sağlık kartı · buluşma noktaları · dört acil cümle. Boş alanlar **çizgi** basılır, "belirlenecek" yazmaz. Punto tek sayfaya sığacak şekilde otomatik seçilir; aydınlık ve koyu temada **birebir aynı** basar |
 | **🧭 Ayrı düşersek** | Sabit kural (saat başı 10 dk bekleme) + şehir başına buluşma noktası alanı (cihazda) |
 | **Cepte sekmeleri** | Yedi kart alt alta değil sekmede: 🏨 Konaklama · 🆘 Acil numaralar · 🏥 Hastaneler · 🩺 Sağlık · 🧭 Ayrı düşersek · 💬 Acil cümleler · 🗣 Kelimeler. Ok tuşları + Home/End, 44 px hedef; **yazdırmada hepsi birden basılır** |
@@ -380,6 +381,8 @@ Yedek dosyası bu kodları **içerir** — yalnızca kendi cihazlarınızla payl
 | Aynı özgüllükte iki kural, sıraya bakmamak | `.nav-btn-metin{width:auto}` dosyada daha ÖNCE, `.nav-btn{width:2.5rem}` daha SONRA → ikincisi kazanıyordu, düğme 44 px'e sıkışıp metni dışarı taşıyordu. Kısa metinde ("Kart") göze batmıyor → çakışan kuralı `.nav-btn.nav-btn-metin` gibi tek sınıf daha ekleyerek yaz |
 | Commons thumb adresini elle kurmak | `/thumb/<a>/<ab>/…` yolundaki hash öneki MD5'ten geliyor, tahmin edilemez → adresi **API'nin `thumburl` alanından** al, `?utm_…` parametrelerini at, sonra `curl -I` ile doğrula |
 | PNG'yi lezzet görseli seçmek | Commons PNG'lerde 640 px thumb `400` dönebiliyor ve tam boy dosya megabaytlarca olabiliyor (bir örnekte 820 KB) → fotoğraf için JPEG seç |
+| "Denetim 0 hata verdi" deyip geçmek | Sıfır sonucu denetimin ÇALIŞTIĞINI kanıtlamaz. `index.html`'in bilerek bozulmuş bir kopyasını ayrı porttan sun ve her kontrolün gerçekten ateşlendiğini gör (8 bozulma → 14 ❌ yakalandı) |
+| Render'dan önce dönen bir moda, aşağıda `const` ile tanımlanmış bir şeyi okutmak | `GUN_BACAK` render'ın ortasındaydı; denetim ondan önce döndüğü için ölü bölgeye düşerdi → tanımı dosyanın başına taşı, eski yerine yönlendiren not bırak |
 | Kâğıda basılan ayrı bir sayfayı sitenin içine kurmak | Genel stiller sızıyor: `section:nth-of-type(even)` gradyanı **pembe zemin** bastı, `table{min-width:34rem}` tabloyu kâğıdın dışına taşırdı, `section{padding-block:10pt !important}` altı bloğa yalnızca **kâğıtta** 10'ar pt ekleyip sığdırma hesabını bozdu → kâğıdın kökünde sert sıfırlama (`.ay-sayfa *`) + genel yazdırma bloğundaki `!important`ları ismen geri alma |
 | Dikey flex'te `flex:1 1 4em` | `flex-basis` **ana eksendir**: sütun yönlü kapta 4em genişlik değil 4em **yükseklik** olur, `height` da onu yenemez → doldurma çizgisi satırı üç katına çıkardı; sütun yönlü kapta `flex:0 0 auto` + `min-width` yaz |
 | Yazdırma düzenini `!important` kuralın üstüne inline stille ölçmek | `.ay-sayfa{width:auto !important}` inline `style.width`'i yeniyor; ölçüm sessizce **viewport genişliğinde** yapıldı ve "kâğıt daha kısa" diye yanlış sonuç verdi → `setProperty(..., 'important')` ile ölç |
@@ -431,7 +434,40 @@ kontrolü yapılmadı.**
 | 18 | 8 Ağu 2026 | **Saat farkı riski kapatıldı** (🕐 kritik kart + iki gün uyarısı + iki kod hatası), **Cepte yedi sekmeye bölündü**, **kur defteri kaldırıldı**, `sw.js` v10 |
 | 19 | 8 Ağu 2026 | **Haritaya beş otogar:** koordinatlar Wikidata + OSM'den doğrulandı, Cepte'de 🚌 sekmesi, turuncu harita pini, Günün Kartı'nda kalkış otogarı, karolar 316 → 390, `sw.js` v11 |
 | 20 | 8 Ağu 2026 | **İndirilebilir .ics takvimi** (11 etkinlik, UTC damgalı, alarmlı) ve **Cepte yatay sekmeden alt alta akordeona** çevrildi, `sw.js` v12 |
+| 22 | 8 Ağu 2026 | **Veri tutarlılık denetimi** — `?kontrol=1`, 8 grup, ❌/⚠️/✅ raporu; denetimin kendisi bozulmuş kopyayla doğrulandı, `sw.js` v14 |
 | 21 | 8 Ağu 2026 | **Acil çıktı kâğıdı** — `?yazdir=acil` tek A4'e sığan kâğıt yedeği (adres · PNR · acil numara · sağlık · buluşma · cümleler), boş alanlar çizgi, punto otomatik, iki temada aynı çıktı, `sw.js` v13 |
+
+### 8 Ağustos 2026 — veri tutarlılık denetimi (`?kontrol=1`)
+
+**1. Sorun.** Yukarıdaki "Kırılganlık uyarısı" maddeleri elle takip ediliyordu. Hepsi
+**sessiz** bozulmalar: `tarihISO` değişirse eski anı notu erişilemez olur, `id` değişirse
+işaret ya da kapı kodu kopar, `gunSehir`'deki bir ad `sehirler[]` ile ayrışırsa o günün
+hava tahmini hiç çekilmez. Hiçbiri ekranda hata göstermez.
+
+**2. Çözüm.** `?kontrol=1` — acil kâğıdıyla aynı kalıp: gövdeyi raporla değiştirip
+render'dan çıkar. Yalnızca `TUR` + `GUN_BACAK` okunur; DOM, ağ ve `localStorage`'a
+bakılmaz, yani çıktı her cihazda aynı.
+
+**3. Sekiz grup:** gün dizisi (biçim · aralık · boşluksuz sıra) · koordinatlar (20 nokta,
+lat 39-43 / lon 19-22) · kimlikler (dört liste, tekrar ve boş) · gün ↔ ulaşım
+(`GUN_BACAK` ↔ `ulasim[].bacak`) · hava eşlemesi (kapsama + ad + `mevsimNormali`) ·
+yer tutucular (Kural 3 envanteri) · görseller (URL + atıf) · şehir ↔ harita
+(`haritaSira` benzersiz ve kesintisiz, `haritaGun` var olan kart, ev/otogar/hastane şehir
+merkezinin 15 km içinde).
+
+**4. Beklenen istisnalar gerekçesiyle raporlanıyor**, sessizce atlanmıyor: uçuş bacaklarının
+gün eşlemesi olmaması ve 20 Ağustos'un `gunSehir`'de bulunmaması ✅ olarak, sebebi yazılarak
+çıkıyor.
+
+**5. İlk sonuç: 0 ❌ · 19 ⚠️ · 18 ✅.** Bütün uyarılar 6. gruptaki yer tutucular; yapısal
+grupların hepsi temiz.
+
+**6. Denetimin kendisi doğrulandı.** `index.html`'in sekiz yerinden bilerek bozulmuş bir
+kopyası ayrı porttan sunuldu (gün sırası, koordinat, tekrar eden id, olmayan bacak, bozuk
+şehir adı, boş kapak URL'i, tekrar eden `haritaSira`, 32 km öteye taşınmış hastane) —
+**sekizi de yakalandı**, 14 ❌ basıldı. Kopya silindi.
+
+---
 
 ### 8 Ağustos 2026 — acil çıktı kâğıdı (`?yazdir=acil`)
 

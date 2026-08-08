@@ -3434,6 +3434,74 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
 }
 
 /* =====================================================================
+   VERİ TUTARLILIK DENETİMİ — ?kontrol=1
+   Geliştirici ekranı: yalnızca ekranda okunur, yazdırılmaz. Acil kâğıdının
+   aksine burada tema token'ları KULLANILIR — bu bir çıktı değil, sitenin
+   içinden bakılan bir pano.
+   ===================================================================== */
+.dn-arac{
+  position:sticky; top:0; z-index:5;
+  display:flex; flex-wrap:wrap; align-items:center; gap:var(--s-3);
+  padding:var(--s-3) var(--s-4);
+  background:var(--c-yuzey); border-bottom:1px solid var(--c-line);
+}
+.dn-arac > b{ font-family:ui-monospace, SFMono-Regular, Menlo, monospace; }
+.dn-don{ color:var(--c-ink-soft); text-decoration:none; font-weight:600; }
+.dn-ipucu{ flex:1 1 16ch; margin:0; font-size:.85rem; color:var(--c-ink-soft); }
+
+.dn-govde{ max-width:960px; margin:0 auto; padding:var(--s-4); }
+.dn-ust h1{ margin:0 0 var(--s-2); font-size:1.5rem; }
+.dn-alt{ margin:0 0 var(--s-3); color:var(--c-ink-soft); font-size:.9rem; }
+.dn-ozet{ display:flex; flex-wrap:wrap; gap:var(--s-2); margin-bottom:var(--s-5); }
+.dn-rozet{
+  padding:.35em .8em; border-radius:var(--r-2); font-weight:700; font-size:.9rem;
+  border:1px solid var(--c-line); background:var(--c-yuzey);
+}
+.dn-rozet[data-d="hata"]{ border-color:var(--c-warn-line); }
+
+/* Seçici `section.dn-grup`: düz `.dn-grup` (0,1,0), sitenin
+   `section:nth-of-type(even)` gradyanını (0,1,1) yenemiyor ve grupların
+   yarısı pembe zeminle çıkıyordu — acil kâğıdındaki tuzağın aynısı. */
+section.dn-grup{
+  margin-bottom:var(--s-4); padding:var(--s-3) var(--s-4);
+  background:var(--c-yuzey); border:1px solid var(--c-line);
+  border-radius:var(--r-2); border-left-width:4px;
+}
+.dn-grup[data-d="hata"]{ border-left-color:var(--c-warn-line); }
+.dn-grup[data-d="uyari"]{ border-left-color:var(--c-teal-soft); }
+.dn-grup[data-d="ok"]{ border-left-color:var(--c-ok); }
+.dn-grup h2{ margin:0 0 var(--s-3); font-size:1.02rem; }
+.dn-grup h2 small{
+  display:block; margin-top:.2em; font-weight:400; font-size:.82rem;
+  color:var(--c-ink-soft);
+}
+.dn-satir{
+  display:grid; grid-template-columns:1.5em minmax(0,auto) minmax(0,1fr);
+  gap:.2em var(--s-3); align-items:baseline;
+  padding:.35em 0; font-size:.88rem;
+}
+.dn-satir + .dn-satir{ border-top:1px dashed var(--c-line); }
+.dn-satir code{
+  font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size:.85em; color:var(--c-teal); overflow-wrap:anywhere;
+}
+.dn-satir[data-d="ok"]{ color:var(--c-ink-soft); }
+.dn-satir > span:last-child{ overflow-wrap:anywhere; }
+.dn-son{ padding:var(--s-4); border-top:2px solid var(--c-line); }
+.dn-son p{ margin:0 0 .3em; }
+
+/* Dar ekranda üç sütun sığmıyor: alan adı kendi satırına iner */
+@media(max-width:699.98px){
+  .dn-satir{ grid-template-columns:1.5em minmax(0,1fr); }
+  .dn-satir code{ grid-column:2; }
+  .dn-satir > span:last-child{ grid-column:2; }
+}
+
+@media print{
+  .dn-arac{ display:none !important; }
+}
+
+/* =====================================================================
    ACİL ÇIKTI — ?yazdir=acil (tek A4)
    Ekrandaki önizleme ile kâğıt AYNI şeydir: aynı kutu, aynı ölçü, aynı
    renkler. Bu yüzden kâğıt token kullanmaz — doğrudan #000 / #fff yazar.
@@ -4181,10 +4249,469 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
     $("#ay-yazdir").addEventListener("click", () => window.print());
   }
 
-  if (new URLSearchParams(location.search).get("yazdir") === "acil") {
-    acilKagidiKur();
-    return;   /* sayfanın geri kalanı hiç kurulmaz */
+  /* ---------- GÜN → ULAŞIM BACAĞI ----------
+     Hangi günün hangi ulaşım bacağı olduğu. Bugün ekranı, günün kartı ve
+     ?kontrol=1 denetimi aynı eşlemeyi kullanır, ikisi ayrışmasın diye tek
+     yerde durur. Denetim modülü render'dan önce döndüğü için tanım burada,
+     dosyanın başında olmak zorunda. */
+  const GUN_BACAK = {
+    "2026-08-12": "Priştine → Üsküp",
+    "2026-08-13": "Üsküp → Ohrid",
+    "2026-08-16": "Ohrid → Dıraç",
+    /* 18 Ağustos'ta ulaşım bacağı YOK — Tiran kaçamağı kaldırıldı, o gün
+       Dıraç'tan çıkılmıyor. Dıraç → Tiran artık yalnızca 19'unda. */
+    "2026-08-19": "Dıraç → Tiran"
+  };
+
+  /* =====================================================================
+     VERİ TUTARLILIK DENETİMİ — ?kontrol=1
+     Neden var: progress.md'deki "kırılganlık uyarıları" (id değişirse kayıt
+     kopar, tarihISO değişirse anı notu erişilemez olur, PLAN.md ile TUR
+     ayrışmasın…) bugüne kadar ELLE takip ediliyordu. Bu modül aynı
+     kontrolleri makineye yaptırır.
+
+     Normal render'a hiç dokunmaz: acil kâğıdı gibi ayrı bir mod olarak
+     çalışır, gövdeyi raporla değiştirip render'dan çıkar. Denetim sadece
+     TUR objesini ve GUN_BACAK eşlemesini okur — DOM'a, ağa, localStorage'a
+     bakmaz, yani çıktısı her cihazda aynıdır.
+
+     Üç seviye: ✅ tamam · ⚠️ bakılmalı (bilinçli olabilir) · ❌ hata.
+     ===================================================================== */
+  function denetimRaporuKur() {
+    const gruplar = [];
+    const grup = (ad, aciklama) => {
+      const g = { ad, aciklama, satirlar: [] };
+      gruplar.push(g);
+      return g;
+    };
+    const yaz = (g, durum, alan, mesaj) => g.satirlar.push({ durum, alan, mesaj });
+    const ok = (g, alan, mesaj) => yaz(g, "ok", alan, mesaj);
+    const uyari = (g, alan, mesaj) => yaz(g, "uyari", alan, mesaj);
+    const hata = (g, alan, mesaj) => yaz(g, "hata", alan, mesaj);
+
+    const T = TUR;
+    const C = T.cepte || {};
+    const gunISOlari = (T.gunler || []).map((g) => g.tarihISO);
+    const sehirAdlari = (T.sehirler || []).map((s) => s.ad);
+
+    /* İki koordinat arası kuş uçuşu km (haversine) — şehir merkezi ile o
+       şehirdeki ev/otogar/hastane birbirine yakın mı diye bakmak için. */
+    const KM = (a, b) => {
+      const R = 6371, rad = (d) => (d * Math.PI) / 180;
+      const dLat = rad(b[0] - a[0]), dLon = rad(b[1] - a[1]);
+      const h = Math.sin(dLat / 2) ** 2 +
+        Math.cos(rad(a[0])) * Math.cos(rad(b[0])) * Math.sin(dLon / 2) ** 2;
+      return 2 * R * Math.asin(Math.sqrt(h));
+    };
+
+    /* ---------------------------------------------------------------
+       1) GÜN DİZİSİ — tarihISO var mı, aralıkta mı, boşluksuz sıralı mı
+       `tarihISO` anı notlarının localStorage anahtarıdır: değişirse eski
+       not erişilemez olur. Boşluk ya da tekrar ise Bugün ekranını ve
+       gün kartı gezintisini sessizce bozar.
+       --------------------------------------------------------------- */
+    (function () {
+      const g = grup("1. Gün dizisi", "gunler[].tarihISO — anı notlarının anahtarı");
+      const BAS = "2026-08-12", BIT = "2026-08-20";
+      const gunler = T.gunler || [];
+      if (!gunler.length) { hata(g, "TUR.gunler", "Gün dizisi boş."); return; }
+
+      let hatasiz = true;
+      gunler.forEach((gun, i) => {
+        const yol = "TUR.gunler[" + i + "]";
+        if (!gun.tarihISO) {
+          hata(g, yol + ".tarihISO", "Alan yok — bu günün anı notu ve Bugün eşleşmesi çalışmaz.");
+          hatasiz = false;
+          return;
+        }
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(gun.tarihISO)) {
+          hata(g, yol + ".tarihISO", "Biçim YYYY-AA-GG değil: " + gun.tarihISO);
+          hatasiz = false;
+          return;
+        }
+        if (gun.tarihISO < BAS || gun.tarihISO > BIT) {
+          hata(g, yol + ".tarihISO", gun.tarihISO + " tur aralığının (" + BAS + " – " + BIT + ") dışında.");
+          hatasiz = false;
+        }
+        if (i > 0) {
+          const fark = gunFarki(gunler[i - 1].tarihISO, gun.tarihISO);
+          if (fark !== 1) {
+            hata(g, yol + ".tarihISO",
+              "Bir önceki günle arasındaki fark " + fark + " gün (1 olmalı): " +
+              gunler[i - 1].tarihISO + " → " + gun.tarihISO);
+            hatasiz = false;
+          }
+        }
+      });
+      const beklenen = gunFarki(BAS, BIT) + 1;
+      if (gunler.length !== beklenen) {
+        uyari(g, "TUR.gunler.length",
+          gunler.length + " gün var, " + BAS + " – " + BIT + " aralığı " + beklenen + " gün.");
+      } else if (hatasiz) {
+        ok(g, "TUR.gunler", beklenen + " gün, " + BAS + " – " + BIT + ", boşluksuz ve sıralı.");
+      }
+    })();
+
+    /* ---------------------------------------------------------------
+       2) KOORDİNATLAR — hepsi Balkan kutusunda mı
+       Yanlış yazılmış tek bir rakam pini Akdeniz'e atar ve çevrimdışı
+       karo indirmesini de oraya yollar. Kutu bilerek dar: lat 39-43,
+       lon 19-22 turun tamamını kapsıyor.
+       --------------------------------------------------------------- */
+    (function () {
+      const g = grup("2. Koordinatlar", "lat 39 – 43 · lon 19 – 22 (Balkan kutusu)");
+      const LAT = [39, 43], LON = [19, 22];
+      const noktalar = []
+        .concat((T.sehirler || []).map((s, i) => ["TUR.sehirler[" + i + "] " + s.ad, s.konum]))
+        .concat(((T.harita || {}).havalimanlari || []).map((h, i) => ["TUR.harita.havalimanlari[" + i + "] " + h.kod, h.konum]))
+        .concat((C.konaklamalar || []).map((k, i) => ["TUR.cepte.konaklamalar[" + i + "] " + k.sehir, k.konum]))
+        .concat((C.hastaneler || []).map((h, i) => ["TUR.cepte.hastaneler[" + i + "] " + h.sehir, h.konum]))
+        .concat((C.otogarlar || []).map((o, i) => ["TUR.cepte.otogarlar[" + i + "] " + o.sehir, o.konum]));
+
+      let bozuk = 0;
+      noktalar.forEach(([alan, konum]) => {
+        if (!Array.isArray(konum) || konum.length !== 2 ||
+            !Number.isFinite(konum[0]) || !Number.isFinite(konum[1])) {
+          hata(g, alan, "Koordinat iki sayılık dizi değil: " + JSON.stringify(konum));
+          bozuk++;
+          return;
+        }
+        const [la, lo] = konum;
+        if (la < LAT[0] || la > LAT[1] || lo < LON[0] || lo > LON[1]) {
+          hata(g, alan, "Kutunun dışında: " + la + ", " + lo);
+          bozuk++;
+        }
+      });
+      if (!bozuk) ok(g, "—", noktalar.length + " koordinatın hepsi kutunun içinde.");
+
+      /* Çevrimdışı karo kutusu BİLEREK geniş (Leaflet görüş alanının
+         dışından da karo ister) — denetime dâhil değil, bilgi olarak yazılır. */
+      const kutu = (((T.harita || {}).cevrimdisi) || {}).kutu;
+      if (kutu) {
+        ok(g, "TUR.harita.cevrimdisi.kutu",
+          "Bilerek daha geniş (" + kutu.guneyBati.join(", ") + " → " + kutu.kuzeyDogu.join(", ") +
+          ") — karo kutusu denetime dâhil değil.");
+      }
+    })();
+
+    /* ---------------------------------------------------------------
+       3) KİMLİKLER — tekrar var mı
+       `kontrolListesi[].id` hazırlık işaretlerinin, `konaklamalar[].id`
+       kapı kodlarının localStorage anahtarı. Tekrar eden id iki kaydı
+       birbirine bağlar; değişen id kaydı erişilemez yapar.
+       --------------------------------------------------------------- */
+    (function () {
+      const g = grup("3. Kimlikler", "kontrolListesi[].id · cepte.konaklamalar[].id — localStorage anahtarları");
+      const bak = (liste, yol, etiket) => {
+        const gorulen = {};
+        let tekrar = 0;
+        (liste || []).forEach((x, i) => {
+          const alan = yol + "[" + i + "].id";
+          if (!x.id) { hata(g, alan, "Kimlik yok."); tekrar++; return; }
+          if (gorulen[x.id] != null) {
+            hata(g, alan, '"' + x.id + '" zaten ' + yol + "[" + gorulen[x.id] + "] tarafından kullanılıyor.");
+            tekrar++;
+            return;
+          }
+          gorulen[x.id] = i;
+        });
+        if (!tekrar) ok(g, yol, (liste || []).length + " " + etiket + ", kimlikler benzersiz.");
+      };
+      bak(T.kontrolListesi, "TUR.kontrolListesi", "hazırlık maddesi");
+      bak(C.konaklamalar, "TUR.cepte.konaklamalar", "konaklama");
+      /* Sağlık kartı ve buluşma noktaları da aynı depoyu kullanıyor */
+      bak((C.saglik || {}).kisiler, "TUR.cepte.saglik.kisiler", "kişi");
+      bak((C.bulusma || {}).sehirler, "TUR.cepte.bulusma.sehirler", "buluşma şehri");
+    })();
+
+    /* ---------------------------------------------------------------
+       4) GÜN ↔ ULAŞIM BACAĞI
+       GUN_BACAK'ın anahtarı gerçek bir gün, değeri gerçek bir ulasim[]
+       satırı olmalı; yoksa Bugün ekranı ve günün kartı o günün ulaşımını
+       sessizce boş bırakır.
+       --------------------------------------------------------------- */
+    (function () {
+      const g = grup("4. Gün ↔ ulaşım bacağı", "GUN_BACAK ↔ TUR.ulasim[].bacak");
+      const bacaklar = (T.ulasim || []).map((u) => u.bacak);
+      let sorun = 0;
+
+      Object.keys(GUN_BACAK).forEach((iso) => {
+        if (gunISOlari.indexOf(iso) < 0) {
+          hata(g, 'GUN_BACAK["' + iso + '"]', "Bu tarihte bir gün yok (TUR.gunler ile eşleşmiyor).");
+          sorun++;
+        }
+        if (bacaklar.indexOf(GUN_BACAK[iso]) < 0) {
+          hata(g, 'GUN_BACAK["' + iso + '"]',
+            '"' + GUN_BACAK[iso] + '" TUR.ulasim içinde yok — o günün ulaşım satırı boş kalır.');
+          sorun++;
+        }
+      });
+
+      const kullanilan = Object.values(GUN_BACAK);
+      (T.ulasim || []).forEach((u, i) => {
+        if (kullanilan.indexOf(u.bacak) > -1) return;
+        /* Uçuşların gün eşlemesi olmaması beklenen: uçuş bilgisi kendi
+           bölümünde ve Günün Kartı'nda ucuslar[] üzerinden geliyor. */
+        if (/Uçak/.test(u.yontem || "")) {
+          ok(g, "TUR.ulasim[" + i + "]", '"' + u.bacak + '" — uçuş, gün eşlemesi beklenmiyor.');
+        } else {
+          uyari(g, "TUR.ulasim[" + i + "]",
+            '"' + u.bacak + '" hiçbir güne bağlı değil — Bugün ekranında görünmez.');
+          sorun++;
+        }
+      });
+
+      if (!sorun) ok(g, "GUN_BACAK", Object.keys(GUN_BACAK).length + " eşlemenin hepsi geçerli.");
+    })();
+
+    /* ---------------------------------------------------------------
+       5) HAVA DURUMU EŞLEMESİ
+       gunSehir her günü kapsamalı ve adlar sehirler[] ile birebir
+       eşleşmeli — eşleşmezse o günün tahmini hiç çekilmez.
+       --------------------------------------------------------------- */
+    (function () {
+      const g = grup("5. Hava durumu eşlemesi", "havaDurumu.gunSehir ↔ gunler[] ve sehirler[]");
+      const HV = T.havaDurumu || {};
+      const GS = HV.gunSehir || {};
+      /* Dönüş günü bilerek dışarıda: 20 Ağustos'ta şehir yok, kod onu
+         "Yolda" diye ele alıyor (bugunKartiCiz / gunKartiIcerik). */
+      const ISTISNA = ["2026-08-20"];
+      let sorun = 0;
+
+      gunISOlari.forEach((iso) => {
+        if (GS[iso]) return;
+        if (ISTISNA.indexOf(iso) > -1) {
+          ok(g, 'gunSehir["' + iso + '"]', "Yok — dönüş günü, kod bunu \"Yolda\" olarak ele alıyor (beklenen).");
+        } else {
+          hata(g, 'gunSehir["' + iso + '"]', "Bu günün şehri yok — hava tahmini çekilmez.");
+          sorun++;
+        }
+      });
+
+      Object.keys(GS).forEach((iso) => {
+        if (gunISOlari.indexOf(iso) < 0) {
+          hata(g, 'gunSehir["' + iso + '"]', "TUR.gunler içinde böyle bir gün yok.");
+          sorun++;
+        }
+        if (sehirAdlari.indexOf(GS[iso]) < 0) {
+          hata(g, 'gunSehir["' + iso + '"]',
+            '"' + GS[iso] + '" TUR.sehirler[].ad ile eşleşmiyor — koordinat bulunamaz.');
+          sorun++;
+        }
+      });
+
+      /* Mevsim normali: API penceresi dışında kalan günlerde gösterilen yedek */
+      const MN = HV.mevsimNormali || {};
+      [...new Set(Object.values(GS))].forEach((ad) => {
+        if (!MN[ad]) {
+          uyari(g, 'havaDurumu.mevsimNormali["' + ad + '"]',
+            "Yok — tarih tahmin penceresinin dışındayken bu şehir boş kalır.");
+          sorun++;
+        }
+      });
+
+      if (!sorun) ok(g, "havaDurumu.gunSehir", Object.keys(GS).length + " gün eşlendi, adların hepsi tutuyor.");
+    })();
+
+    /* ---------------------------------------------------------------
+       6) YER TUTUCULAR — "belirlenecek / kontrol edilecek / alınacak"
+       Kural 3 gereği doğrulanmamış her bilgi bu ifadelerle işaretleniyor.
+       Burada hepsi tek listede toplanıyor: hata değil, AÇIK İŞ.
+       --------------------------------------------------------------- */
+    (function () {
+      const g = grup("6. Yer tutucular", "Kural 3: doğrulanmamış bilgi bu ifadelerle işaretlenir");
+      const RE = /(belirlenecek|kontrol edilecek|bilet alınacak|alınacak|yerinde alınır)/gi;
+      const bulunan = [];
+      const tara = (nesne, yol) => {
+        if (typeof nesne === "string") {
+          const m = nesne.match(RE);
+          if (m) bulunan.push({ yol, metin: nesne });
+          return;
+        }
+        if (Array.isArray(nesne)) { nesne.forEach((v, i) => tara(v, yol + "[" + i + "]")); return; }
+        if (nesne && typeof nesne === "object") {
+          Object.keys(nesne).forEach((k) => tara(nesne[k], yol + "." + k));
+        }
+      };
+      tara(T, "TUR");
+
+      const kisalt = (s) => (s.length > 90 ? s.slice(0, 88) + "…" : s);
+      bulunan.forEach((b) => {
+        /* TUR.belirlenecek zaten "açık kalanlar" listesinin kendisi */
+        if (b.yol.indexOf("TUR.belirlenecek[") === 0) ok(g, b.yol, kisalt(b.metin));
+        else uyari(g, b.yol, kisalt(b.metin));
+      });
+      if (!bulunan.length) ok(g, "TUR", "Hiç yer tutucu kalmamış.");
+    })();
+
+    /* ---------------------------------------------------------------
+       7) GÖRSELLER — kapak ve galeri URL'leri
+       Boş / tanımsız URL sessiz bir yer tutucuya düşüyor ve her kaydırmada
+       boşa istek atıyor (9 kırık lezzet görseli böyle bulunmuştu).
+       --------------------------------------------------------------- */
+    (function () {
+      const g = grup("7. Görseller", "sehirler[].kapak · galeri[] · lezzetler[] — URL var mı");
+      const url = (u) => typeof u === "string" && u.trim() &&
+        (u.indexOf("./") === 0 || u.indexOf("https://") === 0);
+      let sorun = 0, kapakSayi = 0, galeriSayi = 0, lezzetsiz = 0, lezzetSayi = 0;
+
+      (T.sehirler || []).forEach((s, i) => {
+        const yol = "TUR.sehirler[" + i + "] " + s.ad;
+        const k = s.kapak;
+        if (!k || !url(k.gorsel)) {
+          hata(g, yol + ".kapak.gorsel", "Kapak görseli yok ya da geçersiz: " + JSON.stringify(k && k.gorsel));
+          sorun++;
+        } else {
+          kapakSayi++;
+          if (!k.alt) { uyari(g, yol + ".kapak.alt", "Alternatif metin yok."); sorun++; }
+          if (!k.kaynak) { hata(g, yol + ".kapak.kaynak", "Atıf yok — künye yükümlülüğü."); sorun++; }
+        }
+        (s.galeri || []).forEach((x, j) => {
+          const gy = yol + ".galeri[" + j + "]";
+          galeriSayi++;
+          if (!url(x.gorsel)) { hata(g, gy + ".gorsel", "Görsel yok ya da geçersiz: " + JSON.stringify(x.gorsel)); sorun++; }
+          if (!x.kaynak) { hata(g, gy + ".kaynak", "Atıf yok."); sorun++; }
+          if (!x.alt) { uyari(g, gy + ".alt", "Alternatif metin yok."); sorun++; }
+        });
+        (s.lezzetler || []).forEach((x, j) => {
+          lezzetSayi++;
+          const ly = yol + ".lezzetler[" + j + "] " + x.ad;
+          if (x.gorsel == null) { lezzetsiz++; return; }   /* opsiyonel */
+          if (!url(x.gorsel)) { hata(g, ly + ".gorsel", "Geçersiz URL: " + JSON.stringify(x.gorsel)); sorun++; }
+          else if (!x.kaynak) { hata(g, ly + ".kaynak", "Görsel var ama atıf yok."); sorun++; }
+        });
+      });
+
+      if (!sorun) ok(g, "—", kapakSayi + " kapak, " + galeriSayi + " galeri görseli — hepsi yerinde ve atıflı.");
+      ok(g, "TUR.sehirler[].lezzetler",
+        lezzetSayi + " lezzetin " + lezzetsiz + " tanesinde görsel yok (opsiyonel — 🍽 yer tutucusu çıkar).");
+      ok(g, "—", "URL'ler yalnızca ŞEKİL olarak denetlendi; gerçekten açılıyor mu diye ağ isteği atılmaz.");
+    })();
+
+    /* ---------------------------------------------------------------
+       8) ŞEHİR ↔ HARİTA
+       Harita durakları sehirler[].konum + haritaSira'dan çiziliyor;
+       haritaGun gün kartına çapa atıyor. Ayrıca o şehirdeki ev / otogar /
+       hastane şehir merkezine yakın mı diye bakılıyor — rakam hatasını
+       kutu denetiminin kaçırdığı yerde yakalar.
+       --------------------------------------------------------------- */
+    (function () {
+      const g = grup("8. Şehir ↔ harita", "sehirler[].konum · haritaSira · haritaGun ↔ pinler");
+      const sehirler = T.sehirler || [];
+      let sorun = 0;
+      const siralar = {};
+
+      sehirler.forEach((s, i) => {
+        const yol = "TUR.sehirler[" + i + "] " + s.ad;
+        if (!Array.isArray(s.konum)) { hata(g, yol + ".konum", "Koordinat yok — haritada pini çıkmaz."); sorun++; }
+        if (!s.haritaSira) { hata(g, yol + ".haritaSira", "Sıra yok — durak listesine girmez."); sorun++; }
+        else if (siralar[s.haritaSira] != null) {
+          hata(g, yol + ".haritaSira", s.haritaSira + " zaten " + sehirler[siralar[s.haritaSira]].ad + " tarafından kullanılıyor.");
+          sorun++;
+        } else siralar[s.haritaSira] = i;
+
+        if (!s.haritaGun) { uyari(g, yol + ".haritaGun", "Gün çapası yok — pin popup'ından güne gidilemez."); sorun++; }
+        else {
+          const n = Number(String(s.haritaGun).replace("gun-", ""));
+          if (!Number.isFinite(n) || n < 1 || n > (T.gunler || []).length) {
+            hata(g, yol + ".haritaGun", '"' + s.haritaGun + '" diye bir gün kartı yok (1 – ' + (T.gunler || []).length + ").");
+            sorun++;
+          }
+        }
+      });
+
+      const sira = Object.keys(siralar).map(Number).sort((a, b) => a - b);
+      const kesintisiz = sira.every((v, i) => v === i + 1);
+      if (!kesintisiz) { hata(g, "TUR.sehirler[].haritaSira", "Sıra 1'den başlayıp kesintisiz gitmiyor: " + sira.join(", ")); sorun++; }
+
+      /* Şehir merkezi ile o şehirdeki noktalar arasındaki uzaklık */
+      const EN_FAZLA_KM = 15;
+      const merkez = {};
+      sehirler.forEach((s) => { if (Array.isArray(s.konum)) merkez[s.ad] = s.konum; });
+      [["konaklamalar", "ev"], ["otogarlar", "otogar"], ["hastaneler", "hastane"]].forEach(([anahtar, etiket]) => {
+        (C[anahtar] || []).forEach((x, i) => {
+          const yol = "TUR.cepte." + anahtar + "[" + i + "] " + x.sehir;
+          if (!merkez[x.sehir]) {
+            uyari(g, yol, '"' + x.sehir + '" TUR.sehirler[].ad ile eşleşmiyor — merkeze uzaklığı ölçülemedi.');
+            sorun++;
+            return;
+          }
+          if (!Array.isArray(x.konum)) return;   /* koordinat denetimi 2. grupta */
+          const d = KM(merkez[x.sehir], x.konum);
+          if (d > EN_FAZLA_KM) {
+            hata(g, yol, etiket + " şehir merkezinden " + d.toFixed(1) + " km uzakta (sınır " + EN_FAZLA_KM + " km).");
+            sorun++;
+          }
+        });
+      });
+
+      if (!sorun) {
+        ok(g, "TUR.sehirler", sehirler.length + " şehrin konumu, sırası ve gün çapası tutarlı.");
+        ok(g, "—", "Ev · otogar · hastane koordinatları kendi şehir merkezlerinin " + EN_FAZLA_KM + " km içinde.");
+      }
+    })();
+
+    /* ---------------------------------------------------------------
+       RAPORU ÇİZ
+       --------------------------------------------------------------- */
+    const IKON = { ok: "✅", uyari: "⚠️", hata: "❌" };
+    const sayac = { ok: 0, uyari: 0, hata: 0 };
+    gruplar.forEach((g) => g.satirlar.forEach((s) => { sayac[s.durum]++; }));
+
+    const govde = el("div", "dn-govde");
+    govde.innerHTML =
+      '<header class="dn-ust">' +
+        "<h1>Veri tutarlılık denetimi</h1>" +
+        '<p class="dn-alt">TUR objesi + GUN_BACAK eşlemesi — 8 grup. ' +
+        "Bu sayfa yalnızca okur, hiçbir şeyi değiştirmez.</p>" +
+        '<div class="dn-ozet">' +
+          '<span class="dn-rozet" data-d="hata">❌ ' + sayac.hata + " hata</span>" +
+          '<span class="dn-rozet" data-d="uyari">⚠️ ' + sayac.uyari + " bakılmalı</span>" +
+          '<span class="dn-rozet" data-d="ok">✅ ' + sayac.ok + " tamam</span>" +
+        "</div>" +
+      "</header>" +
+      gruplar.map((g) => {
+        const s = { ok: 0, uyari: 0, hata: 0 };
+        g.satirlar.forEach((x) => { s[x.durum]++; });
+        const durum = s.hata ? "hata" : s.uyari ? "uyari" : "ok";
+        return '<section class="dn-grup" data-d="' + durum + '">' +
+          "<h2>" + IKON[durum] + " " + esc(g.ad) +
+            '<small>' + esc(g.aciklama) + "</small></h2>" +
+          g.satirlar.map((x) =>
+            '<div class="dn-satir" data-d="' + x.durum + '">' +
+              '<span class="dn-ikon" aria-hidden="true">' + IKON[x.durum] + "</span>" +
+              "<code>" + esc(x.alan) + "</code>" +
+              "<span>" + esc(x.mesaj) + "</span>" +
+            "</div>").join("") +
+        "</section>";
+      }).join("") +
+      '<footer class="dn-son">' +
+        "<p><b>" +
+          (sayac.hata ? sayac.hata + " hata var — düzeltilmeli."
+                      : sayac.uyari ? "Hata yok; " + sayac.uyari + " madde bakılmayı bekliyor."
+                                    : "Her şey tutarlı.") +
+        "</b></p>" +
+        "<p>Toplam " + (sayac.ok + sayac.uyari + sayac.hata) + " denetim satırı · " +
+        gruplar.length + " grup.</p>" +
+      "</footer>";
+
+    const arac = el("div", "dn-arac");
+    arac.innerHTML =
+      '<b>?kontrol=1</b>' +
+      '<a class="dn-don" href="./">← Siteye dön</a>' +
+      '<p class="dn-ipucu">Veri değişince tekrar çalıştır. ❌ hatadır, ⚠️ bilinçli olabilir ' +
+      "ama bakılmalı, ✅ tamamdır.</p>";
+
+    document.body.replaceChildren(arac, govde);
+    document.documentElement.dataset.kontrol = "1";
+    document.title = "Denetim — " + sayac.hata + "❌ " + sayac.uyari + "⚠️";
   }
+
+  /* İki "ayrı mod" da render'dan ÖNCE dönüyor: gövde onlara ait, sayfanın
+     geri kalanı (harita, hava, sayaç, service worker şeridi) hiç kurulmuyor. */
+  const SORGU = new URLSearchParams(location.search);
+  if (SORGU.get("yazdir") === "acil") { acilKagidiKur(); return; }
+  if (SORGU.get("kontrol") === "1") { denetimRaporuKur(); return; }
 
   /* ---------- HERO ---------- */
   const m = TUR.meta;
@@ -6376,16 +6903,8 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
 
   const etkinISO = simuleTarih() || bugunISO;
 
-  /* Hangi günün hangi ulaşım bacağı olduğu — Bugün ekranı ve günün kartı
-     aynı eşlemeyi kullanır, ikisi ayrışmasın diye tek yerde durur. */
-  const GUN_BACAK = {
-    "2026-08-12": "Priştine → Üsküp",
-    "2026-08-13": "Üsküp → Ohrid",
-    "2026-08-16": "Ohrid → Dıraç",
-    /* 18 Ağustos'ta ulaşım bacağı YOK — Tiran kaçamağı kaldırıldı, o gün
-       Dıraç'tan çıkılmıyor. Dıraç → Tiran artık yalnızca 19'unda. */
-    "2026-08-19": "Dıraç → Tiran"
-  };
+  /* GUN_BACAK eşlemesi dosyanın başına taşındı: ?kontrol=1 denetimi
+     render'dan önce dönüyor ve onu okuması gerekiyor. */
   const gunBacagi = (iso) =>
     GUN_BACAK[iso] ? TUR.ulasim.find((u) => u.bacak === GUN_BACAK[iso]) : null;
 

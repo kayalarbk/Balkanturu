@@ -645,6 +645,60 @@ açısından beklenen kalıp bu.
 
 ## Yapılanlar
 
+### 8 Ağustos 2026 — yirmi ikinci oturum
+
+**Veri tutarlılık denetimi — `?kontrol=1`**
+
+**1. Neden.** `progress.md` → "Kırılganlık uyarısı" başlığındaki maddeler bugüne kadar
+**elle** takip ediliyordu: bir maddenin metnini değiştirmek ona verilmiş kalbi kaybettirir,
+`gunler[].tarihISO` değiştirmek eski anı notunu erişilemez yapar, `kontrolListesi[].id`
+değiştirmek işareti sıfırlar, `konaklamalar[].id` değiştirmek kapı kodlarını koparır. Bunlar
+sessiz bozulmalar — kimse hata görmez, veri kaybolur. Artık makine bakıyor.
+
+**2. Ayrı bir mod, normal render'a hiç dokunmuyor.** Acil kâğıdıyla aynı kalıp: `?kontrol=1`
+geldiğinde `denetimRaporuKur()` gövdeyi raporla değiştirip render'dan **çıkıyor**. Denetim
+yalnızca `TUR` objesini ve `GUN_BACAK` eşlemesini okuyor — DOM'a, ağa, `localStorage`'a
+bakmıyor, yani çıktısı her cihazda ve her temada aynı.
+
+**3. Sekiz grup.**
+
+| # | Grup | Ne bakıyor |
+|---|---|---|
+| 1 | Gün dizisi | Her günde `tarihISO` var mı, biçim doğru mu, 12–20 Ağustos aralığında mı, boşluksuz ve artan sıralı mı |
+| 2 | Koordinatlar | Şehir · havalimanı · ev · hastane · otogar — 20 nokta, hepsi Balkan kutusunda mı (lat 39–43, lon 19–22). Çevrimdışı karo kutusu bilerek geniş, denetime dâhil değil |
+| 3 | Kimlikler | `kontrolListesi[].id` · `konaklamalar[].id` · `saglik.kisiler[].id` · `bulusma.sehirler[].id` — boş ya da tekrar eden var mı |
+| 4 | Gün ↔ ulaşım | `GUN_BACAK` anahtarı gerçek bir gün mü, değeri gerçek bir `ulasim[].bacak` mı; hiçbir güne bağlı olmayan bacak var mı (uçuşlar beklenen istisna) |
+| 5 | Hava eşlemesi | `gunSehir` her günü kapsıyor mu (20 Ağustos beklenen istisna — kod onu "Yolda" ele alıyor), adlar `sehirler[].ad` ile tutuyor mu, `mevsimNormali` her şehri karşılıyor mu |
+| 6 | Yer tutucular | `belirlenecek` / `kontrol edilecek` / `alınacak` geçen **bütün** alanların yolu ve metni (Kural 3'ün envanteri) |
+| 7 | Görseller | Kapak ve galeri URL'i var mı, biçimi geçerli mi, atıf (`kaynak`) var mı; lezzet görselleri opsiyonel sayılıyor |
+| 8 | Şehir ↔ harita | `konum` · `haritaSira` (benzersiz ve 1'den kesintisiz) · `haritaGun` (var olan bir gün kartı mı); ayrıca ev/otogar/hastane kendi şehir merkezinin 15 km içinde mi |
+
+**4. Üç seviye.** ❌ hata (düzeltilmeli) · ⚠️ bakılmalı (bilinçli olabilir) · ✅ tamam.
+Her satırda hangi alan olduğu tam yol olarak yazıyor (`TUR.cepte.konaklamalar[1].rezervasyon`
+gibi), altta grup ve toplam sayaçlar var. Beklenen istisnalar koda gerekçesiyle gömülü,
+sessizce atlanmıyor: uçuş bacakları ve 20 Ağustos'un hava eşlemesi ✅ olarak, gerekçe
+yazılarak raporlanıyor.
+
+**5. İlk çalıştırma: 0 hata, 19 "bakılmalı".** Hepsi 6. gruptaki yer tutucular; ikisi
+(`ulasim[3].durum` "önceden alınacak", `ulasim[4].durum` "yerinde alınır") zaten doğru
+durum etiketi, gerisi bilinen açık iş. Yapısal gruplar — gün dizisi, koordinatlar,
+kimlikler, gün ↔ ulaşım, hava eşlemesi, görseller, şehir ↔ harita — **tamamen temiz**.
+
+**6. Denetimin kendisi denetlendi.** "0 hata" sonucunun denetimin çalışmadığı anlamına
+gelmediğini göstermek için `index.html`'in bilerek bozulmuş bir kopyası ayrı bir porttan
+sunuldu: gün sırası kaydırıldı, bir koordinat kutu dışına çıkarıldı, bir `id` tekrarlandı,
+`GUN_BACAK`'a olmayan bir bacak yazıldı, bir şehir adı bozuldu, bir kapak URL'i boşaltıldı,
+`haritaSira` tekrarlandı, bir hastane 32 km öteye taşındı. **Sekiz bozulmanın sekizi de
+yakalandı** (14 ❌). Kopya sonra silindi.
+
+**7. `GUN_BACAK` dosyanın başına taşındı.** Denetim render'dan önce dönüyor ve o eşlemeyi
+okuması gerekiyor; eski yerinde bıraksaydık `const` ölü bölgesine düşerdi. Tek kaynak
+korundu, eski yerine yönlendiren not bırakıldı.
+
+`CACHE_VERSION` → `balkan-v14`.
+
+---
+
 ### 8 Ağustos 2026 — yirmi birinci oturum
 
 **Acil çıktı kâğıdı — `?yazdir=acil`**
