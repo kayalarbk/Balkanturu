@@ -9,8 +9,8 @@
 **Son güncelleme:** 8 Ağustos 2026
 **Depo:** https://github.com/kayalarbk/Balkanturu (`main`)
 **Yayın:** https://kayalarbk.github.io/Balkanturu/ (GitHub Pages, `main` / root — build adımı yok)
-**Son commit:** `a3b1966` + otogar oturumu
-**Çalışma ağacı:** temiz · **Toplam commit:** 28 · **Oturum sayısı:** 19
+**Son commit:** `2eb5d24` + takvim / akordeon oturumu
+**Çalışma ağacı:** temiz · **Toplam commit:** 29 · **Oturum sayısı:** 20
 
 ---
 
@@ -108,7 +108,7 @@ hâlâ _belirlenecek_; kapı ve wifi şifreleri bilinçli olarak depoda değil, 
 | `ulasim` | Bacak / süre / yöntem / durum. **Ayrı bölüm olarak basılmıyor**; Bugün ekranı ve Günün Kartı GUN_BACAK üzerinden buradan okuyor | ✅ tek "önceden alınacak" bacak Ohrid → Dıraç |
 | `harita` | Karo kaynağı, atıf, zoom (6–18, karo z16'ya kadar), havalimanları, yedek metin, **`odak`** şeridi metinleri, **`cevrimdisi`** karo tarifi | ✅ |
 | `dikkatEdilecekler` | **15 kart**, `seviye`: kritik / önemli / bilgi | ✅ (8 Ağustos'ta 🕐 saat farkı kartı en başa eklendi) |
-| `cepte` | Uçuş kodları, üç konaklama, **`bagajDolabi`**, **`rezervasyon`**, **`hastaneler`** (5 doğrulanmış koordinat), **`otogarlar`** (5 doğrulanmış koordinat), **`saglik`**, **`acilCumleler`** (12), **`bulusma`**, acil numaralar, kelimeler — **sekiz sekme** | ⚠️ ev sahibi telefonları, rezervasyon kodları, 15 Ağustos mekânı ve sigorta hattı boş<br>ℹ️ `kur` 8 Ağustos'ta kaldırıldı |
+| `cepte` | Uçuş kodları, üç konaklama, **`bagajDolabi`**, **`rezervasyon`**, **`hastaneler`** (5 doğrulanmış koordinat), **`otogarlar`** (5 doğrulanmış koordinat), **`saglik`**, **`acilCumleler`** (12), **`bulusma`**, acil numaralar, kelimeler — **sekiz akordeon bölümü** | ⚠️ ev sahibi telefonları, rezervasyon kodları, 15 Ağustos mekânı ve sigorta hattı boş<br>ℹ️ `kur` 8 Ağustos'ta kaldırıldı |
 | `havaDurumu` | Open-Meteo ayarı, gün→şehir eşlemesi, mevsim normalleri, uyarı eşikleri | ✅ çalışıyor |
 | `yemeIcmeNotlari` | Şehir kartı altındaki yeme-içme kutusu | ✅ |
 | `pratik` | Para, bütçe, elektrik, sağlık, adap, kelimeler | ⚠️ bütçe boş |
@@ -268,6 +268,7 @@ tekrarlanmayan maddeleri "🍽 Sofrada" kartına girdi.
 | **🩺 Sağlık ve acil kişi** | Kan grubu, alerji, sürekli ilaç, poliçe no (kişi başına) + acil kişi. Kapı kodlarıyla aynı depo: **yalnızca cihazda**. Dolu alanlar Günün Kartı'nın acil bloğunda da çıkar |
 | **🏥 Hastaneler** | 5 şehrin ana hastanesi, koordinatı doğrulanmış (Wikidata + OSM). Cepte'de liste, haritada ✚ pini, Günün Kartı'nda o günkü şehrinki |
 | **🚌 Otogarlar** | 5 şehrin ana otogarı, koordinatı doğrulanmış (Wikidata + OSM, kaynak her kartta yazılı). Cepte'de liste, haritada turuncu 🚌 pini, Günün Kartı'nda o günün **kalkış otogarı** |
+| **📅 Takvim dosyası** | Hazırlık bölümünden inen **balkanlarda-ask.ics** — 11 etkinlik, alarmlar dosyanın içinde. iOS'ta PWA bildirimi güvenilmez olduğu için telefonun kendi takvim alarmına devrediliyor: site hiç açılmasa da çalar. Saatler **UTC + Z** (VTIMEZONE yok — gerekçesi aşağıda) |
 | **🧭 Ayrı düşersek** | Sabit kural (saat başı 10 dk bekleme) + şehir başına buluşma noktası alanı (cihazda) |
 | **Cepte sekmeleri** | Yedi kart alt alta değil sekmede: 🏨 Konaklama · 🆘 Acil numaralar · 🏥 Hastaneler · 🩺 Sağlık · 🧭 Ayrı düşersek · 💬 Acil cümleler · 🗣 Kelimeler. Ok tuşları + Home/End, 44 px hedef; **yazdırmada hepsi birden basılır** |
 | **🆘 İş başa düşerse** | 6 katlanır karar kartı: otobüs kaçtı · sınır · kutu açılmıyor · telefon bitti · pasaport · nakit |
@@ -425,6 +426,80 @@ kontrolü yapılmadı.**
 | 17 | 7 Ağu 2026 | **Çevrimdışı acil donanımı:** yandan çekmece, 12 acil cümle, sağlık kartı, 6 akış kartı, 5 hastane, buluşma planı, kur defteri, yol koridoru karoları (236 → 316) |
 | 18 | 8 Ağu 2026 | **Saat farkı riski kapatıldı** (🕐 kritik kart + iki gün uyarısı + iki kod hatası), **Cepte yedi sekmeye bölündü**, **kur defteri kaldırıldı**, `sw.js` v10 |
 | 19 | 8 Ağu 2026 | **Haritaya beş otogar:** koordinatlar Wikidata + OSM'den doğrulandı, Cepte'de 🚌 sekmesi, turuncu harita pini, Günün Kartı'nda kalkış otogarı, karolar 316 → 390, `sw.js` v11 |
+| 20 | 8 Ağu 2026 | **İndirilebilir .ics takvimi** (11 etkinlik, UTC damgalı, alarmlı) ve **Cepte yatay sekmeden alt alta akordeona** çevrildi, `sw.js` v12 |
+
+### 8 Ağustos 2026 — takvim dosyası ve Cepte akordeonu
+
+**1. Neden .ics.** Siteye zamanlanmış bildirim kurmak iOS'ta güvenilmez — sayfa arka
+plandayken PWA bildiriminin çalacağının garantisi yok. Telefonun **kendi takvim alarmı**
+site hiç açılmasa da çalar. Hazırlık bölümünün altındaki "📅 Takvim dosyasını indir"
+düğmesi dosyayı **tamamen cihazda** üretir: sunucu yok, harici kütüphane yok, metin string
+olarak kuruluyor (`icsUret()`).
+
+**2. SAAT DİLİMİ KARARI — VTIMEZONE değil, UTC + `Z`.** (Bu maddenin yazılması istendi.)
+
+| Seçenek | Neden seçilmedi / seçildi |
+|---|---|
+| VTIMEZONE + TZID | ❌ Elle yazılan RRULE'lu STANDARD/DAYLIGHT blokları uzun ve **sessizce yanlış olabilir**. Üstelik bu takvimde **iki farklı ofset** var (uçuşun İstanbul ucu UTC+3, geri kalan her şey UTC+2) — tek bir TZID zaten yetmezdi |
+| **UTC + `Z`** | ✅ **Seçildi.** Tur 12–20 Ağustos 2026 aralığında, **tek bir yaz saati penceresinin içinde**: Kosova, K. Makedonya ve Arnavutluk üçü de UTC+2, aralıkta DST geçişi yok — VTIMEZONE'un çözdüğü tek gerçek problem hiç doğmuyor. UTC damgası **mutlak andır**, yanlış olamaz; her takvim uygulaması kullanıcının kendi saatinde doğru gösterir. İki ofset ayrımı da kendiliğinden doğru çıkar |
+
+Tam gün etkinlikler (yıl dönümü, yol günü) `VALUE=DATE` ile yazılıyor — onların saat
+dilimi zaten yok. Takvim başlığına bilgi olarak `X-WR-TIMEZONE:Europe/Tirane` konuyor.
+
+**3. On bir etkinlik, hepsi TUR'dan ve hepsi kesin.**
+
+| Etkinlik | Damga | Alarm |
+|---|---|---|
+| ✈ VF101 · SAW → PRN | `20260812T065000Z` (09:50 +03:00) | −3 sa |
+| ✈ PC284 · TIA → SAW | `20260820T001500Z` (02:15 +02:00) | −3 sa |
+| 🔑 Üsküp giriş · 🧳 çıkış | 12 Ağu 14:00 – 13 Ağu 02:00 · 13 Ağu 10:00 | −2 sa · −1 sa |
+| 🔑 Ohrid giriş · 🧳 çıkış | **13 Ağu 13:00 – 19:00** · 16 Ağu 10:00 | −2 sa · −1 sa |
+| 🔑 Dıraç giriş · 🧳 çıkış | 16 Ağu 15:00 · 19 Ağu 11:00 | −2 sa · −1 sa |
+| 🚌 Ohrid → Dıraç | 16 Ağu, tam gün | — |
+| 🚕 Havalimanına hareket | 19 Ağu 23:30 | −2 sa |
+| 🤍 2. yıl dönümü | 15 Ağu, tam gün | −1 gün |
+
+- **Ohrid'in anahtar kutusu penceresi ayrı etkinlik DEĞİL:** iki uçlu bir giriş penceresi
+  varsa giriş etkinliği pencerenin tamamını kaplıyor. Aynı şey iki kez yazılsaydı takvim
+  çöplenirdi. Üsküp'ün 14:00 – 02:00 penceresi de aynı yoldan geçip ertesi güne taşıyor.
+- **Ohrid → Dıraç saatsiz:** kalkış saati kesinleşmedi, o yüzden tam gün + notunda gerekçe.
+  Saat uydurulmadı.
+- **15 Ağustos akşam yemeği dosyaya girmiyor** (mekân ve saat "belirlenecek", `belliMi()`
+  eliyor). Kapı kodu / kutu şifresi / wifi de girmiyor — .ics paylaşılabilir bir dosya.
+- Çıkış tarihleri `cikisTarih` metninden değil **son gece + 1 gün** olarak hesaplanıyor.
+- UID'ler **kararlı** (sıra numarası yok): dosya yeniden içe aktarılınca takvim aynı
+  etkinliği tanıyıp günceller, kopya yaratmaz.
+
+**4. Doğrulama — istenen üç madde ve fazlası.** Dosya Node'da gerçek `TUR` verisiyle
+üretilip denetlendi:
+
+| Kontrol | Sonuç |
+|---|---|
+| Satır sonları CRLF | ✅ tek başına `
+` veya `` yok, dosya sonu da CRLF |
+| 75 oktet sınırı | ✅ en uzun satır tam **75 oktet**; 34 devam satırı katlanmış. Katlama **kod noktası kod noktası** yürüyor, Kiril ve Türkçe harfler bölünmüyor (bozuk karakter kontrolü temiz) |
+| UID benzersizliği | ✅ 11 UID, 11 benzersiz |
+| VEVENT bütünlüğü | ✅ 11 açılış / 11 kapanış, her birinde UID + DTSTAMP + DTSTART |
+| Zamanlı damgalar | ✅ hepsi `Z` ile bitiyor |
+| "belirlenecek" sızıntısı | ✅ dosyada geçmiyor |
+
+Tarayıcıda da denendi: düğme `balkanlarda-ask.ics` adıyla 6.897 baytlık, 11 VEVENT'li,
+CRLF'li dosyayı indiriyor.
+
+**5. Cepte: yatay sekme şeridi → alt alta akordeon.** Bir önceki oturumda kartlar yatay
+kaydırmalı bir sekme şeridine bağlanmıştı ve bu **yanlıştı**: telefonda sekmelerin yarısı
+ekran dışında kalıyor, "burada başka ne var" sorusu ancak yana kaydırarak
+cevaplanabiliyordu. Artık sekiz başlık **alt alta**, dokununca altındaki kart açılıyor.
+
+| | |
+|---|---|
+| Görünürlük | Bütün liste her zaman ekranda; yatay kaydırma yok (ölçüldü) |
+| Dokunma hedefi | Tam genişlik, **54 px** yükseklik — 44 px eşiğinin üstünde |
+| Davranış | Aynı anda tek kart açık; **açık başlığa tekrar dokunmak kapatır**, hepsi kapalı da olabilir |
+| Klavye | Oklar yalnızca **odağı** taşır, açmaz (akordeon kalıbı); Enter/Space açar. Sekme şeridinde ok = seçim doğruydu, akordeonda değil |
+| DOM | Kartlar yerinde ve `cepte-grid`in doğrudan çocuğu kalıyor — delege edilmiş kopyalama ve `gizliler` dinleyicileri aynen çalışıyor |
+| Yazdırma | Başlıklar gizlenir, bütün kartlar basılır |
+
 
 ### 8 Ağustos 2026 — beş otogar
 

@@ -760,6 +760,11 @@ const TUR = {
       uyariIkon: "🌙",
       uyari:
         "Bu gece konaklama yok. Kalkış 20 Ağustos 02:15, havalimanında 00:15'te olunacak.",
+      /* Aynı saat `ozet` ve `program` içinde de yazıyor; takvim dosyası (.ics)
+         onu düz metinden regex'le çekmesin diye burada ayrıca ve makine
+         okunur duruyor. İkisi ayrışmamalı. */
+      hareket: { saat: "23:30", yer: "Nene Tereza Havalimanı (TIA)",
+                 not: "Bagajları ~23:00'te dolaptan al. Havalimanında 00:15'te olunacak." },
       risk:
         "Çıkışla uçuş arasındaki ~14 saatlik boşluk artık valizsiz geçiyor — günün eski belkemiği " +
         "sorunu çözüldü. Kalan iki risk: gece havalimanı ulaşımı (gün içinde ayarla) ve uykusuzluk. " +
@@ -2289,31 +2294,44 @@ tbody td:last-child{ padding-bottom:0; }
 .cepte-grid{ display:grid; gap:var(--s-4); grid-template-columns:minmax(0,1fr); }
 @media(min-width:760px){ .cepte-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
 
-/* ---------- SEKME ÇUBUĞU ----------
-   JS kurar; `.sekmeli` sınıfı da JS ile gelir, yani JS yoksa aşağıdaki
-   tek sütun kuralı da devreye girmez ve bölüm eski hâline döner. */
-.cepte-sekmeler{
-  display:flex; gap:.4rem; margin-bottom:var(--s-4); padding-bottom:.25rem;
-  overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+/* ---------- AKORDEON BAŞLIKLARI ----------
+   Eskiden yatay kaydırmalı bir sekme şeridiydi: telefonda sekmelerin yarısı
+   ekran dışında kalıyor, hangi bölümlerin olduğu tek bakışta görünmüyordu.
+   Artık başlıklar ALT ALTA duruyor, dokununca altındaki kart açılıyor —
+   bütün liste her zaman görünür, hedefe dokunma alanı tam genişlik.
+
+   JS kurar; `.akordeon` sınıfı da JS ile gelir, yani JS yoksa hiçbir kart
+   gizlenmez ve bölüm eski uzun listesine döner — bilinçli tercih. */
+.cepte-grid.akordeon{ grid-template-columns:minmax(0,1fr); gap:.45rem; }
+.cepte-basi{
+  all:unset; box-sizing:border-box; cursor:pointer; font-family:inherit;
+  display:flex; align-items:center; gap:.6rem; width:100%;
+  min-height:52px; padding:.65rem var(--s-4);
+  background:var(--c-yuzey); border:1px solid var(--c-line); border-radius:var(--r-m);
+  color:var(--c-ink); font-size:.98rem; font-weight:700;
   scroll-margin-top:calc(var(--h-nav) + env(safe-area-inset-top) + .5rem);
 }
-.cepte-sekmeler::-webkit-scrollbar{ display:none; }
-.cepte-sekme{
-  all:unset; box-sizing:border-box; cursor:pointer; font-family:inherit;
-  flex:0 0 auto; display:inline-flex; align-items:center; gap:.35rem;
-  min-height:44px; padding:.4rem .85rem;
-  background:var(--c-yuzey); border:1px solid var(--c-line); border-radius:var(--r-pill);
-  color:var(--c-ink-soft); font-size:.9rem; font-weight:700; white-space:nowrap;
+.cepte-basi:hover{ border-color:var(--c-teal-soft); }
+.cepte-basi:focus-visible{ outline:3px solid var(--c-teal-soft); outline-offset:2px; }
+.cepte-basi-ikon{ font-size:1.2rem; flex:0 0 auto; }
+.cepte-basi-ad{ flex:1 1 auto; min-width:0; }
+/* Ok işareti: kapalıyken sağa, açıkken aşağı bakar */
+.cepte-basi-ok{
+  flex:0 0 auto; color:var(--c-ink-soft); font-size:.8rem;
+  transition:transform .18s ease;
 }
-.cepte-sekme:hover{ border-color:var(--c-teal-soft); color:var(--c-ink); }
-.cepte-sekme:focus-visible{ outline:3px solid var(--c-teal-soft); outline-offset:2px; }
-/* Etkin sekme: .kopyala ile aynı kalıp — koyu zemin üstünde beyaz yazı */
-.cepte-sekme[aria-selected="true"]{ background:var(--c-deep); border-color:var(--c-deep); color:#fff; }
-.cepte-sekme-ikon{ font-size:1.02rem; }
-/* Aynı anda tek kart açık olduğu için iki sütunlu ızgara anlamını yitirir */
-.cepte-grid.sekmeli{ grid-template-columns:minmax(0,1fr); }
-.cep-kart[role="tabpanel"]:focus{ outline:none; }
-.cep-kart[role="tabpanel"]:focus-visible{ outline:3px solid var(--c-teal-soft); outline-offset:3px; }
+.cepte-basi[aria-expanded="true"]{
+  background:var(--c-deep); border-color:var(--c-deep); color:#fff;
+  border-bottom-left-radius:0; border-bottom-right-radius:0;
+}
+.cepte-basi[aria-expanded="true"] .cepte-basi-ok{ transform:rotate(90deg); color:#fff; }
+/* Açık kart başlığa yapışır: ikisi tek bir blok gibi okunsun */
+.cepte-grid.akordeon .cep-kart{
+  border-top-left-radius:0; border-top-right-radius:0; margin-top:-.45rem;
+}
+@media(prefers-reduced-motion:reduce){ .cepte-basi-ok{ transition:none; } }
+.cep-kart[role="region"]:focus{ outline:none; }
+.cep-kart[role="region"]:focus-visible{ outline:3px solid var(--c-teal-soft); outline-offset:3px; }
 .cep-kart{
   background:var(--c-yuzey); border:1px solid var(--c-line); border-radius:var(--r-m);
   padding:var(--s-4) var(--s-5); box-shadow:var(--sh-1);
@@ -3374,10 +3392,12 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
   .ust-alan, .yukari, .days-tools, .yedek-kutu, .harita-kutu, .harita-odak, .harita-ipucu,
   .lightbox, .kart-katman, .cekmece-perde, .goster-katman, .karo-kutu, .kutlama, .fav, .ani, .countdown, .hero::after,
   #hava-bolumu, .check-note, .galeri, .city-kapak, .lezzet-gorsel,
-  .kopyala, .bugun-alt .btn, .cepte-sekmeler{ display:none !important; }
-  /* Ekranda sekmelerle tek tek gezilen Cepte kartları kâğıda TAMAMI basılır —
-     çıktının bütün olayı kapıda elde kalan kâğıt olması. */
-  .cepte-grid.sekmeli .cep-kart[hidden]{ display:block !important; }
+  .kopyala, .bugun-alt .btn, .cepte-basi{ display:none !important; }
+  /* Ekranda akordeonla tek tek açılan Cepte kartları kâğıda TAMAMI basılır —
+     çıktının bütün olayı kapıda elde kalan kâğıt olması. Başlıklar gizlendiği
+     için kartların negatif üst boşluğu da geri alınır. */
+  .cepte-grid.akordeon .cep-kart[hidden]{ display:block !important; }
+  .cepte-grid.akordeon .cep-kart{ margin-top:0 !important; }
   /* Kâğıt yedeği kapıda işe yarasın diye kaydedilmiş kodlar BASILIR; ama
      silme düğmesi, açıklama satırı ve dış bağlantı kâğıda gerekmez. */
   .gizli-sil, .gizli-not, .konak-ilan{ display:none !important; }
@@ -3699,6 +3719,21 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
       </div>
       <p class="yedek-durum" id="yedek-durum" role="status"></p>
       <p class="yedek-ozet" id="yedek-ozet"></p>
+    </div>
+
+    <!-- Takvim — PWA bildirimi iOS'ta güvenilmez; telefonun kendi alarmı
+         site hiç açılmasa da çalar. Dosya cihazda üretilir, sunucu yok. -->
+    <div class="yedek-kutu">
+      <h3>📅 Takvime ekle</h3>
+      <p>Uçuşlar, eve giriş-çıkış saatleri, Ohrid'in anahtar kutusu penceresi, yol günü,
+         yıl dönümü ve havalimanına hareket — telefonunun kendi takvimine kurulur ve
+         <b>alarmları site açık olmasa da çalar</b>. Yalnızca <b>kesinleşmiş</b> saatler
+         yazılır; “belirlenecek” olanlar dosyaya girmez.</p>
+      <div class="yedek-btnler">
+        <button class="btn" id="btn-ics-indir" type="button">📅 Takvim dosyasını indir</button>
+      </div>
+      <p class="yedek-durum" id="ics-durum" role="status"></p>
+      <p class="yedek-ozet" id="ics-ozet"></p>
     </div>
 
     <div class="tbd-box">
@@ -4732,86 +4767,88 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
     "</tbody></table>"));
 
   /* =====================================================================
-     CEPTE SEKMELERİ
-     Bölüm yedi kartın alt alta dizildiği çok uzun bir sütun olmuştu; telefonda
-     aranan kartı bulmak kaydırmayla dakikalar alıyordu. Kartlar artık sekmeye
-     bölünüyor, aynı anda tek kart açık.
+     CEPTE AKORDEONU
+     Bölüm sekiz kartın alt alta dizildiği çok uzun bir sütun olmuştu; telefonda
+     aranan kartı bulmak kaydırmayla dakikalar alıyordu.
 
-     Kartlar DOM'da yerinde kalır (yalnızca `hidden` alır), yani yukarıdaki
-     delege edilmiş dinleyiciler ve `gizliler` alanları aynen çalışır.
-     Sekme çubuğu JS ile kurulur: JS kapalıysa hiçbir kart gizlenmez, bölüm
-     eski uzun listesine döner — bilinçli tercih.
-     Yazdırmada sekme çubuğu gizlenir, bütün kartlar basılır (@media print).
+     ⚠ İlk çözüm YATAY kaydırmalı bir sekme şeridiydi ve yanlıştı: sekmelerin
+     yarısı ekran dışında kalıyor, "burada başka ne var" sorusunu ancak yana
+     kaydırarak cevaplayabiliyordun. Şimdi başlıklar ALT ALTA duruyor —
+     bütün liste her zaman görünür, dokunma alanı tam genişlik.
+
+     Aynı anda tek kart açık: ikincisine dokununca birincisi kapanır. Açık
+     başlığa tekrar dokunmak onu kapatır, yani hepsi kapalı da olabilir.
+
+     Kartlar DOM'da YERİNDE kalır (yalnızca `hidden` alır) ve cepteGrid'in
+     doğrudan çocuğu olmayı sürdürür; yukarıdaki delege edilmiş dinleyiciler
+     ve `gizliler` alanları aynen çalışır. Başlık düğmeleri kartların hemen
+     ÖNÜNE kardeş olarak giriyor.
+     Yazdırmada başlıklar gizlenir, bütün kartlar basılır (@media print).
      ===================================================================== */
-  (function cepteSekmeleriKur() {
+  (function cepteAkordeonKur() {
     const kartlar = Array.from(cepteGrid.children).filter((n) => n.dataset.sekme);
     if (kartlar.length < 2) return;
 
-    const serit = el("div", "cepte-sekmeler");
-    serit.setAttribute("role", "tablist");
-    serit.setAttribute("aria-label", "Cepte bölümleri");
-
-    const dugmeler = kartlar.map((kart, i) => {
+    const basliklar = kartlar.map((kart, i) => {
       kart.id = "cep-panel-" + i;
-      kart.setAttribute("role", "tabpanel");
-      kart.setAttribute("aria-labelledby", "cep-sekme-" + i);
+      kart.setAttribute("role", "region");
+      kart.setAttribute("aria-labelledby", "cep-basi-" + i);
       kart.setAttribute("tabindex", "0");
 
-      const d = el("button", "cepte-sekme",
-        '<span class="cepte-sekme-ikon" aria-hidden="true">' + kart.dataset.ikon + "</span>" +
-        "<span>" + esc(kart.dataset.sekme) + "</span>");
-      d.type = "button";
-      d.id = "cep-sekme-" + i;
-      d.setAttribute("role", "tab");
-      d.setAttribute("aria-controls", kart.id);
-      serit.appendChild(d);
-      return d;
+      const b = el("button", "cepte-basi",
+        '<span class="cepte-basi-ikon" aria-hidden="true">' + kart.dataset.ikon + "</span>" +
+        '<span class="cepte-basi-ad">' + esc(kart.dataset.sekme) + "</span>" +
+        '<span class="cepte-basi-ok" aria-hidden="true">▶</span>');
+      b.type = "button";
+      b.id = "cep-basi-" + i;
+      b.setAttribute("aria-controls", kart.id);
+      b.setAttribute("aria-expanded", "false");
+      cepteGrid.insertBefore(b, kart);
+      return b;
     });
 
-    let etkin = -1;
-    function sec(i, odakla) {
-      if (i === etkin) return;
-      etkin = i;
-      kartlar.forEach((k, j) => { k.hidden = j !== i; });
-      dugmeler.forEach((d, j) => {
-        const acikMi = j === i;
-        d.setAttribute("aria-selected", acikMi ? "true" : "false");
-        d.tabIndex = acikMi ? 0 : -1;
+    let acik = -1;
+    function ac(i, odakla) {
+      /* Açık olana tekrar dokunmak kapatır */
+      const hedef = i === acik ? -1 : i;
+      acik = hedef;
+      kartlar.forEach((k, j) => { k.hidden = j !== hedef; });
+      basliklar.forEach((b, j) => {
+        b.setAttribute("aria-expanded", j === hedef ? "true" : "false");
       });
-      /* Etkin sekmeyi çubuğun içinde yatay olarak görünür kıl. scrollIntoView
-         yerine elle scrollLeft: o, sayfayı dikey olarak da oynatıyor. */
-      const d = dugmeler[i];
-      const sol = d.offsetLeft - serit.scrollLeft;
-      const sag = sol + d.offsetWidth - serit.clientWidth;
-      if (sol < 0) serit.scrollLeft += sol - 8;
-      else if (sag > 0) serit.scrollLeft += sag + 8;
+      if (hedef < 0) return;
 
       /* Uzun bir karttan kısa bir karta geçilince sayfa boşlukta kalmasın:
-         sekme çubuğu ekranın üstünden kaçtıysa geri getir. Yapışkan başlığın
-         altında kalmasın diye .cepte-sekmeler'in scroll-margin-top'u var. */
-      if (serit.getBoundingClientRect().top < 0) serit.scrollIntoView({ block: "start" });
-      if (odakla) d.focus();
+         açılan başlık ekranın üstünden kaçtıysa geri getir. Yapışkan
+         başlığın altında kalmasın diye .cepte-basi'nin scroll-margin-top'u
+         var. Zaten görünürse hiç oynatma — kaydırma çalmak rahatsız eder. */
+      const b = basliklar[hedef];
+      if (b.getBoundingClientRect().top < 0) b.scrollIntoView({ block: "start" });
+      if (odakla) b.focus();
     }
 
-    serit.addEventListener("click", (e) => {
-      const d = e.target.closest(".cepte-sekme");
-      if (d) sec(dugmeler.indexOf(d), false);
+    cepteGrid.addEventListener("click", (e) => {
+      const b = e.target.closest(".cepte-basi");
+      if (b && cepteGrid.contains(b)) ac(basliklar.indexOf(b), false);
     });
-    serit.addEventListener("keydown", (e) => {
-      const son = dugmeler.length - 1;
+    cepteGrid.addEventListener("keydown", (e) => {
+      if (!e.target.closest(".cepte-basi")) return;
+      const son = basliklar.length - 1;
+      const simdi = basliklar.indexOf(e.target.closest(".cepte-basi"));
       let hedef = null;
-      if (e.key === "ArrowRight") hedef = etkin >= son ? 0 : etkin + 1;
-      else if (e.key === "ArrowLeft") hedef = etkin <= 0 ? son : etkin - 1;
+      if (e.key === "ArrowDown") hedef = simdi >= son ? 0 : simdi + 1;
+      else if (e.key === "ArrowUp") hedef = simdi <= 0 ? son : simdi - 1;
       else if (e.key === "Home") hedef = 0;
       else if (e.key === "End") hedef = son;
       if (hedef === null) return;
       e.preventDefault();
-      sec(hedef, true);
+      /* Oklar yalnızca ODAĞI taşır, açmaz — kullanıcı Enter/Space ile açar.
+         Sekme şeridinde ok = seçim doğruydu; akordeonda değil. */
+      basliklar[hedef].focus();
     });
 
-    cepteGrid.parentNode.insertBefore(serit, cepteGrid);
-    cepteGrid.classList.add("sekmeli");
-    sec(0, false);
+    cepteGrid.classList.add("akordeon");
+    ac(0, false);
   })();
 
   /* Kopyalama — Clipboard API yoksa eski yönteme düşer */
@@ -6662,6 +6699,332 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
     okuyucu.onerror = () => durumYaz("Dosya okunamadı.", "hata");
     okuyucu.readAsText(dosya);
   });
+
+  /* =====================================================================
+     TAKVİM DOSYASI (.ics) — RFC 5545
+     Neden var: PWA bildirimi iOS'ta güvenilmez (sayfa arka plandayken
+     zamanlanmış bildirim garanti değil). Telefonun KENDİ takvim alarmı ise
+     site hiç açılmasa da çalar. Dosya tamamen cihazda üretilir; sunucu yok,
+     harici kütüphane yok — metin string olarak kuruluyor.
+
+     ---------- SAAT DİLİMİ KARARI: VTIMEZONE DEĞİL, UTC + "Z" ----------
+     İki seçenek vardı: (a) elle VTIMEZONE bloğu yazıp yerel saatleri
+     TZID ile vermek, (b) her anı UTC'ye çevirip sonuna Z koymak. (b) seçildi:
+
+       · Turun tamamı (12–20 Ağustos 2026) tek bir yaz saati penceresinin
+         içinde. Kosova, Kuzey Makedonya ve Arnavutluk üçü de UTC+2; aralıkta
+         hiçbir DST geçişi yok. VTIMEZONE'un çözdüğü tek gerçek problem olan
+         "geçiş anında hangi ofset" sorusu bu takvimde hiç doğmuyor.
+       · Elle yazılan VTIMEZONE (RRULE'lu STANDARD/DAYLIGHT blokları) uzun ve
+         sessizce yanlış olabilir; UTC damgası mutlak andır, yanlış olamaz ve
+         her takvim uygulaması onu kullanıcının kendi saatinde doğru gösterir.
+       · ⚠ Bu takvimde İKİ farklı ofset var: uçuşun İstanbul ucu UTC+3,
+         geri kalan her şey UTC+2. Tek bir TZID zaten yetmezdi — UTC'ye
+         çevirmek bu ayrımı kendiliğinden doğru yapıyor.
+
+     Tam gün etkinlikler (yıl dönümü, yol günü) VALUE=DATE ile yazılıyor;
+     onların saat dilimi zaten yok.
+
+     ---------- NE GİRER, NE GİRMEZ ----------
+     Yalnızca TUR'da KESİN olan veri. `belliMi()` "belirlenecek" /
+     "kontrol edilecek" geçen değeri eler; 15 Ağustos akşam yemeği
+     rezervasyonu (mekân ve saat belirlenecek) bu yüzden dosyaya GİRMEZ.
+     Saati kesinleşmemiş Ohrid → Dıraç otobüsü tam gün etkinlik olarak
+     giriyor, notunda neden saatsiz olduğu yazıyor.
+     ===================================================================== */
+  const ICS_ALAN = "balkanlarda-ask";
+  const ICS_TZ = "+02:00";   /* Kosova · K. Makedonya · Arnavutluk, yaz saati */
+
+  /* Yerel duvar saatinden mutlak an. Ofset AÇIKÇA veriliyor: cihazın kendi
+     saat dilimi hesaba karışmasın (telefon Türkiye'deyken de doğru çıksın). */
+  const icsAn = (isoTarih, saat, ofset) =>
+    new Date(isoTarih + "T" + saat + ":00" + (ofset || ICS_TZ));
+
+  /* RFC 5545 §3.3.5 — UTC biçimi: 20260812T065000Z */
+  const icsDamga = (d) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  /* §3.3.4 — tam gün biçimi: 20260815 */
+  const icsGun = (iso) => iso.replace(/-/g, "");
+  const icsGunKaydir = (iso, gun) => {
+    const d = new Date(iso + "T12:00:00Z");
+    d.setUTCDate(d.getUTCDate() + gun);
+    return d.toISOString().slice(0, 10);
+  };
+
+  /* §3.3.11 TEXT kaçışı. Sıra önemli: ters bölü ÖNCE kaçırılmalı, yoksa
+     sonradan eklenen \n ve \; kaçışları ikinci kez kaçırılır. */
+  const icsKacir = (s) =>
+    String(s)
+      .replace(/\\/g, "\\\\")
+      .replace(/;/g, "\\;")
+      .replace(/,/g, "\\,")
+      .replace(/\r?\n/g, "\\n");
+
+  /* §3.1 satır katlama: hiçbir satır 75 OKTETİ aşamaz (karakteri değil —
+     Türkçe ve Kiril harfleri UTF-8'de 2 bayt). Devam satırları tek boşlukla
+     başlar ve o boşluk da 75'e dâhildir. Kod noktası kod noktası yürünüyor,
+     böylece çok baytlı bir karakter ortasından bölünmüyor. */
+  function icsKatla(satir) {
+    const olc = (s) => new TextEncoder().encode(s).length;
+    if (olc(satir) <= 75) return satir;
+    const parcalar = [];
+    let simdiki = "", sinir = 75;
+    for (const kn of Array.from(satir)) {
+      if (olc(simdiki + kn) > sinir) {
+        parcalar.push(simdiki);
+        simdiki = kn;
+        sinir = 74;          /* devam satırında baştaki boşluk bir oktet yer kapar */
+      } else {
+        simdiki += kn;
+      }
+    }
+    if (simdiki) parcalar.push(simdiki);
+    return parcalar.shift() + parcalar.map((p) => "\r\n " + p).join("");
+  }
+
+  function icsUret() {
+    const satirlar = [];
+    const yaz = (ad, deger, param) =>
+      satirlar.push(ad + (param || "") + ":" + deger);
+    const metin = (ad, deger) => yaz(ad, icsKacir(deger));
+
+    const simdi = icsDamga(new Date());
+    /* UID benzersiz VE kararlı: sıra numarası eklenmiyor. Kimlikler zaten
+       çakışamaz (konaklama id'leri ve gün ISO'ları tekil). Kararlı olması
+       şart — dosya güncellenip yeniden içe aktarıldığında takvim aynı
+       etkinliği TANIYIP günceller; sayaçlı UID her seferinde kopya yaratırdı.
+       Çakışma olursa aşağıdaki kontrol yakalar. */
+    const gorulen = new Set();
+    const uid = (ad) => {
+      if (gorulen.has(ad)) throw new Error("UID çakışması: " + ad);
+      gorulen.add(ad);
+      return ad + "@" + ICS_ALAN;
+    };
+
+    /* Tek bir VEVENT. `bas`/`bit` ya Date (zamanlı) ya ISO tarih (tam gün). */
+    function etkinlik(e) {
+      satirlar.push("BEGIN:VEVENT");
+      yaz("UID", uid(e.kimlik));
+      yaz("DTSTAMP", simdi);
+      if (e.tamGun) {
+        /* DTEND tam gün etkinlikte DIŞLAYICIDIR (§3.8.2.2): tek günlük bir
+           etkinliğin bitişi ERTESİ gündür. Aynı gün yazılırsa etkinlik
+           bazı takvimlerde hiç görünmez. */
+        yaz("DTSTART", icsGun(e.bas), ";VALUE=DATE");
+        yaz("DTEND", icsGun(icsGunKaydir(e.sonGun || e.bas, 1)), ";VALUE=DATE");
+      } else {
+        yaz("DTSTART", icsDamga(e.bas));
+        yaz("DTEND", icsDamga(e.bit));
+      }
+      metin("SUMMARY", e.baslik);
+      if (e.yer) metin("LOCATION", e.yer);
+      if (e.aciklama) metin("DESCRIPTION", e.aciklama);
+      if (e.geoKonum) yaz("GEO", e.geoKonum[0] + ";" + e.geoKonum[1]);
+      yaz("TRANSP", "OPAQUE");
+      if (e.alarm) {
+        satirlar.push("BEGIN:VALARM");
+        yaz("TRIGGER", e.alarm.tetik);
+        yaz("ACTION", "DISPLAY");
+        metin("DESCRIPTION", e.alarm.metin || e.baslik);
+        satirlar.push("END:VALARM");
+      }
+      satirlar.push("END:VEVENT");
+    }
+
+    satirlar.push("BEGIN:VCALENDAR");
+    yaz("VERSION", "2.0");
+    yaz("PRODID", "-//Balkanlar'da Ask//Tur Takvimi//TR");
+    yaz("CALSCALE", "GREGORIAN");
+    yaz("METHOD", "PUBLISH");
+    metin("X-WR-CALNAME", "Balkanlar'da Aşk — 12-20 Ağustos 2026");
+    yaz("X-WR-TIMEZONE", "Europe/Tirane");
+
+    /* ---- 1) Uçuşlar ----
+       Kalkış ve dönüş anları TUR.meta'dan AÇIK ofsetleriyle geliyor
+       (İstanbul +03:00, Tiran +02:00) — burada ikinci kez yorumlanmıyor. */
+    const gidis = TUR.ucuslar[0], donus = TUR.ucuslar[1];
+
+    etkinlik({
+      kimlik: "ucus-" + gidis.sefer.toLowerCase(),
+      bas: new Date(TUR.meta.kalkisISO),
+      /* İniş Priştine'de, yani UTC+2 */
+      bit: icsAn("2026-08-12", gidis.inis.saat, ICS_TZ),
+      baslik: "✈ " + gidis.sefer + " · " + gidis.kalkis.kod + " → " + gidis.inis.kod,
+      yer: gidis.kalkis.yer + " (" + gidis.kalkis.kod + ")",
+      aciklama: gidis.havayolu + " " + gidis.sefer + " · PNR " + gidis.pnr + "\n" +
+                gidis.kalkis.saat + " " + gidis.kalkis.yer + " → " +
+                gidis.inis.saat + " " + gidis.inis.yer + " (" + gidis.sure + ")\n" +
+                gidis.bagaj.join(" · ") + "\n" +
+                "⚠ Varışta saat 1 saat GERİ (Türkiye UTC+3 → Kosova UTC+2).",
+      alarm: { tetik: "-PT3H", metin: "3 saat sonra " + gidis.sefer + " kalkıyor — havalimanına çık." }
+    });
+
+    etkinlik({
+      kimlik: "ucus-" + donus.sefer.toLowerCase(),
+      bas: new Date(TUR.meta.donusISO),
+      /* İniş Sabiha Gökçen'de: Türkiye UTC+3 */
+      bit: icsAn("2026-08-20", donus.inis.saat, "+03:00"),
+      baslik: "✈ " + donus.sefer + " · " + donus.kalkis.kod + " → " + donus.inis.kod,
+      yer: donus.kalkis.yer + " (" + donus.kalkis.kod + ")",
+      aciklama: donus.havayolu + " " + donus.sefer + " · PNR " + donus.pnr + "\n" +
+                donus.kalkis.saat + " " + donus.kalkis.yer + " → " +
+                donus.inis.saat + " " + donus.inis.yer + " (" + donus.sure + ")\n" +
+                donus.bagaj.join(" · ") + "\n" + donus.uyari,
+      alarm: { tetik: "-PT3H", metin: "3 saat sonra " + donus.sefer + " kalkıyor — havalimanında ol." }
+    });
+
+    /* ---- 2) Konaklama giriş ve çıkışları ----
+       Giriş saati `girisPencere`den, çıkış `cikisSaat`ten okunuyor; ikisi de
+       serbest metin ("14:00 – 02:00", "en geç 10:00", "en erken 15:00"), o
+       yüzden saatler düzenli ifadeyle çekiliyor.
+
+       İki uçlu pencere varsa (Ohrid 13:00 – 19:00, Üsküp 14:00 – 02:00)
+       etkinlik pencerenin TAMAMINI kaplar — Ohrid'in anahtar kutusu penceresi
+       böylece ayrı bir kopya etkinlik olarak DEĞİL, girişin kendisi olarak
+       takvimde duruyor (aynı şey iki kez yazılsa takvim çöplenirdi).
+       Bitiş başlangıçtan küçükse (Üsküp'ün gece 02:00'si) ertesi güne taşar.
+
+       Çıkış tarihi `cikisTarih` metninden değil, son geceden +1 gün olarak
+       hesaplanıyor — ikisi ayrışamaz. */
+    const saatler = (s) => String(s).match(/\d{1,2}:\d{2}/g) || [];
+    (TUR.cepte.konaklamalar || []).forEach((k) => {
+      const geceler = k.geceler || [];
+      if (!geceler.length) return;
+
+      const gS = saatler(k.girisPencere);
+      if (gS.length && belliMi(k.girisPencere)) {
+        const bas = icsAn(geceler[0], gS[0]);
+        let bit;
+        if (gS.length > 1) {
+          bit = icsAn(geceler[0], gS[1]);
+          if (bit <= bas) bit = icsAn(icsGunKaydir(geceler[0], 1), gS[1]);
+        } else {
+          bit = new Date(bas.getTime() + 30 * 60000);
+        }
+        etkinlik({
+          kimlik: "konak-" + k.id + "-giris",
+          bas: bas, bit: bit,
+          baslik: "🔑 " + k.sehir + " — eve giriş · " + k.kisaAd,
+          yer: (k.adresYerel ? k.adresYerel + " — " : "") + k.adres,
+          geoKonum: k.konum,
+          aciklama: "Giriş penceresi: " + k.girisPencere + "\n" +
+                    k.girisYontemi + "\n" +
+                    (k.uyari ? k.uyari + "\n" : "") +
+                    (k.tarif ? k.tarif + "\n" : "") +
+                    "Ev sahibi: " + k.evSahibi + "\n" +
+                    "⚠ Kapı / kutu şifresi burada YAZMAZ — o yalnızca telefonundaki " +
+                    "Cepte bölümünde duruyor.",
+          alarm: { tetik: "-PT2H",
+                   metin: k.sehir + " — eve giriş " + k.girisPencere +
+                          (k.girisDar ? " (pencere DAR, kaçırma)" : "") }
+        });
+      }
+
+      const cS = saatler(k.cikisSaat);
+      if (cS.length && belliMi(k.cikisSaat)) {
+        const cikisGunu = icsGunKaydir(geceler[geceler.length - 1], 1);
+        const bas = icsAn(cikisGunu, cS[0]);
+        etkinlik({
+          kimlik: "konak-" + k.id + "-cikis",
+          bas: new Date(bas.getTime() - 30 * 60000), bit: bas,
+          baslik: "🧳 " + k.sehir + " — evden çıkış (" + k.cikisSaat + ")",
+          yer: (k.adresYerel ? k.adresYerel + " — " : "") + k.adres,
+          geoKonum: k.konum,
+          aciklama: "Çıkış: " + k.cikisSaat + " · " + k.kisaAd +
+                    (k.not ? "\n" + k.not : ""),
+          alarm: { tetik: "-PT1H", metin: k.sehir + " — çıkışa 1 saat (" + k.cikisSaat + ")" }
+        });
+      }
+    });
+
+    /* ---- 3) Otobüs bacakları — saati kesinleşmemiş olanlar tam gün ----
+       Yalnızca saati BELLİ OLMAYAN ama günü belli olan Ohrid → Dıraç bacağı
+       giriyor: turun tek kıt hattı, sefer günde 3-5 ve bilet önceden alınacak.
+       Saat uydurulmuyor; etkinlik tam gün, gerekçesi notunda. */
+    const yolBacagi = "Ohrid → Dıraç";
+    const yolGunu = Object.keys(GUN_BACAK).find((iso) => GUN_BACAK[iso] === yolBacagi);
+    const bacakVeri = (TUR.ulasim || []).find((u) => u.bacak === yolBacagi);
+    if (yolGunu && bacakVeri) {
+      const g = TUR.gunler.find((x) => x.tarihISO === yolGunu);
+      const kalkisOtogari = (TUR.cepte.otogarlar || []).find((o) => o.sehir === "Ohrid");
+      etkinlik({
+        kimlik: "bacak-ohrid-dirac",
+        tamGun: true, bas: yolGunu,
+        baslik: "🚌 " + yolBacagi + " — yol günü",
+        yer: kalkisOtogari ? kalkisOtogari.ad + ", " + kalkisOtogari.sehir : "",
+        aciklama: "Süre " + bacakVeri.sure + " · " + bacakVeri.yontem + "\n" +
+                  "Bilet: " + bacakVeri.durum + "\n" +
+                  "⚠ Kalkış saati KESİNLEŞMEDİ, o yüzden bu etkinlik saatsiz. " +
+                  "Bilet alınınca saatini kendin gir.\n" +
+                  (g && g.risk ? g.risk : "")
+      });
+    }
+
+    /* ---- 4) Havalimanına hareket (19 Ağustos gecesi) ----
+       Turun tek "kaçırılırsa uçak kaçar" anı ve o gece kalınacak ev yok. */
+    const sonGun = TUR.gunler.find((g) => g.hareket && belliMi(g.hareket.saat));
+    if (sonGun) {
+      const bas = icsAn(sonGun.tarihISO, sonGun.hareket.saat);
+      etkinlik({
+        kimlik: "havalimanina-hareket",
+        bas: bas, bit: new Date(bas.getTime() + 60 * 60000),
+        baslik: "🚕 Havalimanına hareket — " + sonGun.hareket.yer,
+        yer: sonGun.hareket.yer,
+        aciklama: sonGun.hareket.not + "\n" + sonGun.uyari,
+        alarm: { tetik: "-PT2H",
+                 metin: "2 saat sonra havalimanına hareket (" + sonGun.hareket.saat + ")" }
+      });
+    }
+
+    /* ---- 5) Özel gün — yıl dönümü ---- */
+    TUR.gunler.filter((g) => g.ozel).forEach((g) => {
+      etkinlik({
+        kimlik: "ozel-" + g.tarihISO,
+        tamGun: true, bas: g.tarihISO,
+        baslik: g.ozel.ikon + " " + g.ozel.metin,
+        yer: g.gece,
+        aciklama: g.baslik + "\n" + g.ozet,
+        alarm: { tetik: "-P1D", metin: "Yarın " + g.ozel.metin + " 🤍" }
+      });
+    });
+
+    satirlar.push("END:VCALENDAR");
+
+    /* Katlama en sonda, satır satır. CRLF zorunlu (§3.1) — dosya sonunda da. */
+    return satirlar.map(icsKatla).join("\r\n") + "\r\n";
+  }
+
+  (function takvimKur() {
+    const btn = $("#btn-ics-indir");
+    if (!btn) return;
+    const durum = $("#ics-durum"), ozet = $("#ics-ozet");
+
+    /* Kaç etkinlik çıktığı önden yazılıyor: düğmeye basmadan ne alacağı
+       belli olsun, "belirlenecek" olanların elendiği görünsün. */
+    let metin = "";
+    try {
+      metin = icsUret();
+      const adet = (metin.match(/BEGIN:VEVENT/g) || []).length;
+      ozet.textContent = adet + " etkinlik hazır · alarmlar dosyanın içinde · " +
+        "saatler UTC olarak yazılır, telefonun kendi saat diliminde doğru görünür.";
+    } catch (e) {
+      btn.disabled = true;
+      durum.textContent = "Takvim dosyası üretilemedi.";
+      durum.dataset.tip = "hata";
+      return;
+    }
+
+    btn.addEventListener("click", () => {
+      const bag = URL.createObjectURL(
+        new Blob([metin], { type: "text/calendar;charset=utf-8" }));
+      const a = document.createElement("a");
+      a.href = bag;
+      a.download = "balkanlarda-ask.ics";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(bag), 1000);
+      durum.textContent = "✓ balkanlarda-ask.ics indirildi — dosyayı aç, telefon takvime eklemeyi önerir.";
+      delete durum.dataset.tip;
+    });
+  })();
 
   /* =====================================================================
      PWA — service worker kaydı, güncelleme ve çevrimdışı şeridi

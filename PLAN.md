@@ -645,6 +645,83 @@ açısından beklenen kalıp bu.
 
 ## Yapılanlar
 
+### 8 Ağustos 2026 — yirminci oturum
+
+**Takvim dosyası (.ics) ve Cepte akordeonu**
+
+**1. Neden takvim dosyası.** Siteye zamanlanmış bildirim kurmak iOS'ta güvenilmez: sayfa
+arka plandayken PWA bildiriminin çalacağının garantisi yok. Telefonun **kendi takvim
+alarmı** ise site hiç açılmasa da çalar. Hazırlık bölümünün altına "📅 Takvim dosyasını
+indir" düğmesi kondu; dosya tamamen cihazda üretiliyor — sunucu yok, harici kütüphane yok,
+metin string olarak kuruluyor (`icsUret()`).
+
+**2. Saat dilimi kararı: VTIMEZONE değil, UTC + `Z`.** İki seçenek vardı; UTC seçildi:
+
+- Turun tamamı (12–20 Ağustos 2026) **tek bir yaz saati penceresinin içinde**. Kosova,
+  Kuzey Makedonya ve Arnavutluk üçü de UTC+2, aralıkta hiçbir DST geçişi yok — VTIMEZONE'un
+  çözdüğü tek gerçek problem ("geçiş anında hangi ofset") bu takvimde hiç doğmuyor.
+- Elle yazılan VTIMEZONE (RRULE'lu STANDARD/DAYLIGHT blokları) uzun ve **sessizce yanlış
+  olabilir**; UTC damgası mutlak andır, yanlış olamaz ve her takvim uygulaması onu
+  kullanıcının kendi saatinde doğru gösterir.
+- ⚠ Belirleyici gerekçe: bu takvimde **iki farklı ofset** var. Uçuşun İstanbul ucu UTC+3,
+  geri kalan her şey UTC+2. Tek bir `TZID` zaten yetmezdi; UTC'ye çevirmek ayrımı
+  kendiliğinden doğru yapıyor.
+
+Tam gün etkinlikler (yıl dönümü, yol günü) `VALUE=DATE` ile yazılıyor — onların saat dilimi
+zaten yok.
+
+**3. Etkinlikler — 11 tane, hepsi TUR'dan, hepsi kesin.**
+
+| # | Etkinlik | Zaman | Alarm |
+|---|---|---|---|
+| 1 | ✈ VF101 · SAW → PRN | 12 Ağu 09:50 (+03:00) → `20260812T065000Z` | −3 sa |
+| 2 | ✈ PC284 · TIA → SAW | 20 Ağu 02:15 (+02:00) → `20260820T001500Z` | −3 sa |
+| 3-4 | 🔑🧳 Üsküp giriş / çıkış | 12 Ağu 14:00 – 13 Ağu 02:00 · 13 Ağu 10:00 | −2 sa / −1 sa |
+| 5-6 | 🔑🧳 Ohrid giriş / çıkış | **13 Ağu 13:00 – 19:00** · 16 Ağu 10:00 | −2 sa / −1 sa |
+| 7-8 | 🔑🧳 Dıraç giriş / çıkış | 16 Ağu 15:00 · 19 Ağu 11:00 | −2 sa / −1 sa |
+| 9 | 🚌 Ohrid → Dıraç yol günü | 16 Ağu, **tam gün** | — |
+| 10 | 🚕 Havalimanına hareket | 19 Ağu 23:30 | −2 sa |
+| 11 | 🤍 2. yıl dönümü | 15 Ağu, **tam gün** | −1 gün |
+
+- **Ohrid'in anahtar kutusu penceresi ayrı bir etkinlik DEĞİL.** İki uçlu bir giriş
+  penceresi varsa (`girisPencere: "13:00 – 19:00"`) giriş etkinliği pencerenin tamamını
+  kaplıyor — aynı şey iki kez yazılsaydı takvim çöplenirdi. Üsküp'ün 14:00 – 02:00
+  penceresi de aynı yoldan geçiyor ve ertesi güne taşıyor.
+- **Ohrid → Dıraç otobüsü saatsiz.** Kalkış saati kesinleşmediği için tam gün etkinlik;
+  notunda neden saatsiz olduğu ve bilet alınınca saatin elle girileceği yazıyor. Saat
+  uydurulmadı.
+- **15 Ağustos akşam yemeği rezervasyonu dosyaya GİRMİYOR** — mekân ve saat "belirlenecek".
+  `belliMi()` eliyor.
+- Çıkış tarihleri `cikisTarih` metninden değil **son gece + 1 gün** olarak hesaplanıyor,
+  ikisi ayrışamasın diye.
+- Kapı kodu / kutu şifresi / wifi **dosyaya yazılmaz** — .ics paylaşılabilir bir dosya,
+  o değerler yalnızca cihazda kalmalı. Açıklamada bunun böyle olduğu yazıyor.
+- UID'ler **kararlı** (sıra numarası yok): dosya güncellenip yeniden içe aktarıldığında
+  takvim aynı etkinliği tanıyıp günceller, kopya yaratmaz.
+
+**4. Doğrulama.** Üretilen dosya Node'da gerçek `TUR` verisiyle üretilip denetlendi:
+satır sonlarının tamamı CRLF (dosya sonu dâhil), **hiçbir satır 75 okteti aşmıyor**
+(en uzun tam 75; 34 devam satırı katlanmış, katlama kod noktası kod noktası yürüdüğü için
+Kiril ve Türkçe harfler bölünmüyor), 11 UID'nin 11'i benzersiz, her VEVENT'te UID/DTSTAMP/
+DTSTART var, zamanlı damgaların hepsi `Z` ile bitiyor, dosyada "belirlenecek" geçmiyor.
+
+**5. Cepte: yatay sekme şeridi → alt alta akordeon.** Bir önceki oturumda kartlar yatay
+kaydırmalı bir sekme şeridine bağlanmıştı ve **bu yanlıştı**: telefonda sekmelerin yarısı
+ekran dışında kalıyor, "burada başka ne var" sorusu ancak yana kaydırarak cevaplanıyordu.
+Artık sekiz başlık **alt alta** duruyor, dokununca altındaki kart açılıyor:
+
+- Bütün liste her zaman görünür; dokunma alanı tam genişlik (ölçüldü: 1056 px genişlik,
+  54 px yükseklik — 44 px eşiğinin üstünde).
+- Aynı anda tek kart açık; **açık başlığa tekrar dokunmak kapatır**, yani hepsi kapalı da
+  olabilir.
+- Klavyede ok tuşları yalnızca **odağı** taşır, açmaz (akordeon kalıbı); Enter/Space açar.
+  Sekme şeridinde ok = seçim doğruydu, akordeonda değil.
+- Kartlar DOM'da yerinde ve `cepte-grid`in doğrudan çocuğu kalıyor — delege edilmiş
+  kopyalama ve `gizliler` dinleyicileri aynen çalışıyor. Yazdırmada başlıklar gizlenir,
+  bütün kartlar basılır.
+
+---
+
 ### 8 Ağustos 2026 — on dokuzuncu oturum
 
 **Haritaya beş otogar eklendi**

@@ -29,12 +29,15 @@
    v11 — 8 Ağustos 2026: beş otogar (Priştine · Üsküp · Ohrid · Dıraç · Tiran)
         — Cepte kartı, harita pini, Günün Kartı'nda kalkış otogarı ve
         otogar karoları (316 → 390).
+   v12 — 8 Ağustos 2026: indirilebilir .ics takvim dosyası (11 etkinlik, UTC
+        damgalı, alarmlı) ve Cepte'nin yatay sekme şeridi alt alta akordeona
+        çevrildi.
 
    ⚠ Leaflet artık index.html'in <head>'inde DEĞİL, harita bölümü yaklaşınca
    enjekte ediliyor. APP_SHELL'de kalması bilinçli: çevrimdışıyken harita
    bölümüne inildiğinde dosyalar cache'ten gelsin diye burada ön belleğe
    alınıyor — yükleme sayfayı yavaşlatmıyor, install arka planda yapıyor. */
-const CACHE_VERSION = "balkan-v11";
+const CACHE_VERSION = "balkan-v12";
 const SHELL_CACHE = CACHE_VERSION + "-shell";
 const HAVA_CACHE = CACHE_VERSION + "-hava";
 
