@@ -68,11 +68,12 @@ dokunmak gerekmez.**
 | `rota` | Rota şeridindeki duraklar: ad, gece notu |
 | `konaklama` | Hangi gece hangi şehir, kaç gece, tesis adı |
 | `sehirler` | Şehir kartları: tema, rehber tanıtımı, "Öne çıkanlar", `kapak` görseli, `galeri` dizisi |
-| `gunler` | 9 günlük program: tarih, başlık, özet, akış, rehber notları, `risk`, `uyari`, gece bilgisi |
+| `gunler` | 9 günlük program: tarih, başlık, özet, akış (`program[]` — saatli maddeler), rehber notları, `risk`, `uyari`, gece bilgisi |
+| `sabahListesi` | Her sabah çıkmadan bakılan 5 madde; işaretleri gün dönünce sıfırlanır |
 | `ulasim` | Ulaşım özeti tablosu: bacak, süre, yöntem, durum |
 | `harita` | Harita ayarları: karo kaynağı ve atıf, zoom sınırları, havalimanları, yedek metin, `odak` (şerit metinleri ve zoom seviyeleri), `cevrimdisi` (indirilecek karo tarifi) |
 | `dikkatEdilecekler` | "Nelere dikkat etmeli" kartları: ikon, başlık, `seviye`, maddeler |
-| `cepte` | Cepte bölümü: uçuş kodları, konaklamalar (adres/koordinat/giriş/gizli alanlar), hastaneler, sağlık, buluşma, acil cümleler, acil numaralar, temel kelimeler. Kartlar sekmelere bölünür — sekme adı/ikonu kartı eklerken `cepKartEkle(ikon, etiket, kart)` çağrısında verilir |
+| `cepte` | Cepte bölümü: uçuş kodları, konaklamalar (adres/koordinat/giriş/gizli alanlar), hastaneler, otogarlar, sağlık, buluşma, acil cümleler, **günlük cümleler**, **rakamlar** (`sayilar`), acil numaralar, temel kelimeler. Kartlar sekmelere bölünür — sekme adı/ikonu kartı eklerken `cepKartEkle(ikon, etiket, kart)` çağrısında verilir |
 | `havaDurumu` | Open-Meteo ayarları, gün→şehir eşlemesi, mevsim normalleri, uyarı eşikleri |
 | `yemeIcmeNotlari` | Şehir kartlarının altındaki yeme-içme notları kutusu |
 | `pratik` | Pratik bilgi kartları: para, bütçe, elektrik, sağlık, adap, kelimeler |
@@ -81,6 +82,56 @@ dokunmak gerekmez.**
 
 ### Pratik notlar
 
+- **Program maddeleri saatli veridir.** `gunler[].program` düz metin dizisi değil,
+  `{ saat?, dilim?, metin, yer? }` objelerinden oluşur:
+  - `saat` — **ekranda görünen** serbest metin (`"~13:00"`, `"En geç 10:00"`,
+    `"09:00 – 10:00 arası"`). Sayaç için içindeki **ilk HH:MM** ayrıştırılır, yani
+    yaklaşıklık işaretleri olduğu gibi kalabilir.
+  - `dilim` — saati olmayan maddeler için `"sabah"` / `"ogle"` / `"aksam"`. Bugün
+    ekranı programı bu üç dilime böler. (Eskiden bunu metne bakan bir regex tahmin
+    ediyordu ve "yemek" geçen her satırı akşama atıyordu.)
+  - `yer` — **mevcut** bir koordinat kaydına referans: `"ev:ohrid"`, `"otogar:Üsküp"`,
+    `"hastane:Dıraç"`, `"havalimani:TIA"`, `"sehir:Ohrid"`. Satırda "yol tarifi"
+    bağlantısı çıkar. **Buraya ham koordinat yazma** — koordinat tek yerde durur,
+    burada yalnızca ona işaret edilir. Karşılığı yoksa satır sessizce bağlantısız
+    basılır; `?kontrol=1` bunu 9. grupta yakalar.
+  - Bir maddenin **saati yoksa** "Sıradaki adım" sayacına hiç girmez — uydurma saate
+    geri saymamak için bilinçli.
+  - ⚠ Açılış saati ile etkinlik saatini karıştırma: 17 Ağustos'ta müzenin 09:00 – 16:00
+    açık olması `saat` alanına yazılmaz, yoksa sayaç sabah 09:00'ı "müzeye git" sanır.
+- **Akış tikleri:** her madde işaretlenebilir, kayıt `balkan2026.akis`,
+  anahtar `YYYY-MM-DD::sıraNo`. Anahtar **metin değil sıra** olduğu için metni
+  düzeltmek tiki kaybettirmez; buna karşılık bir maddenin **yerini değiştirmek**
+  tiki yanlış maddeye bindirir.
+- **"Şu an / Sıradaki":** Bugün ekranındaki geri sayım kutusu dakikada iki kez
+  tazelenir. "Şu anki madde", saati geçmiş maddeler arasında **saati en büyük**
+  olandır — yazım sırası kronolojik olmak zorunda değil (13 Ağustos'ta "en geç 10:00
+  çıkış" 09:00 otobüsünden önce yazılı). Sıradakiye 30 dakikadan az kalınca kutu
+  sarıya döner.
+- **Site içi arama:** üst çubuktaki 🔍 (ya da Ctrl/Cmd+K). `TUR` objesinde arar,
+  Türkçe aksan ve büyük/küçük farkını yok sayar; sonuca dokununca gün kartını ya da
+  Cepte sekmesini açıp oraya kaydırır. Grup adı da aranabilir alandır — "otogar"
+  yazan kişi kaydın metni Kiril alfabesinde olsa da onu bulsun diye. Var olma
+  sebebi: tarayıcının Ctrl+F'i **kapalı akordeonun içini bulamıyor**.
+- **Çift saat:** çubuktaki büyük rakam cihazın saati, altındaki satır Türkiye saati.
+  Türkiye saati cihazdan değil **UTC'den** hesaplanır (Türkiye yıl boyu UTC+3), yani
+  cihazın dilimi yanlış olsa bile alt satır doğru kalır. İkisi eşitken "TR ile aynı"
+  yazar — Balkanlar'da bu bir **uyarıdır**, saat dilimi güncellenmemiş demektir.
+- **Veri kilidi (harita 📶/📵):** açıkken harita **ağa hiç çıkmaz**, karoyu yalnızca
+  Cache Storage'daki indirilmiş paketten okur; olmayan yer boş kalır. Tercih
+  `balkan2026.karokilit` altında saklanır. ⚠ Gezinirken görülen karolar cache'e
+  **girmez** (Leaflet `<img>` isteği opak yanıt döndürüyor, service worker'ın
+  `yanit.ok` kontrolünden geçmiyor) — kilidin gösterdiği tek kaynak "Haritayı
+  çevrimdışına al" ile inen 390 karodur.
+- **Yakınımdakiler:** 📍 Konumum açıkken rozetin altında en yakın ev / otogar /
+  hastane mesafesiyle listelenir, her satır Maps'e gider. Yeni veri eklenmedi,
+  aynı GPS sabitlemesinden hesaplanıyor.
+- **Ekranı uyanık tutma (Wake Lock):** Günün Kartı ve tam ekran harita açıkken
+  ekran sönmez. Desteklemeyen tarayıcıda sessizce hiçbir şey yapmaz.
+- **Dar telefonda üst çubuk:** 430 px altında tema düğmesinin adı ve 🖨 düğmesi
+  düşer. Ölçüldü: altı öğe 360 px'e sığmıyor ve sıkışan hep bölüm adı oluyordu.
+  Yazdırma yolda en az kullanılan düğme; `?yazdir=acil` kendi bağlantısıyla Cepte
+  bölümünün girişinde duruyor.
 - **Geri sayım üç durumlu:** `meta.kalkisISO` ve `meta.donusISO` alanlarına bağlı.
   Kalkıştan önce "Yola çıkmaya kalan", 12-19 Ağustos arasında "Dönüşe kalan" + "Turun N. günü / 8",
   dönüş uçuşundan sonra "Tur tamamlandı". Uçuş saatleri değişirse bu iki alanı güncelle.
@@ -178,11 +229,14 @@ dokunmak gerekmez.**
   | `balkan2026.anilar` | Gün kartlarındaki anı notları |
   | `balkan2026.hava` | Hava durumu yanıtı + zaman damgası (3 saat) |
   | `balkan2026.tema` | Koyu / açık tema tercihi (yoksa sistem tercihi geçerli) |
+  | `balkan2026.akis` | Gün programı maddelerinin tikleri (`YYYY-MM-DD::sıraNo`) |
+  | `balkan2026.sabah` | "Çıkmadan önce" listesi — gün dönünce sıfırlanır, yedeğe girmez |
+  | `balkan2026.karokilit` | Haritanın veri kilidi açık mı |
   | `balkan2026.gizli` | Kapı kodu / kilitli kutu şifresi / wifi şifresi (kimlik: `evId::alan`) |
 
   Bunlar cihaza özeldir; telefonda işaretlenen bir şey bilgisayarda görünmez —
   taşımak için aşağıdaki yedekleme kutusu var.
-- **Yedekleme / taşıma:** Hazırlık bölümünün altındaki kutu ilk üç anahtarı tek bir
+- **Yedekleme / taşıma:** Hazırlık bölümünün altındaki kutu işaretleri, kalpleri, anı notlarını, akış tiklerini ve kayıtlı kodları tek bir
   `.json` dosyasına yazar (indir ya da panoya kopyala). Geri yükleme **ezmez, birleştirir**:
   işaret ve kalplerde "seçili" olan kazanır, aynı güne iki farklı anı notu yazılmışsa
   ikisi de `———` çizgisiyle alt alta korunur. Böylece iki telefonun kaydı birbirini
@@ -218,11 +272,13 @@ dokunmak gerekmez.**
   açık yazı, her iki temada aynı) — gerekçesi `progress.md` bölüm 5'teki istisna tablosunda.
   ⚠ Kart HTML'i değişince bu fonksiyon **kendiliğinden değişmez**, elle güncellenmeli
   (`gunKartiPNG`).
-- **Veri tutarlılık denetimi:** `?kontrol=1`. `TUR` objesini gezip sekiz grupta rapor
+- **Veri tutarlılık denetimi:** `?kontrol=1`. `TUR` objesini gezip dokuz grupta rapor
   basar: gün dizisi (`tarihISO` biçim · aralık · boşluksuz sıra), koordinatlar (hepsi
   Balkan kutusunda mı), kimlik tekrarları, `GUN_BACAK` ↔ `ulasim[].bacak`, hava
   eşlemesi, "belirlenecek / kontrol edilecek / alınacak" geçen bütün alanlar, kapak ve
-  galeri görselleri, şehir ↔ harita (sıra, gün çapası, ev/otogar/hastane merkeze uzaklık).
+  galeri görselleri, şehir ↔ harita (sıra, gün çapası, ev/otogar/hastane merkeze uzaklık),
+  program maddeleri (`saat` ayrıştırılabiliyor mu · `dilim` geçerli mi · `yer` bir kayda
+  çözülüyor mu).
   ❌ hata · ⚠️ bakılmalı · ✅ tamam; her satırda alanın tam yolu yazar. Normal render'a
   dokunmaz, hiçbir şeyi değiştirmez — veriye dokunduktan sonra bir kez çalıştır.
 - **Kontrol listesi:** işaretler tarayıcının `localStorage`'ında `balkan2026.hazirlik`
@@ -280,8 +336,8 @@ izleyebilirsin. Dört cache olur:
 
 | Cache | Sürümlü mü | İçerik |
 |---|---|---|
-| `balkan-v6-shell` | evet | `index.html`, manifest, ikon, şehir kapakları, Leaflet |
-| `balkan-v6-hava` | evet | Son başarılı Open-Meteo yanıtı |
+| `balkan-v16-shell` | evet | `index.html`, manifest, ikon, şehir kapakları, Leaflet |
+| `balkan-v16-hava` | evet | Son başarılı Open-Meteo yanıtı |
 | `balkan-gorsel` | **hayır** | Wikimedia galeri ve lezzet görselleri |
 | `balkan-karo` | **hayır** | İndirilen OpenStreetMap harita karoları |
 
@@ -300,7 +356,7 @@ ve sayfada **"✨ Yeni sürüm hazır / Yenile"** çubuğu çıkar. Yenile'ye ba
 devralır.
 
 Önbelleklenen dosya listesi değiştiyse (`sw.js` içindeki `APP_SHELL`) ya da eski önbelleğin
-tamamen atılması gerekiyorsa **`CACHE_VERSION` sabitini artır** (`balkan-v5` → `balkan-v6`).
+tamamen atılması gerekiyorsa **`CACHE_VERSION` sabitini artır** (`balkan-v15` → `balkan-v16`).
 Eski cache'ler `activate` sırasında otomatik silinir — `balkan-gorsel` ve `balkan-karo` hariç,
 onlar `BIZIM_CACHELER` içinde ve sürümden bağımsız durur.
 

@@ -571,12 +571,15 @@ const TUR = {
         "sonraki otobüsü kaçırmamak. Üsküp'te giriş 02:00'a kadar açık olduğu için gecikme " +
         "konaklamayı riske atmıyor — kaybedilen tek şey akşam gezisi olur.",
       program: [
-        "09:50 — İstanbul Sabiha Gökçen'den kalkış (AJet VF101).",
-        "10:30 — Priştine'ye iniş, şehir merkezine geçiş (~25 dk).",
-        "11:15 – 15:00 — Priştine: NEWBORN anıtı, Bill Clinton Bulvarı, merkez, öğle yemeği (flija).",
-        "~15:30 — Priştine → Üsküp otobüsü (~2 – 2,5 sa).",
-        "~18:30 — Üsküp'te eve giriş: Universe Hostel, tuş takımıyla.",
-        "Akşam Üsküp: Taş Köprü, Makedonya Meydanı, Eski Çarşı — hepsi aydınlatmalı, çarşıda lokantalar açık."
+        /* ⚠ 09:50 ve 04:50 TÜRKİYE saati (UTC+3), aradaki her şey yerel (UTC+2).
+           `saat` alanı her zaman "o an bulunulan yerin saati"dir — sıradaki-adım
+           sayacı da cihazın saatiyle karşılaştırdığı için bu doğru davranıyor. */
+        { saat: "09:50", metin: "İstanbul Sabiha Gökçen'den kalkış (AJet VF101)." },
+        { saat: "10:30", metin: "Priştine'ye iniş, şehir merkezine geçiş (~25 dk).", yer: "havalimani:PRN" },
+        { saat: "11:15 – 15:00", metin: "Priştine: NEWBORN anıtı, Bill Clinton Bulvarı, merkez, öğle yemeği (flija)." },
+        { saat: "~15:30", metin: "Priştine → Üsküp otobüsü (~2 – 2,5 sa).", yer: "otogar:Priştine" },
+        { saat: "~18:30", metin: "Üsküp'te eve giriş: Universe Hostel, tuş takımıyla.", yer: "ev:uskup" },
+        { dilim: "aksam", metin: "Akşam Üsküp: Taş Köprü, Makedonya Meydanı, Eski Çarşı — hepsi aydınlatmalı, çarşıda lokantalar açık." }
       ],
       notlar: [
         { tip: "En iyi saat", metin: "Üsküp merkezi akşam en iyi hâlinde; köprü ve meydan ışıklı, Eski Çarşı canlı." },
@@ -602,12 +605,12 @@ const TUR = {
         "altı saat kalıyor. Tek dikkat edilecek şey otobüsü 09:00 – 10:00 aralığından seçmek; " +
         "öğleden sonraya bırakılırsa eski planın dar penceresine geri dönülür.",
       program: [
-        "Erken sabah (opsiyonel): Üsküp Kalesi, trileçe.",
-        "En geç 10:00 — Üsküp'ten çıkış (check-out).",
-        "09:00 – 10:00 arası — Üsküp → Ohrid otobüsü (~3 sa).",
-        "~13:00 — Ohrid'e varış: eve giriş penceresinin (13:00 – 19:00) tam başında, kilitli kutuyla.",
-        "Öğleden sonra: yerleşme, göl kıyısında ilk yürüyüş.",
-        "Bugün ayarlanacak iki şey: yarınki Sveti Naum teknesi · 15 Ağustos akşam yemeği rezervasyonu."
+        { dilim: "sabah", metin: "Erken sabah (opsiyonel): Üsküp Kalesi, trileçe." },
+        { saat: "En geç 10:00", metin: "Üsküp'ten çıkış (check-out).", yer: "ev:uskup" },
+        { saat: "09:00 – 10:00 arası", metin: "Üsküp → Ohrid otobüsü (~3 sa).", yer: "otogar:Üsküp" },
+        { saat: "~13:00", metin: "Ohrid'e varış: eve giriş penceresinin (13:00 – 19:00) tam başında, kilitli kutuyla.", yer: "ev:ohrid" },
+        { dilim: "ogle", metin: "Öğleden sonra: yerleşme, göl kıyısında ilk yürüyüş." },
+        { dilim: "ogle", metin: "Bugün ayarlanacak iki şey: yarınki Sveti Naum teknesi · 15 Ağustos akşam yemeği rezervasyonu." }
       ],
       notlar: [
         { tip: "En iyi saat", metin: "Kale sabah erken serin; 08:00 – 09:30 arasına sıkıştır, 10:00 çıkışına yetiş." },
@@ -629,9 +632,9 @@ const TUR = {
         "yoluyla uzun ve pahalı bir dönüş demek. Ağustosta turlar doluyor — yeri 13 Ağustos akşamı " +
         "ayırt.",
       program: [
-        "Sabah: Ohrid Gölü'nde tekne, gölün güneyine Sveti Naum Manastırı.",
-        "Manastır, kaynaklar, çevresinde yüzme.",
-        "Akşamüstü Ohrid'e dönüş, göl kenarında akşam yemeği."
+        { dilim: "sabah", metin: "Sabah: Ohrid Gölü'nde tekne, gölün güneyine Sveti Naum Manastırı." },
+        { dilim: "ogle", metin: "Manastır, kaynaklar, çevresinde yüzme." },
+        { dilim: "aksam", metin: "Akşamüstü Ohrid'e dönüş, göl kenarında akşam yemeği." }
       ],
       notlar: [
         { tip: "En iyi saat", metin: "Sabah teknesi; göl öğleden sonra dalgalanıyor." },
@@ -655,12 +658,12 @@ const TUR = {
         "Tek risk masasız kalmak. Ağustos cumartesi akşamı Ohrid'de rezervasyonsuz iyi masa yok — " +
         "13 Ağustos'ta, Ohrid'e varır varmaz ara.",
       program: [
-        "Geç kalkış, göl kenarında kahvaltı.",
-        "Sabah: Kaneo'da yüzme, kayalık altındaki tahta yolda yürüyüş; Sveti Jovan Kaneo sabah ışığında.",
-        "12:00 – 16:00: gölge, eve dönüş, uyku.",
-        "~17:00: Samuel Kalesi surları, oradan eski şehre inerken Antik Lychnidos Tiyatrosu (giriş serbest).",
-        "~19:45 gün batımı: Kaneo kayalıkları.",
-        "Akşam: rezerve edilen masa."
+        { dilim: "sabah", metin: "Geç kalkış, göl kenarında kahvaltı." },
+        { dilim: "sabah", metin: "Sabah: Kaneo'da yüzme, kayalık altındaki tahta yolda yürüyüş; Sveti Jovan Kaneo sabah ışığında." },
+        { saat: "12:00 – 16:00", metin: "Gölge, eve dönüş, uyku.", yer: "ev:ohrid" },
+        { saat: "~17:00", metin: "Samuel Kalesi surları, oradan eski şehre inerken Antik Lychnidos Tiyatrosu (giriş serbest)." },
+        { saat: "~19:45", metin: "Gün batımı: Kaneo kayalıkları." },
+        { dilim: "aksam", metin: "Akşam: rezerve edilen masa." }
       ],
       notlar: [
         { tip: "Dikkat", metin: "Ohrid Yaz Festivali 12 Temmuz – 20 Ağustos 2026 arası sürüyor; konserler Antik Tiyatro ve Aya Sofya'da veriliyor. 15 Ağustos programı ohridskoleto.com.mk üzerinden bakılacak, bilet rezervasyonu tickets@ohridskoleto.com.mk. Program kontrol edilecek." },
@@ -684,11 +687,11 @@ const TUR = {
         "Pasaportlar el altında, su ve atıştırmalık yanında, telefonlar şarjlı. Ev sahibine " +
         "tahmini varış saatini bildir.",
       program: [
-        "En geç 10:00 — Ohrid'den çıkış (check-out).",
-        "~09:00 — Ohrid → Dıraç otobüsü (~3 – 4,5 sa, Elbasan üzerinden, sınır geçişi dahil).",
-        "~13:00 – 13:30 — Dıraç'a varış, öğle yemeği.",
-        "15:00'ten sonra — Dıraç'ta eve giriş: Red Crab dairesi, kilitli kutuyla.",
-        "Akşamüstü Adriyatik'te ilk yüzme, gün batımı."
+        { saat: "En geç 10:00", metin: "Ohrid'den çıkış (check-out).", yer: "ev:ohrid" },
+        { saat: "~09:00", metin: "Ohrid → Dıraç otobüsü (~3 – 4,5 sa, Elbasan üzerinden, sınır geçişi dahil).", yer: "otogar:Ohrid" },
+        { saat: "~13:00 – 13:30", metin: "Dıraç'a varış, öğle yemeği.", yer: "otogar:Dıraç" },
+        { saat: "15:00'ten sonra", metin: "Dıraç'ta eve giriş: Red Crab dairesi, kilitli kutuyla.", yer: "ev:dirac" },
+        { dilim: "aksam", metin: "Akşamüstü Adriyatik'te ilk yüzme, gün batımı." }
       ],
       notlar: [
         { tip: "Dikkat", metin: "Turun tek kıt hattı bu. Günde 3-5 sefer var, ilki 07:00 civarı, sonuncusu 17:00. Bileti önceden al — Ohrid'e varır varmaz otogara uğra." },
@@ -711,11 +714,14 @@ const TUR = {
         "güneş çarpması riski gerçek — o aralığı gölgede, kapalı alanda ya da öğle yemeğinde geçir. " +
         "Su ve güneş kremi pazarlık konusu değil.",
       program: [
-        "Sabahtan öğleye kadar plaj: yüzme ve kumsal.",
-        "Öğle: sahil restoranlarında uzun bir mola.",
-        "Öğleden sonra (09:00-16:00 arası): Dıraç Arkeoloji Müzesi — evden ~70 m, giriş ücreti kontrol edilecek.",
-        "İkindi: Dıraç antik Roma amfitiyatrosu (~650 m).",
-        "Akşam sahil boyunca yürüyüş. Program bilinçli olarak boş — dinlenme günü."
+        { dilim: "sabah", metin: "Sabahtan öğleye kadar plaj: yüzme ve kumsal." },
+        { dilim: "ogle", metin: "Öğle: sahil restoranlarında uzun bir mola." },
+        /* 09:00 – 16:00 müzenin AÇILIŞ saati, etkinliğin saati değil — bu yüzden
+           `saat` alanına yazılmadı, yoksa sıradaki-adım sayacı sabah 09:00'ı
+           "müzeye git" diye gösterirdi. */
+        { dilim: "ogle", metin: "Öğleden sonra (müze 09:00 – 16:00 açık): Dıraç Arkeoloji Müzesi — evden ~70 m, giriş ücreti kontrol edilecek." },
+        { dilim: "ogle", metin: "İkindi: Dıraç antik Roma amfitiyatrosu (~650 m)." },
+        { dilim: "aksam", metin: "Akşam sahil boyunca yürüyüş. Program bilinçli olarak boş — dinlenme günü." }
       ],
       notlar: [
         { tip: "Dikkat", metin: "Dıraç'ta öğlen güneşi sert; 12:00-16:00 arası gölgede ya da kapalı alanda kal, güneş kremini tekrar sür." },
@@ -737,11 +743,11 @@ const TUR = {
         "Bu günün riski yok — tek mesele öğlen güneşi. Şezlong sabah tükeniyor ve genelde " +
         "ücretli; erken in ya da havluyla idare et.",
       program: [
-        "Sabah deniz — 08:00 – 11:00 arası sakin ve tenha.",
-        "Uzun öğle yemeği, sahil lokantaları.",
-        "Öğleden sonra: gölge, uyku.",
-        "Akşamüstü Vollga sahilinde yürüyüş, gün batımı.",
-        "İsteyene: Venedik Kulesi ve şehir surları merkezde, on dakika."
+        { saat: "08:00 – 11:00", metin: "Sabah deniz — sakin ve tenha." },
+        { dilim: "ogle", metin: "Uzun öğle yemeği, sahil lokantaları." },
+        { dilim: "ogle", metin: "Öğleden sonra: gölge, uyku." },
+        { dilim: "aksam", metin: "Akşamüstü Vollga sahilinde yürüyüş, gün batımı." },
+        { dilim: "aksam", metin: "İsteyene: Venedik Kulesi ve şehir surları merkezde, on dakika." }
       ],
       notlar: [
         { tip: "Dikkat", metin: "Tiran kaçamağı bu günden kaldırıldı; Tiran'ın tamamı 19 Ağustos'a alındı. Böylece Dıraç – Tiran hattı üç kez değil bir kez kullanılıyor ve \"son minibüsü kaçırma\" riski tamamen kalkıyor." },
@@ -770,11 +776,14 @@ const TUR = {
         "sorunu çözüldü. Kalan iki risk: gece havalimanı ulaşımı (gün içinde ayarla) ve uykusuzluk. " +
         "Telefon ve powerbank tam şarjlı olsun.",
       program: [
-        "En geç 11:00 — Dıraç'tan çıkış (check-out), valizlerle Tiran'a (~40 dk; hat 06:00 – 21:15 arası 20 dakikada bir).",
-        "~12:30 — bagajlar dolaba: Rruga Ded Gjo Luli, Harri Truman Meydanı karşısı — 7/24 self-servis, rezervasyon gerekmiyor, saatlik 150 ALL'den, büyük dolap 98 × 50 × 60 cm, nakit ve kart geçiyor.",
-        "Öğleden sonra: Dajti teleferiği ve Bunk'Art 1 — ikisi de teleferiğin alt istasyonunda, tek gidişte.",
-        "İkindi – akşam merkez: Skenderbeg Meydanı, Piramit, Blloku, Pazari i Ri (hediyelik).",
-        "Akşam yemeği, ~23:00 bagajları al, ~23:30 Nene Tereza Havalimanı'na hareket."
+        { saat: "En geç 11:00", metin: "Dıraç'tan çıkış (check-out), valizlerle Tiran'a (~40 dk; hat 06:00 – 21:15 arası 20 dakikada bir).", yer: "ev:dirac" },
+        { saat: "~12:30", metin: "Bagajlar dolaba: Rruga Ded Gjo Luli, Harri Truman Meydanı karşısı — 7/24 self-servis, rezervasyon gerekmiyor, saatlik 150 ALL'den, büyük dolap 98 × 50 × 60 cm, nakit ve kart geçiyor." },
+        { dilim: "ogle", metin: "Öğleden sonra: Dajti teleferiği ve Bunk'Art 1 — ikisi de teleferiğin alt istasyonunda, tek gidişte." },
+        { dilim: "aksam", metin: "İkindi – akşam merkez: Skenderbeg Meydanı, Piramit, Blloku, Pazari i Ri (hediyelik)." },
+        { saat: "~23:00", metin: "Akşam yemeği bitmiş olmalı — bagajları dolaptan al." },
+        /* Turun en sert saati: bu satır kaçarsa gece uçuşu kaçıyor. Ayrı madde
+           olmasının sebebi sıradaki-adım sayacının onu tek başına sayması. */
+        { saat: "~23:30", metin: "Nene Tereza Havalimanı'na hareket.", yer: "havalimani:TIA" }
       ],
       notlar: [
         { tip: "En iyi saat", metin: "Teleferik öğleden önce en berrak; merkez ikindi-akşam serinleyince canlanıyor." },
@@ -796,9 +805,10 @@ const TUR = {
         "baştan kabul et ve iniş sonrası planı hafif tut. Dönüş bagaj hakkı 20 kg valiz — " +
         "alışverişi bu bacağa bırakmak mantıklı, ama kabin 8 kg sınırını da unutma.",
       program: [
-        "02:15 — Tiran Nene Tereza'dan kalkış (Pegasus PC284).",
-        "04:50 — İstanbul Sabiha Gökçen'e iniş.",
-        "Sabahın ilk saatleri: eve dönüş."
+        { saat: "02:15", metin: "Tiran Nene Tereza'dan kalkış (Pegasus PC284).", yer: "havalimani:TIA" },
+        /* 04:50 Türkiye saati (UTC+3); kalkış Arnavutluk saatiyle (UTC+2) yazılı. */
+        { saat: "04:50", metin: "İstanbul Sabiha Gökçen'e iniş." },
+        { dilim: "sabah", metin: "Sabahın ilk saatleri: eve dönüş." }
       ],
       notlar: [
         { tip: "Dikkat", metin: "Bu uçuş 19 Ağustos'u 20'ye bağlayan gece kalkıyor — takvimde 20 Ağustos, pratikte 19 Ağustos gecesi." },
@@ -1128,6 +1138,53 @@ const TUR = {
       { tr: "İngilizce bilen biri var mı?", sq: "A flet dikush anglisht?", sqOku: "a flet dikuş anglişt", mk: "Дали некој зборува англиски?", mkOku: "dali nekoy zboruva angliski" },
       { tr: "Bu adrese gitmem gerekiyor", sq: "Duhet të shkoj në këtë adresë", sqOku: "duhet tö şkoy nö kötö adresö", mk: "Треба да одам на оваа адреса", mkOku: "treba da odam na ovaa adresa" }
     ],
+    /* ---------- GÜNLÜK CÜMLELER ----------
+       Acil cümleler kriz için ve umarız hiç açılmayacak; bunlar günde
+       defalarca lazım olacak olanlar: sipariş, fiyat, otobüs, tuvalet.
+       Aynı kalıpla çalışır — satıra dokununca tam ekran, kocaman punto,
+       telefonu karşıdakine uzat.
+
+       ⚠ Acil cümlelerle AYNI uyarı geçerli: çeviriler yola çıkmadan
+       anadili bilen biriyle doğrulanmalı (PLAN.md → Bekleyenler). */
+    gunlukCumleler: [
+      { tr: "İki kişilik masa var mı?", sq: "A keni një tavolinë për dy?", sqOku: "a keni nyö tavolinö pör dü", mk: "Дали имате маса за двајца?", mkOku: "dali imate masa za dvaytsa" },
+      { tr: "Menü alabilir miyim?", sq: "A mund të marr menynë?", sqOku: "a mund tö mar menünö", mk: "Може ли мени?", mkOku: "moje li meni" },
+      { tr: "Bunu istiyorum", sq: "Dua këtë", sqOku: "dua kötö", mk: "Го сакам ова", mkOku: "go sakam ova" },
+      { tr: "Etsiz bir şey var mı?", sq: "A keni diçka pa mish?", sqOku: "a keni diçka pa miş", mk: "Дали имате нешто без месо?", mkOku: "dali imate neşto bez meso" },
+      { tr: "Kartla ödeyebilir miyim?", sq: "A mund të paguaj me kartë?", sqOku: "a mund tö paguay me kartö", mk: "Може ли да платам со картичка?", mkOku: "moje li da platam so kartiçka" },
+      { tr: "Bu ne kadar?", sq: "Sa kushton kjo?", sqOku: "sa kuşton kyo", mk: "Колку чини ова?", mkOku: "kolku çini ova" },
+      { tr: "Çok pahalı", sq: "Është shumë shtrenjtë", sqOku: "öştö şumö ştrenytö", mk: "Премногу е скапо", mkOku: "premnogu e skapo" },
+      { tr: "Otobüs kaçta kalkıyor?", sq: "Në ç'orë niset autobusi?", sqOku: "nö ç'orö niset autobusi", mk: "Кога тргнува автобусот?", mkOku: "koga trgnuva avtobusot" },
+      { tr: "İki bilet lütfen", sq: "Dy bileta, ju lutem", sqOku: "dü bileta yu lutem", mk: "Два билета, ве молам", mkOku: "dva bileta ve molam" },
+      { tr: "Otogar nerede?", sq: "Ku është stacioni i autobusëve?", sqOku: "ku öştö statsioni i autobusöve", mk: "Каде е автобуската станица?", mkOku: "kade e avtobuskata stanitsa" },
+      { tr: "Tuvalet nerede?", sq: "Ku është tualeti?", sqOku: "ku öştö tualeti", mk: "Каде е тоалетот?", mkOku: "kade e toaletot" },
+      { tr: "Wifi şifresi nedir?", sq: "Cili është fjalëkalimi i wifi-t?", sqOku: "tsili öştö fyalökalimi i vifit", mk: "Која е лозинката за вај-фај?", mkOku: "koya e lozinkata za vay-fay" },
+      { tr: "Fotoğraf çekebilir miyim?", sq: "A mund të bëj një foto?", sqOku: "a mund tö böy nyö foto", mk: "Може ли да фотографирам?", mkOku: "moje li da fotografiram" },
+      { tr: "Anlamadım", sq: "Nuk kuptoj", sqOku: "nuk kuptoy", mk: "Не разбирам", mkOku: "ne razbiram" },
+      { tr: "Daha yavaş konuşabilir misiniz?", sq: "A mund të flisni më ngadalë?", sqOku: "a mund tö flisni mö ngadalö", mk: "Може ли да зборувате побавно?", mkOku: "moje li da zboruvate pobavno" }
+    ],
+
+    /* ---------- RAKAMLAR ----------
+       Fiyat söylenirken en çok takılan yer sayılar. Kartla değil nakitle
+       ödenen bir pazarda "petstotini" duyunca 500 olduğunu bilmek gerekiyor. */
+    sayilar: [
+      { n: "1",    sq: "një",         sqOku: "nyö",        mk: "еден",        mkOku: "eden" },
+      { n: "2",    sq: "dy",          sqOku: "dü",         mk: "два",         mkOku: "dva" },
+      { n: "3",    sq: "tre",         sqOku: "tre",        mk: "три",         mkOku: "tri" },
+      { n: "4",    sq: "katër",       sqOku: "katör",      mk: "четири",      mkOku: "çetiri" },
+      { n: "5",    sq: "pesë",        sqOku: "pesö",       mk: "пет",         mkOku: "pet" },
+      { n: "6",    sq: "gjashtë",     sqOku: "cyaştö",     mk: "шест",        mkOku: "şest" },
+      { n: "7",    sq: "shtatë",      sqOku: "ştatö",      mk: "седум",       mkOku: "sedum" },
+      { n: "8",    sq: "tetë",        sqOku: "tetö",       mk: "осум",        mkOku: "osum" },
+      { n: "9",    sq: "nëntë",       sqOku: "nöntö",      mk: "девет",       mkOku: "devet" },
+      { n: "10",   sq: "dhjetë",      sqOku: "dhyetö",     mk: "десет",       mkOku: "deset" },
+      { n: "20",   sq: "njëzet",      sqOku: "nyözet",     mk: "дваесет",     mkOku: "dvaeset" },
+      { n: "50",   sq: "pesëdhjetë",  sqOku: "pesödhyetö", mk: "педесет",     mkOku: "pedeset" },
+      { n: "100",  sq: "njëqind",     sqOku: "nyöçind",    mk: "сто",         mkOku: "sto" },
+      { n: "500",  sq: "pesëqind",    sqOku: "pesöçind",   mk: "петстотини",  mkOku: "petstotini" },
+      { n: "1000", sq: "një mijë",    sqOku: "nyö miyö",   mk: "илјада",      mkOku: "ilyada" }
+    ],
+
     kelimeler: [
       { tr: "Merhaba", sq: "Përshëndetje", sqOku: "pörşendetye", mk: "Здраво", mkOku: "zdravo" },
       { tr: "Teşekkürler", sq: "Faleminderit", sqOku: "faleminderit", mk: "Благодарам", mkOku: "blagodaram" },
@@ -1537,6 +1594,19 @@ const TUR = {
         "İkinizin kartı ayrı bankadaysa diğerini dene; ikisi de olmazsa konaklamaya durumu bildir."
       ]
     }
+  ],
+
+  /* ---------- HER SABAH ÇIKMADAN ----------
+     Hazırlık listesi TEK SEFERLİK (yola çıkmadan önce); bu ise her gün
+     tekrarlanan beş şey. İşaretler tarih anahtarıyla saklanır, gün dönünce
+     liste kendiliğinden boşalır — dünkü tikler bugünü tamam göstermez.
+     Kısa tutuldu: yedi maddelik bir liste her sabah okunmaz. */
+  sabahListesi: [
+    { id: "pasaport", ikon: "🛂", metin: "Pasaportlar" },
+    { id: "telefon",  ikon: "🔋", metin: "Telefonlar dolu + powerbank" },
+    { id: "nakit",    ikon: "💶", metin: "Nakit yanımızda" },
+    { id: "su",       ikon: "💧", metin: "Su ve güneş kremi" },
+    { id: "anahtar",  ikon: "🔑", metin: "Anahtar / kapı kodu elimizde" }
   ],
 
   /* ---------- HAZIRLIK KONTROL LİSTESİ ---------- */
@@ -2104,11 +2174,55 @@ tbody td:last-child{ padding-bottom:0; }
 .day-body{ display:none; padding:0 var(--s-4) var(--s-5); border-top:1px dashed var(--c-line); }
 .day[data-open="1"] .day-body{ display:block; }
 .day-body h5{ margin:var(--s-4) 0 var(--s-2); font-size:.74rem; letter-spacing:.14em; text-transform:uppercase; color:var(--c-ink-soft); }
-.timeline{ margin:0; padding:0 0 0 var(--s-4); list-style:none; border-left:2px solid var(--c-sand-2); }
-.timeline li{ position:relative; padding:.3rem 0 .3rem var(--s-4); font-size:.95rem; }
-.timeline li::before{
-  content:""; position:absolute; left:calc(-1 * var(--s-4) - 6px); top:.95rem;
-  width:9px; height:9px; border-radius:50%; background:var(--c-teal-soft); box-shadow:0 0 0 3px #fff;
+/* ---------- ZAMAN ÇİZELGESİ ----------
+   Maddeler artık {saat, metin, yer} objesi (bkz. programMaddesi). Üç şey
+   eklendi: solda tik kutusu, üstte saat, altta "yol tarifi" bağlantısı.
+
+   Dikey çizgi eskiden <ul>'un border-left'iydi; tik kutusu o çizginin
+   üstüne oturunca kesintili görünüyordu. Artık çizgi HER <li>'nin kendi
+   border-left'i — aralarında boşluk olmadığı için kesintisiz akıyor ve
+   "şu anki madde" satırı çizginin o parçasını turkuaza çevirebiliyor. */
+.timeline{ margin:0; padding:0; list-style:none; }
+.timeline li{
+  display:grid; grid-template-columns:auto minmax(0,1fr); align-items:start;
+  gap:var(--s-2); padding:.3rem var(--s-2) .3rem var(--s-2);
+  border-left:2px solid var(--c-sand-2); font-size:.95rem;
+  transition:opacity .2s ease, background .2s ease;
+}
+/* Saati geçmiş maddeler soluk — "neredeyiz" bir bakışta okunsun */
+.timeline li[data-durum="gecti"]{ opacity:.5; }
+.timeline li[data-durum="simdi"]{
+  border-left-color:var(--c-teal); background:var(--c-sand); border-radius:0 var(--r-s) var(--r-s) 0;
+}
+.tl-tik{
+  position:relative; display:grid; place-items:center; width:44px; height:44px;
+  margin:-.55rem 0 -.55rem -.9rem; cursor:pointer; flex:0 0 auto;
+}
+.tl-tik input{ position:absolute; opacity:0; width:44px; height:44px; margin:0; cursor:pointer; }
+.tl-kutu{
+  width:19px; height:19px; border-radius:5px; background:var(--c-yuzey);
+  border:2px solid var(--c-sand-2); display:grid; place-items:center;
+  font-size:.7rem; color:#fff; line-height:1;
+}
+.tl-tik input:checked + .tl-kutu{ background:var(--c-teal); border-color:var(--c-teal); }
+.tl-tik input:checked + .tl-kutu::after{ content:"✓"; }
+.tl-tik input:focus-visible + .tl-kutu{ outline:3px solid var(--c-teal-soft); outline-offset:2px; }
+.tl-govde{ min-width:0; padding-top:.1rem; }
+.tl-saat{
+  display:block; font-size:.74rem; font-weight:800; letter-spacing:.08em;
+  color:var(--c-teal); text-transform:uppercase;
+}
+.tl-metin{ display:block; }
+.timeline li[data-yapildi="1"] .tl-metin{ text-decoration:line-through; opacity:.65; }
+.tl-yol{
+  display:inline-flex; align-items:center; gap:.3rem; margin-top:.25rem;
+  min-height:32px; font-size:.82rem; font-weight:700; color:var(--c-teal); text-decoration:none;
+}
+.tl-yol:hover{ text-decoration:underline; }
+/* Günün akışı başlığının yanındaki N/M sayacı */
+.tl-sayac{
+  float:right; font-size:.72rem; font-weight:800; letter-spacing:.06em;
+  color:var(--c-ink-soft); text-transform:none;
 }
 .notes{ display:flex; flex-direction:column; gap:var(--s-2); margin-top:var(--s-4); }
 .note{
@@ -2182,6 +2296,9 @@ tbody td:last-child{ padding-bottom:0; }
   display:inline-flex; align-items:center;
 }
 .serit-guncelle button:focus-visible{ outline:3px solid #fff; outline-offset:2px; }
+/* Çift saat düğmesine dokununca çıkan açıklama şeridi — dokunmatikte
+   title tooltip'i görünmediği için. alert() kullanılmadı: sayfayı kilitler. */
+.serit-saat{ background:var(--c-sand); color:var(--c-ink); border-bottom:1px solid var(--c-line); line-height:1.5; }
 
 /* =====================================================================
    BUGÜN KARTI
@@ -2210,10 +2327,92 @@ tbody td:last-child{ padding-bottom:0; }
 .bugun-satir b{ display:block; font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:var(--c-ink-soft); }
 .bugun-plan{ display:grid; gap:var(--s-2); }
 .bugun-dilim{
-  display:grid; grid-template-columns:5.2rem 1fr; gap:var(--s-3); align-items:baseline;
+  /* 1fr değil minmax(0,1fr): uzun madde metni sütunu şişirip kartı taşırıyordu */
+  display:grid; grid-template-columns:5.2rem minmax(0,1fr); gap:var(--s-3); align-items:baseline;
   background:var(--c-cream); border-radius:var(--r-s); padding:.55rem .75rem; font-size:.93rem;
 }
 .bugun-dilim b{ font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--c-teal); }
+.bugun-dilim i{ font-style:normal; font-weight:800; color:var(--c-teal); }
+
+/* ---------- ŞU AN / SIRADAKİ ----------
+   Bugün ekranının en çok bakılacak satırı: bir sonraki saatli maddeye kaç
+   dakika kaldığı. Kutu kendini dakikada bir tazeler (bkz. akisDurumTazele);
+   kartın geri kalanı yeniden çizilmez.
+   Yalnızca `saat` alanı OLAN maddeleri sayar — "sabah/öğleden sonra" gibi
+   dilim maddeleri buraya girmez, yoksa uydurma bir saate geri sayardık. */
+.simdi{
+  display:grid; gap:.3rem; padding:var(--s-3) var(--s-4);
+  background:var(--c-sand); border-left:3px solid var(--c-teal);
+  border-radius:0 var(--r-m) var(--r-m) 0;
+}
+.simdi-ust{
+  display:flex; align-items:baseline; justify-content:space-between;
+  gap:var(--s-2); flex-wrap:wrap;
+}
+.simdi-etiket{
+  font-size:.68rem; letter-spacing:.14em; text-transform:uppercase;
+  font-weight:800; color:var(--c-teal);
+}
+.simdi-kalan{ font-size:.8rem; font-weight:800; color:var(--c-ink-soft); }
+.simdi-ana{ font-size:1rem; font-weight:700; line-height:1.45; }
+.simdi-ana i{ font-style:normal; color:var(--c-teal); }
+.simdi-alt{ font-size:.85rem; color:var(--c-ink-soft); line-height:1.5; }
+.simdi-alt i{ font-style:normal; font-weight:700; }
+/* Kalkışa/otobüse yarım saatten az kaldıysa kutu sertleşir */
+.simdi[data-acil="1"]{ background:var(--c-warn-bg); border-left-color:var(--c-warn-line); }
+.simdi[data-acil="1"] .simdi-etiket, .simdi[data-acil="1"] .simdi-ana i{ color:var(--c-warn-ink); }
+
+/* ---------- EYLEM ŞERİDİ ----------
+   Yolda en sık istenen beş şey Bugün ekranının içinde farklı bölümlere
+   dağılmıştı. Şerit hepsini tek satıra alır; hedefler 44 px. */
+.bugun-eylem{ display:flex; flex-wrap:wrap; gap:var(--s-2); }
+.eylem{
+  all:unset; box-sizing:border-box; cursor:pointer;
+  display:inline-flex; align-items:center; gap:.4rem;
+  min-height:44px; padding:.4rem .85rem; border-radius:var(--r-pill);
+  background:var(--c-cream); border:1px solid var(--c-line);
+  color:var(--c-ink); font-size:.86rem; font-weight:700; font-family:inherit;
+  text-decoration:none;
+}
+.eylem:hover{ background:var(--c-deep); color:#fff; border-color:var(--c-deep); }
+.eylem:focus-visible{ outline:3px solid var(--c-teal-soft); outline-offset:2px; }
+.eylem .ico{ font-size:1rem; line-height:1; }
+
+/* ---------- UÇUŞ GÜNÜ BLOĞU ----------
+   Yalnızca 12 ve 20 Ağustos'ta (ve 19'unda, gece uçuşu o geceye ait)
+   çıkar: sefer · PNR · saat · bagaj, kartın en üstünde. */
+.bugun-ucus{
+  background:var(--c-deep); color:#fff; border-radius:var(--r-m); padding:var(--s-4);
+  display:grid; gap:.35rem;
+}
+.bugun-ucus-ust{ display:flex; align-items:baseline; justify-content:space-between; gap:var(--s-2); flex-wrap:wrap; }
+.bugun-ucus-ust b{ font-size:1.05rem; }
+.bugun-ucus-rozet{
+  background:rgba(255,255,255,.16); border-radius:var(--r-pill); padding:.1rem .6rem;
+  font-size:.7rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
+}
+.bugun-ucus-satir{ display:grid; grid-template-columns:5.5rem minmax(0,1fr); gap:var(--s-2); font-size:.9rem; }
+.bugun-ucus-satir span:first-child{ color:rgba(255,255,255,.72); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; padding-top:.15rem; }
+.bugun-ucus-satir b{ font-weight:800; }
+
+/* ---------- HER SABAH ÇIKMADAN ----------
+   Hazırlık listesi tek seferlik; bu her gün sıfırlanır. Anahtar tarihi
+   içerir, yani gün dönünce liste kendiliğinden boşalır. */
+.sabah{ display:grid; gap:.2rem; padding:var(--s-3) var(--s-4); background:var(--c-cream);
+  border:1px dashed var(--c-line); border-radius:var(--r-m); }
+.sabah-ust{ display:flex; align-items:baseline; justify-content:space-between; gap:var(--s-2); }
+.sabah-ust b{ font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:var(--c-ink-soft); }
+.sabah-sayac{ font-size:.75rem; font-weight:800; color:var(--c-ink-soft); }
+.sabah-liste{ display:flex; flex-wrap:wrap; gap:.3rem; }
+.sabah-madde{
+  all:unset; box-sizing:border-box; cursor:pointer; font-family:inherit;
+  display:inline-flex; align-items:center; gap:.35rem;
+  min-height:44px; padding:.3rem .7rem; border-radius:var(--r-pill);
+  background:var(--c-yuzey); border:1px solid var(--c-line);
+  font-size:.85rem; font-weight:700;
+}
+.sabah-madde[aria-pressed="true"]{ background:var(--c-teal); border-color:var(--c-teal); color:#fff; }
+.sabah-madde:focus-visible{ outline:3px solid var(--c-teal-soft); outline-offset:2px; }
 /* Bugün ekranındaki "bu gece nerede kalıyoruz" bloğu */
 .bugun-konak{
   background:var(--c-cream); border:1px solid var(--c-line);
@@ -2620,6 +2819,23 @@ tbody td:last-child{ padding-bottom:0; }
   .kelime-tablo tbody tr{ display:block; border-bottom:1px dashed var(--c-line); }
   .kelime-tablo td{ display:block; padding:0; border-bottom:0; }
 }
+/* ---------- RAKAM TABLOSU ----------
+   Tablo değil ızgara: <table> kullanılsaydı genel tablo kurallarındaki
+   min-width'i miras alıp kartı taşırırdı (kelime tablosunun düştüğü tuzak). */
+.sayi-baslik{
+  margin:var(--s-4) 0 var(--s-2); font-size:.74rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--c-ink-soft);
+}
+.sayi-tablo{ display:grid; gap:0; }
+.sayi-satir{
+  display:grid; grid-template-columns:3rem minmax(0,1fr); gap:.2rem var(--s-3);
+  align-items:baseline; padding:.4rem 0; border-bottom:1px dashed var(--c-line); font-size:.88rem;
+}
+.sayi-satir:last-child{ border-bottom:0; }
+.sayi-satir b{ grid-row:span 2; font-size:1.05rem; font-weight:800; color:var(--c-teal); font-variant-numeric:tabular-nums; }
+.sayi-satir span{ color:var(--c-ink); }
+.sayi-satir i{ font-style:normal; color:var(--c-ink-soft); }
+
 .kelime-tr{ font-weight:700; }
 .kelime-yerel{ color:var(--c-ink-soft); }
 .kelime-yerel b{ color:var(--c-ink); }
@@ -2904,6 +3120,17 @@ html[data-tema="baris"] .odak-btn[aria-pressed="true"] .odak-no{ background:rgba
 .harita-kutu[data-etkin="0"] .konum-rozet{ bottom:calc(var(--s-6) + 3.4rem); }
 .konum-rozet b{ font-variant-numeric:tabular-nums; }
 .konum-rozet.hata{ background:var(--c-warn-line); color:#2b1e05; }
+/* Yakınımdakiler listesi varken rozet hapdan kutuya döner */
+.konum-rozet[data-liste="1"]{ border-radius:var(--r-m); padding:.55rem .7rem .4rem; }
+.yakin-liste{ display:grid; gap:.1rem; margin-top:.4rem; padding-top:.35rem; border-top:1px solid rgba(255,255,255,.18); }
+.yakin-satir{
+  display:grid; grid-template-columns:1.3rem minmax(0,1fr) auto; gap:.4rem; align-items:center;
+  min-height:32px; padding:.1rem .15rem; border-radius:var(--r-s);
+  color:#fff; text-decoration:none; font-size:.8rem; font-weight:600;
+}
+.yakin-satir:hover{ background:rgba(255,255,255,.14); }
+.yakin-satir:focus-visible{ outline:2px solid var(--c-teal-soft); outline-offset:1px; }
+.yakin-satir b{ color:var(--c-teal-soft); font-weight:800; }
 
 /* ---- kendi konumun ----
    Leaflet divIcon; nabız animasyonu hareket azaltma tercihinde duruyor. */
@@ -3161,6 +3388,23 @@ html[data-tema="baris"] .gk-kod-yok{ color:#e0a54e; }
   width:auto; min-width:44px; flex:0 0 auto; white-space:nowrap;
   padding-inline:.6rem;
   font-size:.82rem; font-weight:700; letter-spacing:.02em;
+  display:inline-flex; align-items:center; justify-content:center; gap:.28rem;
+}
+/* Çubukta artık beş şey var: bölüm adı · saat · ara · Kart · tema · yazdır.
+   Dar telefonda (≤430 px) tema düğmesinin ADI düşer, kalp kalır — bölüm
+   adına yer açmak için. Tam açıklama aria-label'da, kayıp yok. */
+@media(max-width:430px){
+  .tema-ad{ display:none; }
+  .nav-saat{ padding-inline:.25rem; }
+  .nav-saat-ana{ font-size:.88rem; }
+  .nav-saat-tr{ font-size:.56rem; }
+  /* Yazdırma düğmesi dar telefonda düşer. Ölçüldü: 360 px'de altı öğe
+     birden sığmıyor ve sıkışan hep bölüm adı oluyordu — çubuğun
+     "neredeyim" işlevi kayboluyordu. Yolda değeri en düşük olan düğme
+     bu: Dıraç'ta kâğıda basılmıyor, kâğıt yedeği zaten evde alınıyor
+     ve ?yazdir=acil kendi bağlantısıyla Cepte bölümünün girişinde
+     duruyor. Ctrl+P / paylaş menüsü de yerinde. */
+  #btn-yazdir{ display:none; }
 }
 
 /* ===================== NELERE DİKKAT ETMELİ ===================== */
@@ -3309,9 +3553,84 @@ footer p + p{ margin-top:var(--s-2); }
   background:var(--c-sand); color:var(--c-teal); border-left-color:var(--c-teal); font-weight:800;
 }
 .cekmece-linkler a .ico{ font-size:1.15rem; flex:0 0 auto; width:1.6rem; text-align:center; }
+/* ---------- ÇİFT SAAT ----------
+   Turun bilinen tuzağı: 12 Ağustos'ta UTC+3 → UTC+2. Cihaz otomatik
+   güncellemediyse bütün alarmlar ve otobüs saatleri bir saat kayıyor.
+   Büyük olan CİHAZIN saati (yani karar verirken bakılan), küçük olan
+   Türkiye saati. İkisi eşitse alt satır "TR ile aynı" yazar. */
+.nav-saat{
+  all:unset; box-sizing:border-box; cursor:pointer; flex:0 0 auto;
+  display:grid; place-items:center; align-content:center;
+  min-height:44px; padding:.2rem .5rem; border-radius:var(--r-s);
+  color:#fff; line-height:1.1; text-align:center;
+}
+.nav-saat:hover{ background:rgba(255,255,255,.12); }
+.nav-saat:focus-visible{ outline:2px solid var(--c-teal-soft); outline-offset:1px; }
+.nav-saat-ana{ font-size:.95rem; font-weight:800; font-variant-numeric:tabular-nums; }
+.nav-saat-tr{ font-size:.62rem; letter-spacing:.04em; color:rgba(255,255,255,.7); white-space:nowrap; }
+/* Cihaz saati Türkiye'den farklıysa (yani yurt dışı saatine geçmişse) alt
+   satır turkuaz — "geçiş oldu" işareti. Kayma beklenmedikse göze batar. */
+.nav-saat[data-fark="1"] .nav-saat-tr{ color:var(--c-teal-soft); font-weight:700; }
+
 .nav-arac{
   flex:0 0 auto; display:flex; gap:.2rem;
   border-left:1px solid rgba(255,255,255,.14); padding-left:.3rem;
+}
+
+/* ---------- SİTE İÇİ ARAMA ---------- */
+.ara-perde{
+  position:fixed; inset:0; z-index:130;
+  background:rgba(var(--c-perde),.55); backdrop-filter:blur(2px);
+  visibility:hidden; opacity:0;
+  /* Çekmeceyle aynı kalıp: visibility süreye katılmaz, yoksa açılışta
+     çağrılan focus() gizli öğeye düşer ve sessizce başarısız olur. */
+  transition:opacity .16s ease, visibility 0s linear .16s;
+  display:flex; justify-content:center;
+  padding:calc(env(safe-area-inset-top) + var(--s-4)) var(--s-3) var(--s-3);
+}
+.ara-perde[data-acik="1"]{
+  visibility:visible; opacity:1;
+  transition:opacity .16s ease, visibility 0s linear 0s;
+}
+.ara-kutu{
+  width:min(100%, 34rem); max-height:100%; display:flex; flex-direction:column;
+  background:var(--c-yuzey); color:var(--c-ink);
+  border-radius:var(--r-m); box-shadow:var(--sh-3); overflow:hidden;
+}
+.ara-ust{
+  flex:0 0 auto; display:flex; align-items:center; gap:var(--s-2);
+  padding:var(--s-2) var(--s-2) var(--s-2) var(--s-4);
+  border-bottom:1px solid var(--c-line);
+}
+.ara-ikon{ flex:0 0 auto; font-size:1.05rem; }
+#ara-alan{
+  flex:1 1 auto; min-width:0; all:unset; box-sizing:border-box;
+  min-height:44px; font-family:inherit; font-size:1rem; color:var(--c-ink);
+}
+#ara-alan::placeholder{ color:var(--c-ink-soft); }
+.ara-kapat{
+  all:unset; box-sizing:border-box; cursor:pointer; flex:0 0 auto;
+  width:44px; height:44px; display:grid; place-items:center;
+  border-radius:var(--r-s); color:var(--c-ink-soft);
+}
+.ara-kapat:hover{ background:var(--c-sand-3); color:var(--c-ink); }
+.ara-kapat:focus-visible{ outline:2px solid var(--c-teal); outline-offset:-2px; }
+.ara-sonuc{ flex:1 1 auto; overflow-y:auto; overscroll-behavior:contain; padding:var(--s-2); }
+.ara-satir{
+  all:unset; box-sizing:border-box; cursor:pointer; display:block; width:100%;
+  min-height:52px; padding:.5rem .7rem; border-radius:var(--r-s); font-family:inherit;
+}
+.ara-satir:hover, .ara-satir:focus-visible{ background:var(--c-sand-3); }
+.ara-satir:focus-visible{ outline:2px solid var(--c-teal); outline-offset:-2px; }
+.ara-satir b{
+  display:block; font-size:.68rem; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--c-teal); font-weight:800;
+}
+.ara-satir span{ display:block; font-size:.92rem; line-height:1.5; }
+.ara-satir mark{ background:var(--c-teal-soft); color:var(--c-ink); border-radius:3px; padding:0 .1em; }
+.ara-not{
+  flex:0 0 auto; margin:0; padding:var(--s-2) var(--s-4) var(--s-3);
+  font-size:.8rem; color:var(--c-ink-soft); border-top:1px solid var(--c-line);
 }
 .nav-btn{
   /* 2.5rem = 40px idi; telefonda acil durumda basılacak düğmeler için
@@ -3404,7 +3723,14 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
   .ust-alan, .yukari, .days-tools, .yedek-kutu, .harita-kutu, .harita-odak, .harita-ipucu,
   .lightbox, .kart-katman, .cekmece-perde, .goster-katman, .karo-kutu, .kutlama, .fav, .ani, .countdown, .hero::after,
   #hava-bolumu, .check-note, .galeri, .city-kapak, .lezzet-gorsel,
-  .kopyala, .bugun-alt .btn, .cepte-basi{ display:none !important; }
+  .kopyala, .bugun-alt .btn, .cepte-basi,
+  /* Yolda işe yarayan ama kâğıtta anlamsız olanlar: arama katmanı, tik
+     kutuları, eylem şeridi, sabah listesi ve "kaç dakika kaldı" kutusu.
+     Kâğıt bir anlık durumu değil, günün tamamını taşır. */
+  .ara-perde, .tl-tik, .bugun-eylem, .sabah, .simdi, .yakin-liste{ display:none !important; }
+  /* Tik kutusu gidince çizelge tek sütuna insin, boş sütun kalmasın */
+  .timeline li{ display:block !important; opacity:1 !important; background:none !important; }
+  .timeline li .tl-yol{ display:none !important; }
   /* Ekranda akordeonla tek tek açılan Cepte kartları kâğıda TAMAMI basılır —
      çıktının bütün olayı kapıda elde kalan kâğıt olması. Başlıklar gizlendiği
      için kartların negatif üst boşluğu da geri alınır. */
@@ -3732,7 +4058,18 @@ section.dn-grup{
       <span class="nav-ac-ikon" aria-hidden="true">☰</span>
       <span class="nav-ac-ad" id="nav-ac-ad">Bölümler</span>
     </button>
+    <!-- Çift saat: solda bulunulan yerin saati, altında Türkiye saati.
+         12 Ağustos'ta UTC+3 → UTC+2 kayması turun bilinen tuzağı; cihaz
+         otomatik güncellemediyse fark burada gözle görülür. -->
+    <button class="nav-saat" id="nav-saat" type="button" hidden
+            title="Cihazın saati ve Türkiye saati — dokununca uyarıyı gösterir">
+      <span class="nav-saat-ana" id="nav-saat-ana">--:--</span>
+      <span class="nav-saat-tr" id="nav-saat-tr"></span>
+    </button>
     <div class="nav-arac">
+      <button class="nav-btn" id="btn-ara" type="button"
+              title="Sitede ara — adres, mekân, numara, cümle"
+              aria-label="Sitede ara">🔍</button>
       <button class="nav-btn nav-btn-metin" id="btn-kart" type="button"
               title="Günün kartı — adres, kapı kodu, telefon, acil numaralar"
               aria-label="Günün kartını aç">Kart</button>
@@ -3756,6 +4093,24 @@ section.dn-grup{
     </div>
     <div class="cekmece-linkler" id="nav-linkler"></div>
   </aside>
+</div>
+
+<!-- ===================== SİTE İÇİ ARAMA =====================
+     Neden var: içerik katlanır gün kartlarında ve Cepte akordeonunda
+     duruyor; tarayıcının Ctrl+F'i kapalı bir akordeonun içini BULAMAZ.
+     Bu arama TUR objesinin kendisinde arar ve sonuca dokununca ilgili
+     kartı/sekmeyi açıp oraya kaydırır. Tamamen çevrimdışı. -->
+<div class="ara-perde" id="ara-perde" data-acik="0">
+  <div class="ara-kutu" role="dialog" aria-modal="true" aria-label="Sitede ara">
+    <div class="ara-ust">
+      <span class="ara-ikon" aria-hidden="true">🔍</span>
+      <input type="search" id="ara-alan" autocomplete="off" enterkeyhint="search"
+             placeholder="Adres, mekân, numara, cümle…" aria-label="Arama metni">
+      <button class="ara-kapat" id="ara-kapat" type="button" aria-label="Aramayı kapat">✕</button>
+    </div>
+    <div class="ara-sonuc" id="ara-sonuc" role="listbox" aria-label="Arama sonuçları"></div>
+    <p class="ara-not" id="ara-not">En az iki harf yaz. Sonuca dokununca ilgili bölüm açılır.</p>
+  </div>
 </div>
 
 <!-- ===================== BUGÜN ===================== -->
@@ -3881,6 +4236,9 @@ section.dn-grup{
                 aria-pressed="false" title="Konumum">📍</button>
         <button class="harita-dugme" id="btn-kapsama" type="button"
                 aria-pressed="false" title="İndirilen harita alanını göster">▦</button>
+        <button class="harita-dugme" id="btn-karo-kilit" type="button"
+                aria-pressed="false"
+                title="Veri kilidi — yalnızca indirilmiş karoları göster, yeni karo indirme">📵</button>
         <button class="harita-dugme" id="btn-tam-ekran" type="button"
                 aria-pressed="false" title="Tam ekran">⛶</button>
       </div>
@@ -4275,6 +4633,107 @@ section.dn-grup{
   };
 
   /* =====================================================================
+     PROGRAM MADDESİ — saatli veri
+     `gunler[].program` eskiden düz metin dizisiydi ve saat cümlenin içine
+     gömülüydü ("~13:00 — Ohrid'e varış"). Artık her madde bir obje:
+
+       { saat?, dilim?, metin, yer? }
+
+     `saat`  — EKRANDA GÖRÜNEN serbest metin ("~13:00", "En geç 10:00",
+               "09:00 – 10:00 arası"). Sayaç için içindeki İLK HH:MM ayrıştırılır,
+               yani yaklaşıklık işaretleri ("~", "en geç") olduğu gibi kalabilir.
+     `dilim`  — saati olmayan maddeler için "sabah" / "ogle" / "aksam".
+               Bugün ekranı programı bu üç dilime böler; eskiden bunu metne
+               bakan bir regex tahmin ediyordu, artık veri söylüyor.
+     `yer`    — MEVCUT bir koordinat kaydına referans: "ev:ohrid",
+               "otogar:Üsküp", "hastane:Dıraç", "havalimani:TIA", "sehir:Ohrid".
+               ⚠ Buraya ham koordinat YAZILMAZ; koordinat tek yerde durur,
+               burada yalnızca ona işaret edilir. Karşılığı bulunamazsa satır
+               sessizce bağlantısız basılır (kural: uydurma bağlantı yok).
+
+     Dizide düz metin kalırsa da çalışır (saatsiz, dilimsiz madde sayılır).
+     ===================================================================== */
+  const programMaddesi = (p) => (typeof p === "string" ? { metin: p } : (p || { metin: "" }));
+  const programListesi = (g) => (g.program || []).map(programMaddesi);
+
+  /* Serbest saat metninden gün içi dakika. "En geç 10:00" → 600.
+     Bulamazsa null döner — madde saatsiz sayılır. */
+  const saatDk = (s) => {
+    const m = /(\d{1,2}):(\d{2})/.exec(String(s || ""));
+    if (!m) return null;
+    const sa = Number(m[1]), dk = Number(m[2]);
+    if (!(sa >= 0 && sa < 24 && dk >= 0 && dk < 60)) return null;
+    return sa * 60 + dk;
+  };
+
+  /* Google Maps bağlantısı — ADRESTEN DEĞİL koordinattan (adres yazımı
+     yanlış yere düşebiliyor). Cepte bölümü de bunu kullanır. */
+  const mapsBag = (konum) =>
+    Array.isArray(konum)
+      ? "https://www.google.com/maps/search/?api=1&query=" + konum[0] + "," + konum[1]
+      : null;
+
+  /* =====================================================================
+     EKRANI UYANIK TUT — Wake Lock
+     İki yerde gerekiyor: taksiciye adres gösterirken (Günün Kartı) ve
+     haritayla yürürken (tam ekran). Ekranın tam o anda sönmesi, telefonu
+     cebe koyup şifre girmeyi gerektiriyor.
+
+     Desteklemeyen tarayıcıda (iOS 16.4 öncesi Safari) sessizce hiçbir şey
+     yapmaz — özellik yoksa site aynen çalışır. Sekme arkaya atılınca
+     tarayıcı kilidi kendiliğinden bırakır; geri gelince yeniden istenir.
+     ===================================================================== */
+  let ekranKilidi = null, ekranKilidiIstendi = false;
+  function ekraniUyanikTut(evet) {
+    ekranKilidiIstendi = !!evet;
+    if (!navigator.wakeLock) return;
+    if (evet) {
+      if (ekranKilidi) return;
+      navigator.wakeLock.request("screen")
+        .then((k) => {
+          ekranKilidi = k;
+          k.addEventListener("release", () => { ekranKilidi = null; });
+        })
+        .catch(() => { ekranKilidi = null; });   /* izin yok / pil tasarrufu — sorun değil */
+    } else if (ekranKilidi) {
+      ekranKilidi.release().catch(() => {});
+      ekranKilidi = null;
+    }
+  }
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden && ekranKilidiIstendi && !ekranKilidi) ekraniUyanikTut(true);
+  });
+
+  /* `yer` referansını mevcut kayıtlara çözer. Tek doğruluk kaynağı ilgili
+     dizidir; burada koordinat kopyalanmaz, aranır. Bulunamazsa null. */
+  function yerCoz(ref) {
+    if (!ref || typeof ref !== "string") return null;
+    const ayrac = ref.indexOf(":");
+    if (ayrac < 0) return null;
+    const tur = ref.slice(0, ayrac), anahtar = ref.slice(ayrac + 1);
+    const C0 = TUR.cepte || {};
+    let kayit = null, ad = anahtar;
+    if (tur === "ev") {
+      kayit = (C0.konaklamalar || []).find((k) => k.id === anahtar);
+      if (kayit) ad = kayit.kisaAd || (kayit.sehir + " evi");
+    } else if (tur === "otogar") {
+      kayit = (C0.otogarlar || []).find((o) => o.sehir === anahtar);
+      if (kayit) ad = anahtar + " otogarı";
+    } else if (tur === "hastane") {
+      kayit = (C0.hastaneler || []).find((h) => h.sehir === anahtar);
+      if (kayit) ad = anahtar + " hastanesi";
+    } else if (tur === "havalimani") {
+      kayit = ((TUR.harita || {}).havalimanlari || []).find((h) => h.kod === anahtar);
+      if (kayit) ad = kayit.ad;
+    } else if (tur === "sehir") {
+      kayit = (TUR.sehirler || []).find((s) => s.ad === anahtar);
+      if (kayit) ad = anahtar;
+    }
+    if (!kayit || !Array.isArray(kayit.konum)) return null;
+    return { ad: ad, konum: kayit.konum, bag: mapsBag(kayit.konum) };
+  }
+
+  /* =====================================================================
      VERİ TUTARLILIK DENETİMİ — ?kontrol=1
      Neden var: progress.md'deki "kırılganlık uyarıları" (id değişirse kayıt
      kopar, tarihISO değişirse anı notu erişilemez olur, PLAN.md ile TUR
@@ -4663,6 +5122,60 @@ section.dn-grup{
     })();
 
     /* ---------------------------------------------------------------
+       9) PROGRAM MADDELERİ
+       Maddeler artık {saat, dilim, metin, yer} objesi. Üç şey sessizce
+       bozulabilir: `saat` içinde ayrıştırılabilir bir HH:MM olmaması
+       (madde sıradaki-adım sayacına hiç girmez), `dilim` değerinin yanlış
+       yazılması (madde öğleye düşer) ve `yer` referansının karşılığının
+       olmaması (yol tarifi bağlantısı sessizce çıkmaz).
+       --------------------------------------------------------------- */
+    (function () {
+      const g = grup("9. Program maddeleri", "gunler[].program → saat · dilim · yer");
+      const DILIMLER = ["sabah", "ogle", "aksam"];
+      let sorun = 0, saatli = 0, yerli = 0, toplam = 0;
+
+      (T.gunler || []).forEach((gun, gi) => {
+        (gun.program || []).forEach((ham, i) => {
+          const yol = "TUR.gunler[" + gi + "].program[" + i + "]";
+          toplam++;
+          if (typeof ham === "string") {
+            uyari(g, yol, "Hâlâ düz metin — saatsiz ve dilimsiz madde sayılıyor.");
+            sorun++;
+            return;
+          }
+          const p = programMaddesi(ham);
+          if (!p.metin) { hata(g, yol + ".metin", "Metin boş."); sorun++; }
+          if (p.saat != null) {
+            if (saatDk(p.saat) == null) {
+              hata(g, yol + ".saat", '"' + p.saat + '" içinde ayrıştırılabilir bir HH:MM yok — sayaca girmez.');
+              sorun++;
+            } else saatli++;
+          }
+          if (p.dilim != null && DILIMLER.indexOf(p.dilim) < 0) {
+            hata(g, yol + ".dilim", '"' + p.dilim + '" geçersiz — ' + DILIMLER.join(" / ") + " olmalı.");
+            sorun++;
+          }
+          if (p.saat == null && p.dilim == null) {
+            uyari(g, yol, "Ne saat ne dilim var — Bugün ekranında öğleye düşer.");
+            sorun++;
+          }
+          if (p.yer != null) {
+            const c = yerCoz(p.yer);
+            if (!c) {
+              hata(g, yol + ".yer", '"' + p.yer + '" hiçbir kayda çözülmüyor — yol tarifi çıkmaz.');
+              sorun++;
+            } else yerli++;
+          }
+        });
+      });
+
+      if (!sorun) {
+        ok(g, "TUR.gunler[].program", toplam + " maddenin hepsi geçerli.");
+        ok(g, "—", saatli + " maddenin saati sayaca giriyor · " + yerli + " maddede yol tarifi var.");
+      }
+    })();
+
+    /* ---------------------------------------------------------------
        RAPORU ÇİZ
        --------------------------------------------------------------- */
     const IKON = { ok: "✅", uyari: "⚠️", hata: "❌" };
@@ -4673,7 +5186,7 @@ section.dn-grup{
     govde.innerHTML =
       '<header class="dn-ust">' +
         "<h1>Veri tutarlılık denetimi</h1>" +
-        '<p class="dn-alt">TUR objesi + GUN_BACAK eşlemesi — 8 grup. ' +
+        '<p class="dn-alt">TUR objesi + GUN_BACAK eşlemesi — 9 grup. ' +
         "Bu sayfa yalnızca okur, hiçbir şeyi değiştirmez.</p>" +
         '<div class="dn-ozet">' +
           '<span class="dn-rozet" data-d="hata">❌ ' + sayac.hata + " hata</span>" +
@@ -5163,6 +5676,59 @@ section.dn-grup{
   const slug = (t) => t.toLocaleLowerCase("tr").replace(/[^a-zçğıöşü]/g, "");
   let bugunKarti = null;
 
+  /* ---------- AKIŞ TİKLERİ ----------
+     Günün maddelerini tek tek işaretlemek için. Yorgun bir günün sonunda
+     "bunu yaptık mı" tartışmasını bitiriyor.
+
+     ⚠ Anahtar madde METNİ değil SIRA numarası: metin düzeltilince tik
+     kaybolmasın diye (kalplerdeki hatanın tekrarı olmasın). Bedeli şu:
+     bir maddenin YERİ değişirse tik yanlış maddeye biner. Sıra değiştirirken
+     bunu bil — progress.md'deki kırılganlık tablosunda yazılı. */
+  const AKIS_KEY = "balkan2026.akis";
+  let akis = {};
+  try { akis = JSON.parse(localStorage.getItem(AKIS_KEY) || "{}") || {}; } catch (e) { akis = {}; }
+  const akisKaydet = () => { try { localStorage.setItem(AKIS_KEY, JSON.stringify(akis)); } catch (e) {} };
+  const akisId = (iso, i) => iso + "::" + i;
+  const akisSayisi = (iso, adet) => {
+    let yapilan = 0;
+    for (let i = 0; i < adet; i++) if (akis[akisId(iso, i)]) yapilan++;
+    return yapilan;
+  };
+
+  /* Saatsiz maddelerin YALNIZCA solma hesabı için varsayılan saatleri.
+     "Sıradaki adım" sayacına GİRMEZLER — orada yalnızca gerçek `saat`
+     alanı olan maddeler var, yoksa uydurma bir saate geri sayardık. */
+  const DILIM_DK = { sabah: 8 * 60, ogle: 13 * 60, aksam: 19 * 60 };
+
+  function zamanCizelgesi(g) {
+    const liste = programListesi(g);
+    return '<ul class="timeline" data-gun="' + esc(g.tarihISO) + '">' + liste.map((p, i) => {
+      const yer = yerCoz(p.yer);
+      const dk = saatDk(p.saat);
+      const solmaDk = dk != null ? dk : (DILIM_DK[p.dilim] != null ? DILIM_DK[p.dilim] : null);
+      const kimlik = akisId(g.tarihISO, i);
+      return '<li data-i="' + i + '"' +
+        (dk == null ? "" : ' data-dk="' + dk + '"') +
+        (solmaDk == null ? "" : ' data-solma="' + solmaDk + '"') +
+        (akis[kimlik] ? ' data-yapildi="1"' : "") + ">" +
+        '<label class="tl-tik">' +
+          '<input type="checkbox" data-akis="' + esc(kimlik) + '"' +
+            (akis[kimlik] ? " checked" : "") +
+            ' aria-label="Bu maddeyi yapıldı olarak işaretle">' +
+          '<span class="tl-kutu" aria-hidden="true"></span>' +
+        "</label>" +
+        '<span class="tl-govde">' +
+          (p.saat ? '<span class="tl-saat">' + esc(p.saat) + "</span>" : "") +
+          '<span class="tl-metin">' + markTBD(esc(p.metin)) + "</span>" +
+          (yer && yer.bag
+            ? '<a class="tl-yol" href="' + yer.bag + '" target="_blank" rel="noopener">' +
+              '<span aria-hidden="true">➤</span>' + esc(yer.ad) + " · yol tarifi</a>"
+            : "") +
+        "</span>" +
+      "</li>";
+    }).join("") + "</ul>";
+  }
+
   TUR.gunler.forEach((g, i) => {
     const bugunMu = g.tarihISO === bugunISO;
     const day = el("article", "day" + (bugunMu ? " is-today" : ""));
@@ -5209,8 +5775,8 @@ section.dn-grup{
         : "") +
       /* Günün tonunu söyleyen tek cümle — listeye madde olarak girmiyor */
       (g.giris ? '<p class="day-giris">' + esc(g.giris) + "</p>" : "") +
-      "<h5>Programın akışı</h5>" +
-      '<ul class="timeline">' + g.program.map((p) => "<li>" + markTBD(p) + "</li>").join("") + "</ul>" +
+      '<h5>Programın akışı<span class="tl-sayac" data-akis-sayac="' + esc(g.tarihISO) + '"></span></h5>' +
+      zamanCizelgesi(g) +
       "<h5>Rehber notları</h5>" +
       '<div class="notes">' + g.notlar.map((n) =>
         '<div class="note t-' + slug(n.tip) + '"><b>' + n.tip + "</b><span>" + markTBD(n.metin) + "</span></div>"
@@ -5238,6 +5804,31 @@ section.dn-grup{
     day.appendChild(body);
     daysWrap.appendChild(day);
     if (bugunMu) bugunKarti = day;
+  });
+
+  /* Akış tiki — delege edilmiş tek dinleyici. Bugün ekranındaki sayaç da
+     buradan tazelenir (kart o an ekranda olmayabilir, o zaman sessiz geçer). */
+  let bugunAkisTazele = null;   /* Bugün ekranı kurulunca doldurulur */
+  function akisSayaciTazele(iso) {
+    const ul = daysWrap.querySelector('.timeline[data-gun="' + iso + '"]');
+    const rozet = daysWrap.querySelector('[data-akis-sayac="' + iso + '"]');
+    if (ul && rozet) {
+      const adet = ul.children.length;
+      rozet.textContent = akisSayisi(iso, adet) + " / " + adet;
+    }
+    if (bugunAkisTazele) bugunAkisTazele();
+  }
+  TUR.gunler.forEach((g) => akisSayaciTazele(g.tarihISO));
+
+  daysWrap.addEventListener("change", (e) => {
+    const kutu = e.target.closest("input[data-akis]");
+    if (!kutu) return;
+    const kimlik = kutu.dataset.akis;
+    if (kutu.checked) akis[kimlik] = true; else delete akis[kimlik];
+    akisKaydet();
+    const li = kutu.closest("li");
+    if (li) { if (kutu.checked) li.dataset.yapildi = "1"; else delete li.dataset.yapildi; }
+    akisSayaciTazele(kimlik.split("::")[0]);
   });
 
   const setAll = (state) => {
@@ -5325,6 +5916,8 @@ section.dn-grup{
      ===================================================================== */
   const C = TUR.cepte;
   const cepteGrid = $("#cepte-grid");
+  /* Akordeon kurulunca doldurulur; site içi arama sonucu buradan sekme açar */
+  let cepteSekmeAc = null;
 
   /* Kartlar sekmelere bölünüyor (aşağıda cepteSekmeleriKur). Her kart
      eklenirken sekme etiketini ve ikonunu yanında taşır; sıra bu çağrıların
@@ -5370,11 +5963,8 @@ section.dn-grup{
     try { localStorage.setItem(GIZLI_KEY, JSON.stringify(gizliler)); } catch (e) {}
   };
 
-  /* Google Maps bağlantısı — koordinattan */
-  const mapsBag = (konum) =>
-    Array.isArray(konum)
-      ? "https://www.google.com/maps/search/?api=1&query=" + konum[0] + "," + konum[1]
-      : null;
+  /* mapsBag yukarı, program yardımcılarının yanına taşındı: gün kartlarındaki
+     "yol tarifi" bağlantıları Cepte bölümünden ÖNCE render ediliyor. */
 
   const belliMi = (d) => d && !/belirlenecek|kontrol edilecek/i.test(String(d));
   const telBag = (n) => '<a class="acil-numara" href="tel:' + esc(String(n).replace(/[\s()]/g, "")) + '">' + esc(n) + "</a>";
@@ -5603,11 +6193,37 @@ section.dn-grup{
     "Konuşmaya çalışma, telefonu uzat.</p>" +
     '<div class="acil-cumleler">' +
     C.acilCumleler.map((c, i) =>
-      '<button type="button" class="acil-cumle" data-cumle="' + i + '">' +
+      '<button type="button" class="acil-cumle" data-cumle="acil:' + i + '">' +
         "<span>" + esc(c.tr) + "</span>" +
         '<span class="acil-cumle-ok" aria-hidden="true">⤢</span>' +
       "</button>").join("") +
     "</div>"));
+
+  /* ---------- 5b) GÜNLÜK CÜMLELER ----------
+     Acil cümlelerle aynı kalıp, farklı amaç: bunlar günde defalarca
+     açılacak olanlar. Altında rakam tablosu var — fiyat söylenirken en
+     çok takılan yer orası. */
+  cepKartEkle("🗨", "Günlük cümleler", el("article", "cep-kart",
+    "<h3><span aria-hidden='true'>🗨</span> Günlük cümleler</h3>" +
+    '<p class="cep-not">Sipariş, fiyat, otobüs, tuvalet. Satıra dokun — tam ekran açılır, ' +
+    "telefonu uzat.</p>" +
+    '<div class="acil-cumleler">' +
+    (C.gunlukCumleler || []).map((c, i) =>
+      '<button type="button" class="acil-cumle" data-cumle="gunluk:' + i + '">' +
+        "<span>" + esc(c.tr) + "</span>" +
+        '<span class="acil-cumle-ok" aria-hidden="true">⤢</span>' +
+      "</button>").join("") +
+    "</div>" +
+    ((C.sayilar || []).length
+      ? "<h4 class='sayi-baslik'>Rakamlar — fiyat duyunca</h4>" +
+        '<div class="sayi-tablo">' +
+        C.sayilar.map((s) =>
+          '<div class="sayi-satir"><b>' + esc(s.n) + "</b>" +
+            "<span>🇦🇱 " + esc(s.sq) + " <i>(" + esc(s.sqOku) + ")</i></span>" +
+            "<span>🇲🇰 " + esc(s.mk) + " <i>(" + esc(s.mkOku) + ")</i></span>" +
+          "</div>").join("") +
+        "</div>"
+      : "")));
 
   /* ---------- CÜMLEYİ TAM EKRAN GÖSTER ----------
      Katman gövdeye bir kez kurulur, içeriği her açılışta yenilenir.
@@ -5615,7 +6231,7 @@ section.dn-grup{
   const gosterKatman = el("div", "goster-katman");
   gosterKatman.dataset.acik = "0";
   gosterKatman.innerHTML =
-    '<div class="goster-kutu" role="dialog" aria-modal="true" aria-label="Acil cümle">' +
+    '<div class="goster-kutu" role="dialog" aria-modal="true" aria-label="Cümle">' +
       '<button type="button" class="goster-kapat" aria-label="Kapat">✕</button>' +
       '<div class="goster-icerik"></div>' +
     "</div>";
@@ -5623,8 +6239,12 @@ section.dn-grup{
   const gosterIcerik = gosterKatman.querySelector(".goster-icerik");
   let gosterSonOdak = null;
 
-  function cumleGoster(i) {
-    const c = C.acilCumleler[i];
+  /* Kimlik "acil:3" / "gunluk:5" biçiminde: iki liste de aynı tam ekran
+     katmanını kullanıyor, hangi listeden geldiğini kimlik söylüyor. */
+  function cumleGoster(kimlik) {
+    const [liste, sira] = String(kimlik).split(":");
+    const kaynak = liste === "gunluk" ? (C.gunlukCumleler || []) : (C.acilCumleler || []);
+    const c = kaynak[Number(sira)];
     if (!c) return;
     gosterIcerik.innerHTML =
       '<div class="goster-tr">' + esc(c.tr) + "</div>" +
@@ -5646,7 +6266,7 @@ section.dn-grup{
   }
   cepteGrid.addEventListener("click", (e) => {
     const b = e.target.closest(".acil-cumle");
-    if (b) cumleGoster(Number(b.dataset.cumle));
+    if (b) cumleGoster(b.dataset.cumle);
   });
   gosterKatman.addEventListener("click", (e) => {
     if (e.target === gosterKatman || e.target.closest(".goster-kapat")) cumleKapat();
@@ -5689,6 +6309,9 @@ section.dn-grup{
   (function cepteAkordeonKur() {
     const kartlar = Array.from(cepteGrid.children).filter((n) => n.dataset.sekme);
     if (kartlar.length < 2) return;
+    /* Site içi arama sonucu bir Cepte kartına götürüyor olabilir; o kartın
+       açılması gerekiyor. Dışarıya AD ile açan tek bir kanca veriliyor —
+       sekme sırası değişse de arama çalışmayı sürdürsün diye indeks değil ad. */
 
     const basliklar = kartlar.map((kart, i) => {
       kart.id = "cep-panel-" + i;
@@ -5750,6 +6373,13 @@ section.dn-grup{
 
     cepteGrid.classList.add("akordeon");
     ac(0, false);
+
+    cepteSekmeAc = (sekmeAdi) => {
+      const i = kartlar.findIndex((k) => k.dataset.sekme === sekmeAdi);
+      if (i < 0) return false;
+      if (acik !== i) ac(i, false);
+      return true;
+    };
   })();
 
   /* Kopyalama — Clipboard API yoksa eski yönteme düşer */
@@ -5866,7 +6496,50 @@ section.dn-grup{
         maxZoom: H.enDerinZoom
       });
 
-      L.tileLayer(H.karo.url, {
+      /* ---------- VERİ KİLİDİ ----------
+         Roamingde en sinsi gider kalemi harita karoları: parmakla biraz
+         gezinmek yüzlerce istek demek. Kilit açıkken katman AĞA HİÇ
+         ÇIKMAZ — karoyu yalnızca indirilmiş paketten (Cache Storage,
+         balkan-karo) okur, yoksa boş bırakır. Boş kalan yer "burası
+         inmemiş" demektir; ▦ düğmesi indirilen alanı zaten çiziyor.
+
+         Tercih localStorage'da: uçak modunda açılıp kapatılan bir anahtar
+         her açılışta sıfırlanmamalı. */
+      const KARO_KILIT_KEY = "balkan2026.karokilit";
+      let karoKilit = false;
+      try { karoKilit = localStorage.getItem(KARO_KILIT_KEY) === "1"; } catch (e) { karoKilit = false; }
+      /* 1×1 saydam PNG — "karo yok" durumunda konan görüntü */
+      const BOS_KARO =
+        "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
+
+      const KaroKatmani = L.TileLayer.extend({
+        createTile: function (koordinat, bitti) {
+          const karo = document.createElement("img");
+          L.DomEvent.on(karo, "load", L.Util.bind(this._tileOnLoad, this, bitti, karo));
+          L.DomEvent.on(karo, "error", L.Util.bind(this._tileOnError, this, bitti, karo));
+          karo.alt = "";
+          karo.setAttribute("role", "presentation");
+          const adres = this.getTileUrl(koordinat);
+          if (!karoKilit) { karo.src = adres; return karo; }
+          if (!window.caches) { karo.src = BOS_KARO; return karo; }
+          /* Cache'ten oku; yoksa BOŞ bırak — fetch YOK, yani bayt da yok */
+          caches.open(KARO_CACHE)
+            .then((c) => c.match(adres))
+            .then((yanit) => {
+              if (!yanit) { karo.src = BOS_KARO; return; }
+              return yanit.blob().then((b) => {
+                const u = URL.createObjectURL(b);
+                /* Görüntü çözüldükten sonra bırak, yoksa bellek sızar */
+                karo.addEventListener("load", () => URL.revokeObjectURL(u), { once: true });
+                karo.src = u;
+              });
+            })
+            .catch(() => { karo.src = BOS_KARO; });
+          return karo;
+        }
+      });
+
+      const karoKatmani = new KaroKatmani(H.karo.url, {
         attribution: H.karo.atif,
         /* İndirilen en derin seviye 16. Bunun ötesinde YENİ KARO İSTENMEZ;
            Leaflet z16'yı büyütür. Bulanık ama konum doğru, veri sıfır. */
@@ -6166,10 +6839,33 @@ section.dn-grup{
         btnTam.title = ac ? O.tamEkranKapat : O.tamEkran;
         document.body.style.overflow = ac ? "hidden" : "";
         if (ac) etkinlestir();   /* tam ekranda kilidin anlamı yok */
+        /* Haritayla yürürken ekran sönmesin */
+        ekraniUyanikTut(ac);
         /* Kutu boyutu değişti; Leaflet'e yeniden ölçtür */
         setTimeout(() => harita.invalidateSize(), 60);
       };
       btnTam.addEventListener("click", () => tamEkranAyarla(kutu.dataset.tam !== "1"));
+
+      /* ---- veri kilidi ----
+         Açıkken harita ağa hiç çıkmaz. Boş kalan alan "burası inmemiş"
+         demektir — ▦ düğmesi indirilen alanı çiziyor. */
+      const btnKilit = $("#btn-karo-kilit");
+      const kilitYaz = () => {
+        btnKilit.setAttribute("aria-pressed", karoKilit ? "true" : "false");
+        btnKilit.textContent = karoKilit ? "📵" : "📶";
+        btnKilit.title = karoKilit
+          ? "Veri kilidi AÇIK — yalnızca indirilmiş karolar gösteriliyor, yeni karo indirilmiyor"
+          : "Veri kilidi kapalı — eksik karolar internetten iniyor. Roamingdeysen aç.";
+      };
+      kilitYaz();
+      btnKilit.addEventListener("click", () => {
+        karoKilit = !karoKilit;
+        try { localStorage.setItem(KARO_KILIT_KEY, karoKilit ? "1" : "0"); } catch (e) {}
+        kilitYaz();
+        /* Ekrandaki karolar yeniden kurulsun: kilit açıldıysa inmemişler
+           boşalır, kapandıysa boşluklar dolar. */
+        karoKatmani.redraw();
+      });
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && kutu.dataset.tam === "1") tamEkranAyarla(false);
       });
@@ -6234,15 +6930,43 @@ section.dn-grup{
         const olcut = bugunEv || evler
           .map((k) => ({ k: k, m: mesafeM(nokta, k.konum) }))
           .sort((a, b) => a.m - b.m).map((x) => x.k)[0];
-        if (olcut) {
-          const m = mesafeM(nokta, olcut.konum);
-          rozetYaz(
-            (bugunEv ? "Bu geceki ev" : esc(olcut.sehir) + " evi") +
-            ": <b>" + mesafeYaz(m) + "</b> · ±" + Math.round(dogruluk) + " m"
-          );
-        } else {
-          rozetYaz("Konumun alındı · ±" + Math.round(dogruluk) + " m");
-        }
+        const ustSatir = olcut
+          ? (bugunEv ? "Bu geceki ev" : esc(olcut.sehir) + " evi") +
+            ": <b>" + mesafeYaz(mesafeM(nokta, olcut.konum)) + "</b> · ±" + Math.round(dogruluk) + " m"
+          : "Konumun alındı · ±" + Math.round(dogruluk) + " m";
+
+        /* ---- YAKINIMDAKİLER ----
+           Aynı GPS sabitlemesinden bedavaya çıkan üç satır: en yakın ev,
+           otogar ve hastane. Kaybolunca ya da acil bir durumda "hangi
+           yöne" sorusunun tek satırlık cevabı. Koordinatlar zaten var,
+           yeni veri eklenmedi. */
+        const enYakin = (kayitlar, adYap) => {
+          const liste = (kayitlar || [])
+            .filter((x) => Array.isArray(x.konum))
+            .map((x) => ({ x: x, m: mesafeM(nokta, x.konum) }))
+            .sort((a, b) => a.m - b.m);
+          if (!liste.length) return null;
+          const en = liste[0];
+          return { ad: adYap(en.x), m: en.m, bag: mapsBag(en.x.konum) };
+        };
+        const yakinlar = [
+          ["🏠", enYakin(evler, (k) => k.kisaAd || (k.sehir + " evi"))],
+          ["🚌", enYakin(TUR.cepte.otogarlar, (o) => o.sehir + " otogarı")],
+          ["🏥", enYakin(TUR.cepte.hastaneler, (h) => h.sehir + " hastanesi")]
+        ].filter(([, y]) => y);
+
+        rozetYaz(
+          ustSatir +
+          (yakinlar.length
+            ? '<div class="yakin-liste">' + yakinlar.map(([ikon, y]) =>
+                '<a class="yakin-satir" target="_blank" rel="noopener" href="' + y.bag + '">' +
+                  '<span aria-hidden="true">' + ikon + "</span>" +
+                  "<span>" + esc(y.ad) + "</span>" +
+                  "<b>" + mesafeYaz(y.m) + "</b>" +
+                "</a>").join("") + "</div>"
+            : "")
+        );
+        rozet.dataset.liste = yakinlar.length ? "1" : "0";
       };
 
       const konumHatasi = (err) => {
@@ -6928,20 +7652,24 @@ section.dn-grup{
     const sonGun = etkinISO === "2026-08-20";
     const kacinci = Math.min(i + 1, 8);
 
-    /* Programı üç dilime böl: sabah / öğleden sonra / akşam */
-    const dilimle = (satirlar) => {
-      const d = { sabah: [], ogle: [], aksam: [] };
-      satirlar.forEach((s) => {
-        if (/sabah|kalkış|09:|10:|çıkış|check-out|kahvalt/i.test(s)) d.sabah.push(s);
-        else if (/akşam|gece|gün batımı|yemek|23:|02:|04:/i.test(s)) d.aksam.push(s);
-        else d.ogle.push(s);
-      });
-      return d;
+    /* Programı üç dilime böl: sabah / öğleden sonra / akşam.
+       Eskiden bunu madde METNİNE bakan bir regex tahmin ediyordu ("yemek"
+       geçen her satır akşama düşüyordu, öğle yemeği dâhil). Artık dilimi
+       verinin kendisi söylüyor: `dilim` alanı varsa o, yoksa `saat`ten
+       hesaplanıyor. */
+    const maddeler = programListesi(g);
+    const dilimi = (p) => {
+      if (p.dilim && DILIM_DK[p.dilim] != null) return p.dilim;
+      const dk = saatDk(p.saat);
+      if (dk == null) return "ogle";
+      return dk < 12 * 60 ? "sabah" : (dk < 17 * 60 ? "ogle" : "aksam");
     };
-    const d = dilimle(g.program);
+    const d = { sabah: [], ogle: [], aksam: [] };
+    maddeler.forEach((p) => d[dilimi(p)].push(p));
     const dilimSatiri = (etiket, liste) => liste.length
       ? '<div class="bugun-dilim"><b>' + etiket + "</b><span>" +
-        liste.map((x) => markTBD(esc(x))).join(" ") + "</span></div>"
+        liste.map((p) => (p.saat ? "<i>" + esc(p.saat) + "</i> " : "") +
+                         markTBD(esc(p.metin))).join(" ") + "</span></div>"
       : "";
 
     /* Bugün hangi şehirde kalıyoruz + o günün ulaşım bacağı */
@@ -6987,6 +7715,73 @@ section.dn-grup{
       "</div>";
     }
 
+    /* ---------- UÇUŞ GÜNÜ BLOĞU ----------
+       Uçuş bilgisi sayfanın en üstündeki "Uçuş" bölümünde zaten var ama
+       o gün onu aramak için kaydırmak gerekiyordu. 19 Ağustos da uçuş
+       günüdür: kalkış takvimde 20'sinde, pratikte o gece. */
+    const UCUS_GUNU = { "2026-08-12": 0, "2026-08-19": 1, "2026-08-20": 1 };
+    const ucusSira = UCUS_GUNU[etkinISO];
+    const ucus = ucusSira != null ? (C.ucuslar || [])[ucusSira] : null;
+    const ucusSatiri = (etiket, deger) =>
+      '<div class="bugun-ucus-satir"><span>' + esc(etiket) + "</span><span>" + deger + "</span></div>";
+    const ucusBlok = ucus
+      ? '<div class="bugun-ucus">' +
+          '<div class="bugun-ucus-ust"><b>' + (ucusSira === 0 ? "🛫 " : "🛬 ") + esc(ucus.sefer) + "</b>" +
+            '<span class="bugun-ucus-rozet">' +
+              (etkinISO === "2026-08-19" ? "bu gece" : (ucusSira === 0 ? "bugün gidiş" : "bugün dönüş")) +
+            "</span></div>" +
+          ucusSatiri("Rota", "<b>" + esc(ucus.rota) + "</b>") +
+          ucusSatiri("PNR", "<b>" + esc(ucus.pnr) + "</b>") +
+          ucusSatiri("Bagaj", esc(ucus.bagaj)) +
+          (ucus.uyari ? ucusSatiri("Dikkat", esc(ucus.uyari)) : "") +
+        "</div>"
+      : "";
+
+    /* ---------- EYLEM ŞERİDİ ----------
+       Beşi de zaten sitede vardı, ama beş ayrı yerde. Yolda istenen sıra bu. */
+    const kalkisSehri = (GUN_BACAK[etkinISO] || "").split("→")[0].trim();
+    const gunOtogari = kalkisSehri
+      ? (C.otogarlar || []).find((o) => o.sehir === kalkisSehri)
+      : null;
+    const gunHastanesi = (C.hastaneler || []).find((h) => h.sehir === sehir) || null;
+    /* Etiketler bilerek KISA: 360 px'de beş çip dört satıra yayılıp Bugün
+       kartının tepesini yiyordu. Anlamı ikon + bağlam veriyor, tam
+       açıklama title / aria-label'da duruyor. */
+    const eylemBag = (bag, ikon, etiket, tam) =>
+      '<a class="eylem" target="_blank" rel="noopener" href="' + bag + '"' +
+        ' title="' + esc(tam) + '" aria-label="' + esc(tam) + '">' +
+        '<span class="ico" aria-hidden="true">' + ikon + "</span>" + esc(etiket) + "</a>";
+    const eylemler = []
+      .concat(konak && mapsBag(konak.konum)
+        ? [eylemBag(mapsBag(konak.konum), "🏠", "Ev",
+            "Bu geceki eve yol tarifi — " + (konak.kisaAd || konak.sehir))] : [])
+      .concat(gunOtogari && mapsBag(gunOtogari.konum)
+        ? [eylemBag(mapsBag(gunOtogari.konum), "🚌", "Otogar",
+            kalkisSehri + " otogarına yol tarifi")] : [])
+      .concat(gunHastanesi && mapsBag(gunHastanesi.konum)
+        ? [eylemBag(mapsBag(gunHastanesi.konum), "🏥", "Hastane",
+            sehir + " hastanesine yol tarifi — " + gunHastanesi.ad)] : [])
+      .concat(['<button class="eylem" type="button" data-kart-ac="' + etkinISO + '"' +
+               ' title="Günün kartı — adres, kapı kodu, telefon, acil numaralar">' +
+               '<span class="ico" aria-hidden="true">🪪</span>Kart</button>'])
+      .concat(['<a class="eylem" href="?yazdir=acil"' +
+               ' title="Tek sayfalık acil çıktı kâğıdı">' +
+               '<span class="ico" aria-hidden="true">🖨</span>Acil kâğıt</a>']);
+    const eylemBlok = '<div class="bugun-eylem">' + eylemler.join("") + "</div>";
+
+    /* ---------- HER SABAH ÇIKMADAN ---------- */
+    const sabahBlok = (TUR.sabahListesi || []).length
+      ? '<div class="sabah"><div class="sabah-ust"><b>Çıkmadan önce</b>' +
+          '<span class="sabah-sayac" id="sabah-sayac"></span></div>' +
+          '<div class="sabah-liste">' +
+            TUR.sabahListesi.map((m) =>
+              '<button class="sabah-madde" type="button" aria-pressed="false" ' +
+                'data-sabah="' + esc(m.id) + '">' +
+                '<span aria-hidden="true">' + esc(m.ikon) + "</span>" + esc(m.metin) +
+              "</button>").join("") +
+          "</div></div>"
+      : "";
+
     const hv = havaVerisi && havaVerisi[etkinISO];
     const normal = HV.mevsimNormali[sehir];
     const havaMetni = hv
@@ -7008,12 +7803,19 @@ section.dn-grup{
           ? '<div class="ozel-satir"><span aria-hidden="true">' + esc(g.ozel.ikon) + "</span>" +
             esc(g.ozel.metin) + "</div>"
           : "") +
+        ucusBlok +
         '<div class="bugun-baslik">' + esc(g.ikon) + " " + esc(g.baslik) + "</div>" +
+        /* Şu an / Sıradaki — içeriği akisDurumTazele() dolduruyor ve
+           dakikada bir yeniliyor. Boşken CSS'i görünmez kalsın diye
+           hidden başlıyor. */
+        '<div class="simdi" id="bugun-simdi" role="status" hidden></div>' +
+        eylemBlok +
         /* Konaklama bloğu şehri ve geceyi zaten söylüyor; ikisi birlikte
            basılmaz. Blok yoksa (20 Ağustos) tek satırlık özet çıkar. */
         (konakBlok ||
           '<div class="bugun-satir"><span class="ico" aria-hidden="true">📍</span>' +
           "<span><b>Şehir ve konaklama</b>" + esc(sehir) + " — bu gece: " + esc(g.gece) + "</span></div>") +
+        sabahBlok +
         (havaMetni
           ? '<div class="bugun-satir"><span class="ico" aria-hidden="true">🌡</span>' +
             "<span><b>Hava</b>" + esc(havaMetni) + "</span></div>"
@@ -7042,12 +7844,169 @@ section.dn-grup{
         "</div>" +
       "</div>";
 
+    /* Kart her yeniden çizildiğinde (hava verisi gelince) DOM değişiyor;
+       dinleyiciler ve dinamik kutular bu yüzden burada, çizimin sonunda
+       kuruluyor. */
+    sabahKur(etkinISO);
+    akisDurumTazele();
+
     $("#bugun").hidden = false;
     return true;
   }
 
+  /* =====================================================================
+     HER SABAH ÇIKMADAN — tarih anahtarlı, kendiliğinden sıfırlanan liste
+     Hazırlık listesinden farkı: o tek seferlik ve kalıcı, bu her gün baştan
+     başlıyor. Anahtar "YYYY-MM-DD::id"; gün dönünce eski anahtarlar atılır.
+     ===================================================================== */
+  const SABAH_KEY = "balkan2026.sabah";
+  let sabahKayit = {};
+  try { sabahKayit = JSON.parse(localStorage.getItem(SABAH_KEY) || "{}") || {}; } catch (e) { sabahKayit = {}; }
+  const sabahYaz = () => {
+    try { localStorage.setItem(SABAH_KEY, JSON.stringify(sabahKayit)); } catch (e) {}
+  };
+
+  function sabahKur(iso) {
+    /* Başka güne ait işaretleri at: dünkü tik bugünü tamam göstermesin */
+    let degisti = false;
+    Object.keys(sabahKayit).forEach((k) => {
+      if (k.indexOf(iso + "::") !== 0) { delete sabahKayit[k]; degisti = true; }
+    });
+    if (degisti) sabahYaz();
+
+    const dugmeler = Array.from(document.querySelectorAll("#bugun-kart [data-sabah]"));
+    if (!dugmeler.length) return;
+    const sayac = $("#sabah-sayac");
+    const anahtar = (id) => iso + "::" + id;
+    const tazele = () => {
+      let n = 0;
+      dugmeler.forEach((b) => {
+        const secili = !!sabahKayit[anahtar(b.dataset.sabah)];
+        b.setAttribute("aria-pressed", secili ? "true" : "false");
+        if (secili) n++;
+      });
+      if (sayac) sayac.textContent = n + " / " + dugmeler.length;
+    };
+    dugmeler.forEach((b) => {
+      b.addEventListener("click", () => {
+        const a = anahtar(b.dataset.sabah);
+        if (sabahKayit[a]) delete sabahKayit[a]; else sabahKayit[a] = true;
+        sabahYaz();
+        tazele();
+      });
+    });
+    tazele();
+  }
+
+  /* =====================================================================
+     ŞU AN / SIRADAKİ
+     Turun gerçek riski otobüs saatleri ve eve giriş pencereleri; ikisi de
+     "kaç dakika kaldı" sorusuna bakıyor. Bu fonksiyon iki yeri birden
+     tazeler: gün kartındaki çizelgede geçmiş maddeleri soldurur ve o anki
+     maddeyi vurgular, Bugün ekranında da geri sayımlı kutuyu doldurur.
+
+     Yalnızca `saat` alanı OLAN maddeler sayılır. Dilim maddeleri ("öğleden
+     sonra: gölge, uyku") solma hesabına girer ama geri sayıma girmez —
+     onlara bir saat uydurmak yanlış bilgi olurdu.
+     ===================================================================== */
+  const kalanYaz = (dk) => {
+    if (dk <= 0) return "şimdi";
+    if (dk < 60) return dk + " dk";
+    const sa = Math.floor(dk / 60), kalan = dk % 60;
+    return sa + " sa" + (kalan ? " " + kalan + " dk" : "");
+  };
+
+  function akisDurumTazele() {
+    const simdi = new Date();
+    const dkSimdi = simdi.getHours() * 60 + simdi.getMinutes();
+
+    /* 1) Gün kartındaki çizelge */
+    daysWrap.querySelectorAll(".timeline").forEach((ul) => {
+      const buGunMu = ul.dataset.gun === etkinISO;
+      const satirlar = Array.from(ul.children);
+      /* "Şu anki madde" = saati geçmiş maddeler arasında saati EN BÜYÜK
+         olan. Yazım sırası kronolojik olmak zorunda değil (13 Ağustos'ta
+         "en geç 10:00 çıkış" 09:00 otobüsünden önce yazılı), bu yüzden
+         sıraya değil saate bakılıyor. */
+      let simdiki = -1, simdikiDk = -1;
+      if (buGunMu) {
+        satirlar.forEach((li, i) => {
+          const dk = li.dataset.dk ? Number(li.dataset.dk) : null;
+          if (dk != null && dk <= dkSimdi && dk >= simdikiDk) { simdiki = i; simdikiDk = dk; }
+        });
+      }
+      satirlar.forEach((li, i) => {
+        if (!buGunMu) { li.removeAttribute("data-durum"); return; }
+        const solma = li.dataset.solma ? Number(li.dataset.solma) : null;
+        if (i === simdiki) li.dataset.durum = "simdi";
+        else if (solma != null && solma <= dkSimdi) li.dataset.durum = "gecti";
+        else li.removeAttribute("data-durum");
+      });
+    });
+
+    /* 2) Bugün ekranındaki geri sayım kutusu */
+    const kutu = $("#bugun-simdi");
+    if (!kutu) return;
+    const g = TUR.gunler.find((x) => x.tarihISO === etkinISO);
+    if (!g) { kutu.hidden = true; return; }
+
+    const liste = programListesi(g);
+    const saatliler = liste
+      .map((p, i) => ({ p: p, i: i, dk: saatDk(p.saat) }))
+      .filter((x) => x.dk != null);
+    const yapilan = akisSayisi(etkinISO, liste.length);
+    const isaret = yapilan + " / " + liste.length + " işaretli";
+    const gecmis = saatliler.filter((x) => x.dk <= dkSimdi).sort((a, b) => b.dk - a.dk)[0] || null;
+    const sonraki = saatliler.filter((x) => x.dk > dkSimdi).sort((a, b) => a.dk - b.dk)[0] || null;
+
+    const yolBag = (p) => {
+      const y = yerCoz(p.yer);
+      return y && y.bag
+        ? '<a class="tl-yol" href="' + y.bag + '" target="_blank" rel="noopener">' +
+          '<span aria-hidden="true">➤</span>' + esc(y.ad) + " · yol tarifi</a>"
+        : "";
+    };
+    const ust = (etiket, sag) =>
+      '<div class="simdi-ust"><span class="simdi-etiket">' + esc(etiket) + "</span>" +
+      '<span class="simdi-kalan">' + sag + "</span></div>";
+
+    let acilMi = false;
+    if (sonraki) {
+      const kalan = sonraki.dk - dkSimdi;
+      acilMi = kalan <= 30;
+      kutu.innerHTML =
+        ust("Sıradaki", esc(kalanYaz(kalan)) + " kaldı · " + isaret) +
+        '<div class="simdi-ana"><i>' + esc(sonraki.p.saat) + "</i> " +
+          markTBD(esc(sonraki.p.metin)) + "</div>" +
+        (gecmis
+          ? '<div class="simdi-alt">Şu an: <i>' + esc(gecmis.p.saat) + "</i> " +
+            esc(gecmis.p.metin) + "</div>"
+          : "") +
+        yolBag(sonraki.p);
+    } else if (gecmis) {
+      kutu.innerHTML =
+        ust("Şu an", isaret) +
+        '<div class="simdi-ana"><i>' + esc(gecmis.p.saat) + "</i> " +
+          markTBD(esc(gecmis.p.metin)) + "</div>" +
+        '<div class="simdi-alt">Günün saatli maddeleri bitti — gerisi serbest.</div>';
+    } else {
+      kutu.innerHTML =
+        ust("Bugün", isaret) +
+        '<div class="simdi-alt">Bugünün programında saate bağlı bir madde yok.</div>';
+    }
+    kutu.hidden = false;
+    if (acilMi) kutu.dataset.acil = "1"; else delete kutu.dataset.acil;
+  }
+
+  /* Akış tiki değişince Bugün ekranındaki sayaç da tazelensin */
+  bugunAkisTazele = akisDurumTazele;
+
   const bugunVarMi = bugunKartiCiz();
   havaBaslat(etkinISO).then(() => { if (bugunVarMi) bugunKartiCiz(); navKur(); });
+
+  /* Dakikada iki kez yeter: geri sayım dakika hassasiyetinde ve kutu
+     yeniden çizilirken sayfanın geri kalanına dokunulmuyor. */
+  setInterval(akisDurumTazele, 30000);
 
   /* =====================================================================
      GÜNÜN KARTI — tam ekran, tek bakışlık acil kart
@@ -7691,11 +8650,14 @@ section.dn-grup{
     kartCiz(hedef);
     kartKatman.dataset.acik = "1";
     document.body.style.overflow = "hidden";
+    /* Kart taksiciye / resepsiyona uzatılıyor; ekran tam o anda sönmesin */
+    ekraniUyanikTut(true);
     $("#kart-kapat").focus();
   }
   function kartKapat() {
     kartKatman.dataset.acik = "0";
     document.body.style.overflow = "";
+    ekraniUyanikTut(false);
     if (kartSonOdak && kartSonOdak.focus) kartSonOdak.focus();
   }
   const kartKay = (yon) => {
@@ -7840,15 +8802,252 @@ section.dn-grup{
      Asıl uygulama <head> içinde yapıldı; buradaki iş yalnızca düğmeyi
      mevcut temaya göre yazmak ve tıklamada tercihi kaydetmek.
      ===================================================================== */
+  /* =====================================================================
+     ÇİFT SAAT — cihazın saati + Türkiye saati
+     Turun bilinen tuzağı: üç ülke de UTC+2, Türkiye UTC+3. Telefon saat
+     dilimini otomatik güncellemezse bütün otobüs ve alarm saatleri bir
+     saat kayıyor. Çubuktaki iki satır bunu görünür kılıyor.
+
+     ⚠ Türkiye saati CİHAZIN saatinden değil, UTC'den hesaplanıyor
+     (Türkiye yıl boyu sabit UTC+3, yaz saati uygulamıyor). Cihazın kendi
+     dilimi yanlış olsa bile alt satır doğru kalır — zaten mesele o.
+     ===================================================================== */
+  (function ciftSaatKur() {
+    const kutu = $("#nav-saat");
+    if (!kutu) return;
+    const ana = $("#nav-saat-ana"), tr = $("#nav-saat-tr");
+    const iki = (n) => (n < 10 ? "0" : "") + n;
+
+    function yaz() {
+      const d = new Date();
+      ana.textContent = iki(d.getHours()) + ":" + iki(d.getMinutes());
+      /* UTC+3 = Türkiye, her mevsim */
+      const trDk = (d.getUTCHours() * 60 + d.getUTCMinutes() + 180) % 1440;
+      const trMetin = iki(Math.floor(trDk / 60)) + ":" + iki(trDk % 60);
+      const cihazDk = d.getHours() * 60 + d.getMinutes();
+      const farkli = trMetin !== ana.textContent;
+      tr.textContent = farkli ? "TR " + trMetin : "TR ile aynı";
+      kutu.dataset.fark = farkli ? "1" : "0";
+      kutu.title = farkli
+        ? "Cihaz " + ana.textContent + " · Türkiye " + trMetin +
+          " — cihaz yurt dışı saatinde (bu doğru olan)."
+        : "Cihaz Türkiye saatinde (" + trMetin + "). Balkanlar'da bir saat GERİ olmalı — " +
+          "telefon saat dilimini güncellemediyse elle Orta Avrupa Yaz Saati yap.";
+      /* Sabit değişkeni okumasa da bırakıldı: ileride "gün dönümü" uyarısı
+         eklenirse cihazDk lazım olacak. */
+      void cihazDk;
+    }
+    yaz();
+    kutu.hidden = false;
+    setInterval(yaz, 20000);
+    kutu.addEventListener("click", () => { yaz(); alertYok(kutu.title); });
+    /* alert() kullanılmıyor (sayfayı kilitler); başlık zaten tooltip.
+       Dokunmatikte tooltip görünmediği için kısa bir şerit gösteriliyor. */
+    function alertYok(metin) {
+      let bant = $("#saat-bant");
+      if (!bant) {
+        bant = el("div", "serit serit-saat");
+        bant.id = "saat-bant";
+        bant.setAttribute("role", "status");
+        kutu.closest(".ust-alan").appendChild(bant);
+      }
+      bant.textContent = "🕐 " + metin;
+      bant.dataset.acik = "1";
+      clearTimeout(bant._z);
+      bant._z = setTimeout(() => { bant.dataset.acik = "0"; }, 6000);
+    }
+  })();
+
+  /* =====================================================================
+     SİTE İÇİ ARAMA
+     İçerik katlanır gün kartlarında ve Cepte akordeonunda duruyor;
+     tarayıcının Ctrl+F'i kapalı bir akordeonun içini bulamaz. Bu arama
+     TUR objesinde arar, sonuca dokununca ilgili kartı/sekmeyi açar ve
+     oraya kaydırır. Ağ isteği yok, çevrimdışı çalışır.
+     ===================================================================== */
+  (function aramaKur() {
+    const perde = $("#ara-perde");
+    const alan = $("#ara-alan");
+    const sonucKutu = $("#ara-sonuc");
+    const not = $("#ara-not");
+    if (!perde) return;
+    let sonOdak = null;
+
+    /* Türkçe arama: büyük/küçük ve aksan farkını yok say. "sıcak" yazan
+       "SICAK"ı, "uskup" yazan "Üsküp"ü bulsun. */
+    const sadelestir = (s) => String(s || "")
+      .toLocaleLowerCase("tr")
+      .replace(/ı/g, "i").replace(/ş/g, "s").replace(/ğ/g, "g")
+      .replace(/ü/g, "u").replace(/ö/g, "o").replace(/ç/g, "c").replace(/â/g, "a");
+
+    const dizin = [];
+    const ekle = (grup, metin, hedef) => {
+      if (!metin) return;
+      const m = String(metin).trim();
+      if (!m) return;
+      /* Grup adı da aranabilir: "otogar" yazan kişi Cepte'deki otogar
+         kartını bekliyor, ama kaydın metni yerel alfabede ("Автобуска
+         станица Охрид") ve içinde "otogar" geçmiyor. */
+      dizin.push({ grup: grup, metin: m, ara: sadelestir(grup + " " + m), hedef: hedef });
+    };
+
+    (TUR.gunler || []).forEach((g, i) => {
+      const hedef = { tur: "gun", hash: "#gun-" + (i + 1) };
+      const et = g.tarih + " · program";
+      ekle(et, g.baslik, hedef);
+      ekle(et, g.ozet, hedef);
+      if (g.uyari) ekle(et, g.uyari, hedef);
+      if (g.risk) ekle(et, g.risk, hedef);
+      programListesi(g).forEach((p) =>
+        ekle(et, (p.saat ? p.saat + " — " : "") + p.metin, hedef));
+      (g.notlar || []).forEach((n) => ekle(et, n.tip + ": " + n.metin, hedef));
+    });
+
+    (TUR.sehirler || []).forEach((s) => {
+      const hedef = { tur: "bolum", id: "sehirler" };
+      ekle(s.ad, s.tema, hedef);
+      ekle(s.ad, s.tanitim, hedef);
+      (s.oneCikanlar || []).forEach((x) => ekle(s.ad, x, hedef));
+      (s.lezzetler || []).forEach((l) =>
+        ekle(s.ad + " · lezzet",
+          l.ad + (l.yerel ? " (" + l.yerel + ")" : "") + (l.aciklama ? " — " + l.aciklama : ""), hedef));
+    });
+
+    const cepHedef = (sekme) => ({ tur: "cep", sekme: sekme });
+    (C.konaklamalar || []).forEach((k) => {
+      const h = cepHedef("Konaklama");
+      ekle(k.sehir + " · konaklama", k.kisaAd, h);
+      ekle(k.sehir + " · adres", (k.adresYerel ? k.adresYerel + " — " : "") + k.adres, h);
+      if (k.tarif) ekle(k.sehir + " · tarif", k.tarif, h);
+    });
+    (C.acil || []).forEach((a) => ekle("Acil numara", a.ad + " · " + a.deger, cepHedef("Acil numaralar")));
+    (C.hastaneler || []).forEach((x) => ekle(x.sehir + " · hastane", x.ad + " — " + (x.not || ""), cepHedef("Hastaneler")));
+    (C.otogarlar || []).forEach((o) => ekle(o.sehir + " · otogar", o.ad + " — " + (o.not || ""), cepHedef("Otogarlar")));
+    (C.acilCumleler || []).forEach((c) => ekle("Acil cümle", c.tr + " · " + c.sq + " · " + c.mk, cepHedef("Acil cümleler")));
+    (C.gunlukCumleler || []).forEach((c) => ekle("Günlük cümle", c.tr + " · " + c.sq + " · " + c.mk, cepHedef("Günlük cümleler")));
+    (C.kelimeler || []).forEach((k) => ekle("Kelime", k.tr + " · " + k.sq + " · " + k.mk, cepHedef("Kelimeler")));
+
+    (TUR.dikkatEdilecekler || []).forEach((k) => {
+      const h = { tur: "bolum", id: "dikkat" };
+      ekle("Dikkat · " + k.baslik, k.baslik, h);
+      (k.maddeler || []).forEach((m) => ekle("Dikkat · " + k.baslik, m, h));
+    });
+
+    /* ---- sonuçları çiz ---- */
+    let secili = -1;
+    function vurgula(metin, terim) {
+      const i = sadelestir(metin).indexOf(terim);
+      if (i < 0) return esc(metin);
+      /* sadelestir harf sayısını değiştirmiyor (yalnızca eşleme), bu yüzden
+         indeksler ham metinde de geçerli */
+      return esc(metin.slice(0, i)) + "<mark>" + esc(metin.slice(i, i + terim.length)) +
+             "</mark>" + esc(metin.slice(i + terim.length));
+    }
+    function kisalt(metin, terim) {
+      const i = sadelestir(metin).indexOf(terim);
+      if (metin.length <= 130 || i < 0) return metin.slice(0, 130) + (metin.length > 130 ? "…" : "");
+      const bas = Math.max(0, i - 45);
+      return (bas ? "…" : "") + metin.slice(bas, bas + 130) + (bas + 130 < metin.length ? "…" : "");
+    }
+
+    function ara() {
+      const terim = sadelestir(alan.value.trim());
+      secili = -1;
+      if (terim.length < 2) {
+        sonucKutu.innerHTML = "";
+        not.textContent = "En az iki harf yaz. Sonuca dokununca ilgili bölüm açılır.";
+        return;
+      }
+      const bulunan = dizin.filter((d) => d.ara.indexOf(terim) > -1).slice(0, 40);
+      if (!bulunan.length) {
+        sonucKutu.innerHTML = "";
+        not.textContent = "Bulunamadı. Daha kısa bir kelime dene.";
+        return;
+      }
+      sonucKutu.innerHTML = bulunan.map((d, i) => {
+        const parca = kisalt(d.metin, terim);
+        return '<button class="ara-satir" type="button" role="option" data-i="' + i + '">' +
+          "<b>" + esc(d.grup) + "</b><span>" + vurgula(parca, terim) + "</span></button>";
+      }).join("");
+      sonucKutu._liste = bulunan;
+      not.textContent = bulunan.length + " sonuç" + (bulunan.length === 40 ? " (ilk 40)" : "") +
+        " · ↑↓ ile gez, Enter ile git";
+    }
+
+    function git(d) {
+      kapat();
+      if (d.hedef.tur === "gun") {
+        location.hash = d.hedef.hash;
+        gunuAc(d.hedef.hash);
+      } else if (d.hedef.tur === "cep") {
+        const bolum = document.getElementById("cepte");
+        if (cepteSekmeAc) cepteSekmeAc(d.hedef.sekme);
+        if (bolum) bolum.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        const b = document.getElementById(d.hedef.id);
+        if (b) b.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    function ac() {
+      sonOdak = document.activeElement;
+      perde.dataset.acik = "1";
+      document.body.style.overflow = "hidden";
+      alan.value = "";
+      ara();
+      alan.focus();
+    }
+    function kapat() {
+      perde.dataset.acik = "0";
+      document.body.style.overflow = "";
+      if (sonOdak && sonOdak.focus) sonOdak.focus();
+    }
+
+    $("#btn-ara").addEventListener("click", ac);
+    $("#ara-kapat").addEventListener("click", kapat);
+    perde.addEventListener("click", (e) => { if (e.target === perde) kapat(); });
+    alan.addEventListener("input", ara);
+    sonucKutu.addEventListener("click", (e) => {
+      const b = e.target.closest(".ara-satir");
+      if (b && sonucKutu._liste) git(sonucKutu._liste[Number(b.dataset.i)]);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      /* Ctrl/Cmd+K ve "/" aramayı açar — masaüstünde alışılmış kısayol */
+      if ((e.key === "k" || e.key === "K") && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault(); ac(); return;
+      }
+      if (perde.dataset.acik !== "1") return;
+      if (e.key === "Escape") { e.preventDefault(); kapat(); return; }
+      const satirlar = Array.from(sonucKutu.querySelectorAll(".ara-satir"));
+      if (!satirlar.length) return;
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        secili = e.key === "ArrowDown"
+          ? (secili + 1) % satirlar.length
+          : (secili <= 0 ? satirlar.length - 1 : secili - 1);
+        satirlar[secili].focus();
+      } else if (e.key === "Enter" && sonucKutu._liste) {
+        e.preventDefault();
+        git(sonucKutu._liste[secili < 0 ? 0 : secili]);
+      }
+    });
+  })();
+
   const TEMA_KEY = "balkan2026.tema";
   const temaBtn = $("#btn-tema");
   /* Düğme AÇIK OLAN temayı yazar, geçilecek olanı değil — üstünde kimin
      teması olduğu bir bakışta görünsün diye. Nereye geçileceği aria-label'da. */
-  const TEMA_ADI = { derin: "🤍 Derin", baris: "💙 Barış" };
+  /* İkon ve ad ayrı span'lerde: dar ekranda (≤430 px) ad gizlenip yalnızca
+     kalp kalıyor — çubukta arama düğmesi de var, dördü birden sığmıyor.
+     Erişilebilirlik kaybı yok, tam açıklama aria-label'da duruyor. */
+  const TEMA_ADI = { derin: ["🤍", "Derin"], baris: ["💙", "Barış"] };
   function temaBtnTazele() {
     const t = document.documentElement.dataset.tema === "baris" ? "baris" : "derin";
     const oteki = t === "baris" ? "derin" : "baris";
-    temaBtn.textContent = TEMA_ADI[t];
+    temaBtn.innerHTML =
+      '<span aria-hidden="true">' + TEMA_ADI[t][0] + "</span>" +
+      '<span class="tema-ad">' + TEMA_ADI[t][1] + "</span>";
     temaBtn.setAttribute("aria-label",
       (t === "baris" ? "Barış'ın koyu lacivert teması açık" : "Derin'in şeker pembesi teması açık") +
       " — " + (oteki === "baris" ? "Barış'ın temasına geç" : "Derin'in temasına geç"));
@@ -7881,6 +9080,12 @@ section.dn-grup{
     ["hazirlik", "balkan2026.hazirlik", "hazırlık işareti"],
     ["favoriler", "balkan2026.favoriler", "kalp"],
     ["anilar", "balkan2026.anilar", "anı notu"],
+    /* Akış tikleri: "bunu yaptık mı" bilgisi iki telefonda da aynı olmalı.
+       Değerleri boolean olduğu için varsayılan birleştirme (işaretli
+       kazanır) doğru davranıyor.
+       ⚠ balkan2026.sabah BİLEREK YOK: o gün içinde sıfırlanan geçici bir
+       liste, yedeğe girerse eski günlerin tikleri geri gelir. */
+    ["akis", "balkan2026.akis", "akış tiki"],
     ["gizli", "balkan2026.gizli", "kayıtlı kod", { birlestir: false }]
   ];
   const yedekDurum = $("#yedek-durum");

@@ -41,12 +41,21 @@
    v15 — 8 Ağustos 2026: Günün Kartı'nda "⬇ Görsel" — kart 1080 × 1920 PNG
         olarak canvas'a elle çizilip indiriliyor (kütüphane yok). Kilit
         ekranına konsun diye renkler temaya bağlı DEĞİL.
+   v16 — 9 Ağustos 2026: yolda verim paketi. Program maddeleri saatli veriye
+        çevrildi ({saat, dilim, metin, yer}); Bugün ekranında geri sayımlı
+        "Şu an / Sıradaki" kutusu, akış tikleri, eylem şeridi, uçuş günü
+        bloğu ve her sabah sıfırlanan çıkış listesi; gün kartlarında geçmiş
+        maddeler soluk, o anki madde vurgulu, satırlarda yol tarifi;
+        üst çubukta çift saat (cihaz + TR) ve site içi arama (🔍 / Ctrl+K);
+        haritada "yalnızca indirilmiş karo" veri kilidi ve konum rozetinde
+        Yakınımdakiler; Cepte'ye "Günlük cümleler" + rakamlar sekmesi;
+        Günün Kartı ve tam ekran haritada ekran uyanık tutuluyor (Wake Lock).
 
    ⚠ Leaflet artık index.html'in <head>'inde DEĞİL, harita bölümü yaklaşınca
    enjekte ediliyor. APP_SHELL'de kalması bilinçli: çevrimdışıyken harita
    bölümüne inildiğinde dosyalar cache'ten gelsin diye burada ön belleğe
    alınıyor — yükleme sayfayı yavaşlatmıyor, install arka planda yapıyor. */
-const CACHE_VERSION = "balkan-v15";
+const CACHE_VERSION = "balkan-v16";
 const SHELL_CACHE = CACHE_VERSION + "-shell";
 const HAVA_CACHE = CACHE_VERSION + "-hava";
 

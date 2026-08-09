@@ -243,7 +243,7 @@ _Günün tek kuralı saat bakmamak. Aşağıdakilerin hepsi yirmi dakikalık yü
 **Gece:** Dıraç
 - Sabah–öğle plaj: yüzme, kumsal
 - Öğle: sahil restoranları
-- Öğleden sonra: **Dıraç Arkeoloji Müzesi** — evden ~70 m; pzt-prş 09:00-16:00,
+- Öğleden sonra (müze 09:00 – 16:00 açık): **Dıraç Arkeoloji Müzesi** — evden ~70 m; pzt-prş 09:00-16:00,
   cuma 08:00-14:00, hafta sonu KAPALI (bu yüzden 16 Ağustos pazar değil bugün). Ücret kontrol edilecek
 - İkindi: Dıraç antik Roma amfitiyatrosu (~650 m)
 - Bilinçli olarak boş, tembel bir gün
@@ -287,7 +287,8 @@ _Bu gün bilerek boş. Program yazılmadı, yazılmayacak._
 - Öğleden sonra: Dajti teleferiği ve **Bunk'Art 1** — ikisi de teleferiğin alt istasyonunda,
   tek gidişte
 - İkindi – akşam merkez: Skenderbeg Meydanı, Piramit, Blloku, Pazari i Ri (hediyelik)
-- Akşam yemeği, ~23:00 bagajları al, ~23:30 Nene Tereza Havalimanı'na hareket
+- ~23:00 akşam yemeği bitmiş olmalı — bagajları dolaptan al
+- ~23:30 Nene Tereza Havalimanı'na hareket
 
 🌙 _Uyarı:_ bu gece konaklama yok. Kalkış 20 Ağustos 02:15, havalimanında 00:15'te olunacak.
 
@@ -644,6 +645,76 @@ açısından beklenen kalıp bu.
 ---
 
 ## Yapılanlar
+
+### 9 Ağustos 2026 — yirmi dördüncü oturum
+
+**Yolda verim paketi — on değişiklik**
+
+**1. Programın omurgası değişti: `gunler[].program` artık saatli veri.** Düz metin
+dizisiydi ve saat cümlenin içine gömülüydü (`"~13:00 — Ohrid'e varış"`); artık
+`{ saat?, dilim?, metin, yer? }`. `saat` ekranda görünen serbest metindir
+("En geç 10:00", "09:00 – 10:00 arası"), sayaç içindeki ilk HH:MM'i ayrıştırır —
+yani yaklaşıklık kaybolmadan makine okuyabiliyor. Bu tek değişiklik altındaki
+dört özelliği açtı.
+
+**2. "Şu an / Sıradaki" geri sayımı.** Bugün ekranının en üstünde, dakikada iki kez
+tazelenen kutu: sıradaki saatli maddeye kaç dakika kaldığı, altında o an içinde
+olunan madde. 30 dakikanın altına inince kutu sarıya döner. Turun gerçek riski
+otobüs saatleri ve eve giriş pencereleri; ikisi de bu soruya bakıyor.
+_"Şu anki madde" saati geçmişler arasında saati EN BÜYÜK olandır — yazım sırası
+kronolojik değil (13 Ağustos'ta "en geç 10:00 çıkış" 09:00 otobüsünden önce yazılı)._
+
+**3. Gün kartlarında zaman çizelgesi.** Saati geçmiş maddeler soluk, o anki madde
+turkuaz çerçeveli. Saatsiz maddeler `dilim` alanından (sabah/öğle/akşam) solar.
+
+**4. Akış tikleri.** Her madde işaretlenebilir; `balkan2026.akis`, anahtar
+`YYYY-MM-DD::sıraNo`. Metin değil SIRA anahtar: metin düzeltmek tiki
+kaybettirmiyor (kalplerdeki hatanın tekrarı olmasın). Yedeklemeye dâhil.
+
+**5. Satırlarda yol tarifi (`yer`).** `yer: "otogar:Üsküp"` gibi bir referans mevcut
+koordinat kaydına çözülüyor ve satırda Maps bağlantısı çıkıyor. **Yeni koordinat
+girilmedi** — koordinat tek yerde duruyor, program yalnızca ona işaret ediyor.
+Doğrulanmamış koordinatı olan noktalara (NEWBORN, Kaneo, Dajti) bilerek
+konmadı; Bekleyenler'e yazıldı.
+
+**6. Bugün ekranına eylem şeridi + uçuş günü bloğu + sabah listesi.** Şerit:
+Ev · Otogar · Hastane · Kart · Acil kâğıt — beşi de sitede vardı ama beş ayrı
+yerde. Uçuş bloğu 12, 19 ve 20 Ağustos'ta sefer/PNR/bagajı kartın tepesine alıyor.
+"Çıkmadan önce" listesi beş maddelik ve **gün dönünce sıfırlanıyor** (hazırlık
+listesi tek seferlik, bu tekrarlayan).
+
+**7. Site içi arama (🔍 / Ctrl+K).** Var olma sebebi teknik: içerik katlanır gün
+kartlarında ve Cepte akordeonunda duruyor, tarayıcının Ctrl+F'i **kapalı akordeonun
+içini bulamıyor**. Arama `TUR` objesinde çalışıyor, Türkçe aksanı yok sayıyor,
+sonuca dokununca ilgili kartı/sekmeyi açıp kaydırıyor. Grup adı da aranabilir alan:
+"otogar" yazan kişi kaydın metni Kiril alfabesinde olsa da onu bulsun diye.
+
+**8. Üst çubukta çift saat.** Büyük rakam cihazın saati, altı Türkiye saati.
+Türkiye saati cihazdan değil **UTC'den** hesaplanıyor (Türkiye yıl boyu UTC+3),
+yani cihazın dilimi yanlışken bile doğru. İkisi eşitse "TR ile aynı" yazıyor —
+Balkanlar'da bu bir uyarı. 12 Ağustos'un UTC+3 → UTC+2 kayması artık gözle görülür.
+
+**9. Haritada veri kilidi (📶/📵) ve Yakınımdakiler.** Kilit açıkken katman ağa hiç
+çıkmıyor: karoyu yalnızca indirilmiş paketten okuyor, olmayan yer boş kalıyor
+(`L.TileLayer` alt sınıfı, `createTile` Cache Storage'a bakıyor). Roamingde
+sürpriz fatura kalemi kapanıyor. Konum rozetinin altına en yakın ev / otogar /
+hastane mesafesi geldi — yeni veri yok, aynı GPS sabitlemesinden.
+
+**10. Cepte'ye "Günlük cümleler" + rakamlar; Wake Lock.** Acil cümleler kriz için ve
+umarız hiç açılmayacak; bunlar günde defalarca lazım olacak 15 cümle (sipariş,
+fiyat, otobüs, tuvalet) ve fiyat duyunca gereken rakam tablosu.
+⚠ Çeviriler acil cümlelerle **aynı doğrulama borcunu** taşıyor.
+Wake Lock: Günün Kartı ve tam ekran harita açıkken ekran sönmüyor.
+
+**Denetim.** `?kontrol=1`'e 9. grup eklendi: `saat` ayrıştırılabiliyor mu, `dilim`
+geçerli mi, `yer` bir kayda çözülüyor mu. Bilerek bozulmuş bir kopyayla sınandı —
+dört bozulmanın dördü de yakalandı (0 hata → 4 hata).
+
+**Dar telefonda çubuk.** 360 px'te ölçüldü: altı öğe sığmıyor ve sıkışan hep bölüm
+adı oluyordu. 430 px altında tema düğmesinin adı ve 🖨 düşüyor — yazdırma yolda en az
+kullanılan düğme, `?yazdir=acil` zaten kendi bağlantısıyla Cepte'nin girişinde.
+
+`sw.js` → **v16**.
 
 ### 8 Ağustos 2026 — yirmi üçüncü oturum
 
@@ -1762,6 +1833,14 @@ her genişlikte blok listesi. Önceki turun mobil düzeltmeleri bozulmadı.
 - [ ] ⚠ **Acil cümlelerin çevirisi doğrulanacak** — 12 Arnavutça/Makedonca cümle siteye
       girildi ama anadili bilen biriyle teyit edilmedi. Kriz anında yanlış çeviri işe yaramaz;
       yola çıkmadan kontrol ettir
+- [ ] ⚠ **Günlük cümlelerin ve rakamların çevirisi doğrulanacak** — 9 Ağustos'ta eklenen
+      15 cümle + 15 rakam aynı borcu taşıyor. Bunlar acil cümlelerden **daha sık**
+      kullanılacak; aynı turda ikisini birden kontrol ettir
+- [ ] **Program maddelerine koordinat** — `yer` mekanizması hazır ve mevcut kayıtlara
+      (ev · otogar · hastane · havalimanı · şehir) bağlı çalışıyor. NEWBORN anıtı, Kaneo,
+      Sveti Naum iskelesi, Dajti alt istasyonu, Bunk'Art 1 için koordinat **doğrulanmadığı
+      için** konmadı. Wikidata `P625` / OSM'den doğrulanınca ilgili kayıt açılıp
+      `yer` referansı eklenecek — ezberden koordinat yazma
 - [ ] **Sağlık kartı doldurulacak** — kan grubu, alerji, sürekli ilaç (ikiniz için), acil
       durumda aranacak kişi. Cepte → Sağlık; yalnızca cihazda kalır, iki telefona da girilmeli
 - [ ] **Buluşma noktaları seçilecek** — beş şehir için birer nokta (Cepte → Ayrı düşersek).
