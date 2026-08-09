@@ -573,12 +573,18 @@ const TUR = {
       program: [
         /* ⚠ 09:50 ve 04:50 TÜRKİYE saati (UTC+3), aradaki her şey yerel (UTC+2).
            `saat` alanı her zaman "o an bulunulan yerin saati"dir — sıradaki-adım
-           sayacı da cihazın saatiyle karşılaştırdığı için bu doğru davranıyor. */
-        { saat: "09:50", metin: "İstanbul Sabiha Gökçen'den kalkış (AJet VF101)." },
-        { saat: "10:30", metin: "Priştine'ye iniş, şehir merkezine geçiş (~25 dk).", yer: "havalimani:PRN" },
+           sayacı da cihazın saatiyle karşılaştırdığı için bu doğru davranıyor.
+           Takvim dosyası mutlak an yazmak zorunda olduğu için ofseti `tz`
+           alanından okur (yoksa +02:00 varsayar). */
+        { saat: "09:50", tz: "+03:00", takvimDisi: "ucus-vf101",
+          metin: "İstanbul Sabiha Gökçen'den kalkış (AJet VF101)." },
+        { saat: "10:30", takvimDisi: "ucus-vf101",
+          metin: "Priştine'ye iniş, şehir merkezine geçiş (~25 dk).", yer: "havalimani:PRN" },
         { saat: "11:15 – 15:00", metin: "Priştine: NEWBORN anıtı, Bill Clinton Bulvarı, merkez, öğle yemeği (flija)." },
-        { saat: "~15:30", metin: "Priştine → Üsküp otobüsü (~2 – 2,5 sa).", yer: "otogar:Priştine" },
-        { saat: "~18:30", metin: "Üsküp'te eve giriş: Universe Hostel, tuş takımıyla.", yer: "ev:uskup" },
+        { saat: "~15:30", hatirlatma: "sert",
+          metin: "Priştine → Üsküp otobüsü (~2 – 2,5 sa).", yer: "otogar:Priştine" },
+        { saat: "~18:30", takvimDisi: "konak-uskup-giris",
+          metin: "Üsküp'te eve giriş: Universe Hostel, tuş takımıyla.", yer: "ev:uskup" },
         { dilim: "aksam", metin: "Akşam Üsküp: Taş Köprü, Makedonya Meydanı, Eski Çarşı — hepsi aydınlatmalı, çarşıda lokantalar açık." }
       ],
       notlar: [
@@ -606,9 +612,12 @@ const TUR = {
         "öğleden sonraya bırakılırsa eski planın dar penceresine geri dönülür.",
       program: [
         { dilim: "sabah", metin: "Erken sabah (opsiyonel): Üsküp Kalesi, trileçe." },
-        { saat: "En geç 10:00", metin: "Üsküp'ten çıkış (check-out).", yer: "ev:uskup" },
-        { saat: "09:00 – 10:00 arası", metin: "Üsküp → Ohrid otobüsü (~3 sa).", yer: "otogar:Üsküp" },
-        { saat: "~13:00", metin: "Ohrid'e varış: eve giriş penceresinin (13:00 – 19:00) tam başında, kilitli kutuyla.", yer: "ev:ohrid" },
+        { saat: "En geç 10:00", takvimDisi: "konak-uskup-cikis",
+          metin: "Üsküp'ten çıkış (check-out).", yer: "ev:uskup" },
+        { saat: "09:00 – 10:00 arası", hatirlatma: "sert",
+          metin: "Üsküp → Ohrid otobüsü (~3 sa).", yer: "otogar:Üsküp" },
+        { saat: "~13:00", takvimDisi: "konak-ohrid-giris",
+          metin: "Ohrid'e varış: eve giriş penceresinin (13:00 – 19:00) tam başında, kilitli kutuyla.", yer: "ev:ohrid" },
         { dilim: "ogle", metin: "Öğleden sonra: yerleşme, göl kıyısında ilk yürüyüş." },
         { dilim: "ogle", metin: "Bugün ayarlanacak iki şey: yarınki Sveti Naum teknesi · 15 Ağustos akşam yemeği rezervasyonu." }
       ],
@@ -687,10 +696,18 @@ const TUR = {
         "Pasaportlar el altında, su ve atıştırmalık yanında, telefonlar şarjlı. Ev sahibine " +
         "tahmini varış saatini bildir.",
       program: [
-        { saat: "En geç 10:00", metin: "Ohrid'den çıkış (check-out).", yer: "ev:ohrid" },
-        { saat: "~09:00", metin: "Ohrid → Dıraç otobüsü (~3 – 4,5 sa, Elbasan üzerinden, sınır geçişi dahil).", yer: "otogar:Ohrid" },
+        { saat: "En geç 10:00", takvimDisi: "konak-ohrid-cikis",
+          metin: "Ohrid'den çıkış (check-out).", yer: "ev:ohrid" },
+        /* ⚠ Takvime SAATLİ girmiyor: bu hattın kalkış saati kesinleşmedi
+           (bilet önceden alınacak). "~09:00" bir HEDEF, veri değil — takvime
+           yazmak onu kesinleştirmek olurdu (Kural 3). Yerine saatsiz "yol
+           günü" etkinliği var (bacak-ohrid-dirac). Bilet alınınca burası
+           gerçek saatle + hatirlatma:"sert" ile güncellenecek. */
+        { saat: "~09:00", takvimDisi: "bacak-ohrid-dirac",
+          metin: "Ohrid → Dıraç otobüsü (~3 – 4,5 sa, Elbasan üzerinden, sınır geçişi dahil).", yer: "otogar:Ohrid" },
         { saat: "~13:00 – 13:30", metin: "Dıraç'a varış, öğle yemeği.", yer: "otogar:Dıraç" },
-        { saat: "15:00'ten sonra", metin: "Dıraç'ta eve giriş: Red Crab dairesi, kilitli kutuyla.", yer: "ev:dirac" },
+        { saat: "15:00'ten sonra", takvimDisi: "konak-dirac-giris",
+          metin: "Dıraç'ta eve giriş: Red Crab dairesi, kilitli kutuyla.", yer: "ev:dirac" },
         { dilim: "aksam", metin: "Akşamüstü Adriyatik'te ilk yüzme, gün batımı." }
       ],
       notlar: [
@@ -776,14 +793,20 @@ const TUR = {
         "sorunu çözüldü. Kalan iki risk: gece havalimanı ulaşımı (gün içinde ayarla) ve uykusuzluk. " +
         "Telefon ve powerbank tam şarjlı olsun.",
       program: [
-        { saat: "En geç 11:00", metin: "Dıraç'tan çıkış (check-out), valizlerle Tiran'a (~40 dk; hat 06:00 – 21:15 arası 20 dakikada bir).", yer: "ev:dirac" },
-        { saat: "~12:30", metin: "Bagajlar dolaba: Rruga Ded Gjo Luli, Harri Truman Meydanı karşısı — 7/24 self-servis, rezervasyon gerekmiyor, saatlik 150 ALL'den, büyük dolap 98 × 50 × 60 cm, nakit ve kart geçiyor." },
+        { saat: "En geç 11:00", takvimDisi: "konak-dirac-cikis",
+          metin: "Dıraç'tan çıkış (check-out), valizlerle Tiran'a (~40 dk; hat 06:00 – 21:15 arası 20 dakikada bir).", yer: "ev:dirac" },
+        { saat: "~12:30", hatirlatma: "orta",
+          metin: "Bagajlar dolaba: Rruga Ded Gjo Luli, Harri Truman Meydanı karşısı — 7/24 self-servis, rezervasyon gerekmiyor, saatlik 150 ALL'den, büyük dolap 98 × 50 × 60 cm, nakit ve kart geçiyor." },
         { dilim: "ogle", metin: "Öğleden sonra: Dajti teleferiği ve Bunk'Art 1 — ikisi de teleferiğin alt istasyonunda, tek gidişte." },
         { dilim: "aksam", metin: "İkindi – akşam merkez: Skenderbeg Meydanı, Piramit, Blloku, Pazari i Ri (hediyelik)." },
-        { saat: "~23:00", metin: "Akşam yemeği bitmiş olmalı — bagajları dolaptan al." },
+        { saat: "~23:00", hatirlatma: "sert",
+          metin: "Akşam yemeği bitmiş olmalı — bagajları dolaptan al." },
         /* Turun en sert saati: bu satır kaçarsa gece uçuşu kaçıyor. Ayrı madde
-           olmasının sebebi sıradaki-adım sayacının onu tek başına sayması. */
-        { saat: "~23:30", metin: "Nene Tereza Havalimanı'na hareket.", yer: "havalimani:TIA" }
+           olmasının sebebi sıradaki-adım sayacının onu tek başına sayması.
+           Takvimde kendi etkinliği var (havalimanina-hareket), burada tekrar
+           edilmiyor — aynı şey iki kez çalarsa ikisine de güven azalır. */
+        { saat: "~23:30", takvimDisi: "havalimanina-hareket",
+          metin: "Nene Tereza Havalimanı'na hareket.", yer: "havalimani:TIA" }
       ],
       notlar: [
         { tip: "En iyi saat", metin: "Teleferik öğleden önce en berrak; merkez ikindi-akşam serinleyince canlanıyor." },
@@ -805,9 +828,11 @@ const TUR = {
         "baştan kabul et ve iniş sonrası planı hafif tut. Dönüş bagaj hakkı 20 kg valiz — " +
         "alışverişi bu bacağa bırakmak mantıklı, ama kabin 8 kg sınırını da unutma.",
       program: [
-        { saat: "02:15", metin: "Tiran Nene Tereza'dan kalkış (Pegasus PC284).", yer: "havalimani:TIA" },
+        { saat: "02:15", takvimDisi: "ucus-pc284",
+          metin: "Tiran Nene Tereza'dan kalkış (Pegasus PC284).", yer: "havalimani:TIA" },
         /* 04:50 Türkiye saati (UTC+3); kalkış Arnavutluk saatiyle (UTC+2) yazılı. */
-        { saat: "04:50", metin: "İstanbul Sabiha Gökçen'e iniş." },
+        { saat: "04:50", tz: "+03:00", takvimDisi: "ucus-pc284",
+          metin: "İstanbul Sabiha Gökçen'e iniş." },
         { dilim: "sabah", metin: "Sabahın ilk saatleri: eve dönüş." }
       ],
       notlar: [
@@ -4332,6 +4357,16 @@ section.dn-grup{
       </div>
       <p class="yedek-durum" id="ics-durum" role="status"></p>
       <p class="yedek-ozet" id="ics-ozet"></p>
+
+      <!-- Site AÇIKKEN çalan ek hatırlatma. Takvimin yerine geçmez, üstüne
+           biner: telefon cepteyken çalan tek şey takvim alarmıdır.
+           Desteklemeyen tarayıcıda bu blok hiç görünmez. -->
+      <div class="bildirim-kutu" id="bildirim-kutu" hidden>
+        <button class="btn" id="btn-bildirim" type="button" aria-pressed="false">
+          🔔 Site açıkken hatırlat
+        </button>
+        <p class="yedek-durum" id="bildirim-durum" role="status"></p>
+      </div>
     </div>
 
     <div class="tbd-box">
@@ -5133,6 +5168,7 @@ section.dn-grup{
       const g = grup("9. Program maddeleri", "gunler[].program → saat · dilim · yer");
       const DILIMLER = ["sabah", "ogle", "aksam"];
       let sorun = 0, saatli = 0, yerli = 0, toplam = 0;
+      let takvimli = 0, takvimsiz = 0, alarmli = 0;
 
       (T.gunler || []).forEach((gun, gi) => {
         (gun.program || []).forEach((ham, i) => {
@@ -5166,12 +5202,38 @@ section.dn-grup{
               sorun++;
             } else yerli++;
           }
+          /* ---- takvim alanları ---- */
+          if (p.hatirlatma != null && ["sert", "orta"].indexOf(p.hatirlatma) < 0) {
+            hata(g, yol + ".hatirlatma", '"' + p.hatirlatma + '" geçersiz — "sert" ya da "orta" olmalı.');
+            sorun++;
+          }
+          if (p.hatirlatma && p.takvimDisi) {
+            hata(g, yol, "Hem `hatirlatma` hem `takvimDisi` var — madde takvime girmediği için alarm hiç kurulmaz.");
+            sorun++;
+          }
+          if (p.hatirlatma && saatDk(p.saat) == null) {
+            hata(g, yol + ".hatirlatma", "Alarm isteniyor ama maddenin ayrıştırılabilir saati yok.");
+            sorun++;
+          }
+          if (p.tz != null && !/^[+-]\d{2}:\d{2}$/.test(p.tz)) {
+            hata(g, yol + ".tz", '"' + p.tz + '" geçersiz — "+02:00" biçiminde olmalı.');
+            sorun++;
+          }
+          if (p.takvimDisi != null && typeof p.takvimDisi !== "string") {
+            hata(g, yol + ".takvimDisi", "Değer, maddeyi kapsayan etkinliğin kimliği (metin) olmalı.");
+            sorun++;
+          }
+          if (p.takvimDisi) takvimsiz++;
+          else if (saatDk(p.saat) != null) takvimli++;
+          if (p.hatirlatma) alarmli++;
         });
       });
 
       if (!sorun) {
         ok(g, "TUR.gunler[].program", toplam + " maddenin hepsi geçerli.");
         ok(g, "—", saatli + " maddenin saati sayaca giriyor · " + yerli + " maddede yol tarifi var.");
+        ok(g, "takvim", takvimli + " madde .ics dosyasına giriyor · " + alarmli +
+          " tanesinde alarm var · " + takvimsiz + " madde başka etkinlik kapsadığı için elendi.");
       }
     })();
 
@@ -7959,6 +8021,13 @@ section.dn-grup{
     const gecmis = saatliler.filter((x) => x.dk <= dkSimdi).sort((a, b) => b.dk - a.dk)[0] || null;
     const sonraki = saatliler.filter((x) => x.dk > dkSimdi).sort((a, b) => a.dk - b.dk)[0] || null;
 
+    /* Site açıkken hatırlatma — yalnızca GERÇEK bugün için.
+       ?tarih= ile başka bir gün simüle edilirken bildirim gönderilmez,
+       yoksa test yüzünden "sahte" bir hatırlatma çalardı. */
+    if (sonraki && etkinISO === bugunISO) {
+      bildirimBak(akisId(etkinISO, sonraki.i), sonraki.p, sonraki.dk - dkSimdi);
+    }
+
     const yolBag = (p) => {
       const y = yerCoz(p.yer);
       return y && y.bag
@@ -7997,6 +8066,108 @@ section.dn-grup{
     kutu.hidden = false;
     if (acilMi) kutu.dataset.acil = "1"; else delete kutu.dataset.acil;
   }
+
+  /* =====================================================================
+     SİTE AÇIKKEN HATIRLATMA
+     Takvimin YERİNE geçmez, üstüne biner. Telefon cepteyken çalan tek şey
+     telefonun kendi takvim alarmıdır (bkz. .ics bölümü) — burası site
+     önündeyken, haritaya bakarken, kartı açmışken devreye giriyor:
+     `hatirlatma` alanı olan bir maddeye 10 dakika kalınca tek bildirim.
+
+     Neden bu kadar dar: zamanlanmış bildirim iOS'ta güvenilmez, sayfa
+     arka plandayken service worker öldürülüyor. O yüzden burada hiçbir şey
+     ZAMANLANMIYOR — zaten 30 saniyede bir dönen akisDurumTazele'nin
+     içinden, o an sayfa yaşıyorsa gönderiliyor. Yaşamıyorsa takvim var.
+
+     Her madde için EN FAZLA BİR kez çalar; işaret localStorage'da, yani
+     sayfa yenilense de tekrarlamaz.
+     ===================================================================== */
+  const BILDIRIM_KEY = "balkan2026.bildirim";
+  const BILDIRIM_ACIK_KEY = "balkan2026.bildirimAcik";
+  let bildirimGecmis = {};
+  try { bildirimGecmis = JSON.parse(localStorage.getItem(BILDIRIM_KEY) || "{}") || {}; }
+  catch (e) { bildirimGecmis = {}; }
+  const bildirimDestekli = typeof window.Notification === "function";
+  let bildirimAcik = false;
+  try { bildirimAcik = localStorage.getItem(BILDIRIM_ACIK_KEY) === "1"; } catch (e) {}
+
+  function bildirimGonder(baslik, govde) {
+    const ayar = {
+      body: govde, icon: "./icon.svg", badge: "./icon.svg",
+      tag: "balkan-sonraki",     /* aynı etiket üst üste yığılmaz */
+      requireInteraction: false
+    };
+    /* Android/Chrome yalnızca service worker üzerinden bildirime izin
+       veriyor; masaüstünde doğrudan kurucu da çalışıyor. Önce SW denenir. */
+    if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+      navigator.serviceWorker.ready
+        .then((r) => r.showNotification(baslik, ayar))
+        .catch(() => { try { new Notification(baslik, ayar); } catch (e) {} });
+    } else {
+      try { new Notification(baslik, ayar); } catch (e) {}
+    }
+  }
+
+  /* akisDurumTazele her çağrıldığında bunu da çağırır */
+  function bildirimBak(kimlik, madde, kalanDk) {
+    if (!bildirimAcik || !bildirimDestekli) return;
+    if (Notification.permission !== "granted") return;
+    if (!madde || !madde.hatirlatma) return;      /* yalnızca sert / orta */
+    if (kalanDk > 10 || kalanDk < 0) return;
+    if (bildirimGecmis[kimlik]) return;
+    bildirimGecmis[kimlik] = true;
+    try { localStorage.setItem(BILDIRIM_KEY, JSON.stringify(bildirimGecmis)); } catch (e) {}
+    bildirimGonder(
+      (madde.hatirlatma === "sert" ? "⏰ " : "🔔 ") + kalanDk + " dk: " + madde.saat,
+      madde.metin
+    );
+  }
+
+  (function bildirimKur() {
+    const kutu = $("#bildirim-kutu");
+    if (!kutu) return;
+    if (!bildirimDestekli) return;               /* destek yoksa blok hiç açılmaz */
+    const btn = $("#btn-bildirim"), durum = $("#bildirim-durum");
+    kutu.hidden = false;
+
+    const yaz = () => {
+      const izin = Notification.permission;
+      const etkin = bildirimAcik && izin === "granted";
+      btn.setAttribute("aria-pressed", etkin ? "true" : "false");
+      btn.textContent = etkin ? "🔔 Hatırlatma açık" : "🔕 Site açıkken hatırlat";
+      durum.textContent = izin === "denied"
+        ? "Bildirim izni reddedilmiş — tarayıcı ayarlarından açman gerekiyor. Takvim alarmları bundan bağımsız çalışır."
+        : etkin
+          ? "Sert ve orta maddelere 10 dakika kala, site açıksa bir kez bildirim gelir. Telefon cepteyken çalan asıl şey takvim alarmıdır."
+          : "İsteğe bağlı. Site açıkken sıradaki maddeye 10 dakika kala hatırlatır; kapalıyken hiçbir şey yapmaz.";
+      durum.dataset.tip = izin === "denied" ? "hata" : "";
+      if (!durum.dataset.tip) delete durum.dataset.tip;
+    };
+
+    btn.addEventListener("click", () => {
+      if (bildirimAcik) {
+        bildirimAcik = false;
+        try { localStorage.setItem(BILDIRIM_ACIK_KEY, "0"); } catch (e) {}
+        yaz();
+        return;
+      }
+      const ac = () => {
+        bildirimAcik = true;
+        try { localStorage.setItem(BILDIRIM_ACIK_KEY, "1"); } catch (e) {}
+        yaz();
+        bildirimGonder("🔔 Hatırlatma açık", "Sıradaki sert maddeye 10 dakika kala böyle bir bildirim gelecek.");
+      };
+      if (Notification.permission === "granted") { ac(); return; }
+      if (Notification.permission === "denied") { yaz(); return; }
+      /* İzin isteği KULLANICI DOKUNUŞUNDAN çıkmak zorunda — sayfa açılışında
+         istenirse tarayıcılar sessizce reddediyor. */
+      Notification.requestPermission().then((izin) => {
+        if (izin === "granted") ac(); else yaz();
+      }).catch(yaz);
+    });
+
+    yaz();
+  })();
 
   /* Akış tiki değişince Bugün ekranındaki sayaç da tazelensin */
   bugunAkisTazele = akisDurumTazele;
@@ -9303,14 +9474,20 @@ section.dn-grup{
       if (e.yer) metin("LOCATION", e.yer);
       if (e.aciklama) metin("DESCRIPTION", e.aciklama);
       if (e.geoKonum) yaz("GEO", e.geoKonum[0] + ";" + e.geoKonum[1]);
-      yaz("TRANSP", "OPAQUE");
-      if (e.alarm) {
+      /* TRANSP: OPAQUE günü "dolu" gösterir. Program maddeleri ve günlük
+         özet TRANSPARENT — dokuz gün boyunca takvimi baştan sona dolu
+         boyamasınlar, uçuş ve eve giriş gibi gerçek bloklar seçilebilsin. */
+      yaz("TRANSP", e.serbest ? "TRANSPARENT" : "OPAQUE");
+      /* Bir VEVENT birden çok VALARM taşıyabilir (§3.6.6). `alarm` tekil
+         eski biçim, `alarmlar` çoğul yeni biçim; ikisi de destekleniyor. */
+      const alarmListesi = e.alarmlar || (e.alarm ? [e.alarm] : []);
+      alarmListesi.forEach((a) => {
         satirlar.push("BEGIN:VALARM");
-        yaz("TRIGGER", e.alarm.tetik);
+        yaz("TRIGGER", a.tetik);
         yaz("ACTION", "DISPLAY");
-        metin("DESCRIPTION", e.alarm.metin || e.baslik);
+        metin("DESCRIPTION", a.metin || e.baslik);
         satirlar.push("END:VALARM");
-      }
+      });
       satirlar.push("END:VEVENT");
     }
 
@@ -9459,7 +9636,112 @@ section.dn-grup{
       });
     }
 
-    /* ---- 5) Özel gün — yıl dönümü ---- */
+    /* ---- 5) PROGRAM MADDELERİ ----
+       9 Ağustos'ta eklendi. Buraya kadarki dört bölüm ELLE seçilmiş 11
+       etkinlikti; program artık saatli veri olduğu için ({saat, ...})
+       günün her saatli adımı takvime kendiliğinden girebiliyor. Kazanç,
+       bildirimin tek güvenilir kanalının telefonun kendi takvimi olması:
+       site hiç açılmasa da çalıyor, iOS'ta da çalışıyor, sunucu istemiyor.
+
+       ---------- ÜÇ KURAL ----------
+       1) `takvimDisi` olan madde GİRMEZ. Değeri, o maddeyi zaten kapsayan
+          etkinliğin kimliğidir (uçuşlar, eve giriş/çıkış, havalimanına
+          hareket). Aynı şey iki kez çalarsa ikisine de güven azalır.
+       2) Alarmı `hatirlatma` alanı belirler, metne bakan bir tahmin DEĞİL
+          (bu projede metne bakan dilimleme zaten bir kez yanlış çıktı):
+            "sert" → 60 dk + 15 dk önce  (otobüs kalkışı gibi kaçırılamaz)
+            "orta" → 30 dk önce          (bagaj dolabı gibi esnek ama gerekli)
+            yok    → alarmsız; takvimde görünür, çalmaz
+          Otuz etkinliğin hepsi çalarsa telefon düşman olur; sert olanlar
+          gerçekten sert olsun diye liste kısa tutuldu.
+       3) Yaklaşıklık BOZULMAZ. Başlıkta "~15:30" ve "En geç 10:00" olduğu
+          gibi kalır; takvim onları kesinleştirmez (Kural 3). Saat aralığı
+          yazılıysa ("09:00 – 10:00") etkinlik o aralığı kaplar, tek saat
+          varsa 30 dakikadır.
+
+       ⚠ Ofset: madde `tz` vermezse +02:00 varsayılır. Türkiye saatiyle
+       yazılı iki madde (12 Ağustos kalkışı, 20 Ağustos inişi) `tz:"+03:00"`
+       taşıyor — ikisi de zaten `takvimDisi`, ama alan doğruyu söylüyor. */
+    const ALARM_TARIFI = {
+      sert: [["-PT1H", "1 saat"], ["-PT15M", "15 dakika"]],
+      orta: [["-PT30M", "30 dakika"]]
+    };
+    TUR.gunler.forEach((g, gi) => {
+      programListesi(g).forEach((p, i) => {
+        if (p.takvimDisi) return;
+        const dk = saatDk(p.saat);
+        if (dk == null) return;                 /* dilim maddeleri takvime girmez */
+
+        const saatDizi = String(p.saat).match(/\d{1,2}:\d{2}/g) || [];
+        const bas = icsAn(g.tarihISO, saatDizi[0], p.tz);
+        let bit;
+        if (saatDizi.length > 1) {
+          bit = icsAn(g.tarihISO, saatDizi[1], p.tz);
+          if (bit <= bas) bit = new Date(bas.getTime() + 30 * 60000);
+        } else {
+          bit = new Date(bas.getTime() + 30 * 60000);
+        }
+
+        const yer = yerCoz(p.yer);
+        const tarif = ALARM_TARIFI[p.hatirlatma] || null;
+        /* Bir VEVENT birden fazla VALARM taşıyabilir (§3.6.6); "sert"
+           maddelerde iki alarm var — biri hazırlanmak, biri çıkmak için. */
+        etkinlik({
+          kimlik: "program-" + g.tarihISO + "-" + i,
+          bas: bas, bit: bit,
+          baslik: (p.hatirlatma === "sert" ? "⏰ " : "· ") + p.saat + " — " + p.metin,
+          yer: yer ? yer.ad : "",
+          geoKonum: yer ? yer.konum : null,
+          aciklama: g.tarih + " · " + g.baslik + "\n" + p.metin +
+                    (yer ? "\n📍 " + yer.ad : "") +
+                    (p.hatirlatma === "sert" ? "\n⚠ Bu saat kaçırılamaz." : ""),
+          serbest: !tarif,                      /* alarmsız maddeler günü doldurmasın */
+          alarmlar: tarif
+            ? tarif.map(([tetik, ne]) => ({
+                tetik: tetik,
+                metin: ne + " sonra: " + p.saat + " " + p.metin
+              }))
+            : null
+        });
+      });
+      void gi;
+    });
+
+    /* ---- 6) GÜNÜN PROGRAMI — her sabah 08:00 ----
+       Tek bildirimde günün tamamı: başlık, kaçırılamaz kısıt ve saatli
+       maddelerin listesi. Alarm etkinliğin kendi anında (TRIGGER:PT0S),
+       yani telefon sabah 08:00'de bir kez çalıyor.
+
+       Son gün (20 Ağustos) YOK: o sabah 04:50'de İstanbul'a inilmiş
+       oluyor, uyanılan yer ev. Bir özet bildirimi orada yalnızca gürültü.
+
+       ⚠ Ofset burada GÜNE bağlı, maddeye değil: 12 Ağustos sabahı Türkiye'de
+       (+03:00) uyanılıyor, 13-19 Ağustos sabahları Balkanlar'da (+02:00). */
+    const OZET_OFSET = { "2026-08-12": "+03:00" };
+    TUR.gunler.forEach((g) => {
+      if (g.tarihISO === "2026-08-20") return;
+      const maddeler = programListesi(g);
+      const saatliler = maddeler.filter((p) => saatDk(p.saat) != null);
+      const bas = icsAn(g.tarihISO, "08:00", OZET_OFSET[g.tarihISO]);
+      const satirlarOzet = []
+        .concat(g.ozet ? [g.ozet] : [])
+        .concat(g.uyari ? ["⚠ " + g.uyari] : [])
+        .concat(saatliler.length
+          ? ["", "Saatli maddeler:"].concat(saatliler.map((p) => "· " + p.saat + " — " + p.metin))
+          : [])
+        .concat(g.gece ? ["", "🌙 Gece: " + g.gece] : []);
+      etkinlik({
+        kimlik: "gunozet-" + g.tarihISO,
+        bas: bas, bit: new Date(bas.getTime() + 15 * 60000),
+        baslik: "📋 Bugün: " + g.ikon + " " + g.baslik,
+        yer: g.gece,
+        aciklama: satirlarOzet.join("\n"),
+        serbest: true,
+        alarmlar: [{ tetik: "PT0S", metin: g.tarih + " — " + g.baslik }]
+      });
+    });
+
+    /* ---- 7) Özel gün — yıl dönümü ---- */
     TUR.gunler.filter((g) => g.ozel).forEach((g) => {
       etkinlik({
         kimlik: "ozel-" + g.tarihISO,

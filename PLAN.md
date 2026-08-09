@@ -646,6 +646,78 @@ açısından beklenen kalıp bu.
 
 ## Yapılanlar
 
+### 10 Ağustos 2026 — yirmi beşinci oturum
+
+**Bildirim — takvim dosyası artık programdan üretiliyor (11 → 29 etkinlik)**
+
+**1. Önce reddedilen yollar.** "Günün etkinlikleri hakkında bildirim" sorusu dört yolla
+çözülebilirdi ve üçü bu proje için yanlış:
+- **Web Push** sunucu ister (VAPID + abonelik deposu). Site GitHub Pages'te statik;
+  Kural 4'ü de kırar. Sekiz günlük bir gezi için 7/24 ayakta tutulacak bir servis,
+  üstelik asıl ihtiyaç anında ölürse haber vermeyen bir bağımlılık.
+- **`setTimeout` + `showNotification`** yalnızca sayfa/SW yaşarken çalışır; iOS arka
+  planda service worker'ı öldürüyor. 8 Ağustos'ta zaten bu yüzden `.ics`'e geçilmişti.
+- **Notification Triggers** Chrome'da deneysel kaldı, iOS'ta hiç yok.
+- **Periodic Background Sync** yalnızca Android + kurulu PWA, üstelik zamanlamayı
+  tarayıcı seçiyor ("08:00'de" garantisi yok).
+
+**Sonuç: iOS'ta site kapalıyken çalan tek güvenilir kanal telefonun kendi takvim
+alarmı.** 8 Ağustos'taki karar doğruydu; yapılacak iş o kanalı genişletmekti.
+
+**2. Kaldıraç: program artık saatli veri.** 9 Ağustos'ta `gunler[].program`
+`{saat, dilim, metin, yer}` objelerine çevrilmişti. Takvim dosyası bu yüzden artık ELLE
+seçilmiş 11 etkinlik olmak zorunda değil — günün her saatli adımı `VEVENT` olarak
+kendiliğinden üretiliyor. `PLAN.md` ↔ site ↔ takvim tek kaynaktan besleniyor: bir saat
+değişince üçü birden değişiyor.
+
+**3. Alarm politikası VERİDEN geliyor, metinden tahmin edilmiyor.** Bu projede metne
+bakan dilimleme bir kez yanlış çıkmıştı ("yemek" geçen her satır akşama düşüyordu);
+aynı hata tekrarlanmadı. Üç seviye, `hatirlatma` alanında:
+
+| Değer | Alarm | Kimde |
+|---|---|---|
+| `"sert"` | **60 dk + 15 dk** önce (iki VALARM) | Priştine → Üsküp otobüsü · Üsküp → Ohrid otobüsü · 19 Ağustos ~23:00 bagajları alma |
+| `"orta"` | **30 dk** önce | 19 Ağustos ~12:30 bagaj dolabı |
+| yok | alarmsız — takvimde görünür, çalmaz | kalan saatli maddeler |
+
+Otuz etkinliğin hepsi çalarsa telefon düşman olur ve sert olanlara da güven kalmaz;
+liste bilerek kısa.
+
+**4. Çift çalma engellendi: `takvimDisi`.** Bir maddeyi zaten başka bir etkinlik
+kapsıyorsa (uçuşlar, eve giriş/çıkış, havalimanına hareket) madde `.ics`'e girmiyor ve
+alanın değeri **o etkinliğin kimliği** oluyor — yani neyin kapsadığı veride yazılı.
+12 madde böyle elendi.
+
+**5. Kural 3 korundu.** Ohrid → Dıraç otobüsü hâlâ **saatsiz "yol günü" etkinliği**:
+bilet alınmadığı için "~09:00" bir hedef, veri değil. Takvime saatli yazmak onu
+kesinleştirmek olurdu. Başlıklarda da "~15:30" ve "En geç 10:00" olduğu gibi duruyor.
+Bilet alınınca o madde gerçek saatiyle + `hatirlatma:"sert"` ile güncellenecek.
+
+**6. Her sabah 08:00 — "Bugünün programı".** Tek bildirimde günün tamamı: başlık,
+kaçırılamaz kısıt, saatli maddelerin listesi, o geceki şehir. Alarm etkinliğin kendi
+anında (`TRIGGER:PT0S`). 20 Ağustos'ta yok — o sabah 04:50'de İstanbul'a inilmiş oluyor,
+uyanılan yer ev.
+⚠ Ofset burada **güne** bağlı: 12 Ağustos sabahı Türkiye'de (+03:00), 13-19 Ağustos
+sabahları Balkanlar'da (+02:00). Maddelerin ofseti ayrı iş — o `tz` alanından geliyor.
+
+**7. Ek olarak: site AÇIKKEN hatırlatma.** Hazırlık bölümünde 🔔 düğmesi. Takvimin
+yerine geçmiyor, üstüne biniyor: site önündeyken `hatirlatma` alanı olan bir maddeye
+10 dakika kala bir kez bildiriyor. Hiçbir şey **zamanlanmıyor** — zaten 30 saniyede bir
+dönen `akisDurumTazele` içinden gönderiliyor, yani "arka planda çalışacak mı" sorusu hiç
+doğmuyor. İzin kullanıcı dokunuşundan isteniyor; desteklemeyen tarayıcıda blok hiç
+görünmüyor. `?tarih=` ile başka gün simüle edilirken bildirim gönderilmiyor.
+
+**Denetim.** 9. gruba dört kontrol eklendi: `hatirlatma` geçerli mi, `hatirlatma` ile
+`takvimDisi` birlikte mi (alarm hiç kurulmazdı), alarm istenen maddenin saati var mı,
+`tz` biçimi doğru mu. Bilerek bozulmuş bir kopyayla sınandı — **beş bozulmanın beşi de
+yakalandı**.
+
+**Ölçüm.** 29 etkinlik · 25 VALARM · 0 UID tekrarı · 75 okteti aşan satır yok · CRLF
+tam. Saatler tek tek doğrulandı: 15:30 yerel → `133000Z`, 12 Ağustos özeti `050000Z`
+(=08:00 +03:00), 13-19 özetleri `060000Z` (=08:00 +02:00).
+
+`sw.js` → **v17**.
+
 ### 9 Ağustos 2026 — yirmi dördüncü oturum
 
 **Yolda verim paketi — on değişiklik**

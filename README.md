@@ -99,6 +99,30 @@ dokunmak gerekmez.**
     geri saymamak için bilinçli.
   - ⚠ Açılış saati ile etkinlik saatini karıştırma: 17 Ağustos'ta müzenin 09:00 – 16:00
     açık olması `saat` alanına yazılmaz, yoksa sayaç sabah 09:00'ı "müzeye git" sanır.
+- **Takvim dosyası artık programdan üretiliyor.** `.ics` eskiden elle seçilmiş 11
+  etkinlikti; şimdi 29. Her saatli program maddesi bir `VEVENT` olur. Üç alan yönetir:
+  - `hatirlatma: "sert"` → **60 dk + 15 dk** önce iki alarm (otobüs kalkışı gibi
+    kaçırılamaz anlar). `"orta"` → **30 dk** önce tek alarm. Alan yoksa **alarm yok**,
+    madde takvimde yalnızca görünür. Otuz etkinliğin hepsi çalarsa telefon düşman olur.
+  - `takvimDisi: "<etkinlik-kimliği>"` → madde `.ics`'e **girmez**, çünkü onu zaten
+    başka bir etkinlik kapsıyor (uçuşlar, eve giriş/çıkış, havalimanına hareket).
+    Değer o etkinliğin kimliğidir, yani neyin kapsadığı veride yazılı.
+  - `tz: "+03:00"` → maddenin saati Türkiye saatiyle yazılmışsa. Verilmezse **+02:00**
+    varsayılır. `.ics` mutlak an (UTC + `Z`) yazdığı için bu şart.
+  - ⚠ **Yaklaşıklık bozulmaz:** başlıkta "~15:30" ve "En geç 10:00" olduğu gibi kalır.
+    Ohrid → Dıraç otobüsü bu yüzden hâlâ saatsiz "yol günü" etkinliği — bilet alınmadığı
+    için "~09:00" bir hedef, veri değil (Kural 3).
+  - Ayrıca her sabah **08:00'de "Bugünün programı"** etkinliği: özet + kaçırılamaz kısıt +
+    o günün saatli maddeleri, alarmı etkinliğin kendi anında. 20 Ağustos'ta yok (o sabah
+    evde uyanılıyor). Ofset **güne** bağlı: 12 Ağustos sabahı +03:00, sonrası +02:00.
+- **Site açıkken hatırlatma (isteğe bağlı).** Hazırlık bölümündeki 🔔 düğmesi. Takvimin
+  **yerine geçmez, üstüne biner**: telefon cepteyken çalan tek şey telefonun kendi takvim
+  alarmıdır. Bu, site önündeyken `hatirlatma` alanı olan bir maddeye 10 dakika kala bir
+  kez bildirir. Hiçbir şey **zamanlanmaz** — zaten 30 saniyede bir dönen
+  `akisDurumTazele` içinden, o an sayfa yaşıyorsa gönderilir (iOS arka planda service
+  worker'ı öldürdüğü için zamanlanmış bildirim güvenilmez; `.ics` bu yüzden var).
+  İzin **kullanıcı dokunuşundan** istenir. İşaretler `balkan2026.bildirim`, madde başına
+  en fazla bir kez.
 - **Akış tikleri:** her madde işaretlenebilir, kayıt `balkan2026.akis`,
   anahtar `YYYY-MM-DD::sıraNo`. Anahtar **metin değil sıra** olduğu için metni
   düzeltmek tiki kaybettirmez; buna karşılık bir maddenin **yerini değiştirmek**
@@ -232,6 +256,8 @@ dokunmak gerekmez.**
   | `balkan2026.akis` | Gün programı maddelerinin tikleri (`YYYY-MM-DD::sıraNo`) |
   | `balkan2026.sabah` | "Çıkmadan önce" listesi — gün dönünce sıfırlanır, yedeğe girmez |
   | `balkan2026.karokilit` | Haritanın veri kilidi açık mı |
+  | `balkan2026.bildirimAcik` | "Site açıkken hatırlat" açık mı |
+  | `balkan2026.bildirim` | Hangi maddeye bildirim gönderildi (tekrar etmesin diye) |
   | `balkan2026.gizli` | Kapı kodu / kilitli kutu şifresi / wifi şifresi (kimlik: `evId::alan`) |
 
   Bunlar cihaza özeldir; telefonda işaretlenen bir şey bilgisayarda görünmez —
@@ -278,7 +304,7 @@ dokunmak gerekmez.**
   eşlemesi, "belirlenecek / kontrol edilecek / alınacak" geçen bütün alanlar, kapak ve
   galeri görselleri, şehir ↔ harita (sıra, gün çapası, ev/otogar/hastane merkeze uzaklık),
   program maddeleri (`saat` ayrıştırılabiliyor mu · `dilim` geçerli mi · `yer` bir kayda
-  çözülüyor mu).
+  çözülüyor mu · `hatirlatma` / `tz` / `takvimDisi` geçerli mi).
   ❌ hata · ⚠️ bakılmalı · ✅ tamam; her satırda alanın tam yolu yazar. Normal render'a
   dokunmaz, hiçbir şeyi değiştirmez — veriye dokunduktan sonra bir kez çalıştır.
 - **Kontrol listesi:** işaretler tarayıcının `localStorage`'ında `balkan2026.hazirlik`
@@ -336,8 +362,8 @@ izleyebilirsin. Dört cache olur:
 
 | Cache | Sürümlü mü | İçerik |
 |---|---|---|
-| `balkan-v16-shell` | evet | `index.html`, manifest, ikon, şehir kapakları, Leaflet |
-| `balkan-v16-hava` | evet | Son başarılı Open-Meteo yanıtı |
+| `balkan-v17-shell` | evet | `index.html`, manifest, ikon, şehir kapakları, Leaflet |
+| `balkan-v17-hava` | evet | Son başarılı Open-Meteo yanıtı |
 | `balkan-gorsel` | **hayır** | Wikimedia galeri ve lezzet görselleri |
 | `balkan-karo` | **hayır** | İndirilen OpenStreetMap harita karoları |
 
@@ -356,7 +382,7 @@ ve sayfada **"✨ Yeni sürüm hazır / Yenile"** çubuğu çıkar. Yenile'ye ba
 devralır.
 
 Önbelleklenen dosya listesi değiştiyse (`sw.js` içindeki `APP_SHELL`) ya da eski önbelleğin
-tamamen atılması gerekiyorsa **`CACHE_VERSION` sabitini artır** (`balkan-v15` → `balkan-v16`).
+tamamen atılması gerekiyorsa **`CACHE_VERSION` sabitini artır** (`balkan-v16` → `balkan-v17`).
 Eski cache'ler `activate` sırasında otomatik silinir — `balkan-gorsel` ve `balkan-karo` hariç,
 onlar `BIZIM_CACHELER` içinde ve sürümden bağımsız durur.
 

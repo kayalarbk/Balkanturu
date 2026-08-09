@@ -50,12 +50,18 @@
         haritada "yalnızca indirilmiş karo" veri kilidi ve konum rozetinde
         Yakınımdakiler; Cepte'ye "Günlük cümleler" + rakamlar sekmesi;
         Günün Kartı ve tam ekran haritada ekran uyanık tutuluyor (Wake Lock).
+   v17 — 10 Ağustos 2026: bildirim. Takvim dosyası artık program verisinden
+        üretiliyor: 11 → 29 etkinlik. Her saatli madde bir VEVENT, alarm
+        politikası veriden (`hatirlatma`: sert → 60+15 dk, orta → 30 dk,
+        yok → alarmsız); her sabah 08:00'de "Bugünün programı" özeti.
+        Başka etkinliğin kapsadığı maddeler `takvimDisi` ile eleniyor.
+        Ayrıca site AÇIKKEN çalışan isteğe bağlı hatırlatma (10 dk kala).
 
    ⚠ Leaflet artık index.html'in <head>'inde DEĞİL, harita bölümü yaklaşınca
    enjekte ediliyor. APP_SHELL'de kalması bilinçli: çevrimdışıyken harita
    bölümüne inildiğinde dosyalar cache'ten gelsin diye burada ön belleğe
    alınıyor — yükleme sayfayı yavaşlatmıyor, install arka planda yapıyor. */
-const CACHE_VERSION = "balkan-v16";
+const CACHE_VERSION = "balkan-v17";
 const SHELL_CACHE = CACHE_VERSION + "-shell";
 const HAVA_CACHE = CACHE_VERSION + "-hava";
 

@@ -270,7 +270,7 @@ tekrarlanmayan maddeleri "🍽 Sofrada" kartına girdi.
 | **🩺 Sağlık ve acil kişi** | Kan grubu, alerji, sürekli ilaç, poliçe no (kişi başına) + acil kişi. Kapı kodlarıyla aynı depo: **yalnızca cihazda**. Dolu alanlar Günün Kartı'nın acil bloğunda da çıkar |
 | **🏥 Hastaneler** | 5 şehrin ana hastanesi, koordinatı doğrulanmış (Wikidata + OSM). Cepte'de liste, haritada ✚ pini, Günün Kartı'nda o günkü şehrinki |
 | **🚌 Otogarlar** | 5 şehrin ana otogarı, koordinatı doğrulanmış (Wikidata + OSM, kaynak her kartta yazılı). Cepte'de liste, haritada turuncu 🚌 pini, Günün Kartı'nda o günün **kalkış otogarı** |
-| **📅 Takvim dosyası** | Hazırlık bölümünden inen **balkanlarda-ask.ics** — 11 etkinlik, alarmlar dosyanın içinde. iOS'ta PWA bildirimi güvenilmez olduğu için telefonun kendi takvim alarmına devrediliyor: site hiç açılmasa da çalar. Saatler **UTC + Z** (VTIMEZONE yok — gerekçesi aşağıda) |
+| **📅 Takvim dosyası** | Hazırlık bölümünden inen **balkanlarda-ask.ics** — **29 etkinlik** (10 Ağustos'ta 11'den çıktı: artık program verisinden üretiliyor), alarmlar dosyanın içinde. iOS'ta PWA bildirimi güvenilmez olduğu için telefonun kendi takvim alarmına devrediliyor: site hiç açılmasa da çalar. Saatler **UTC + Z** (VTIMEZONE yok — gerekçesi aşağıda) |
 | **⬇ Kartın PNG'si** | Günün Kartı'nda "⬇ Görsel" — kart **1080 × 1920 PNG** olarak canvas'a **elle** çizilip iner (`balkan-2026-08-15.png`). Kütüphane yok. Tarayıcıya, service worker'a ve sekmenin yaşamasına bağlı olmayan tek kopya: galeriye iner, kilit ekranına konur. **Renkler temaya bağlı değil** (bilinçli istisna, aşağıda) |
 | **🔎 Veri tutarlılık denetimi** | `?kontrol=1` — `TUR` objesini gezip **9 grupta** rapor basar: gün dizisi · koordinatlar (Balkan kutusu) · kimlikler · gün ↔ ulaşım · hava eşlemesi · yer tutucular · görseller · şehir ↔ harita · **program maddeleri** (`saat` ayrıştırılabiliyor mu · `dilim` geçerli mi · `yer` bir kayda çözülüyor mu). ❌ / ⚠️ / ✅ ve tam alan yolu. Normal render'a hiç dokunmaz. **Son çalıştırma: 0 hata, 19 açık yer tutucu**; 9. grup bilerek bozulmuş kopyayla sınandı, dört bozulmanın dördü de yakalandı |
 | **⏱ Saatli program verisi** | `gunler[].program` düz metin dizisi değil `{ saat?, dilim?, metin, yer? }` objeleri. `saat` ekranda görünen serbest metin ("En geç 10:00", "09:00 – 10:00 arası"), sayaç içindeki ilk HH:MM'i ayrıştırıyor. Altındaki dört özelliğin tamamı buna dayanıyor |
@@ -286,6 +286,9 @@ tekrarlanmayan maddeleri "🍽 Sofrada" kartına girdi.
 | **📵 Veri kilidi** | Haritada açıkken katman **ağa hiç çıkmaz**: karoyu yalnızca indirilmiş paketten okur, olmayan yer boş kalır (`L.TileLayer` alt sınıfı, `createTile` Cache Storage'a bakıyor). `balkan2026.karokilit` |
 | **📍 Yakınımdakiler** | Konum rozetinin altında en yakın ev / otogar / hastane, mesafesiyle ve Maps bağlantısıyla. Yeni veri yok, aynı GPS sabitlemesinden |
 | **🗨 Günlük cümleler + rakamlar** | 15 cümle (sipariş · fiyat · otobüs · tuvalet) + 15 rakam. Acil cümlelerle aynı tam ekran kalıbı. ⚠ Çeviriler aynı doğrulama borcunu taşıyor |
+| **🔔 Takvim alarm politikası** | Alarm metinden tahmin edilmiyor, `hatirlatma` alanından geliyor: `"sert"` → 60 dk + 15 dk önce iki alarm · `"orta"` → 30 dk önce · yok → alarmsız. Başka etkinliğin kapsadığı maddeler `takvimDisi` ile eleniyor (12 madde), böylece aynı şey iki kez çalmıyor |
+| **📋 Günün programı bildirimi** | Her sabah **08:00'de** tek etkinlik: başlık + kaçırılamaz kısıt + o günün saatli maddeleri, alarmı kendi anında. 20 Ağustos'ta yok (o sabah evde uyanılıyor). Ofset güne bağlı: 12 Ağustos +03:00, sonrası +02:00 |
+| **🔕 Site açıkken hatırlatma** | İsteğe bağlı, Hazırlık bölümünde. `hatirlatma` alanı olan maddeye 10 dk kala tek bildirim. **Hiçbir şey zamanlanmıyor** — 30 sn'de bir dönen `akisDurumTazele` içinden gönderiliyor, yani "arka planda çalışır mı" sorusu doğmuyor. Takvimin yerine geçmez, üstüne biner |
 | **💡 Wake Lock** | Günün Kartı ve tam ekran harita açıkken ekran sönmüyor. Desteklemeyen tarayıcıda sessizce hiçbir şey yapmaz |
 | **🖨 Acil çıktı kâğıdı** | `?yazdir=acil` — tek A4: üç adres (yerel alfabede büyük punto) + kapı kodu/wifi · iki uçuş (sefer · PNR · saat) · 112 + üç büyükelçilik + sigorta · sağlık kartı · buluşma noktaları · dört acil cümle. Boş alanlar **çizgi** basılır, "belirlenecek" yazmaz. Punto tek sayfaya sığacak şekilde otomatik seçilir; aydınlık ve koyu temada **birebir aynı** basar |
 | **🧭 Ayrı düşersek** | Sabit kural (saat başı 10 dk bekleme) + şehir başına buluşma noktası alanı (cihazda) |
@@ -337,6 +340,8 @@ Hepsi `localStorage`, **sunucuya hiçbir şey gitmez**, cihaza özeldir.
 | `balkan2026.akis` | Gün programı maddelerinin tikleri (`YYYY-MM-DD::sıraNo`) — yedeğe dâhil |
 | `balkan2026.sabah` | "Çıkmadan önce" listesi (`YYYY-MM-DD::id`) — gün dönünce silinir, **yedeğe dâhil değil** (eski günlerin tikleri geri gelmesin) |
 | `balkan2026.karokilit` | Haritanın veri kilidi açık mı (`"1"` / `"0"`) |
+| `balkan2026.bildirimAcik` | "Site açıkken hatırlat" açık mı |
+| `balkan2026.bildirim` | Hangi maddeye bildirim gönderildi — madde başına en fazla bir kez |
 | `balkan2026.gizli` | Kapı kodu / kilitli kutu şifresi / wifi şifresi (`evId::alan`), sağlık kartı (`saglik-<kişi>::alan`), buluşma noktaları (`bulusma::şehir`) — **depoda yoktur**. Acil çıktı kâğıdı da buradan okur |
 | `balkan2026.karolar` | Çevrimdışı haritanın en son ne zaman indirildiği (yedeğe dâhil değil — karolar Cache Storage'da) |
 
@@ -430,6 +435,12 @@ Yedek dosyası bu kodları **içerir** — yalnızca kendi cihazlarınızla payl
 | Leaflet karolarının cache'e girdiğini varsaymak | `<img>` isteği opak yanıt döndürüyor, service worker'ın `yanit.ok` kontrolünden geçmiyor → gezinirken görülen karolar `balkan-karo`'ya **yazılmıyor**. Veri kilidinin gösterdiği tek kaynak "Çevrimdışına al" ile inen 390 karo |
 | Opak yanıttan `blob()` beklemek | Boyutu 0 gelir. Karo indiricisi CORS `fetch` kullandığı için (OSM `Access-Control-Allow-Origin: *` veriyor) cache'teki karolar gerçek yanıt — kilidin blob yolu bu yüzden çalışıyor |
 | Üst çubuğa düğme eklerken genişliği ölçmemek | 🔍 eklenince 360 px'de altı öğe sığmadı ve **sessizce sıkışan hep bölüm adı** oldu (`min-width:0` + ellipsis olduğu için taşma görünmüyor, işlev kayboluyor). iframe'i 360 px'e kurup `.ana-nav` çocuklarının genişliğini tek tek ölç |
+| Zamanlanmış bildirimin arka planda çalacağını varsaymak | iOS service worker'ı öldürüyor; `setTimeout` + `showNotification` telefon cebe girince susuyor. Site KAPALIYKEN çalan tek güvenilir kanal telefonun kendi **takvim alarmı** — bildirim işi bu yüzden `.ics` üzerinden yürüyor |
+| Her etkinliğe alarm koymak | 29 etkinliğin hepsi çalarsa telefon düşman olur ve gerçekten sert olanlara da güven kalmaz. Alarm veriden gelir (`hatirlatma`), varsayılan **alarmsız**tır |
+| Aynı anı iki etkinliğe yazmak | Uçuş, eve giriş/çıkış ve havalimanına hareket zaten kendi etkinliklerini taşıyor; program maddesi de girseydi aynı şey iki kez çalardı → `takvimDisi` ile elenir, değeri kapsayan etkinliğin kimliğidir |
+| Takvimde yaklaşık saati kesinleştirmek | "~09:00" bilet alınmadığı için bir HEDEF, veri değil. `.ics`'e saatli yazmak onu kesinleştirir → o bacak hâlâ saatsiz "yol günü" etkinliği (Kural 3) |
+| Günlük özetin ofsetini maddelerinkiyle aynı sanmak | 12 Ağustos sabahı 08:00 **Türkiye'de** (+03:00) uyanılıyor ama o günün 15:30 otobüsü **+02:00**. Ofset güne değil, madde madde karar verilir; özet ayrı tabloyu kullanır |
+| Bildirim iznini sayfa açılışında istemek | Tarayıcılar kullanıcı dokunuşundan gelmeyen `requestPermission()` çağrısını sessizce reddediyor → izin yalnızca düğmeye basınca istenir |
 | Türkiye saatini cihazın saatinden türetmek | Mesele zaten cihazın dilimi. TR saati **UTC'den** hesaplanmalı (`getUTCHours() + 3`), yoksa yanlış dilimde iki satır da aynı yanlışı gösterir |
 | Görseli `loading="lazy"` + `content-visibility:auto` birlikte test etmek | Kart ekran dışındayken hiç render edilmiyor, içindeki lazy görsel de istenmiyor. Tarayıcıda "yüklenmedi" görünmesi **hata değil**, doğru davranış → ölçerken önce öğeyi gerçekten görünür alana getir |
 
@@ -479,6 +490,7 @@ kontrolü yapılmadı.**
 | 18 | 8 Ağu 2026 | **Saat farkı riski kapatıldı** (🕐 kritik kart + iki gün uyarısı + iki kod hatası), **Cepte yedi sekmeye bölündü**, **kur defteri kaldırıldı**, `sw.js` v10 |
 | 19 | 8 Ağu 2026 | **Haritaya beş otogar:** koordinatlar Wikidata + OSM'den doğrulandı, Cepte'de 🚌 sekmesi, turuncu harita pini, Günün Kartı'nda kalkış otogarı, karolar 316 → 390, `sw.js` v11 |
 | 20 | 8 Ağu 2026 | **İndirilebilir .ics takvimi** (11 etkinlik, UTC damgalı, alarmlı) ve **Cepte yatay sekmeden alt alta akordeona** çevrildi, `sw.js` v12 |
+| 25 | 10 Ağu 2026 | **Bildirim** — takvim dosyası program verisinden üretiliyor (11 → 29 etkinlik); alarm politikası veriden (`hatirlatma` sert/orta/yok), çift çalma `takvimDisi` ile elendi, her sabah 08:00 "Bugünün programı" özeti; ayrıca site açıkken isteğe bağlı hatırlatma. Denetime dört kontrol daha, `sw.js` v17 |
 | 24 | 9 Ağu 2026 | **Yolda verim paketi** — program saatli veriye çevrildi; Şu an/Sıradaki geri sayımı, akış tikleri, eylem şeridi, uçuş günü bloğu, çıkmadan önce listesi, site içi arama, çift saat, haritada veri kilidi + Yakınımdakiler, günlük cümleler + rakamlar, Wake Lock; denetime 9. grup, `sw.js` v16 |
 | 23 | 8 Ağu 2026 | **Kartın PNG'si** — Günün Kartı 1080 × 1920 PNG olarak canvas'a elle çiziliyor; dokuz günün hepsi üretilip göz kontrolünden geçti, `sw.js` v15 |
 | 22 | 8 Ağu 2026 | **Veri tutarlılık denetimi** — `?kontrol=1`, 8 grup, ❌/⚠️/✅ raporu; denetimin kendisi bozulmuş kopyayla doğrulandı, `sw.js` v14 |
@@ -858,6 +870,11 @@ Ayrıntılı oturum günlüğü (sebep–çözüm anlatımıyla): `PLAN.md` → 
       kayıtlara (ev · otogar · hastane · havalimanı · şehir) bağlı. NEWBORN, Kaneo,
       Sveti Naum iskelesi, Dajti alt istasyonu, Bunk'Art 1 doğrulanmadığı için boş —
       Wikidata `P625` / OSM'den doğrulanınca eklenecek
+- [ ] **Takvim dosyasını iki telefona da yeniden aktar** — 29 etkinlik, eskisinin üstüne
+      biner (UID'ler kararlı, kopya çıkmaz). Alarmların gerçekten çaldığı **cihazda**
+      görülmeli; tarayıcıda yalnızca dosyanın kendisi doğrulandı
+- [ ] **Bildirim iznini gerçek telefonda dene** — izin akışı ve bildirimin görünümü
+      cihazda sınanmadı (izin isteği tarayıcı otomasyonunda verilemiyor)
 - [ ] **Akış tiklerini gerçek bir günde dene** — 44 px hedef mobilde parmakla rahat mı,
       tik atarken gün kartı yanlışlıkla kapanıyor mu
 - [ ] **Wake Lock'ı gerçek telefonda doğrula** — tarayıcıda API çağrısı sınandı, ekranın
