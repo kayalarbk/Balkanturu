@@ -289,6 +289,8 @@ tekrarlanmayan maddeleri "🍽 Sofrada" kartına girdi.
 | **🔔 Takvim alarm politikası** | Alarm metinden tahmin edilmiyor, `hatirlatma` alanından geliyor: `"sert"` → 60 dk + 15 dk önce iki alarm · `"orta"` → 30 dk önce · yok → alarmsız. Başka etkinliğin kapsadığı maddeler `takvimDisi` ile eleniyor (12 madde), böylece aynı şey iki kez çalmıyor |
 | **📋 Günün programı bildirimi** | Her sabah **08:00'de** tek etkinlik: başlık + kaçırılamaz kısıt + o günün saatli maddeleri, alarmı kendi anında. 20 Ağustos'ta yok (o sabah evde uyanılıyor). Ofset güne bağlı: 12 Ağustos +03:00, sonrası +02:00 |
 | **🔕 Site açıkken hatırlatma** | İsteğe bağlı, Hazırlık bölümünde. `hatirlatma` alanı olan maddeye 10 dk kala tek bildirim. **Hiçbir şey zamanlanmıyor** — 30 sn'de bir dönen `akisDurumTazele` içinden gönderiliyor, yani "arka planda çalışır mı" sorusu doğmuyor. Takvimin yerine geçmez, üstüne biner |
+| **✅ O gün yapılacaklar** | `gunler[].yapilacaklar` — o gün elden çıkarılacak işler (bilet al, ara, sor, para boz). `program` "nereye/ne zaman", bu "ne yapılacak". 20 madde, 7 gün. Gün kartında tik kutulu liste + N/M; Bugün ekranında **yalnızca kalanlar**, bitince "✓ Bugünün işleri bitti". 18 ve 20 Ağustos'ta bilerek yok |
+| **📂 Dikkat akordeonu** | 15 kart Cepte'nin kalıbıyla katlandı: başlıklar alt alta, tek kart açık, **seviye rozeti kapalıyken de görünür**. Bölüm 360 px'de 1329 px'e, masaüstünde 916 px'e indi. Yazdırmada hepsi açılır |
 | **💡 Wake Lock** | Günün Kartı ve tam ekran harita açıkken ekran sönmüyor. Desteklemeyen tarayıcıda sessizce hiçbir şey yapmaz |
 | **🖨 Acil çıktı kâğıdı** | `?yazdir=acil` — tek A4: üç adres (yerel alfabede büyük punto) + kapı kodu/wifi · iki uçuş (sefer · PNR · saat) · 112 + üç büyükelçilik + sigorta · sağlık kartı · buluşma noktaları · dört acil cümle. Boş alanlar **çizgi** basılır, "belirlenecek" yazmaz. Punto tek sayfaya sığacak şekilde otomatik seçilir; aydınlık ve koyu temada **birebir aynı** basar |
 | **🧭 Ayrı düşersek** | Sabit kural (saat başı 10 dk bekleme) + şehir başına buluşma noktası alanı (cihazda) |
@@ -342,6 +344,7 @@ Hepsi `localStorage`, **sunucuya hiçbir şey gitmez**, cihaza özeldir.
 | `balkan2026.karokilit` | Haritanın veri kilidi açık mı (`"1"` / `"0"`) |
 | `balkan2026.bildirimAcik` | "Site açıkken hatırlat" açık mı |
 | `balkan2026.bildirim` | Hangi maddeye bildirim gönderildi — madde başına en fazla bir kez |
+| `balkan2026.yapilacaklar` | O gün yapılacaklar tikleri (`YYYY-MM-DD::id`) — yedeğe dâhil |
 | `balkan2026.gizli` | Kapı kodu / kilitli kutu şifresi / wifi şifresi (`evId::alan`), sağlık kartı (`saglik-<kişi>::alan`), buluşma noktaları (`bulusma::şehir`) — **depoda yoktur**. Acil çıktı kâğıdı da buradan okur |
 | `balkan2026.karolar` | Çevrimdışı haritanın en son ne zaman indirildiği (yedeğe dâhil değil — karolar Cache Storage'da) |
 
@@ -435,6 +438,8 @@ Yedek dosyası bu kodları **içerir** — yalnızca kendi cihazlarınızla payl
 | Leaflet karolarının cache'e girdiğini varsaymak | `<img>` isteği opak yanıt döndürüyor, service worker'ın `yanit.ok` kontrolünden geçmiyor → gezinirken görülen karolar `balkan-karo`'ya **yazılmıyor**. Veri kilidinin gösterdiği tek kaynak "Çevrimdışına al" ile inen 390 karo |
 | Opak yanıttan `blob()` beklemek | Boyutu 0 gelir. Karo indiricisi CORS `fetch` kullandığı için (OSM `Access-Control-Allow-Origin: *` veriyor) cache'teki karolar gerçek yanıt — kilidin blob yolu bu yüzden çalışıyor |
 | Üst çubuğa düğme eklerken genişliği ölçmemek | 🔍 eklenince 360 px'de altı öğe sığmadı ve **sessizce sıkışan hep bölüm adı** oldu (`min-width:0` + ellipsis olduğu için taşma görünmüyor, işlev kayboluyor). iframe'i 360 px'e kurup `.ana-nav` çocuklarının genişliğini tek tek ölç |
+| Fonksiyon içinde dış kapsamdakiyle **aynı adlı** `const` açmak | `akisDurumTazele` içindeki `const yapilan`, dış kapsamdaki yapılacaklar deposunu gölgeledi ve fonksiyonun YUKARISINDAKİ kullanımı geçici ölü bölgeye (TDZ) düşürdü → `ReferenceError`, Bugün ekranı hiç render edilmedi. Hata mesajı ("Cannot access before initialization") tanıdık değilse konsola bak; sessizce boş kalan bir bölüm bunun tipik belirtisi |
+| Aynı şeyi iki yerde işaretletmek | Yapılacaklar hem gün kartında hem Bugün ekranında tıklanabilir olsaydı hangisinin doğru olduğu belirsizleşirdi → tik tek yerde (gün kartı), Bugün ekranı yalnızca **okur** |
 | Zamanlanmış bildirimin arka planda çalacağını varsaymak | iOS service worker'ı öldürüyor; `setTimeout` + `showNotification` telefon cebe girince susuyor. Site KAPALIYKEN çalan tek güvenilir kanal telefonun kendi **takvim alarmı** — bildirim işi bu yüzden `.ics` üzerinden yürüyor |
 | Her etkinliğe alarm koymak | 29 etkinliğin hepsi çalarsa telefon düşman olur ve gerçekten sert olanlara da güven kalmaz. Alarm veriden gelir (`hatirlatma`), varsayılan **alarmsız**tır |
 | Aynı anı iki etkinliğe yazmak | Uçuş, eve giriş/çıkış ve havalimanına hareket zaten kendi etkinliklerini taşıyor; program maddesi de girseydi aynı şey iki kez çalardı → `takvimDisi` ile elenir, değeri kapsayan etkinliğin kimliğidir |
@@ -490,6 +495,7 @@ kontrolü yapılmadı.**
 | 18 | 8 Ağu 2026 | **Saat farkı riski kapatıldı** (🕐 kritik kart + iki gün uyarısı + iki kod hatası), **Cepte yedi sekmeye bölündü**, **kur defteri kaldırıldı**, `sw.js` v10 |
 | 19 | 8 Ağu 2026 | **Haritaya beş otogar:** koordinatlar Wikidata + OSM'den doğrulandı, Cepte'de 🚌 sekmesi, turuncu harita pini, Günün Kartı'nda kalkış otogarı, karolar 316 → 390, `sw.js` v11 |
 | 20 | 8 Ağu 2026 | **İndirilebilir .ics takvimi** (11 etkinlik, UTC damgalı, alarmlı) ve **Cepte yatay sekmeden alt alta akordeona** çevrildi, `sw.js` v12 |
+| 26 | 10 Ağu 2026 | **Dikkat bölümü akordeona çevrildi** (15 kart, Cepte kalıbı, rozet kapalıyken de görünür), **gün kartlarına o günün yapılacaklar listesi** (20 madde, tikler cihazda, Bugün ekranında kalanlar özetleniyor) ve **`AI-OZET.md`** eklendi. TDZ hatası yakalanıp düzeltildi, `sw.js` v18 |
 | 25 | 10 Ağu 2026 | **Bildirim** — takvim dosyası program verisinden üretiliyor (11 → 29 etkinlik); alarm politikası veriden (`hatirlatma` sert/orta/yok), çift çalma `takvimDisi` ile elendi, her sabah 08:00 "Bugünün programı" özeti; ayrıca site açıkken isteğe bağlı hatırlatma. Denetime dört kontrol daha, `sw.js` v17 |
 | 24 | 9 Ağu 2026 | **Yolda verim paketi** — program saatli veriye çevrildi; Şu an/Sıradaki geri sayımı, akış tikleri, eylem şeridi, uçuş günü bloğu, çıkmadan önce listesi, site içi arama, çift saat, haritada veri kilidi + Yakınımdakiler, günlük cümleler + rakamlar, Wake Lock; denetime 9. grup, `sw.js` v16 |
 | 23 | 8 Ağu 2026 | **Kartın PNG'si** — Günün Kartı 1080 × 1920 PNG olarak canvas'a elle çiziliyor; dokuz günün hepsi üretilip göz kontrolünden geçti, `sw.js` v15 |

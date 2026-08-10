@@ -587,6 +587,18 @@ const TUR = {
           metin: "Üsküp'te eve giriş: Universe Hostel, tuş takımıyla.", yer: "ev:uskup" },
         { dilim: "aksam", metin: "Akşam Üsküp: Taş Köprü, Makedonya Meydanı, Eski Çarşı — hepsi aydınlatmalı, çarşıda lokantalar açık." }
       ],
+      /* ---------- O GÜN YAPILACAKLAR ----------
+         `program` o günün AKIŞI (nereye, ne zaman); bu ise o gün ELDEN
+         çıkarılması gereken işler (bilet al, ara, sor, para boz). İkisi
+         ayrı listeler: akış saate bağlı, bu değil.
+         Maddeler uydurulmadı — hepsi o günün rehber notlarından, riskinden
+         ya da dikkat kartlarından geliyor.
+         `id` kararlı olmalı: değiştirmek o maddenin işaretini sıfırlar. */
+      yapilacaklar: [
+        { id: "euro", metin: "Havalimanından çıkarken bir miktar euro nakit bulundur (Kosova euro kullanıyor)." },
+        { id: "saat", metin: "İki telefonun da saat dilimini doğrula — UTC+3 → UTC+2." },
+        { id: "bilet-uskup", metin: "Üsküp otobüs biletini öğleden sonra otogara giderken al (merkeze inmeden değil)." }
+      ],
       notlar: [
         { tip: "En iyi saat", metin: "Üsküp merkezi akşam en iyi hâlinde; köprü ve meydan ışıklı, Eski Çarşı canlı." },
         { tip: "Dikkat", metin: "Priştine merkezi 1,5 km'ye sığıyor, dört saat rahat yetiyor — Graçanitsa ya da Prizren eklemeye kalkma." },
@@ -621,6 +633,12 @@ const TUR = {
         { dilim: "ogle", metin: "Öğleden sonra: yerleşme, göl kıyısında ilk yürüyüş." },
         { dilim: "ogle", metin: "Bugün ayarlanacak iki şey: yarınki Sveti Naum teknesi · 15 Ağustos akşam yemeği rezervasyonu." }
       ],
+      yapilacaklar: [
+        { id: "bilet-dirac", metin: "⚠ Ohrid'e varır varmaz otogara uğra: Ohrid → Dıraç biletini al. Turun tek kıt hattı." },
+        { id: "tekne", metin: "Yarınki Sveti Naum teknesini ayarla — ağustosta turlar doluyor." },
+        { id: "masa", metin: "15 Ağustos akşam yemeği için ara: Fisherman's House Kaneo ya da Kajche." },
+        { id: "bagaj-goran", metin: "Goran'a sor: çıkıştan sonra bagaj bırakılabiliyor mu?" }
+      ],
       notlar: [
         { tip: "En iyi saat", metin: "Kale sabah erken serin; 08:00 – 09:30 arasına sıkıştır, 10:00 çıkışına yetiş." },
         { tip: "Dikkat", metin: "Çıkış 10:00 olduğu için kaleye valizlerle çıkılır. Goran'a çıkıştan sonra bagaj bırakma imkânı sorulursa kale rahatlar." },
@@ -644,6 +662,10 @@ const TUR = {
         { dilim: "sabah", metin: "Sabah: Ohrid Gölü'nde tekne, gölün güneyine Sveti Naum Manastırı." },
         { dilim: "ogle", metin: "Manastır, kaynaklar, çevresinde yüzme." },
         { dilim: "aksam", metin: "Akşamüstü Ohrid'e dönüş, göl kenarında akşam yemeği." }
+      ],
+      yapilacaklar: [
+        { id: "donus-saati", metin: "Tekneye binerken son dönüş saatini öğren." },
+        { id: "mayo", metin: "Mayo ve havluyu tekneye al." }
       ],
       notlar: [
         { tip: "En iyi saat", metin: "Sabah teknesi; göl öğleden sonra dalgalanıyor." },
@@ -673,6 +695,10 @@ const TUR = {
         { saat: "~17:00", metin: "Samuel Kalesi surları, oradan eski şehre inerken Antik Lychnidos Tiyatrosu (giriş serbest)." },
         { saat: "~19:45", metin: "Gün batımı: Kaneo kayalıkları." },
         { dilim: "aksam", metin: "Akşam: rezerve edilen masa." }
+      ],
+      yapilacaklar: [
+        { id: "masa-teyit", metin: "Akşamki masayı teyit et." },
+        { id: "festival", metin: "Ohrid Yaz Festivali'nin bugünkü programına bak — ohridskoleto.com.mk." }
       ],
       notlar: [
         { tip: "Dikkat", metin: "Ohrid Yaz Festivali 12 Temmuz – 20 Ağustos 2026 arası sürüyor; konserler Antik Tiyatro ve Aya Sofya'da veriliyor. 15 Ağustos programı ohridskoleto.com.mk üzerinden bakılacak, bilet rezervasyonu tickets@ohridskoleto.com.mk. Program kontrol edilecek." },
@@ -710,6 +736,11 @@ const TUR = {
           metin: "Dıraç'ta eve giriş: Red Crab dairesi, kilitli kutuyla.", yer: "ev:dirac" },
         { dilim: "aksam", metin: "Akşamüstü Adriyatik'te ilk yüzme, gün batımı." }
       ],
+      yapilacaklar: [
+        { id: "denar", metin: "Kalan denarı Ohrid'de harca — Arnavutluk'ta geçmiyor." },
+        { id: "pasaport", metin: "Sınır geçişi için pasaportları el altına al, bavulun içine koyma." },
+        { id: "bagaj-slavik", metin: "Slavik'e sor: erken bagaj bırakılabiliyor mu?" }
+      ],
       notlar: [
         { tip: "Dikkat", metin: "Turun tek kıt hattı bu. Günde 3-5 sefer var, ilki 07:00 civarı, sonuncusu 17:00. Bileti önceden al — Ohrid'e varır varmaz otogara uğra." },
         { tip: "Dikkat", metin: "\"Günün ilk otobüsünü seç\" bu bacakta yanlış tavsiye: 07:00 otobüsü seni 11:00'de, giriş saatinden dört saat önce valizlerle sokakta bırakır. ~09:00 kalkışı hedefle." },
@@ -739,6 +770,10 @@ const TUR = {
         { dilim: "ogle", metin: "Öğleden sonra (müze 09:00 – 16:00 açık): Dıraç Arkeoloji Müzesi — evden ~70 m, giriş ücreti kontrol edilecek." },
         { dilim: "ogle", metin: "İkindi: Dıraç antik Roma amfitiyatrosu (~650 m)." },
         { dilim: "aksam", metin: "Akşam sahil boyunca yürüyüş. Program bilinçli olarak boş — dinlenme günü." }
+      ],
+      yapilacaklar: [
+        { id: "muze", metin: "Arkeoloji Müzesi'nin giriş ücretini öğren (evden ~70 m)." },
+        { id: "krem", metin: "Güneş kremini öğleden sonra tekrar sür." }
       ],
       notlar: [
         { tip: "Dikkat", metin: "Dıraç'ta öğlen güneşi sert; 12:00-16:00 arası gölgede ya da kapalı alanda kal, güneş kremini tekrar sür." },
@@ -807,6 +842,12 @@ const TUR = {
            edilmiyor — aynı şey iki kez çalarsa ikisine de güven azalır. */
         { saat: "~23:30", takvimDisi: "havalimanina-hareket",
           metin: "Nene Tereza Havalimanı'na hareket.", yer: "havalimani:TIA" }
+      ],
+      yapilacaklar: [
+        { id: "transfer", metin: "⚠ Havalimanı transferini gün İÇİNDE ayarla — gece toplu taşıma seyrek." },
+        { id: "hediyelik", metin: "Hediyelikleri Pazari i Ri'de al (dönüşte 20 kg valiz hakkı var)." },
+        { id: "lek", metin: "Kalan lek'i harca — bu son gün." },
+        { id: "eve-donus", metin: "Sabiha Gökçen'den eve dönüş kararını ver: 04:50'de metro kapalı." }
       ],
       notlar: [
         { tip: "En iyi saat", metin: "Teleferik öğleden önce en berrak; merkez ikindi-akşam serinleyince canlanıyor." },
@@ -2244,6 +2285,31 @@ tbody td:last-child{ padding-bottom:0; }
   min-height:32px; font-size:.82rem; font-weight:700; color:var(--c-teal); text-decoration:none;
 }
 .tl-yol:hover{ text-decoration:underline; }
+/* ---------- O GÜN YAPILACAKLAR ----------
+   Akış çizelgesinden AYRI liste: orada "nereye, ne zaman", burada "ne
+   yapılacak". Görsel olarak da ayrışsın diye kum zeminli kutu. */
+.yapilacak{
+  margin:0; padding:var(--s-2) var(--s-3); list-style:none;
+  background:var(--c-sand); border-radius:var(--r-s); display:grid; gap:.1rem;
+}
+.yapilacak li{ display:block; }
+.yapilacak label{
+  display:flex; align-items:flex-start; gap:var(--s-2);
+  min-height:44px; padding:.35rem .1rem; cursor:pointer; font-size:.93rem;
+}
+.yapilacak input{ position:absolute; opacity:0; width:0; height:0; }
+.yap-kutu{
+  flex:0 0 auto; margin-top:.15rem;
+  width:19px; height:19px; border-radius:5px; background:var(--c-yuzey);
+  border:2px solid var(--c-sand-2); display:grid; place-items:center;
+  font-size:.7rem; color:#fff; line-height:1;
+}
+.yapilacak input:checked + .yap-kutu{ background:var(--c-teal); border-color:var(--c-teal); }
+.yapilacak input:checked + .yap-kutu::after{ content:"✓"; }
+.yapilacak input:focus-visible + .yap-kutu{ outline:3px solid var(--c-teal-soft); outline-offset:2px; }
+.yap-metin{ min-width:0; }
+.yapilacak li[data-yapildi="1"] .yap-metin{ text-decoration:line-through; opacity:.6; }
+
 /* Günün akışı başlığının yanındaki N/M sayacı */
 .tl-sayac{
   float:right; font-size:.72rem; font-weight:800; letter-spacing:.06em;
@@ -2419,6 +2485,24 @@ tbody td:last-child{ padding-bottom:0; }
 .bugun-ucus-satir{ display:grid; grid-template-columns:5.5rem minmax(0,1fr); gap:var(--s-2); font-size:.9rem; }
 .bugun-ucus-satir span:first-child{ color:rgba(255,255,255,.72); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; padding-top:.15rem; }
 .bugun-ucus-satir b{ font-weight:800; }
+
+/* ---------- BUGÜN YAPILACAKLAR (Bugün ekranı özeti) ----------
+   Gün kartındaki listenin özeti; yalnızca işaretlenmemişler basılır. */
+.bugun-isler{
+  background:var(--c-sand); border-left:3px solid var(--c-teal);
+  border-radius:0 var(--r-m) var(--r-m) 0; padding:var(--s-3) var(--s-4);
+}
+.bugun-isler.tamam{ font-size:.92rem; color:var(--c-teal); }
+.bugun-isler-ust{ display:flex; align-items:baseline; justify-content:space-between; gap:var(--s-2); }
+.bugun-isler-ust b{ font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:var(--c-teal); }
+.bugun-isler-ust span{ font-size:.75rem; font-weight:800; color:var(--c-ink-soft); }
+.bugun-isler ul{ margin:.35rem 0 0; padding-left:1.1rem; font-size:.92rem; line-height:1.55; }
+.bugun-isler li{ margin-bottom:.2rem; }
+.bugun-isler-bag{
+  display:inline-flex; align-items:center; min-height:32px; margin-top:.3rem;
+  font-size:.82rem; font-weight:700; color:var(--c-teal); text-decoration:none;
+}
+.bugun-isler-bag:hover{ text-decoration:underline; }
 
 /* ---------- HER SABAH ÇIKMADAN ----------
    Hazırlık listesi tek seferlik; bu her gün sıfırlanır. Anahtar tarihi
@@ -3433,25 +3517,51 @@ html[data-tema="baris"] .gk-kod-yok{ color:#e0a54e; }
 }
 
 /* ===================== NELERE DİKKAT ETMELİ ===================== */
-.dikkat-grid{ display:grid; gap:var(--s-4); grid-template-columns:minmax(0,1fr); }
-@media(min-width:700px){ .dikkat-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+/* ---------- NELERE DİKKAT ETMELİ — AKORDEON ----------
+   15 kart açık hâlde ekranlar dolusu metin ediyordu ve "burada başka ne
+   var" sorusu ancak kaydırarak cevaplanıyordu. Cepte bölümünün çözümüyle
+   aynı: başlıklar ALT ALTA, hepsi tek bakışta görünür, aynı anda tek kart
+   açık. Seviye rozeti KAPALIYKEN de görünür — listenin asıl tarama değeri o.
+   Yazdırmada hepsi açılır (aşağıda @media print). */
+.dikkat-grid{ display:grid; gap:var(--s-2); grid-template-columns:minmax(0,1fr); }
 .dikkat{
   background:var(--c-yuzey); border:1px solid var(--c-line); border-left:5px solid var(--c-teal);
-  border-radius:var(--r-m); padding:var(--s-4) var(--s-5); box-shadow:var(--sh-1);
+  border-radius:var(--r-m); box-shadow:var(--sh-1); overflow:hidden;
 }
 .dikkat.s-yuksek{ border-left-color:var(--c-warn-line); }
 .dikkat.s-kritik{ border-left-color:#c0392b; }
-.dikkat-basi{ display:flex; align-items:center; gap:.55rem; flex-wrap:wrap; margin-bottom:var(--s-3); }
-.dikkat-basi h3{ font-size:1.02rem; }
+.dikkat-btn{
+  all:unset; box-sizing:border-box; cursor:pointer; font-family:inherit;
+  display:flex; align-items:center; gap:.55rem; width:100%;
+  min-height:52px; padding:.6rem var(--s-4);
+  color:var(--c-ink);
+  scroll-margin-top:calc(var(--h-nav) + env(safe-area-inset-top) + .5rem);
+}
+.dikkat-btn:hover{ background:var(--c-sand-3); }
+.dikkat-btn:focus-visible{ outline:3px solid var(--c-teal-soft); outline-offset:-3px; }
+.dikkat-ikon{ flex:0 0 auto; font-size:1.15rem; line-height:1; width:1.6rem; text-align:center; }
+.dikkat-ad{ flex:1 1 auto; min-width:0; font-size:.98rem; font-weight:700; }
+.dikkat-ok{ flex:0 0 auto; font-size:.85rem; color:var(--c-ink-soft); transition:transform .2s ease; }
+.dikkat[data-open="1"] .dikkat-ok{ transform:rotate(180deg); }
 .dikkat-etiket{
-  font-size:.74rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
+  flex:0 0 auto;
+  font-size:.68rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
   padding:.16rem .55rem; border-radius:var(--r-pill); background:var(--c-sand); color:var(--c-ink-soft);
 }
-@media(min-width:700px){ .dikkat-etiket{ font-size:.68rem; } }
 .dikkat.s-yuksek .dikkat-etiket{ background:var(--c-warn-bg); color:var(--c-warn-ink); }
 .dikkat.s-kritik .dikkat-etiket{ background:#fbeae8; color:#8e2b20; }
+.dikkat-govde{ display:none; padding:0 var(--s-4) var(--s-4) calc(var(--s-4) + 2.15rem); }
+.dikkat[data-open="1"] .dikkat-govde{ display:block; }
 .dikkat ul{ margin:0; padding-left:1.1rem; font-size:.91rem; color:var(--c-ink-soft); }
 .dikkat li{ margin-bottom:.35rem; }
+/* Dar telefonda rozet başlığı ikinci satıra itiyordu; orada gizlenmiyor,
+   ikonun altına inmesin diye başlık sarılıyor. */
+@media(max-width:420px){
+  .dikkat-btn{ flex-wrap:wrap; }
+  .dikkat-ad{ flex:1 1 100%; order:3; }
+  .dikkat-ok{ order:2; margin-left:auto; }
+  .dikkat-govde{ padding-left:var(--s-4); }
+}
 
 /* ===================== KONTROL LİSTESİ ===================== */
 .check-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:var(--s-3); flex-wrap:wrap; }
@@ -3761,6 +3871,15 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
      için kartların negatif üst boşluğu da geri alınır. */
   .cepte-grid.akordeon .cep-kart[hidden]{ display:block !important; }
   .cepte-grid.akordeon .cep-kart{ margin-top:0 !important; }
+  /* Dikkat kartları da kâğıda TAMAMI basılır — ekranda tek tek açılıyor
+     olmaları kâğıtta bir şey ifade etmiyor. Açma düğmesi yerine düz başlık. */
+  .dikkat-govde{ display:block !important; padding-left:var(--s-4) !important; }
+  .dikkat-ok{ display:none !important; }
+  .dikkat-btn{ min-height:0 !important; padding-bottom:0 !important; }
+  /* Yapılacaklar listesi kâğıda basılır (elde işaretlenebilsin) ama
+     tik kutusu yerine boş kare gerekmiyor — metin yeter. */
+  .yapilacak{ background:none !important; padding-left:0 !important; }
+  .yapilacak label{ min-height:0 !important; }
   /* Kâğıt yedeği kapıda işe yarasın diye kaydedilmiş kodlar BASILIR; ama
      silme düğmesi, açıklama satırı ve dış bağlantı kâğıda gerekmez. */
   .gizli-sil, .gizli-not, .konak-ilan{ display:none !important; }
@@ -5229,7 +5348,26 @@ section.dn-grup{
         });
       });
 
+      /* ---- o gün yapılacaklar ----
+         `id` işaretin localStorage anahtarı: aynı gün içinde tekrarlanırsa
+         iki madde tek tik paylaşır, biri işaretlenince ikisi birden dolar. */
+      let isAdet = 0;
+      (T.gunler || []).forEach((gun, gi) => {
+        const gorulenId = new Set();
+        (gun.yapilacaklar || []).forEach((y, i) => {
+          const yol = "TUR.gunler[" + gi + "].yapilacaklar[" + i + "]";
+          isAdet++;
+          if (!y.id) { hata(g, yol + ".id", "Kimlik yok — işaret saklanamaz."); sorun++; }
+          else if (gorulenId.has(y.id)) {
+            hata(g, yol + ".id", '"' + y.id + '" aynı günde ikinci kez — iki madde tek tiki paylaşır.');
+            sorun++;
+          } else gorulenId.add(y.id);
+          if (!y.metin) { hata(g, yol + ".metin", "Metin boş."); sorun++; }
+        });
+      });
+
       if (!sorun) {
+        ok(g, "TUR.gunler[].yapilacaklar", isAdet + " yapılacak maddesi, kimlikler gün içinde tekil.");
         ok(g, "TUR.gunler[].program", toplam + " maddenin hepsi geçerli.");
         ok(g, "—", saatli + " maddenin saati sayaca giriyor · " + yerli + " maddede yol tarifi var.");
         ok(g, "takvim", takvimli + " madde .ics dosyasına giriyor · " + alarmli +
@@ -5757,6 +5895,38 @@ section.dn-grup{
     return yapilan;
   };
 
+  /* ---------- O GÜN YAPILACAKLAR ----------
+     Akış tiklerinden ayrı bir depo: `program` nereye/ne zaman, bu ise o gün
+     elden çıkarılacak işler (bilet al, ara, sor, para boz).
+
+     ⚠ Anahtar burada SIRA DEĞİL `id`: liste kısa ve maddeler bağımsız, sıra
+     değişmesi olası. Akışta sıra kullanılmasının sebebi oradaki maddelerin
+     metninin sık düzeltilmesiydi; burada ikisi de kararlı, `id` daha net.
+     Bir `id`'yi değiştirmek o maddenin işaretini sıfırlar. */
+  const YAP_KEY = "balkan2026.yapilacaklar";
+  let yapilan = {};
+  try { yapilan = JSON.parse(localStorage.getItem(YAP_KEY) || "{}") || {}; } catch (e) { yapilan = {}; }
+  const yapKaydet = () => { try { localStorage.setItem(YAP_KEY, JSON.stringify(yapilan)); } catch (e) {} };
+  const yapId = (iso, id) => iso + "::" + id;
+  const yapSayisi = (g) =>
+    (g.yapilacaklar || []).filter((y) => yapilan[yapId(g.tarihISO, y.id)]).length;
+
+  function yapilacakListesi(g) {
+    const liste = g.yapilacaklar || [];
+    if (!liste.length) return "";
+    return '<h5>Bugün yapılacaklar<span class="tl-sayac" data-yap-sayac="' + esc(g.tarihISO) + '"></span></h5>' +
+      '<ul class="yapilacak" data-gun="' + esc(g.tarihISO) + '">' +
+      liste.map((y) => {
+        const kimlik = yapId(g.tarihISO, y.id);
+        return "<li" + (yapilan[kimlik] ? ' data-yapildi="1"' : "") + ">" +
+          '<label><input type="checkbox" data-yap="' + esc(kimlik) + '"' +
+            (yapilan[kimlik] ? " checked" : "") + ">" +
+            '<span class="yap-kutu" aria-hidden="true"></span>' +
+            "<span class=\"yap-metin\">" + markTBD(esc(y.metin)) + "</span>" +
+          "</label></li>";
+      }).join("") + "</ul>";
+  }
+
   /* Saatsiz maddelerin YALNIZCA solma hesabı için varsayılan saatleri.
      "Sıradaki adım" sayacına GİRMEZLER — orada yalnızca gerçek `saat`
      alanı olan maddeler var, yoksa uydurma bir saate geri sayardık. */
@@ -5839,6 +6009,7 @@ section.dn-grup{
       (g.giris ? '<p class="day-giris">' + esc(g.giris) + "</p>" : "") +
       '<h5>Programın akışı<span class="tl-sayac" data-akis-sayac="' + esc(g.tarihISO) + '"></span></h5>' +
       zamanCizelgesi(g) +
+      yapilacakListesi(g) +
       "<h5>Rehber notları</h5>" +
       '<div class="notes">' + g.notlar.map((n) =>
         '<div class="note t-' + slug(n.tip) + '"><b>' + n.tip + "</b><span>" + markTBD(n.metin) + "</span></div>"
@@ -5878,16 +6049,23 @@ section.dn-grup{
       const adet = ul.children.length;
       rozet.textContent = akisSayisi(iso, adet) + " / " + adet;
     }
+    const g = TUR.gunler.find((x) => x.tarihISO === iso);
+    const yapRozet = daysWrap.querySelector('[data-yap-sayac="' + iso + '"]');
+    if (g && yapRozet) {
+      yapRozet.textContent = yapSayisi(g) + " / " + (g.yapilacaklar || []).length;
+    }
     if (bugunAkisTazele) bugunAkisTazele();
   }
   TUR.gunler.forEach((g) => akisSayaciTazele(g.tarihISO));
 
   daysWrap.addEventListener("change", (e) => {
-    const kutu = e.target.closest("input[data-akis]");
+    const kutu = e.target.closest("input[data-akis], input[data-yap]");
     if (!kutu) return;
-    const kimlik = kutu.dataset.akis;
-    if (kutu.checked) akis[kimlik] = true; else delete akis[kimlik];
-    akisKaydet();
+    const yapMi = !!kutu.dataset.yap;
+    const kimlik = yapMi ? kutu.dataset.yap : kutu.dataset.akis;
+    const depo = yapMi ? yapilan : akis;
+    if (kutu.checked) depo[kimlik] = true; else delete depo[kimlik];
+    if (yapMi) yapKaydet(); else akisKaydet();
     const li = kutu.closest("li");
     if (li) { if (kutu.checked) li.dataset.yapildi = "1"; else delete li.dataset.yapildi; }
     akisSayaciTazele(kimlik.split("::")[0]);
@@ -7414,16 +7592,44 @@ section.dn-grup{
   }
 
   /* ---------- NELERE DİKKAT ETMELİ ---------- */
+  /* Akordeon: Cepte bölümüyle aynı davranış — başlıklar alt alta, aynı anda
+     tek kart açık, açık olana tekrar dokunmak kapatır. 15 kart açık hâlde
+     bölümü ekranlar dolusu metne çeviriyordu. */
   const dikkatGrid = $("#dikkat-grid");
   const seviyeEtiketi = { kritik: "kritik", yuksek: "önemli", normal: "bilgi" };
-  TUR.dikkatEdilecekler.forEach((d) => {
+  TUR.dikkatEdilecekler.forEach((d, i) => {
     const sev = d.seviye || "normal";
-    dikkatGrid.appendChild(el("article", "dikkat s-" + sev,
-      '<div class="dikkat-basi">' +
-        "<h3><span aria-hidden='true'>" + d.ikon + "</span> " + d.baslik + "</h3>" +
+    const govdeId = "dikkat-" + (i + 1);
+    const kart = el("article", "dikkat s-" + sev,
+      '<button class="dikkat-btn" type="button" aria-expanded="false" aria-controls="' + govdeId + '">' +
+        '<span class="dikkat-ikon" aria-hidden="true">' + d.ikon + "</span>" +
+        '<span class="dikkat-ad">' + esc(d.baslik) + "</span>" +
         '<span class="dikkat-etiket">' + (seviyeEtiketi[sev] || sev) + "</span>" +
-      "</div>" +
-      "<ul>" + d.maddeler.map((x) => "<li>" + markTBD(x) + "</li>").join("") + "</ul>"));
+        '<span class="dikkat-ok" aria-hidden="true">▾</span>' +
+      "</button>" +
+      '<div class="dikkat-govde" id="' + govdeId + '">' +
+        "<ul>" + d.maddeler.map((x) => "<li>" + markTBD(x) + "</li>").join("") + "</ul>" +
+      "</div>");
+    kart.dataset.open = "0";
+    dikkatGrid.appendChild(kart);
+  });
+
+  dikkatGrid.addEventListener("click", (e) => {
+    const btn = e.target.closest(".dikkat-btn");
+    if (!btn) return;
+    const kart = btn.closest(".dikkat");
+    const acilacak = kart.dataset.open !== "1";
+    /* Aynı anda tek kart açık kalsın */
+    dikkatGrid.querySelectorAll(".dikkat").forEach((k) => {
+      k.dataset.open = "0";
+      k.querySelector(".dikkat-btn").setAttribute("aria-expanded", "false");
+    });
+    if (acilacak) {
+      kart.dataset.open = "1";
+      btn.setAttribute("aria-expanded", "true");
+      /* Uzun bir karttan kısaya geçilince başlık ekranın üstünden kaçmasın */
+      if (btn.getBoundingClientRect().top < 0) btn.scrollIntoView({ block: "start" });
+    }
   });
 
   /* ---------- NE YAPMALI ----------
@@ -7831,6 +8037,16 @@ section.dn-grup{
                '<span class="ico" aria-hidden="true">🖨</span>Acil kâğıt</a>']);
     const eylemBlok = '<div class="bugun-eylem">' + eylemler.join("") + "</div>";
 
+    /* ---------- BUGÜN YAPILACAKLAR ----------
+       Gün kartındaki listenin özeti: YALNIZCA işaretlenmemişler basılır.
+       Tamamı bitince blok kaybolur — "bugün elden çıkacak iş kalmadı"
+       bilgisi de kendi başına değerli. Tik atmak için gün kartına gidilir;
+       burası hatırlatıcı, ikinci bir işaretleme yüzeyi değil (aynı şeyin
+       iki yerde işaretlenmesi hangisinin doğru olduğunu belirsizleştirir). */
+    const isBlok = (g.yapilacaklar || []).length
+      ? '<div class="bugun-isler" id="bugun-isler"></div>'
+      : "";
+
     /* ---------- HER SABAH ÇIKMADAN ---------- */
     const sabahBlok = (TUR.sabahListesi || []).length
       ? '<div class="sabah"><div class="sabah-ust"><b>Çıkmadan önce</b>' +
@@ -7877,6 +8093,7 @@ section.dn-grup{
         (konakBlok ||
           '<div class="bugun-satir"><span class="ico" aria-hidden="true">📍</span>' +
           "<span><b>Şehir ve konaklama</b>" + esc(sehir) + " — bu gece: " + esc(g.gece) + "</span></div>") +
+        isBlok +
         sabahBlok +
         (havaMetni
           ? '<div class="bugun-satir"><span class="ico" aria-hidden="true">🌡</span>' +
@@ -8006,7 +8223,24 @@ section.dn-grup{
       });
     });
 
-    /* 2) Bugün ekranındaki geri sayım kutusu */
+    /* 2) Bugün ekranındaki "yapılacaklar" özeti.
+       Gün kartında bir tik atılınca burası da tazelenmeli — blok yalnızca
+       İŞARETLENMEMİŞ maddeleri gösteriyor, bayat kalırsa yanlış bilgi. */
+    const isKutu = $("#bugun-isler");
+    if (isKutu) {
+      const gunIs = TUR.gunler.find((x) => x.tarihISO === etkinISO);
+      const sira = TUR.gunler.indexOf(gunIs) + 1;
+      const kalan = (gunIs.yapilacaklar || []).filter((y) => !yapilan[yapId(etkinISO, y.id)]);
+      isKutu.classList.toggle("tamam", kalan.length === 0);
+      isKutu.innerHTML = kalan.length
+        ? '<div class="bugun-isler-ust"><b>Bugün yapılacaklar</b><span>' +
+            kalan.length + " / " + gunIs.yapilacaklar.length + " kaldı</span></div>" +
+          "<ul>" + kalan.map((y) => "<li>" + markTBD(esc(y.metin)) + "</li>").join("") + "</ul>" +
+          '<a class="bugun-isler-bag" href="#gun-' + sira + '">İşaretlemek için gün kartına git →</a>'
+        : "<b>✓ Bugünün işleri bitti</b>";
+    }
+
+    /* 3) Bugün ekranındaki geri sayım kutusu */
     const kutu = $("#bugun-simdi");
     if (!kutu) return;
     const g = TUR.gunler.find((x) => x.tarihISO === etkinISO);
@@ -8016,8 +8250,11 @@ section.dn-grup{
     const saatliler = liste
       .map((p, i) => ({ p: p, i: i, dk: saatDk(p.saat) }))
       .filter((x) => x.dk != null);
-    const yapilan = akisSayisi(etkinISO, liste.length);
-    const isaret = yapilan + " / " + liste.length + " işaretli";
+    /* ⚠ Adı `yapilan` DEĞİL: dış kapsamda yapılacaklar deposu o adı taşıyor
+       ve fonksiyon içinde aynı adla const açmak, yukarıdaki kullanımı
+       geçici ölü bölgeye (TDZ) düşürüyordu — kart hiç render edilmiyordu. */
+    const isaretliAdet = akisSayisi(etkinISO, liste.length);
+    const isaret = isaretliAdet + " / " + liste.length + " işaretli";
     const gecmis = saatliler.filter((x) => x.dk <= dkSimdi).sort((a, b) => b.dk - a.dk)[0] || null;
     const sonraki = saatliler.filter((x) => x.dk > dkSimdi).sort((a, b) => a.dk - b.dk)[0] || null;
 
@@ -9257,6 +9494,7 @@ section.dn-grup{
        ⚠ balkan2026.sabah BİLEREK YOK: o gün içinde sıfırlanan geçici bir
        liste, yedeğe girerse eski günlerin tikleri geri gelir. */
     ["akis", "balkan2026.akis", "akış tiki"],
+    ["yapilacaklar", "balkan2026.yapilacaklar", "yapılacak tiki"],
     ["gizli", "balkan2026.gizli", "kayıtlı kod", { birlestir: false }]
   ];
   const yedekDurum = $("#yedek-durum");

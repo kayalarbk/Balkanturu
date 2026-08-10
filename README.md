@@ -47,6 +47,7 @@ python -m http.server 8000
 | `PLAN.md` | **Planın tek doğruluk kaynağı.** Uçuşlar, konaklama, gün gün program, yapılanlar ve bekleyenler |
 | `progress.md` | **Durum panosu.** Ne var, nasıl çalışıyor, ne kadar tamam, sırada ne var, bilinen tuzaklar |
 | `README.md` | Bu dosya |
+| `AI-OZET.md` | Projeyi bir yapay zeka asistanına tek seferde tanıtan özet |
 | `docs/` | Bilet PDF'leri, ekran görüntüleri, rezervasyon çıktıları |
 | `.gitignore` | Standart yoksayma listesi |
 
@@ -70,6 +71,7 @@ dokunmak gerekmez.**
 | `sehirler` | Şehir kartları: tema, rehber tanıtımı, "Öne çıkanlar", `kapak` görseli, `galeri` dizisi |
 | `gunler` | 9 günlük program: tarih, başlık, özet, akış (`program[]` — saatli maddeler), rehber notları, `risk`, `uyari`, gece bilgisi |
 | `sabahListesi` | Her sabah çıkmadan bakılan 5 madde; işaretleri gün dönünce sıfırlanır |
+| `gunler[].yapilacaklar` | O gün **elden çıkarılacak işler** (bilet al, ara, sor). `program` "nereye/ne zaman", bu "ne yapılacak" — ayrı listeler |
 | `ulasim` | Ulaşım özeti tablosu: bacak, süre, yöntem, durum |
 | `harita` | Harita ayarları: karo kaynağı ve atıf, zoom sınırları, havalimanları, yedek metin, `odak` (şerit metinleri ve zoom seviyeleri), `cevrimdisi` (indirilecek karo tarifi) |
 | `dikkatEdilecekler` | "Nelere dikkat etmeli" kartları: ikon, başlık, `seviye`, maddeler |
@@ -123,6 +125,16 @@ dokunmak gerekmez.**
   worker'ı öldürdüğü için zamanlanmış bildirim güvenilmez; `.ics` bu yüzden var).
   İzin **kullanıcı dokunuşundan** istenir. İşaretler `balkan2026.bildirim`, madde başına
   en fazla bir kez.
+- **O gün yapılacaklar:** `gunler[].yapilacaklar` → `{ id, metin }`. Gün kartında tik
+  kutulu liste, Bugün ekranında **yalnızca işaretlenmemişler** özetlenir (tamamı bitince
+  "✓ Bugünün işleri bitti" yazar). Tik yalnızca gün kartında atılır — aynı şeyin iki yerde
+  işaretlenmesi hangisinin doğru olduğunu belirsizleştirirdi. Anahtar `tarihISO::id`;
+  **`id` değiştirmek o maddenin işaretini sıfırlar.** 18 ve 20 Ağustos'ta liste bilerek
+  yok: biri dinlenme günü, diğerinde evde uyanılıyor.
+- **"Nelere dikkat etmeli" akordeon:** 15 kart artık açık değil, Cepte'nin kalıbıyla
+  katlanır — başlıklar alt alta, aynı anda tek kart açık. **Seviye rozeti kapalıyken de
+  görünür**, listenin asıl tarama değeri o. Ölçüldü: bölüm 360 px'de 1329 px'e,
+  masaüstünde 916 px'e indi. Yazdırmada hepsi açılır.
 - **Akış tikleri:** her madde işaretlenebilir, kayıt `balkan2026.akis`,
   anahtar `YYYY-MM-DD::sıraNo`. Anahtar **metin değil sıra** olduğu için metni
   düzeltmek tiki kaybettirmez; buna karşılık bir maddenin **yerini değiştirmek**
@@ -258,6 +270,7 @@ dokunmak gerekmez.**
   | `balkan2026.karokilit` | Haritanın veri kilidi açık mı |
   | `balkan2026.bildirimAcik` | "Site açıkken hatırlat" açık mı |
   | `balkan2026.bildirim` | Hangi maddeye bildirim gönderildi (tekrar etmesin diye) |
+  | `balkan2026.yapilacaklar` | O gün yapılacaklar tikleri (`YYYY-MM-DD::id`) |
   | `balkan2026.gizli` | Kapı kodu / kilitli kutu şifresi / wifi şifresi (kimlik: `evId::alan`) |
 
   Bunlar cihaza özeldir; telefonda işaretlenen bir şey bilgisayarda görünmez —
@@ -362,8 +375,8 @@ izleyebilirsin. Dört cache olur:
 
 | Cache | Sürümlü mü | İçerik |
 |---|---|---|
-| `balkan-v17-shell` | evet | `index.html`, manifest, ikon, şehir kapakları, Leaflet |
-| `balkan-v17-hava` | evet | Son başarılı Open-Meteo yanıtı |
+| `balkan-v18-shell` | evet | `index.html`, manifest, ikon, şehir kapakları, Leaflet |
+| `balkan-v18-hava` | evet | Son başarılı Open-Meteo yanıtı |
 | `balkan-gorsel` | **hayır** | Wikimedia galeri ve lezzet görselleri |
 | `balkan-karo` | **hayır** | İndirilen OpenStreetMap harita karoları |
 
@@ -382,7 +395,7 @@ ve sayfada **"✨ Yeni sürüm hazır / Yenile"** çubuğu çıkar. Yenile'ye ba
 devralır.
 
 Önbelleklenen dosya listesi değiştiyse (`sw.js` içindeki `APP_SHELL`) ya da eski önbelleğin
-tamamen atılması gerekiyorsa **`CACHE_VERSION` sabitini artır** (`balkan-v16` → `balkan-v17`).
+tamamen atılması gerekiyorsa **`CACHE_VERSION` sabitini artır** (`balkan-v17` → `balkan-v18`).
 Eski cache'ler `activate` sırasında otomatik silinir — `balkan-gorsel` ve `balkan-karo` hariç,
 onlar `BIZIM_CACHELER` içinde ve sürümden bağımsız durur.
 

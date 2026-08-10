@@ -646,6 +646,59 @@ açısından beklenen kalıp bu.
 
 ## Yapılanlar
 
+### 10 Ağustos 2026 — yirmi altıncı oturum
+
+**Üç iş: Dikkat bölümü akordeona, gün kartlarına yapılacaklar listesi, yapay zeka özeti**
+
+**1. "Nelere dikkat etmeli" katlandı.** 15 kart açık hâlde bölümü ekranlar dolusu metne
+çeviriyordu ve "burada başka ne var" sorusu ancak kaydırarak cevaplanıyordu — Cepte
+bölümünün 8 Ağustos'ta çözdüğü problemin aynısı. Aynı kalıp uygulandı: başlıklar ALT
+ALTA (yatay şerit değil, o çözüm bir kez denenip reddedilmişti), hepsi tek bakışta
+görünür, aynı anda tek kart açık, açık olana tekrar dokunmak kapatır.
+**Seviye rozeti (kritik / önemli / bilgi) kapalıyken de görünür** — listenin asıl tarama
+değeri o. Ölçüldü: bölüm 360 px'de **1329 px'e**, masaüstünde **916 px'e** indi; dokunma
+hedefi 80 px (mobil) / 52 px (masaüstü). Yazdırmada bütün kartlar açılır, ok işareti düşer.
+
+**2. Gün kartlarına o günün YAPILACAKLAR listesi.** `program` o günün akışıdır (nereye,
+ne zaman); bu ise o gün **elden çıkarılacak işler** — bilet al, ara, sor, para boz.
+İkisi ayrı listeler: akış saate bağlı, bu değil.
+
+Maddeler uydurulmadı, hepsi zaten o günün rehber notlarından / riskinden / dikkat
+kartlarından geliyor. 20 madde, 7 güne dağılmış:
+- **12 Ağu** euro nakit · saat dilimini doğrula · Üsküp biletini otogarda al
+- **13 Ağu** ⚠ Dıraç biletini al (turun tek kıt hattı) · Sveti Naum teknesi · masa için ara · Goran'a bagaj sor
+- **14 Ağu** teknenin son dönüş saati · mayo-havlu
+- **15 Ağu** masayı teyit · festival programı
+- **16 Ağu** kalan denarı harca · pasaportlar el altında · Slavik'e erken bagaj sor
+- **17 Ağu** müze ücreti · güneş kremi
+- **19 Ağu** ⚠ havalimanı transferi · hediyelikler Pazari i Ri · kalan lek · eve dönüş kararı
+
+**18 ve 20 Ağustos'ta liste bilerek YOK** — biri turun tek gerçek dinlenme günü, diğerinde
+evde uyanılıyor. Boş bir liste göstermek yerine hiç göstermemek de bir bilgi.
+
+Tikler `balkan2026.yapilacaklar` altında, anahtar `tarihISO::id`. ⚠ Burada anahtar SIRA
+değil `id`: liste kısa ve maddeler bağımsız, sıra değişmesi olası (akışta sıra
+kullanılmasının sebebi oradaki metinlerin sık düzeltilmesiydi). Yedeklemeye dâhil.
+
+Bugün ekranında **yalnızca işaretlenmemişler** özetleniyor; tamamı bitince blok
+"✓ Bugünün işleri bitti"ye dönüyor. Tik yalnızca gün kartında atılıyor — aynı şeyin iki
+yerde işaretlenmesi hangisinin doğru olduğunu belirsizleştirirdi.
+
+**3. `AI-OZET.md`.** Projeyi hiç görmemiş bir yapay zeka asistanına tek seferde tanıtan
+özet: bağlayıcı kurallar, mimari, `TUR` veri modeli (özellikle `program` maddesinin yedi
+alanı), özellikler, localStorage anahtarları, en pahalı tuzaklar, çalıştırma ve açık
+işler. `README.md` / `PLAN.md` / `progress.md` üçlüsünün yerine geçmiyor, onlara giriş.
+
+**Yakalanan hata.** `akisDurumTazele` içinde dış kapsamdaki `yapilan` deposuyla aynı adlı
+bir `const` açılmıştı; JavaScript'in geçici ölü bölgesi (TDZ) yüzünden fonksiyonun
+YUKARISINDAKİ kullanım `ReferenceError` atıyor ve **Bugün ekranı hiç render edilmiyordu**.
+Yerel değişken `isaretliAdet` olarak yeniden adlandırıldı. Ders `progress.md`'ye yazıldı.
+
+**Denetim.** 9. gruba `yapilacaklar` kontrolü eklendi (kimlik var mı, gün içinde tekil mi,
+metin boş mu). 0 hata · 22 tamam.
+
+`sw.js` → **v18**.
+
 ### 10 Ağustos 2026 — yirmi beşinci oturum
 
 **Bildirim — takvim dosyası artık programdan üretiliyor (11 → 29 etkinlik)**

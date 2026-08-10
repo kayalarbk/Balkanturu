@@ -56,12 +56,17 @@
         yok → alarmsız); her sabah 08:00'de "Bugünün programı" özeti.
         Başka etkinliğin kapsadığı maddeler `takvimDisi` ile eleniyor.
         Ayrıca site AÇIKKEN çalışan isteğe bağlı hatırlatma (10 dk kala).
+   v18 — 10 Ağustos 2026: "Nelere dikkat etmeli" 15 kartı akordeona çevrildi
+        (Cepte'nin kalıbı: başlıklar alt alta, tek kart açık, seviye rozeti
+        kapalıyken de görünür) ve gün kartlarına o günün YAPILACAKLAR listesi
+        eklendi (`gunler[].yapilacaklar`, tikler cihazda, Bugün ekranında
+        yalnızca kalanlar özetleniyor).
 
    ⚠ Leaflet artık index.html'in <head>'inde DEĞİL, harita bölümü yaklaşınca
    enjekte ediliyor. APP_SHELL'de kalması bilinçli: çevrimdışıyken harita
    bölümüne inildiğinde dosyalar cache'ten gelsin diye burada ön belleğe
    alınıyor — yükleme sayfayı yavaşlatmıyor, install arka planda yapıyor. */
-const CACHE_VERSION = "balkan-v17";
+const CACHE_VERSION = "balkan-v18";
 const SHELL_CACHE = CACHE_VERSION + "-shell";
 const HAVA_CACHE = CACHE_VERSION + "-hava";
 
