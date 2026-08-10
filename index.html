@@ -828,10 +828,18 @@ const TUR = {
         "sorunu çözüldü. Kalan iki risk: gece havalimanı ulaşımı (gün içinde ayarla) ve uykusuzluk. " +
         "Telefon ve powerbank tam şarjlı olsun.",
       program: [
+        /* Hat sıklığı (06:00 – 21:15 · 20 dk) buradan çıkarıldı: aynı bilgi
+           "🚌 Otobüs kültürü" dikkat kartında duruyor ve orada bütün
+           hatlarla birlikte okunuyor. Burada kalan tek şey süre. */
         { saat: "En geç 11:00", takvimDisi: "konak-dirac-cikis",
-          metin: "Dıraç'tan çıkış (check-out), valizlerle Tiran'a (~40 dk; hat 06:00 – 21:15 arası 20 dakikada bir).", yer: "ev:dirac" },
+          metin: "Dıraç'tan çıkış (check-out), valizlerle Tiran'a (~40 dk).", yer: "ev:dirac" },
+        /* Dolabın ücreti, ölçüsü ve 7/24 olduğu buradan çıkarıldı: aynı
+           cümle hem Cepte'deki `bagajDolabi` kaydında hem "🧳 Bagaj" dikkat
+           kartında hem de Bugün ekranının 19 Ağustos bloğunda basılıyordu —
+           dört yerde aynı 200 karakter. Gün kartında lazım olan tek şey
+           NEREYE bırakılacağı. */
         { saat: "~12:30", hatirlatma: "orta",
-          metin: "Bagajlar dolaba: Rruga Ded Gjo Luli, Harri Truman Meydanı karşısı — 7/24 self-servis, rezervasyon gerekmiyor, saatlik 150 ALL'den, büyük dolap 98 × 50 × 60 cm, nakit ve kart geçiyor." },
+          metin: "Bagajlar dolaba: Rruga Ded Gjo Luli, Harri Truman Meydanı karşısı (7/24 self-servis)." },
         { dilim: "ogle", metin: "Öğleden sonra: Dajti teleferiği ve Bunk'Art 1 — ikisi de teleferiğin alt istasyonunda, tek gidişte." },
         { dilim: "aksam", metin: "İkindi – akşam merkez: Skenderbeg Meydanı, Piramit, Blloku, Pazari i Ri (hediyelik)." },
         { saat: "~23:00", hatirlatma: "sert",
@@ -852,7 +860,10 @@ const TUR = {
       notlar: [
         { tip: "En iyi saat", metin: "Teleferik öğleden önce en berrak; merkez ikindi-akşam serinleyince canlanıyor." },
         { tip: "Dikkat", metin: "Dolap 7/24 çalıştığı için kapanış saati riski yok — ama bagajları yine de yemekten önce al, 23:30 hareketine yükleme." },
-        { tip: "İpucu", metin: "Havalimanı transferini gün içinde ayarla; gece toplu taşıma seyrek." },
+        /* "Havalimanı transferini gün içinde ayarla" ipucu KALDIRILDI —
+           aynı cümle bu günün `yapilacaklar` listesinde birebir duruyordu ve
+           iki liste aynı kartın içinde alt alta basılıyor. Eylem gerektiren
+           bir madde olduğu için yapılacaklar listesinde kalması doğru. */
         { tip: "İpucu", metin: "Dönüşte 20 kg valiz hakkı var; alışverişi Pazari i Ri'ye bırak." }
       ]
     },
@@ -3880,6 +3891,9 @@ html[data-tema="baris"] .yedek-durum[data-tip="hata"]{ color:#ff8f7a; }
      tik kutusu yerine boş kare gerekmiyor — metin yeter. */
   .yapilacak{ background:none !important; padding-left:0 !important; }
   .yapilacak label{ min-height:0 !important; }
+  /* Başlıklar zaten hiçbir zaman gizlenmiyor (bkz. baslikSuzulmesi);
+     kâğıtta animasyonun da işi yok. */
+  .sec-head{ animation:none !important; }
   /* Kâğıt yedeği kapıda işe yarasın diye kaydedilmiş kodlar BASILIR; ama
      silme düğmesi, açıklama satırı ve dış bağlantı kâğıda gerekmez. */
   .gizli-sil, .gizli-not, .konak-ilan{ display:none !important; }
@@ -4165,6 +4179,57 @@ section.dn-grup{
   .gorsel-kaynak{ padding-inline:var(--s-4); }
   .galeri-ogesi .gorsel-kaynak{ padding-inline:0; }
 }
+
+/* =====================================================================
+   HAREKET — arayüzün "canlı" hissettiren küçük parçaları
+   Kural: hiçbiri bilgiyi geciktirmez, hiçbiri yerleşimi kaydırmaz ve
+   hepsi `prefers-reduced-motion` altında (aşağıdaki blokta) tamamen
+   susar. Süreler kısa (.18 – .32 sn) — yolda hızlı bakılan bir sitede
+   uzun animasyon beklemeye dönüşür.
+   ===================================================================== */
+@keyframes ac-suzul{ from{ opacity:0; transform:translateY(-.35rem); } to{ opacity:1; transform:none; } }
+@keyframes yukari-gel{ from{ opacity:0; transform:translateY(.7rem); } to{ opacity:1; transform:none; } }
+@keyframes tik-pop{ 0%{ transform:scale(1); } 45%{ transform:scale(1.28); } 100%{ transform:scale(1); } }
+@keyframes nabiz-uyari{ 0%,100%{ box-shadow:0 0 0 0 rgba(224,149,43,0); } 50%{ box-shadow:0 0 0 5px rgba(224,149,43,.18); } }
+@keyframes serit-in{ from{ opacity:0; transform:translateY(-100%); } to{ opacity:1; transform:none; } }
+
+/* Katlanan her şeyin gövdesi açılırken süzülerek gelir. Yalnızca AÇIK
+   duruma animasyon veriliyor; kapanış anında düğüm zaten DOM'dan
+   düşüyor, çıkış animasyonu için display'i geciktirmek gerekirdi ve o da
+   "kapattım ama duruyor" hissi verirdi. */
+.dikkat[data-open="1"] .dikkat-govde,
+.day[data-open="1"] .day-body,
+.katlanir[data-open="1"] .katlanir-govde{ animation:ac-suzul .2s ease-out; }
+
+/* Bugün kartı ve giriş bloğu ilk boyamada yumuşak gelir */
+.bugun-kart{ animation:yukari-gel .34s ease-out; }
+.hero-rota > *{ animation:yukari-gel .3s ease-out backwards; }
+.serit[data-acik="1"]{ animation:serit-in .22s ease-out; }
+
+/* Tik atma anı — sınıf JS'te ekleniyor, sayfa açılışında kayıtlı olan
+   tikler animasyon almasın diye (yoksa her açılışta hepsi birden zıplar) */
+.tl-kutu.pop, .yap-kutu.pop{ animation:tik-pop .28s ease-out; }
+.tl-metin, .yap-metin{ transition:opacity .2s ease; }
+
+/* Sıradaki adıma 30 dakikadan az kaldıysa kutu sessizce nefes alır */
+.simdi[data-acil="1"]{ animation:nabiz-uyari 2.4s ease-in-out infinite; }
+
+/* Dokunma geri bildirimi: basınca hafifçe içeri çöker */
+.btn:active, .eylem:active, .harita-dugme:active,
+.sabah-madde:active, .nav-btn:active, .dikkat-btn:active,
+.cepte-basi:active, .acil-cumle:active{ transform:scale(.97); }
+.btn, .eylem, .harita-dugme, .sabah-madde, .nav-btn,
+.dikkat-btn, .cepte-basi, .acil-cumle{ transition:transform .08s ease; }
+
+/* Bölüm başlıkları ekrana girerken bir kez süzülür.
+   ⚠ BAŞLIK ASLA `opacity:0` İLE BAŞLAMAZ. İlk deneme öyleydi ve ölçümde
+   şu çıktı: gözcü tetiklenmeyen durumlarda (bu sayfada kökte
+   `overflow-x:clip` var, bölümlerde `content-visibility:auto`) sekiz
+   bölüm başlığının hepsi görünmez kaldı. Dekoratif bir efekt için
+   içeriğin kaybolma ihtimali kabul edilemez.
+   Doğru kalıp: öğe varsayılan olarak GÖRÜNÜR; JS yalnızca bir kereliğine
+   animasyon sınıfı ekler. JS hiç çalışmazsa başlık normal durur. */
+.sec-head.gorunur{ animation:yukari-gel .45s ease-out; }
 
 @media (prefers-reduced-motion:reduce){
   *{ transition:none !important; animation:none !important; scroll-behavior:auto !important; }
@@ -4461,6 +4526,25 @@ section.dn-grup{
       </div>
       <p class="yedek-durum" id="yedek-durum" role="status"></p>
       <p class="yedek-ozet" id="yedek-ozet"></p>
+    </div>
+
+    <!-- Fotoğraflar — çevrimdışı boşluğunun ikinci yarısı.
+         Harita karoları tek dokunuşla indirilebiliyordu ama galeri ve
+         lezzet fotoğrafları yalnızca BİR KEZ GÖRÜLDÜKTEN sonra önbelleğe
+         giriyordu: yolda hiç açılmamış bir şehir kartı boş yer tutucularla
+         çıkıyordu. Bu kutu hepsini önden indirir. -->
+    <div class="yedek-kutu" id="gorsel-kutu" hidden>
+      <h3>🖼 Fotoğrafları çevrimdışına al</h3>
+      <p>Şehir kartlarındaki galeri ve lezzet fotoğrafları normalde <b>ancak bir kez
+         görüldükten sonra</b> önbelleğe giriyor. Bu düğme hepsini şimdiden indirir —
+         yolda internetsizken de kartlar tam görünür. <b>Evde, wifi'dayken yap.</b></p>
+      <div class="progress" id="gorsel-bar-kutu" hidden><i id="gorsel-bar"></i></div>
+      <div class="yedek-btnler">
+        <button class="btn" id="btn-gorsel-indir" type="button">📥 Fotoğrafları indir</button>
+        <button class="btn btn-sade" id="btn-gorsel-sil" type="button" hidden>İndirileni sil</button>
+      </div>
+      <p class="yedek-durum" id="gorsel-durum" role="status"></p>
+      <p class="yedek-ozet" id="gorsel-ozet"></p>
     </div>
 
     <!-- Takvim — PWA bildirimi iOS'ta güvenilmez; telefonun kendi alarmı
@@ -6068,6 +6152,14 @@ section.dn-grup{
     if (yapMi) yapKaydet(); else akisKaydet();
     const li = kutu.closest("li");
     if (li) { if (kutu.checked) li.dataset.yapildi = "1"; else delete li.dataset.yapildi; }
+    /* Tik "pop"u yalnızca İŞARETLEME anında oynar. Sınıf CSS'te sabit
+       olsaydı sayfa her açıldığında kayıtlı bütün tikler birden zıplardı. */
+    const gorsel = kutu.nextElementSibling;
+    if (gorsel && kutu.checked) {
+      gorsel.classList.remove("pop");
+      void gorsel.offsetWidth;          /* animasyonu yeniden başlatmak için */
+      gorsel.classList.add("pop");
+    }
     akisSayaciTazele(kimlik.split("::")[0]);
   });
 
@@ -6767,9 +6859,21 @@ section.dn-grup{
             .then((c) => c.match(adres))
             .then((yanit) => {
               if (!yanit) { karo.src = BOS_KARO; return; }
+              /* ⚠ Kayıt varsa doğrudan ADRESİ ver: service worker karoyu
+                 cache'ten servis eder, ağa çıkılmaz. Blob yolu artık
+                 kullanılmıyor çünkü gezerken cache'e giren karolar OPAK
+                 yanıttır ve opak yanıttan okunan blob'un boyutu 0'dır —
+                 blob'a güvenmek o karoları boş gösterirdi. */
+              if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+                karo.src = adres;
+                return;
+              }
+              /* Service worker yoksa (ilk yükleme, file://) yanıtı kendimiz
+                 çiziyoruz. Opaksa boyut 0 gelir; o zaman da boş bırakılır —
+                 hiçbir koşulda ağa çıkılmaz. */
               return yanit.blob().then((b) => {
+                if (!b.size) { karo.src = BOS_KARO; return; }
                 const u = URL.createObjectURL(b);
-                /* Görüntü çözüldükten sonra bırak, yoksa bellek sızar */
                 karo.addEventListener("load", () => URL.revokeObjectURL(u), { once: true });
                 karo.src = u;
               });
@@ -9469,6 +9573,34 @@ section.dn-grup{
   window.addEventListener("tema-degisti", temaBtnTazele);
   temaBtnTazele();
 
+  /* =====================================================================
+     BÖLÜM BAŞLIKLARININ SÜZÜLEREK GELMESİ
+     Uzun bir sayfada bölüm geçişini hissettirir.
+
+     ⚠ TASARIM KARARI: başlık hiçbir zaman gizlenmez. İlk deneme öğeyi
+     `opacity:0` ile başlatıp gözcü tetikleyince açıyordu; ölçümde sekiz
+     bölüm başlığının hepsi görünmez kaldı (bu sayfada kökte
+     `overflow-x:clip`, bölümlerde `content-visibility:auto` var ve gözcü
+     her koşulda ateşlenmiyor). Artık öğe varsayılan olarak görünür; JS
+     yalnızca bir kereliğine animasyon sınıfı ekliyor. Gözcü hiç
+     çalışmazsa tek kaybedilen şey animasyon oluyor, içerik değil.
+     ===================================================================== */
+  (function baslikSuzulmesi() {
+    const basliklar = Array.from(document.querySelectorAll(".sec-head"));
+    if (!basliklar.length) return;
+    if (!("IntersectionObserver" in window) ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const gozcu = new IntersectionObserver((girisler) => {
+      girisler.forEach((g) => {
+        if (!g.isIntersecting) return;
+        g.target.classList.add("gorunur");
+        gozcu.unobserve(g.target);   /* bir kez oynar, geri dönünce tekrarlamaz */
+      });
+    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.15 });
+    basliklar.forEach((b) => gozcu.observe(b));
+  })();
+
   /* ---------- YAZDIR ---------- */
   $("#btn-yazdir").addEventListener("click", () => window.print());
 
@@ -9996,6 +10128,128 @@ section.dn-grup{
     /* Katlama en sonda, satır satır. CRLF zorunlu (§3.1) — dosya sonunda da. */
     return satirlar.map(icsKatla).join("\r\n") + "\r\n";
   }
+
+  /* =====================================================================
+     FOTOĞRAFLARI ÇEVRİMDIŞINA AL
+     Çevrimdışı boşluğunun ikinci yarısı. Harita karoları 8 Ağustos'ta
+     tek dokunuşla indirilebilir olmuştu; galeri ve lezzet fotoğrafları
+     ise service worker'ın "cache önce, arka planda tazele" stratejisiyle
+     yalnızca BİR KEZ GÖRÜLDÜKTEN sonra önbelleğe giriyordu. Sonuç: yolda
+     hiç açılmamış bir şehir kartı boş yer tutucularla çıkıyordu.
+
+     ⚠ Cache adı sw.js'teki GORSEL_CACHE ile ORTAK olmak zorunda; biri
+     değişirse indirilen fotoğraflar okunamaz hâle gelir.
+
+     İstekler bilerek yavaş (3 eşzamanlı, 120 ms ara): Wikimedia toplu
+     çekime karo sunucusu kadar hassas değil ama nazik olmak bedava.
+     ===================================================================== */
+  const GORSEL_CACHE = "balkan-gorsel";   /* sw.js içindeki GORSEL_CACHE ile aynı */
+
+  (function gorselIndirmeKur() {
+    const kutu = $("#gorsel-kutu");
+    if (!kutu || !window.caches) return;   /* Cache Storage yoksa kutu hiç açılmaz */
+
+    /* Uzaktan gelen bütün görseller: kapak (yerel olanlar elenir), galeri
+       ve lezzet fotoğrafları. Aynı adres iki yerde geçebiliyor (aynı
+       fotoğraf hem galeride hem lezzette) — Set tekilleştiriyor. */
+    const adresler = [];
+    (TUR.sehirler || []).forEach((s) => {
+      const ekle = (g) => { if (g && /^https?:/.test(g.gorsel || "")) adresler.push(g.gorsel); };
+      ekle(s.kapak);
+      (s.galeri || []).forEach(ekle);
+      (s.lezzetler || []).forEach(ekle);
+    });
+    const tumu = Array.from(new Set(adresler));
+    if (!tumu.length) return;
+
+    const btnIndir = $("#btn-gorsel-indir");
+    const btnSil = $("#btn-gorsel-sil");
+    const barKutu = $("#gorsel-bar-kutu"), bar = $("#gorsel-bar");
+    const durum = $("#gorsel-durum"), ozet = $("#gorsel-ozet");
+    let calisiyor = false;
+
+    const yaz = (metin, tip) => {
+      durum.textContent = metin;
+      if (tip) durum.dataset.tip = tip; else delete durum.dataset.tip;
+    };
+
+    async function kayitliSay() {
+      try {
+        const c = await caches.open(GORSEL_CACHE);
+        const anahtarlar = new Set((await c.keys()).map((r) => r.url));
+        return tumu.filter((u) => anahtarlar.has(u)).length;
+      } catch (e) { return 0; }
+    }
+
+    async function ozetiTazele() {
+      const n = await kayitliSay();
+      ozet.textContent = n + " / " + tumu.length + " fotoğraf cihazda kayıtlı.";
+      btnSil.hidden = n === 0;
+      btnIndir.textContent = n === 0
+        ? "📥 Fotoğrafları indir"
+        : (n >= tumu.length ? "✓ Hepsi indirildi" : "📥 Eksikleri indir");
+      btnIndir.disabled = n >= tumu.length;
+    }
+
+    btnIndir.addEventListener("click", async () => {
+      if (calisiyor) return;
+      calisiyor = true;
+      btnIndir.disabled = true;
+      barKutu.hidden = false;
+      yaz("İndiriliyor…");
+
+      let cache;
+      try { cache = await caches.open(GORSEL_CACHE); }
+      catch (e) { yaz("Tarayıcı depolamaya izin vermedi.", "hata"); calisiyor = false; return; }
+
+      const anahtarlar = new Set((await cache.keys()).map((r) => r.url));
+      const eksik = tumu.filter((u) => !anahtarlar.has(u));
+      let biten = 0, dusen = 0;
+
+      const al = async (u) => {
+        try {
+          /* Wikimedia CORS başlığı veriyor; vermezse no-cors'a düşülür.
+             Opak yanıt da önbelleğe yazılabiliyor ve <img> onu gösterebiliyor. */
+          let y = await fetch(u, { credentials: "omit" }).catch(() => null);
+          if (!y || !y.ok) y = await fetch(u, { mode: "no-cors", credentials: "omit" }).catch(() => null);
+          if (y && (y.ok || y.type === "opaque")) { await cache.put(u, y); return true; }
+        } catch (e) { /* aşağıda düşen sayılır */ }
+        return false;
+      };
+
+      for (let i = 0; i < eksik.length; i += 3) {
+        const grup = eksik.slice(i, i + 3);
+        const sonuc = await Promise.all(grup.map(al));
+        sonuc.forEach((ok) => { if (!ok) dusen++; });
+        biten += grup.length;
+        bar.style.width = (biten / eksik.length * 100) + "%";
+        yaz(biten + " / " + eksik.length + " indirildi…");
+        await new Promise((r) => setTimeout(r, 120));
+      }
+
+      barKutu.hidden = true;
+      bar.style.width = "0%";
+      calisiyor = false;
+      await ozetiTazele();
+      yaz(dusen
+        ? "✓ Bitti — " + dusen + " fotoğraf inmedi, tekrar denenebilir."
+        : "✓ Bütün fotoğraflar cihazda. Şehir kartları artık çevrimdışı da tam görünür.",
+        dusen ? "hata" : null);
+    });
+
+    btnSil.addEventListener("click", async () => {
+      if (calisiyor) return;
+      try {
+        const c = await caches.open(GORSEL_CACHE);
+        await Promise.all(tumu.map((u) => c.delete(u)));
+      } catch (e) { /* yoksay */ }
+      await ozetiTazele();
+      yaz("İndirilen fotoğraflar silindi.");
+    });
+
+    kutu.hidden = false;
+    ozetiTazele();
+  })();
 
   (function takvimKur() {
     const btn = $("#btn-ics-indir");

@@ -646,6 +646,61 @@ açısından beklenen kalıp bu.
 
 ## Yapılanlar
 
+### 10 Ağustos 2026 — yirmi yedinci oturum
+
+**Tekrar temizliği, çevrimdışı boşlukları ve arayüz hareketi**
+
+**1. Tekrarlar ölçüldü, üçü çıkarıldı.** `TUR` objesindeki 384 uzun metin taranıp
+birebir aynı olanlar ve altı kelimelik ortak öbekler çıkarıldı. Sonuç: **kasıtlı
+tekrarların çoğu haklıydı** (uçuş bilgisi Uçuş bölümü + Günün Kartı'nda, Ohrid'in
+anahtar kutusu gün kartı + konaklama kartı + dikkat kartında — üçü de ayrı acil erişim
+yüzeyi). Yalnızca **aynı kartın içinde** tekrarlananlar çıkarıldı:
+- 19 Ağustos "havalimanı transferini gün içinde ayarla" — hem `yapilacaklar[0]` hem
+  `notlar[2]` idi, aynı gün kartında alt alta basılıyordu. Not silindi, eylem maddesi kaldı.
+- 19 Ağustos bagaj dolabının adresi + ücreti + ölçüsü **dört yerde** duruyordu
+  (program maddesi, `cepte.bagajDolabi`, dikkat kartı, Bugün ekranı). Program maddesi
+  "nereye" ile sınırlandı, ayrıntı Cepte'de kaldı.
+- Dıraç → Tiran hat sıklığı (06:00 – 21:15 · 20 dk) program maddesinden çıkarıldı;
+  "🚌 Otobüs kültürü" kartında bütün hatlarla birlikte zaten okunuyor.
+
+Görsel künyelerindeki tekrarlar (aynı fotoğrafçı, aynı lisans) **atıf yükümlülüğüdür,
+dokunulmadı.**
+
+**2. Çevrimdışının iki gerçek boşluğu kapandı.**
+
+**(a) Gezerken görülen karolar önbelleğe girmiyordu.** `sw.js` içindeki `karoCache`
+yalnızca `yanit.ok` olan yanıtları saklıyordu. Leaflet karoları `<img src>` ile
+isteniyor, yani istek **no-cors**; dönen yanıt **opak** ve opak yanıtta status 0'dır,
+`ok` false gelir. Yani çevrimdışı harita bugüne kadar **yalnızca "Çevrimdışına al" ile
+inen 390 karodan** ibaretti; elle gezilen her yer yolda griye dönerdi. Artık
+`yanit.ok || yanit.type === "opaque"` kontrol ediliyor. Ölçüldü: temiz bir profilde
+haritaya bakınca `balkan-karo` 0'dan 2'ye çıktı (görülen karo sayısıyla birebir).
+
+Veri kilidi de buna göre değişti: opak yanıttan okunan blob'un boyutu 0 olduğu için
+blob yolu bırakıldı; cache'te kayıt varsa karoya doğrudan **adres** veriliyor ve service
+worker onu cache'ten servis ediyor. Ağa çıkılmadığı doğrulandı — kilitliyken Tiran'a
+geçildiğinde dört karo boş kaldı ve cache sayısı sabit kaldı.
+
+**(b) Fotoğraflar ancak görüldükten sonra saklanıyordu.** Galeri ve lezzet fotoğrafları
+için "🖼 Fotoğrafları çevrimdışına al" kutusu eklendi (Hazırlık bölümü). 32 fotoğrafı
+`balkan-gorsel` önbelleğine indiriyor; 3 eşzamanlı istek, 120 ms ara, eksikleri
+tamamlama ve silme düğmesi var. Ölçüldü: 32 / 32.
+
+**3. Arayüze hareket.** Katlanan gövdelerin açılışı, Bugün kartının gelişi, tik atma
+"pop"u, sıradaki adıma 30 dakikadan az kalınca kutunun nefes alması, dokunma geri
+bildirimi (`:active` küçülme) ve bölüm başlıklarının bir kez süzülmesi. Hepsi kısa
+(.18 – .45 sn) ve `prefers-reduced-motion` altında tamamen susuyor.
+
+⚠ **Yol boyunca bir tuzağa düşülüp geri dönüldü.** Başlık süzülmesi önce öğeyi
+`opacity:0` ile başlatıp gözcü tetiklenince açıyordu. Ölçümde **sekiz bölüm başlığının
+hepsi görünmez kaldı** — bu sayfada kökte `overflow-x:clip`, bölümlerde
+`content-visibility:auto` var ve gözcü her koşulda ateşlenmiyor. Dekoratif bir efekt
+için içeriğin kaybolma ihtimali kabul edilemez; kalıp tersine çevrildi: öğe varsayılan
+olarak görünür, JS yalnızca animasyon sınıfı ekliyor. JS hiç çalışmazsa tek kayıp
+animasyon oluyor.
+
+`sw.js` → **v19**. Denetim: 0 hata.
+
 ### 10 Ağustos 2026 — yirmi altıncı oturum
 
 **Üç iş: Dikkat bölümü akordeona, gün kartlarına yapılacaklar listesi, yapay zeka özeti**

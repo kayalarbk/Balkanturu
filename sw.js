@@ -61,12 +61,19 @@
         kapalıyken de görünür) ve gün kartlarına o günün YAPILACAKLAR listesi
         eklendi (`gunler[].yapilacaklar`, tikler cihazda, Bugün ekranında
         yalnızca kalanlar özetleniyor).
+   v19 — 10 Ağustos 2026: çevrimdışı boşlukları kapatıldı. (1) karoCache
+        artık OPAK yanıtı da önbelleğe yazıyor — Leaflet karoları <img> ile
+        isteniyor, yanıt opak ve `ok` false geldiği için gezerken görülen
+        hiçbir karo cache'e girmiyordu. (2) Galeri ve lezzet fotoğrafları
+        için "Fotoğrafları çevrimdışına al" düğmesi. Ayrıca dört yerde
+        tekrarlanan bagaj dolabı metni sadeleştirildi ve arayüze
+        prefers-reduced-motion'a saygılı küçük animasyonlar eklendi.
 
    ⚠ Leaflet artık index.html'in <head>'inde DEĞİL, harita bölümü yaklaşınca
    enjekte ediliyor. APP_SHELL'de kalması bilinçli: çevrimdışıyken harita
    bölümüne inildiğinde dosyalar cache'ten gelsin diye burada ön belleğe
    alınıyor — yükleme sayfayı yavaşlatmıyor, install arka planda yapıyor. */
-const CACHE_VERSION = "balkan-v18";
+const CACHE_VERSION = "balkan-v19";
 const SHELL_CACHE = CACHE_VERSION + "-shell";
 const HAVA_CACHE = CACHE_VERSION + "-hava";
 
@@ -157,7 +164,15 @@ async function karoCache(istek) {
   const kayitli = await cache.match(istek);
   if (kayitli) return kayitli;
   const yanit = await fetch(istek);
-  if (yanit && yanit.ok) cache.put(istek, yanit.clone());
+  /* ⚠ `yanit.ok` TEK BAŞINA YETMEZ. Leaflet karoları <img src> ile isteniyor,
+     yani istek no-cors; dönen yanıt OPAK ve opak yanıtta status 0'dır, `ok`
+     false gelir. Eskiden burada yalnızca `yanit.ok` kontrol ediliyordu ve
+     sonuç şuydu: haritada gezerken görülen hiçbir karo cache'e YAZILMIYORDU.
+     Çevrimdışı harita yalnızca "Çevrimdışına al" ile inen 390 karodan
+     ibaret kalıyordu; elle gezilen her yer yolda griye dönüyordu.
+     Opak yanıtı da kabul etmek boşluğu kapatıyor: artık evde bakılan her
+     bölge yolda da açılıyor. */
+  if (yanit && (yanit.ok || yanit.type === "opaque")) cache.put(istek, yanit.clone());
   return yanit;
 }
 

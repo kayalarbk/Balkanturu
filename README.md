@@ -160,6 +160,18 @@ dokunmak gerekmez.**
   **girmez** (Leaflet `<img>` isteği opak yanıt döndürüyor, service worker'ın
   `yanit.ok` kontrolünden geçmiyor) — kilidin gösterdiği tek kaynak "Haritayı
   çevrimdışına al" ile inen 390 karodur.
+- **Fotoğrafları çevrimdışına al:** Hazırlık bölümündeki 🖼 kutusu 32 galeri ve lezzet
+  fotoğrafını `balkan-gorsel` önbelleğine indirir. Var olma sebebi: service worker'ın
+  "cache önce, arka planda tazele" stratejisi bir görseli ancak **bir kez görüldükten
+  sonra** saklıyor — yolda hiç açılmamış bir şehir kartı boş yer tutucularla çıkıyordu.
+  ⚠ Cache adı `sw.js`'teki `GORSEL_CACHE` ile ortaktır.
+- **⚠ Karo önbelleğindeki eski boşluk kapatıldı (v19):** `sw.js` içindeki `karoCache`
+  yalnızca `yanit.ok` olan yanıtları saklıyordu. Leaflet karoları `<img src>` ile isteniyor,
+  yani istek **no-cors**; dönen yanıt **opak** ve opak yanıtta status 0'dır, `ok` false gelir.
+  Sonuç: haritada gezerken görülen **hiçbir karo önbelleğe yazılmıyordu**. Artık opak yanıt
+  da kabul ediliyor — evde bakılan her bölge yolda da açılıyor. Veri kilidi de buna göre
+  değişti: cache'te kayıt varsa karoya doğrudan **adres** veriliyor (service worker onu
+  cache'ten servis eder, ağa çıkılmaz), çünkü opak yanıttan okunan blob'un boyutu 0'dır.
 - **Yakınımdakiler:** 📍 Konumum açıkken rozetin altında en yakın ev / otogar /
   hastane mesafesiyle listelenir, her satır Maps'e gider. Yeni veri eklenmedi,
   aynı GPS sabitlemesinden hesaplanıyor.
@@ -378,7 +390,7 @@ izleyebilirsin. Dört cache olur:
 |---|---|---|
 | `balkan-v18-shell` | evet | `index.html`, manifest, ikon, şehir kapakları, Leaflet |
 | `balkan-v18-hava` | evet | Son başarılı Open-Meteo yanıtı |
-| `balkan-gorsel` | **hayır** | Wikimedia galeri ve lezzet görselleri |
+| `balkan-gorsel` | **hayır** | Wikimedia galeri ve lezzet görselleri (32 tanesi "Fotoğrafları çevrimdışına al" ile önden inebilir) |
 | `balkan-karo` | **hayır** | İndirilen OpenStreetMap harita karoları |
 
 Son ikisi bilerek sürümsüzdür: sürüme bağlansalardı her `index.html` güncellemesinde
@@ -409,7 +421,7 @@ Takılırsan: DevTools → Application → Service Workers → *Unregister*, son
 
 | Çalışır | Çalışmaz |
 |---|---|
-| Tüm program, Cepte, günün kartı, gün kartları, kontrol listesi | Daha önce hiç görülmemiş galeri / lezzet görselleri |
+| Tüm program, Cepte, günün kartı, gün kartları, kontrol listesi | İndirilmemiş **ve** hiç görülmemiş galeri / lezzet görselleri |
 | 5 şehir kapak görseli (yerelden servis ediliyor) | Yeni hava durumu verisi (son kayıtlı veri gösterilir) |
 | **Harita — "Çevrimdışına al" ile indirildiyse tam** | İndirilmemişse, daha önce hiç açılmamış bölgeler |
 
