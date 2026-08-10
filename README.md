@@ -48,6 +48,7 @@ python -m http.server 8000
 | `progress.md` | **Durum panosu.** Ne var, nasıl çalışıyor, ne kadar tamam, sırada ne var, bilinen tuzaklar |
 | `README.md` | Bu dosya |
 | `AI-OZET.md` | Projeyi bir yapay zeka asistanına tek seferde tanıtan özet |
+| `PROVA.md` | Kalkış öncesi **gerçek cihaz prova listesi** — iki telefonda sırayla, uçak modu dâhil |
 | `docs/` | Bilet PDF'leri, ekran görüntüleri, rezervasyon çıktıları |
 | `.gitignore` | Standart yoksayma listesi |
 
